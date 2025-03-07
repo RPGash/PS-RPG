@@ -1,10 +1,9 @@
 {
   "Locations": {
     "Town": {
-      "CurrentLocation": true,
+      "CurrentLocation": false,
       "LinkedLocations": {
-        "The Forest": "F",
-        "The River": "R"
+        "The Forest": "F"
       },
       "Mobs": [
         {
@@ -104,7 +103,7 @@
       ]
     },
     "The Forest": {
-      "CurrentLocation": false,
+      "CurrentLocation": true,
       "LinkedLocations": {
         "Town": "T",
         "The River": "R"
@@ -137,7 +136,7 @@
     "The River": {
       "CurrentLocation": false,
       "LinkedLocations": {
-        "The Forest": "R"
+        "The Forest": "F"
       },
       "Mobs": [
         {

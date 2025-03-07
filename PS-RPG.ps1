@@ -1376,7 +1376,7 @@ Function Travel {
     $All_Location_Names = $Import_JSON.Locations.PSObject.Properties.Name
     foreach ($Single_Location in $All_Location_Names) {
         if ($Import_JSON.Locations.$Single_Location.CurrentLocation -eq $true) {
-            $All_Linked_Locations = $Import_JSON.Locations.Town.LinkedLocations.PSObject.Properties.Name
+            $All_Linked_Locations = $Import_JSON.Locations.$Single_Location.LinkedLocations.PSObject.Properties.Name
             $All_Linked_Locations_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
             $All_Linked_Locations_List = New-Object System.Collections.Generic.List[System.Object]
             foreach ($Linked_Location in $All_Linked_Locations) {
@@ -1388,6 +1388,7 @@ Function Travel {
     }
     $All_Linked_Locations_Letters_Array = $All_Linked_Locations_Letters_Array -Join '/'
     $All_Linked_Locations_Letters_Array = $All_Linked_Locations_Letters_Array + "/Q"
+    # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
 
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
     Write-Color "╔═════════════════════════════════════════════════════╗" -Color DarkGray
@@ -1403,13 +1404,43 @@ Function Travel {
         Write-Color -NoNewLine "Where do you want to travel too? ", "[$All_Linked_Locations_Letters_Array]" -Color DarkYellow,Green
         $Travel_Choice = Read-Host " "
         $Travel_Choice = $Travel_Choice.Trim()
-    } until ($Travel_Choice -ieq "q" -or $All_Linked_Locations_Letters_Array -contains $Travel_Choice  )
+    } until ($Travel_Choice -ieq "q" -or $All_Linked_Locations_Letters_Array -match $Travel_Choice )
     
-    if ($Travel_Choice -ieq 'q') {
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-        " "*1560
-        Break
+    switch ($Travel_Choice) {
+        q {
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+            " "*1560
+            break
+        }
+        t {
+            $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
+            $Current_Location = "Town"
+            $Import_JSON.Locations.Town.CurrentLocation = $true
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+            " "*1560
+            Set-JSON
+        }
+        f {
+            $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
+            $Current_Location = "The Forest"
+            $Import_JSON.Locations.'The Forest'.CurrentLocation = $true
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+            " "*1560
+        }
+        r {
+            $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
+            $Current_Location = "The River"
+            $Import_JSON.Locations.'The River'.CurrentLocation = $true
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+            " "*1560
+        }
+        Default {
+        }
     }
+    Set-JSON
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
+    Draw_Player_Stats_Window
+    Draw_Player_Stats_Info
 }
 
 
