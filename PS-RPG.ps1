@@ -222,7 +222,7 @@ Function Draw_Player_Stats_Info {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 2,3;$Host.UI.Write("PS-RPG")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 2,4;$Host.UI.Write("=====")
     $host.UI.RawUI.ForegroundColor = "DarkGray" # changes foreground color
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 8,3;$Host.UI.Write($PSRPG_Version)
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 9,3;$Host.UI.Write($PSRPG_Version)
     $host.UI.RawUI.ForegroundColor = "White" # changes foreground color
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 2,1;$Host.UI.Write("Player Info")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 13,5;$Host.UI.Write($Character_Name)
