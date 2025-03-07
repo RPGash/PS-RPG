@@ -1,0 +1,365 @@
+{
+  "Locations": {
+    "Town": {
+      "CurrentLocation": true,
+      "LinkedLocations": {
+        "The Forest": "F",
+        "The River": "R"
+      },
+      "Mobs": [
+        {
+          "Name": "Chicken",
+          "Level": 1,
+          "Health": 500,
+          "Stamina": 50,
+          "Mana": 50,
+          "Attack": 5,
+          "Damage": 5,
+          "Endurance": 10,
+          "Evade": 10,
+          "Quickness": 50,
+          "Spells": 50,
+          "Healing": 50,
+          "Killed": 0,
+          "Rare": "No",
+          "Boss": false,
+          "XP": 500
+        },
+        {
+          "Name": "Rook",
+          "Level": 3,
+          "Health": 30,
+          "Stamina": 50,
+          "Mana": 50,
+          "Attack": 5,
+          "Damage": 5,
+          "Endurance": 10,
+          "Evade": 20,
+          "Quickness": 5,
+          "Spells": 50,
+          "Healing": 50,
+          "Killed": 0,
+          "Rare": "No",
+          "Boss": false,
+          "XP": 160
+        },
+        {
+          "Name": "Beetle",
+          "Level": 2,
+          "Health": 10,
+          "Stamina": 50,
+          "Mana": 50,
+          "Attack": 5,
+          "Damage": 5,
+          "Endurance": 10,
+          "Evade": 5,
+          "Quickness": 5,
+          "Spells": 50,
+          "Healing": 50,
+          "Killed": 0,
+          "Rare": "No",
+          "Boss": false,
+          "XP": 160
+        },
+        {
+          "Name": "Rat",
+          "Level": 2,
+          "Health": 40,
+          "Stamina": 50,
+          "Mana": 50,
+          "Attack": 5,
+          "Damage": 5,
+          "Endurance": 10,
+          "Evade": 5,
+          "Quickness": 5,
+          "Spells": 50,
+          "Healing": 50,
+          "Killed": 0,
+          "Rare": "Yes",
+          "Boss": false,
+          "XP": 160
+        }
+      ],
+      "NPC": [
+        {
+          "Name": "Nobody"
+        }
+      ],
+      "Buildings": [
+        {
+          "Name": "Home"
+        },
+        {
+          "Name": "Tavern",
+          "Owner": "AAAAA"
+        },
+        {
+          "Name": "Armoury",
+          "Owner": "BBBBB"
+        },
+        {
+          "Name": "Weapon Smith",
+          "Owner": "CCCCC"
+        }
+      ]
+    },
+    "The Forest": {
+      "CurrentLocation": false,
+      "LinkedLocations": {
+        "Town": "T",
+        "The River": "R"
+      },
+      "Mobs": [
+        {
+          "Name": "Worm",
+          "Health": 10,
+          "Killed": 3,
+          "Rare": "No"
+        },
+        {
+          "Name": "Mouse",
+          "Health": 20,
+          "Killed": 11,
+          "Rare": "Yes"
+        }
+      ],
+      "NPC": [
+        {
+          "Name": "Bob"
+        }
+      ],
+      "Buildings": [
+        {
+          "Name": "Hut"
+        }
+      ]
+    },
+    "The River": {
+      "CurrentLocation": false,
+      "LinkedLocations": {
+        "The Forest": "R"
+      },
+      "Mobs": [
+        {
+          "Name": "Wolf",
+          "Health": 20,
+          "Killed": 171,
+          "Rare": "No"
+        },
+        {
+          "Name": "Wolf99",
+          "Health": 20,
+          "Killed": 95,
+          "Rare": "Yes"
+        },
+        {
+          "Name": "Crazy Cat",
+          "Health": 5,
+          "Killed": 15,
+          "Rare": "Yes"
+        }
+      ],
+      "NPC": [
+        {
+          "Name": "Nobody"
+        }
+      ],
+      "Buildings": [
+        {
+          "Name": "Shack"
+        }
+      ]
+    }
+  },
+  "Character": {
+    "Name": "",
+    "Class": "",
+    "Race": "",
+    "Level": 111,
+    "Total_XP": 6900,
+    "XP_TNL": 655.0,
+    "Stats": {
+      "HealthCurrent": 60,
+      "HealthMax": 60,
+      "StaminaCurrent": 80,
+      "StaminaMax": 80,
+      "ManaCurrent": 10,
+      "ManaMax": 30,
+      "Damage": 10,
+      "Attack": 10,
+      "Endurance": 6,
+      "Evade": 10,
+      "Quickness": 10,
+      "Spells": 1,
+      "Healing": 4
+    },
+    "Skills": {
+      "Dodge": 0,
+      "Attack": 0,
+      "Spells": {
+        "Fire": 0,
+        "Ice": 0
+      }
+    },
+    "Items": {
+      "Gold": 10,
+      "Inventory": [
+        {
+          "Name": "Lesser Health Potion",
+          "Quantity": 37,
+          "Restores": 30,
+          "Value": 15,
+          "ID": 1,
+          "Info": "Capacity 30"
+        },
+        {
+          "Name": "Mana Potion",
+          "Quantity": 0,
+          "Capacity": 20,
+          "Info": "Capacity 20",
+          "Value": 50,
+          "ID": 2
+        },
+        {
+          "Name": "Greater Mana Potion",
+          "Quantity": 0,
+          "Capacity": 50,
+          "Info": "Capacity 50",
+          "Value": 100,
+          "ID": 3
+        },
+        {
+          "Name": "Lesser Mana Potion",
+          "Quantity": 0,
+          "Capacity": 10,
+          "Info": "Capacity 10",
+          "Value": 20,
+          "ID": 40
+        },
+        {
+          "Name": "Bones",
+          "Quantity": 0,
+          "Info": "Junk",
+          "Value": 5,
+          "ID": 5
+        },
+        {
+          "Name": "Feather",
+          "Quantity": 0,
+          "Info": "Trader",
+          "Value": 10,
+          "ID": 6
+        },
+        {
+          "Name": "Hides",
+          "Quantity": 0,
+          "Info": "Junk",
+          "Value": 10,
+          "ID": 60
+        }
+      ]
+    }
+  },
+  "Level_Up_Bonus": {
+    "Class": {
+      "Mage": {
+        "HealthMax": 2,
+        "StaminaMax": 1,
+        "ManaMax": 4,
+        "Endurance": 2,
+        "Damage": 5,
+        "Attack": 4,
+        "Evade": 1,
+        "Quickness": 1,
+        "Spells": 5,
+        "Healing": 3
+      },
+      "Rogue": {
+        "HealthMax": 3,
+        "StaminaMax": 3,
+        "ManaMax": 2,
+        "Endurance": 3,
+        "Damage": 5,
+        "Attack": 5,
+        "Evade": 5,
+        "Quickness": 5,
+        "Spells": 1,
+        "Healing": 3
+      },
+      "Cleric": {
+        "HealthMax": 1,
+        "StaminaMax": 2,
+        "ManaMax": 5,
+        "Endurance": 2,
+        "Damage": 4,
+        "Attack": 2,
+        "Evade": 1,
+        "Quickness": 1,
+        "Spells": 5,
+        "Healing": 5
+      },
+      "Warrior": {
+        "HealthMax": 5,
+        "StaminaMax": 5,
+        "ManaMax": 1,
+        "Endurance": 5,
+        "Damage": 1,
+        "Attack": 4,
+        "Evade": 4,
+        "Quickness": 3,
+        "Spells": 1,
+        "Healing": 4
+      }
+    },
+    "Race": {
+      "Elf": {
+        "HealthMax": 2,
+        "StaminaMax": 4,
+        "ManaMax": 3,
+        "Endurance": 1,
+        "Damage": 4,
+        "Attack": 4,
+        "Evade": 5,
+        "Quickness": 5,
+        "Spells": 4,
+        "Healing": 5
+      },
+      "Orc": {
+        "HealthMax": 4,
+        "StaminaMax": 4,
+        "ManaMax": 1,
+        "Endurance": 4,
+        "Damage": 4,
+        "Attack": 5,
+        "Evade": 3,
+        "Quickness": 1,
+        "Spells": 1,
+        "Healing": 1
+      },
+      "Dwarf": {
+        "HealthMax": 5,
+        "StaminaMax": 5,
+        "ManaMax": 1,
+        "Endurance": 5,
+        "Damage": 5,
+        "Attack": 5,
+        "Evade": 1,
+        "Quickness": 1,
+        "Spells": 1,
+        "Healing": 3
+      },
+      "Human": {
+        "HealthMax": 3,
+        "StaminaMax": 3,
+        "ManaMax": 3,
+        "Endurance": 3,
+        "Damage": 3,
+        "Attack": 3,
+        "Evade": 3,
+        "Quickness": 3,
+        "Spells": 4,
+        "Healing": 4
+      }
+    }
+  }
+}
