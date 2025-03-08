@@ -1401,7 +1401,7 @@ Function Travel {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
         " "*120
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
-        Write-Color -NoNewLine "Where do you want to travel too? ", "[$All_Linked_Locations_Letters_Array]" -Color DarkYellow,Green
+        Write-Color -NoNewLine "Where do you want to travel to? ", "[$All_Linked_Locations_Letters_Array]" -Color DarkYellow,Green
         $Travel_Choice = Read-Host " "
         $Travel_Choice = $Travel_Choice.Trim()
     } until ($Travel_Choice -ieq "q" -or $All_Linked_Locations_Letters_Array -match $Travel_Choice )
@@ -1414,7 +1414,7 @@ Function Travel {
         }
         t {
             $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
-            $Current_Location = "Town"
+            $Script:Current_Location = "Town"
             $Import_JSON.Locations.Town.CurrentLocation = $true
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
             " "*1560
@@ -1422,14 +1422,14 @@ Function Travel {
         }
         f {
             $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
-            $Current_Location = "The Forest"
+            $Script:Current_Location = "The Forest"
             $Import_JSON.Locations.'The Forest'.CurrentLocation = $true
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
             " "*1560
         }
         r {
             $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
-            $Current_Location = "The River"
+            $Script:Current_Location = "The River"
             $Import_JSON.Locations.'The River'.CurrentLocation = $true
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
             " "*1560
@@ -1527,22 +1527,22 @@ do {
             Set-JSON # save JSON
             Random_Mob
             Fight_Or_Run
-            Break
+            # Break
         }
         i {
             Clear-Host
             Draw_Player_Stats_Window
             Draw_Player_Stats_Info
             Inventory_Choice
-            Break
+            # Break
         }
         t {
             Travel
-            Break
+            # Break
         }
         info {
             Game_Info
-            Break
+            # Break
         }
         Default {}
     }
