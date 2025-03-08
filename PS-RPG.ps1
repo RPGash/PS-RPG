@@ -1142,17 +1142,14 @@ Function You_Died {
 # random mob from current Location with 10 percentage chance of rare mob
 #
 Function Random_Mob {
-    Add-Content -Path .\error_log.log -value $Current_Location
-    Add-Content -Path .\error_log.log -value $Import_JSON.Locations.$Current_Location.Mobs
+    # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
     $Current_Location_Mobs = $Import_JSON.Locations.$Current_Location.Mobs
-    Add-Content -Path .\error_log.log -value $Current_Location
-    Add-Content -Path .\error_log.log -value $Import_JSON.Locations.$Current_Location.Mobs
     $Random_100 = Get-Random -Minimum 1 -Maximum 100
-    if ($Random_100 -lt 11) {
+    if ($Random_100 -lt 11) { # rare mob (10% of the time)
         $All_Rare_Mobs_In_Current_Location = $Current_Location_Mobs | Where-Object {$PSItem.Rare -eq $true} # equals
         $Random_Rare_Mob_In_Current_Location = Get-Random -Minimum 0 -Maximum ($All_Rare_Mobs_In_Current_Location | Measure-Object).count # measure-object added because incorrect number when there is only one rare mob
         $Script:Selected_Mob = $All_Rare_Mobs_In_Current_Location[$Random_Rare_Mob_In_Current_Location]
-    } else {
+    } else { # "normal" mob (90% of the time)
         $All_None_Rare_Mobs_In_Current_Location = $Current_Location_Mobs | Where-Object {$PSItem.Rare -ne $true} # does not equal
         $Random_None_Rare_Mob_In_Current_Location = Get-Random -Minimum 0 -Maximum ($All_None_Rare_Mobs_In_Current_Location | Measure-Object).count
         $Script:Selected_Mob = $All_None_Rare_Mobs_In_Current_Location[$Random_None_Rare_Mob_In_Current_Location]
@@ -1243,7 +1240,7 @@ Function Fight_Or_Run {
                     $Hit_Chance = ($Character_Attack / $Selected_Mob_Evade) / 2 * 100
                     # Write-Output "hit chance                : $Hit_Chance"
                     $Random_100 = Get-Random -Minimum 1 -Maximum 100
-                    # Write-Output "random 100                : $([math]::Round($Random_100))"
+                    # Write-Output "random 100                : $([Math]::Round($Random_100))"
                     if ($Hit_Chance -ge $Random_100) {
                         $Selected_Mob_HealthCurrent = $Selected_Mob_HealthCurrent - $Character_Damage
                         $Selected_Mob.Health = $Selected_Mob_HealthCurrent
@@ -1319,7 +1316,38 @@ Function Fight_Or_Run {
                 $Import_JSON.Character.XP_TNL -= $Selected_Mob.XP
                 $Script:XP_TNL = $XP_TNL - $Selected_Mob.XP
                 
-                
+                # loot chance
+                $Random_100 = Get-Random -Minimum 1 -Maximum 100
+                if ($Random_100 -lt 21) { # no loot at all (20% chance)
+                    Write-Color "  The ", "$($Selected_Mob.Name) ", "did not drop any loot." -Color Gray,Blue,Gray
+                } else { # possible loot (80% chance per item)
+                    $Looted_Items = New-Object System.Collections.Generic.List[System.Object]
+                    $Loot_Item_Names = $Selected_Mob.Loot.PSObject.Properties.Name
+                    foreach ($Loot_Item in $Loot_Item_Names) {
+                        $Random_100 = Get-Random -Minimum 1 -Maximum 100
+                        if ($Random_100 -lt 71) { # chance of each loot type (70%)
+                            Add-Content -Path .\error_log.log -value $Looted_Items.count
+                            if ($Looted_Items.Count -gt 0) {
+                                $Looted_Items.Add("`r`n ")
+                            }
+                            if ($Loot_Item -ieq 'Gold' ) {
+                                $Random_5 = Get-Random -Minimum 0 -Maximum 6
+                                $Looted_Gold = [Math]::Round(($Random_5/10+1)*$Selected_Mob.Loot.Gold) # gold amount between 1-1.5
+                                $Looted_Items.Add("$($Looted_Gold) Gold")
+                            } else { # add non-gold loot
+                                $Looted_Items.Add("1x $($Loot_Item)")
+                            }
+                        }
+                    }
+                    if ($Looted_Items -gt 0) {
+                        Write-Color "  The ", "$($Selected_Mob.Name) ", "dropped the following items:" -Color Gray,Blue,Gray
+                        Write-Color "  $($Looted_Items)" -Color Gray,White
+                    } else {
+                        Write-Color "  The ", "$($Selected_Mob.Name) ", "did not drop any loot." -Color Gray,Blue,Gray
+                    }
+                }
+
+
                 if ($XP_TNL -lt 0) {
                     $Script:XP_Difference = $XP_TNL
                 }

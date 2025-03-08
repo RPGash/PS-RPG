@@ -1,7 +1,7 @@
 {
   "Locations": {
     "Town": {
-      "CurrentLocation": false,
+      "CurrentLocation": true,
       "LinkedLocations": {
         "The Forest": "F"
       },
@@ -9,7 +9,7 @@
         {
           "Name": "Chicken",
           "Level": 1,
-          "Health": 500,
+          "Health": 5,
           "Stamina": 50,
           "Mana": 50,
           "Attack": 5,
@@ -22,7 +22,11 @@
           "Killed": 0,
           "Rare": "No",
           "Boss": false,
-          "XP": 500
+          "XP": 500,
+          "Loot": {
+            "Gold": 1,
+            "Chicken Feathers": 5
+          }
         },
         {
           "Name": "Rook",
@@ -40,7 +44,12 @@
           "Killed": 0,
           "Rare": "No",
           "Boss": false,
-          "XP": 160
+          "XP": 160,
+          "Loot": {
+            "Gold": 5,
+            "Rook Feathers": 3,
+            "Rook Claw": 3
+          }
         },
         {
           "Name": "Beetle",
@@ -58,7 +67,10 @@
           "Killed": 0,
           "Rare": "No",
           "Boss": false,
-          "XP": 160
+          "XP": 160,
+          "Loot": {
+            "Gold": 10
+          }
         },
         {
           "Name": "Rat",
@@ -76,7 +88,13 @@
           "Killed": 0,
           "Rare": "Yes",
           "Boss": false,
-          "XP": 160
+          "XP": 160,
+          "Loot": {
+            "Gold": 10,
+            "Rat Tail": 1,
+            "Fur": 1,
+            "Guts": 1
+          }
         }
       ],
       "NPC": [
@@ -103,7 +121,7 @@
       ]
     },
     "The Forest": {
-      "CurrentLocation": true,
+      "CurrentLocation": false,
       "LinkedLocations": {
         "Town": "T",
         "The River": "R"
@@ -125,7 +143,10 @@
           "Killed": 0,
           "Rare": "No",
           "Boss": false,
-          "XP": 160
+          "XP": 160,
+          "Loot": {
+            "Gold": 2
+          }
         },
         {
           "Name": "Mouse",
@@ -143,7 +164,12 @@
           "Killed": 0,
           "Rare": "Yes",
           "Boss": false,
-          "XP": 160
+          "XP": 160,
+          "Loot": {
+            "Gold": 3,
+            "Mouse Tail": 1,
+            "Whiskers": 1
+          }
         }
       ],
       "NPC": [
@@ -179,7 +205,12 @@
           "Killed": 0,
           "Rare": "No",
           "Boss": false,
-          "XP": 160
+          "XP": 160,
+          "Loot": {
+            "Gold": 10,
+            "Wolf Hide": 1,
+            "Wolf Tooth": 1
+          }
         },
         {
           "Name": "Boar",
@@ -197,7 +228,13 @@
           "Killed": 0,
           "Rare": "No",
           "Boss": false,
-          "XP": 160
+          "XP": 160,
+          "Loot": {
+            "Gold": 10,
+            "Boar Tail": 1,
+            "Boar Fur": 1,
+            "Broken Boar Tooth": 1
+          }
         },
         {
           "Name": "Crazy Cat",
@@ -215,7 +252,13 @@
           "Killed": 0,
           "Rare": "Yes",
           "Boss": false,
-          "XP": 160
+          "XP": 160,
+          "Loot": {
+            "Gold": 10,
+            "Cat Whiskers": 1,
+            "Sharp Cat Tooth": 1,
+            "Sharp Cat Claw": 1
+          }
         }
       ],
       "NPC": [
@@ -235,17 +278,17 @@
     "Class": "Rogue",
     "Race": "Human",
     "Level": 112,
-    "Total_XP": 7700,
-    "XP_TNL": 46836.0,
+    "Total_XP": 30200,
+    "XP_TNL": 24336.0,
     "Stats": {
-      "HealthCurrent": 40,
+      "HealthCurrent": 979,
       "HealthMax": 66,
       "StaminaCurrent": 80,
       "StaminaMax": 86,
       "ManaCurrent": 10,
       "ManaMax": 35,
-      "Damage": 18,
-      "Attack": 18,
+      "Damage": 180,
+      "Attack": 180,
       "Endurance": 12,
       "Evade": 18,
       "Quickness": 18,
@@ -314,7 +357,28 @@
           "Quantity": 0,
           "Info": "Junk",
           "Value": 10,
-          "ID": 60
+          "ID": 7
+        },
+        {
+          "Name": "Chicken Feathers",
+          "Quantity": 0,
+          "Info": "Junk",
+          "Value": 1,
+          "ID": 8
+        },
+        {
+          "Name": "Rook Feathers",
+          "Quantity": 0,
+          "Info": "Junk",
+          "Value": 2,
+          "ID": 9
+        },
+        {
+          "Name": "Rat Tail",
+          "Quantity": 0,
+          "Info": "Junk",
+          "Value": 3,
+          "ID": 10
         }
       ]
     }

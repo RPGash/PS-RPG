@@ -1,10 +1,9 @@
 {
   "Locations": {
     "Town": {
-      "CurrentLocation": true,
+      "CurrentLocation": false,
       "LinkedLocations": {
-        "The Forest": "F",
-        "The River": "R"
+        "The Forest": "F"
       },
       "Mobs": [
         {
@@ -23,7 +22,11 @@
           "Killed": 0,
           "Rare": "No",
           "Boss": false,
-          "XP": 500
+          "XP": 500,
+          "Loot": {
+              "Gold": 1,
+              "Chicken Feathers": 5
+            }
         },
         {
           "Name": "Rook",
@@ -41,8 +44,12 @@
           "Killed": 0,
           "Rare": "No",
           "Boss": false,
-          "XP": 160
-        },
+          "XP": 160,
+          "Loot": {
+            "Gold": 5,
+            "Rook Feathers": 3
+          }
+      },
         {
           "Name": "Beetle",
           "Level": 2,
@@ -59,7 +66,10 @@
           "Killed": 0,
           "Rare": "No",
           "Boss": false,
-          "XP": 160
+          "XP": 160,
+          "Loot": {
+            "Gold": 10
+          }
         },
         {
           "Name": "Rat",
@@ -77,7 +87,11 @@
           "Killed": 0,
           "Rare": "Yes",
           "Boss": false,
-          "XP": 160
+          "XP": 160,
+          "Loot": {
+            "Gold": 10,
+            "Rat Tail": 1
+          }
         }
       ],
       "NPC": [
@@ -112,15 +126,39 @@
       "Mobs": [
         {
           "Name": "Worm",
-          "Health": 10,
-          "Killed": 3,
-          "Rare": "No"
+          "Level": 5,
+          "Health": 40,
+          "Stamina": 50,
+          "Mana": 50,
+          "Attack": 5,
+          "Damage": 5,
+          "Endurance": 10,
+          "Evade": 5,
+          "Quickness": 5,
+          "Spells": 50,
+          "Healing": 50,
+          "Killed": 0,
+          "Rare": "No",
+          "Boss": false,
+          "XP": 160
         },
         {
           "Name": "Mouse",
-          "Health": 20,
-          "Killed": 11,
-          "Rare": "Yes"
+          "Level": 6,
+          "Health": 40,
+          "Stamina": 50,
+          "Mana": 50,
+          "Attack": 5,
+          "Damage": 5,
+          "Endurance": 10,
+          "Evade": 5,
+          "Quickness": 5,
+          "Spells": 50,
+          "Healing": 50,
+          "Killed": 0,
+          "Rare": "Yes",
+          "Boss": false,
+          "XP": 160
         }
       ],
       "NPC": [
@@ -135,28 +173,64 @@
       ]
     },
     "The River": {
-      "CurrentLocation": false,
+      "CurrentLocation": true,
       "LinkedLocations": {
-        "The Forest": "R"
+        "The Forest": "F"
       },
       "Mobs": [
         {
           "Name": "Wolf",
-          "Health": 20,
-          "Killed": 171,
-          "Rare": "No"
+          "Level": 15,
+          "Health": 40,
+          "Stamina": 50,
+          "Mana": 50,
+          "Attack": 5,
+          "Damage": 5,
+          "Endurance": 10,
+          "Evade": 5,
+          "Quickness": 5,
+          "Spells": 50,
+          "Healing": 50,
+          "Killed": 0,
+          "Rare": "No",
+          "Boss": false,
+          "XP": 160
         },
         {
-          "Name": "Wolf99",
-          "Health": 20,
-          "Killed": 95,
-          "Rare": "Yes"
+          "Name": "Boar",
+          "Level": 10,
+          "Health": 40,
+          "Stamina": 50,
+          "Mana": 50,
+          "Attack": 5,
+          "Damage": 5,
+          "Endurance": 10,
+          "Evade": 5,
+          "Quickness": 5,
+          "Spells": 50,
+          "Healing": 50,
+          "Killed": 0,
+          "Rare": "No",
+          "Boss": false,
+          "XP": 160
         },
         {
           "Name": "Crazy Cat",
-          "Health": 5,
-          "Killed": 15,
-          "Rare": "Yes"
+          "Level": 11,
+          "Health": 40,
+          "Stamina": 50,
+          "Mana": 50,
+          "Attack": 5,
+          "Damage": 5,
+          "Endurance": 10,
+          "Evade": 5,
+          "Quickness": 5,
+          "Spells": 50,
+          "Healing": 50,
+          "Killed": 0,
+          "Rare": "Yes",
+          "Boss": false,
+          "XP": 160
         }
       ],
       "NPC": [
@@ -172,26 +246,26 @@
     }
   },
   "Character": {
-    "Name": "",
-    "Class": "",
-    "Race": "",
-    "Level": 111,
-    "Total_XP": 6900,
-    "XP_TNL": 655.0,
+    "Name": "MyName",
+    "Class": "Rogue",
+    "Race": "Human",
+    "Level": 112,
+    "Total_XP": 8660,
+    "XP_TNL": 45876.0,
     "Stats": {
-      "HealthCurrent": 60,
-      "HealthMax": 60,
+      "HealthCurrent": 30,
+      "HealthMax": 66,
       "StaminaCurrent": 80,
-      "StaminaMax": 80,
+      "StaminaMax": 86,
       "ManaCurrent": 10,
-      "ManaMax": 30,
-      "Damage": 10,
-      "Attack": 10,
-      "Endurance": 6,
-      "Evade": 10,
-      "Quickness": 10,
-      "Spells": 1,
-      "Healing": 4
+      "ManaMax": 35,
+      "Damage": 18,
+      "Attack": 18,
+      "Endurance": 12,
+      "Evade": 18,
+      "Quickness": 18,
+      "Spells": 6,
+      "Healing": 11
     },
     "Skills": {
       "Dodge": 0,
@@ -255,7 +329,28 @@
           "Quantity": 0,
           "Info": "Junk",
           "Value": 10,
-          "ID": 60
+          "ID": 7
+        },
+        {
+          "Name": "Chicken Feathers",
+          "Quantity": 0,
+          "Info": "Junk",
+          "Value": 1,
+          "ID": 8
+        },
+        {
+          "Name": "Rook Feathers",
+          "Quantity": 0,
+          "Info": "Junk",
+          "Value": 2,
+          "ID": 9
+        },
+        {
+          "Name": "Rat Tail",
+          "Quantity": 0,
+          "Info": "Junk",
+          "Value": 3,
+          "ID": 10
         }
       ]
     }
