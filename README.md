@@ -1,4 +1,6 @@
-# Project "PS-RPG", an RPG text adventure created in PowerShell
+# Project "PS-RPG"
+
+An RPG text adventure created in PowerShell
 
 - Alpha build
 - ~~May~~ Does contain bugs
