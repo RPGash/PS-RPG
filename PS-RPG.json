@@ -103,7 +103,7 @@
       ]
     },
     "The Forest": {
-      "CurrentLocation": false,
+      "CurrentLocation": true,
       "LinkedLocations": {
         "Town": "T",
         "The River": "R"
@@ -134,7 +134,7 @@
       ]
     },
     "The River": {
-      "CurrentLocation": true,
+      "CurrentLocation": false,
       "LinkedLocations": {
         "The Forest": "F"
       },
