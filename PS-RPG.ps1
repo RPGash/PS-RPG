@@ -31,7 +31,7 @@
 
 
 Clear-Host
-$PSRPG_Version = "v0.1"
+$PSRPG_Version = "v0.1-alpha"
 
 #
 # Pre-requisite checks and install / import PSWriteColor module - NOT WORKING FOR PowerShell 5.1
