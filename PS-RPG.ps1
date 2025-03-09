@@ -2,13 +2,10 @@
 # ----
 #
 # - BUGS
-#   opening inventory after starting combat over rights combat window display you are low on health/mana
-#       line 18 for low health/mana message? in and out of combat
-#       don't show inventory window in combat
 #   lower congrats message and learned spells + Q several lines as there are now an additional 3-4 extra lines for loot
 #   
 #   TEST
-#   
+#
 #
 # - NEXT
 #   change "you are low on health/mana" message to
@@ -1205,7 +1202,7 @@ Function Fight_Or_Run {
                         $Inventory_Visible = $true
                         Inventory_Choice
                         if ($Use_A_Potion -ieq "y") {
-                        Break
+                            Break
                         }
                     }
                 } until ($Fight_Choice -ieq "a" -or $Fight_Choice -ieq "s")
