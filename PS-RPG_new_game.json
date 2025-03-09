@@ -21,7 +21,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": "No",
+          "Boss": false,
           "XP": 500,
           "Loot": {
             "Gold": 1,
@@ -43,7 +43,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": "No",
+          "Boss": false,
           "XP": 160,
           "Loot": {
             "Gold": 5,
@@ -66,7 +66,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "Yes",
-          "Boss": "No",
+          "Boss": false,
           "XP": 160,
           "Loot": {
             "Gold": 10
@@ -86,8 +86,8 @@
           "Spells": 50,
           "Healing": 50,
           "Killed": 0,
-          "Rare": "Yes",
-          "Boss": "No",
+          "Rare": "No",
+          "Boss": false,
           "XP": 160,
           "Loot": {
             "Gold": 10,
@@ -142,7 +142,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": "No",
+          "Boss": false,
           "XP": 160,
           "Loot": {
             "Gold": 2
@@ -163,7 +163,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "Yes",
-          "Boss": "No",
+          "Boss": false,
           "XP": 160,
           "Loot": {
             "Gold": 3,
@@ -204,7 +204,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": "No",
+          "Boss": false,
           "XP": 160,
           "Loot": {
             "Gold": 10,
@@ -227,7 +227,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": "No",
+          "Boss": false,
           "XP": 160,
           "Loot": {
             "Gold": 10,
@@ -251,7 +251,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "Yes",
-          "Boss": "No",
+          "Boss": false,
           "XP": 160,
           "Loot": {
             "Gold": 10,
@@ -277,23 +277,23 @@
     "Name": "The Dude",
     "Class": "Rogue",
     "Race": "Elf",
-    "Level": 112,
-    "Total_XP": 38840,
-    "XP_TNL": 15696.0,
+    "Level": 11,
+    "Total_XP": 3940,
+    "XP_TNL": 221.0,
     "Stats": {
-      "HealthCurrent": 485,
-      "HealthMax": 60,
+      "HealthCurrent": 110,
+      "HealthMax": 110,
       "StaminaCurrent": 80,
-      "StaminaMax": 80,
-      "ManaCurrent": 140,
-      "ManaMax": 300,
+      "StaminaMax": 150,
+      "ManaCurrent": 160,
+      "ManaMax": 160,
       "Damage": 10,
-      "Attack": 10,
-      "Endurance": 6,
+      "Attack": 100,
+      "Endurance": 46,
       "Evade": 10,
-      "Quickness": 10,
-      "Spells": 1,
-      "Healing": 4
+      "Quickness": 110,
+      "Spells": 51,
+      "Healing": 84
     },
     "Skills": {
       "Dodge": 0,
@@ -304,11 +304,11 @@
       }
     },
     "Items": {
-      "Gold": 10,
+      "Gold": 38.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
-          "Quantity": 30,
+          "Quantity": 19,
           "Restores": 30,
           "Value": 15,
           "ID": 1,
@@ -316,7 +316,7 @@
         },
         "Mana Potion": {
           "Name": "Mana Potion",
-          "Quantity": 21,
+          "Quantity": 0,
           "Restores": 20,
           "Info": "Capacity 20",
           "Value": 50,
@@ -324,7 +324,7 @@
         },
         "Greater Mana Potion": {
           "Name": "Greater Mana Potion",
-          "Quantity": 22,
+          "Quantity": 15,
           "Restores": 50,
           "Info": "Capacity 50",
           "Value": 100,
@@ -361,14 +361,14 @@
         },
         "Chicken Feathers": {
           "Name": "Chicken Feathers",
-          "Quantity": 1,
+          "Quantity": 2,
           "Info": "Junk",
           "Value": 1,
           "ID": 8
         },
         "Rook Feathers": {
           "Name": "Rook Feathers",
-          "Quantity": 1,
+          "Quantity": 2,
           "Info": "Junk",
           "Value": 2,
           "ID": 9
@@ -382,21 +382,21 @@
         },
         "Rat Tail": {
           "Name": "Rat Tail",
-          "Quantity": 1,
+          "Quantity": 3,
           "Info": "Junk",
           "Value": 3,
           "ID": 11
         },
         "Rat Fur": {
           "Name": "Rat Fur",
-          "Quantity": 1,
+          "Quantity": 2,
           "Info": "Junk",
           "Value": 3,
           "ID": 12
         },
         "Rat Guts": {
           "Name": "Rat Guts",
-          "Quantity": 1,
+          "Quantity": 2,
           "Info": "Junk",
           "Value": 3,
           "ID": 13
