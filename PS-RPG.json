@@ -48,7 +48,7 @@
           "Loot": {
             "Gold": 5,
             "Rook Feathers": 3,
-            "Rook Claws": 3
+            "Rook Claw": 3
           }
         },
         {
@@ -308,7 +308,7 @@
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
-          "Quantity": 25,
+          "Quantity": 19,
           "Restores": 30,
           "Value": 15,
           "ID": 1,
@@ -316,7 +316,7 @@
         },
         "Mana Potion": {
           "Name": "Mana Potion",
-          "Quantity": 2,
+          "Quantity": 0,
           "Restores": 20,
           "Info": "Capacity 20",
           "Value": 50,
@@ -324,7 +324,7 @@
         },
         "Greater Mana Potion": {
           "Name": "Greater Mana Potion",
-          "Quantity": 22,
+          "Quantity": 15,
           "Restores": 50,
           "Info": "Capacity 50",
           "Value": 100,

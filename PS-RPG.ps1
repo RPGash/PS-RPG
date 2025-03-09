@@ -923,6 +923,7 @@ Function Inventory_Choice{
     $Potion_IDs_Array.Clear()
     Display_Inventory_In_Combat
     # if health or mana is not at max - question is asked if one should be used
+    $Script:Use_A_Potion = "" # reset so if max health is reached after using a potion, it's not still set to "y" which causes a skipped turn when viewing the inventory a second time
     if (($Character_HealthCurrent -lt $Character_HealthMax) -or ($Character_ManaCurrent -lt $Character_ManaMax)) {
         $Enough_Health_Potions = "no"
         if ($Character_HealthCurrent -lt $Character_HealthMax) {
