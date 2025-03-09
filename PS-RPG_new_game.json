@@ -21,7 +21,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": false,
+          "Boss": "No",
           "XP": 500,
           "Loot": {
             "Gold": 1,
@@ -43,7 +43,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 5,
@@ -65,8 +65,8 @@
           "Spells": 50,
           "Healing": 50,
           "Killed": 0,
-          "Rare": "No",
-          "Boss": false,
+          "Rare": "Yes",
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 10
@@ -87,7 +87,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "Yes",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 10,
@@ -142,7 +142,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 2
@@ -163,7 +163,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "Yes",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 3,
@@ -204,7 +204,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 10,
@@ -227,7 +227,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 10,
@@ -251,7 +251,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "Yes",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 10,
@@ -278,15 +278,15 @@
     "Class": "Rogue",
     "Race": "Elf",
     "Level": 112,
-    "Total_XP": 31980,
-    "XP_TNL": 22556.0,
+    "Total_XP": 38840,
+    "XP_TNL": 15696.0,
     "Stats": {
-      "HealthCurrent": 60,
+      "HealthCurrent": 485,
       "HealthMax": 60,
       "StaminaCurrent": 80,
       "StaminaMax": 80,
-      "ManaCurrent": 10,
-      "ManaMax": 30,
+      "ManaCurrent": 140,
+      "ManaMax": 300,
       "Damage": 10,
       "Attack": 10,
       "Endurance": 6,
@@ -316,7 +316,7 @@
         },
         "Mana Potion": {
           "Name": "Mana Potion",
-          "Quantity": 0,
+          "Quantity": 21,
           "Restores": 20,
           "Info": "Capacity 20",
           "Value": 50,
@@ -324,7 +324,7 @@
         },
         "Greater Mana Potion": {
           "Name": "Greater Mana Potion",
-          "Quantity": 0,
+          "Quantity": 22,
           "Restores": 50,
           "Info": "Capacity 50",
           "Value": 100,
@@ -332,7 +332,7 @@
         },
         "Lesser Mana Potion": {
           "Name": "Lesser Mana Potion",
-          "Quantity": 0,
+          "Quantity": 21,
           "Restores": 10,
           "Info": "Capacity 10",
           "Value": 20,
@@ -340,105 +340,105 @@
         },
         "Bones": {
           "Name": "Bones",
-          "Quantity": 0,
+          "Quantity": 1,
           "Info": "Junk",
           "Value": 5,
           "ID": 5
         },
         "Feather": {
           "Name": "Feather",
-          "Quantity": 0,
+          "Quantity": 1,
           "Info": "Trader",
           "Value": 10,
           "ID": 6
         },
         "Hides": {
           "Name": "Hides",
-          "Quantity": 0,
+          "Quantity": 1,
           "Info": "Junk",
           "Value": 10,
           "ID": 7
         },
         "Chicken Feathers": {
           "Name": "Chicken Feathers",
-          "Quantity": 0,
+          "Quantity": 1,
           "Info": "Junk",
           "Value": 1,
           "ID": 8
         },
         "Rook Feathers": {
           "Name": "Rook Feathers",
-          "Quantity": 0,
+          "Quantity": 1,
           "Info": "Junk",
           "Value": 2,
           "ID": 9
         },
         "Rook Claws": {
           "Name": "Rook Claws",
-          "Quantity": 0,
+          "Quantity": 1,
           "Info": "Junk",
           "Value": 2,
           "ID": 10
         },
         "Rat Tail": {
           "Name": "Rat Tail",
-          "Quantity": 0,
+          "Quantity": 1,
           "Info": "Junk",
           "Value": 3,
           "ID": 11
         },
         "Rat Fur": {
           "Name": "Rat Fur",
-          "Quantity": 0,
+          "Quantity": 1,
           "Info": "Junk",
           "Value": 3,
           "ID": 12
         },
         "Rat Guts": {
           "Name": "Rat Guts",
-          "Quantity": 0,
+          "Quantity": 1,
           "Info": "Junk",
           "Value": 3,
           "ID": 13
         },
         "Mouse Tail": {
           "Name": "Mouse Tail",
-          "Quantity": 0,
+          "Quantity": 1,
           "Info": "Junk",
           "Value": 3,
           "ID": 14
         },
         "Mouse Whiskers": {
           "Name": "Mouse Whiskers",
-          "Quantity": 0,
+          "Quantity": 1,
           "Info": "Junk",
           "Value": 3,
           "ID": 15
         },
         "Wolf Hide": {
           "Name": "Wolf Hide",
-          "Quantity": 0,
+          "Quantity": 1,
           "Info": "Skinner",
           "Value": 3,
           "ID": 16
         },
         "Wolf Tooth": {
           "Name": "Wolf Tooth",
-          "Quantity": 0,
+          "Quantity": 1,
           "Info": "Junk",
           "Value": 3,
           "ID": 17
         },
         "Boar Tail": {
           "Name": "Boar Tail",
-          "Quantity": 0,
+          "Quantity": 1,
           "Info": "Junk",
           "Value": 3,
           "ID": 18
         },
         "Boar Hide": {
           "Name": "Boar Hide",
-          "Quantity": 0,
+          "Quantity": 1,
           "Info": "Skinner",
           "Value": 3,
           "ID": 19

@@ -21,7 +21,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": false,
+          "Boss": "No",
           "XP": 500,
           "Loot": {
             "Gold": 1,
@@ -43,7 +43,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 5,
@@ -66,7 +66,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "Yes",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 10
@@ -87,7 +87,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "Yes",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 10,
@@ -142,7 +142,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 2
@@ -163,7 +163,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "Yes",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 3,
@@ -204,7 +204,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 10,
@@ -227,7 +227,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 10,
@@ -251,7 +251,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "Yes",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 10,
