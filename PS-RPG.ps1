@@ -1306,6 +1306,13 @@ Function Fight_Or_Run {
                     if ($Looted_Items -gt 0) {
                         Write-Color "  The ", "$($Selected_Mob.Name) ", "dropped the following items:" -Color Gray,Blue,Gray
                         Write-Color "  $($Looted_Items)" -Color Gray,White
+                        # update inventory items
+                        Add-Content -Path .\error_log.log -value "gold before: $($Import_JSON.Character.Items.Gold)"
+                        Add-Content -Path .\error_log.log -value "gold looted: $($Looted_Gold)"
+                        $Script:Import_JSON.Character.Items.Gold = $Import_JSON.Character.Items.Gold + $Looted_Gold
+                        $Script:Gold = $Import_JSON.Character.Items.Gold + $Looted_Gold
+                        Set-JSON
+                        Add-Content -Path .\error_log.log -value "gold after : $($Import_JSON.Character.Items.Gold)"
                     } else {
                         Write-Color "  The ", "$($Selected_Mob.Name) ", "did not drop any loot." -Color Gray,Blue,Gray
                     }

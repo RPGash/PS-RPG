@@ -21,7 +21,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": "No",
+          "Boss": false,
           "XP": 500,
           "Loot": {
             "Gold": 1,
@@ -43,7 +43,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": "No",
+          "Boss": false,
           "XP": 160,
           "Loot": {
             "Gold": 5,
@@ -66,7 +66,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "Yes",
-          "Boss": "No",
+          "Boss": false,
           "XP": 160,
           "Loot": {
             "Gold": 10
@@ -87,7 +87,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "Yes",
-          "Boss": "No",
+          "Boss": false,
           "XP": 160,
           "Loot": {
             "Gold": 10,
@@ -142,7 +142,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": "No",
+          "Boss": false,
           "XP": 160,
           "Loot": {
             "Gold": 2
@@ -163,7 +163,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "Yes",
-          "Boss": "No",
+          "Boss": false,
           "XP": 160,
           "Loot": {
             "Gold": 3,
@@ -204,7 +204,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": "No",
+          "Boss": false,
           "XP": 160,
           "Loot": {
             "Gold": 10,
@@ -227,7 +227,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": "No",
+          "Boss": false,
           "XP": 160,
           "Loot": {
             "Gold": 10,
@@ -251,7 +251,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "Yes",
-          "Boss": "No",
+          "Boss": false,
           "XP": 160,
           "Loot": {
             "Gold": 10,
@@ -277,23 +277,23 @@
     "Name": "The Dude",
     "Class": "Rogue",
     "Race": "Elf",
-    "Level": 1,
-    "Total_XP": 0,
-    "XP_TNL": 1,
+    "Level": 6,
+    "Total_XP": 660,
+    "XP_TNL": 218.0,
     "Stats": {
-      "HealthCurrent": 95,
-      "HealthMax": 600,
+      "HealthCurrent": 480,
+      "HealthMax": 85,
       "StaminaCurrent": 80,
-      "StaminaMax": 80,
-      "ManaCurrent": 35,
-      "ManaMax": 100,
-      "Damage": 10,
-      "Attack": 10,
-      "Endurance": 6,
-      "Evade": 10,
-      "Quickness": 10,
-      "Spells": 1,
-      "Healing": 4
+      "StaminaMax": 115,
+      "ManaCurrent": 140,
+      "ManaMax": 325,
+      "Damage": 55,
+      "Attack": 55,
+      "Endurance": 26,
+      "Evade": 60,
+      "Quickness": 60,
+      "Spells": 26,
+      "Healing": 44
     },
     "Skills": {
       "Dodge": 0,
@@ -304,11 +304,11 @@
       }
     },
     "Items": {
-      "Gold": 10,
+      "Gold": 13.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
-          "Quantity": 10,
+          "Quantity": 30,
           "Restores": 30,
           "Value": 15,
           "ID": 1,
@@ -316,7 +316,7 @@
         },
         "Mana Potion": {
           "Name": "Mana Potion",
-          "Quantity": 8,
+          "Quantity": 21,
           "Restores": 20,
           "Info": "Capacity 20",
           "Value": 50,
@@ -324,7 +324,7 @@
         },
         "Greater Mana Potion": {
           "Name": "Greater Mana Potion",
-          "Quantity": 18,
+          "Quantity": 22,
           "Restores": 50,
           "Info": "Capacity 50",
           "Value": 100,
@@ -332,7 +332,7 @@
         },
         "Lesser Mana Potion": {
           "Name": "Lesser Mana Potion",
-          "Quantity": 19,
+          "Quantity": 21,
           "Restores": 10,
           "Info": "Capacity 10",
           "Value": 20,
