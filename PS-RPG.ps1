@@ -5,7 +5,7 @@
 #   when there are more than 14 items in your inventory, items 15+ are chopped off
 #       because combat messages are clearing the whole line.
 #       solution - update inventory Draw_Player_Stats_Window after every combat message?
-#   "you are low on health" message - do not include in Q
+#   
 #   
 #
 # - NEXT
@@ -952,17 +952,25 @@ Function Inventory_Choice{
                 Write-Color "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════╝" -Color DarkGray
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
                 " "*105
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
                 if ($Enough_Health_Potions -eq "yes" -and $Enough_Mana_Potions -eq "no") {
-                    Write-Color -NoNewLine "You are low on ","Health", ". Use a potion? ", "[Y/N]" -Color DarkYellow,Green,DarkYellow,Green
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                    Write-Color -NoNewLine "  You are low on ","Health", "." -Color Gray,Green,Gray
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
+                    Write-Color -NoNewLine "Use a potion? ", "[Y/N]" -Color DarkYellow,Green
                     $Potion_Choice = "Health"
                     $Script:Selectable_ID_Potion_Search = "Health"
                 } elseif ($Enough_Mana_Potions -eq "yes" -and $Enough_Health_Potions -eq "no") {
-                    Write-Color -NoNewLine "You are low on ","Mana",". Use a potion? ", "[Y/N]" -Color DarkYellow,Blue,DarkYellow,Green
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                    Write-Color -NoNewLine "  You are low on ","Mana", "." -Color Gray,Blue,Gray
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
+                    Write-Color -NoNewLine "Use a potion? ", "[Y/N]" -Color DarkYellow,Green
                     $Potion_Choice = "Mana"
                     $Script:Selectable_ID_Potion_Search = "Mana"
                 } else {
-                    Write-Color -NoNewLine "You are low on ","Health"," and ","Mana",". Use a potion? ", "[Y/N]" -Color DarkYellow,Green,DarkYellow,Blue,DarkYellow,Green
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                    Write-Color -NoNewLine "  You are low on ","Health ","and ","Mana", "." -Color Gray,Green,Gray,Blue,Gray
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
+                    Write-Color -NoNewLine "Use a potion? ", "[Y/N]" -Color DarkYellow,Green
                     $Potion_Choice = "Health or Mana"
                     $Script:Selectable_ID_Potion_Search = "HealthMana"
                 }
@@ -1014,12 +1022,12 @@ Function Inventory_Choice{
                     if ($Character_HealthMax - $Character_HealthCurrent -ge $Potion.Restores) {
                         # full potion Restores
                         $Script:Character_HealthCurrent = $Character_HealthCurrent + $Potion.Restores
-                        Write-Color -NoNewLine "  Your ","$($Potion.Name) ","restores ", "$($Potion.Restores) ","health." -Color Gray,Blue,Gray,Green,Gray
+                        Write-Color -NoNewLine "  Your ","$($Potion.Name) ","restores ", "$($Potion.Restores) health","." -Color Gray,Green,Gray,Green,Gray
                         # decrement potion by 1 (updates JSON after battle has finished)
                         $Potion.Quantity -= 1
                     } else {
                         # or if adding additional messages, say "restores 8 health" (remaining amount of health - not full potion Restores)
-                        Write-Color -NoNewLine "  Your ","$($Potion.Name) ","restores you to ", "maximum ","health." -Color Gray,Blue,Gray,Green,Gray,Green,Gray
+                        Write-Color -NoNewLine "  Your ","$($Potion.Name) ","restores you to ", "maximum health","." -Color Gray,Green,Gray,Green,Gray
                         # not full potion Restores (or in other words, fill them up to max HP instead of over healing)
                         $Script:Character_HealthCurrent = $Character_HealthMax
                         # decrement potion by 1 (updates JSON after battle has finished)
@@ -1032,12 +1040,12 @@ Function Inventory_Choice{
                     if ($Character_ManaMax - $Character_ManaCurrent -ge $Potion.Restores) {
                         # full potion Restores
                         $Script:Character_ManaCurrent = $Character_ManaCurrent + $Potion.Restores
-                        Write-Color -NoNewLine "  Your ","$($Potion.Name) ","restores ", "$($Potion.Restores) ","mana." -Color Gray,Blue,Gray,Blue,Gray
+                        Write-Color -NoNewLine "  Your ","$($Potion.Name) ","restores ", "$($Potion.Restores) mana","." -Color Gray,Blue,Gray,Blue,Gray
                         # decrement potion by 1 (updates JSON after battle has finished)
                         $Potion.Quantity -= 1
                     } else {
                         # or if adding additional messages, say "restores 8 mana" (remaining amount of mana - not full potion Restores)
-                        Write-Color -NoNewLine "  Your ","$($Potion.Name) ","restores you to maximum mana." -Color Gray,Blue,Gray,Green,Gray
+                        Write-Color -NoNewLine "  Your ","$($Potion.Name) ","restores you to ", "maximum mana","." -Color Gray,Blue,Gray,Blue,Gray
                         # not full potion Restores (or in other words, fill them up to max HP instead of over healing)
                         $Script:Character_ManaCurrent = $Character_ManaMax
                         # decrement potion by 1 (updates JSON after battle has finished)
@@ -1516,13 +1524,9 @@ do {
     } until ($Hunt_Or_Inventory -ieq "h" -or $Hunt_Or_Inventory -ieq "t" -or $Hunt_Or_Inventory -ieq "i" -or $Hunt_Or_Inventory -ieq "info")
     switch ($Hunt_Or_Inventory) {
         h {
-            Start-Sleep -Seconds 2
             Set-JSON # save JSON
-            Start-Sleep -Seconds 2
             Random_Mob
-            Start-Sleep -Seconds 2
             Fight_Or_Run
-            Start-Sleep -Seconds 2
             # Break
         }
         i {
