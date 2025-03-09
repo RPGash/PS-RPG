@@ -986,7 +986,7 @@ Function Inventory_Choice{
                     $Script:Selectable_ID_Potion_Search = "HealthMana"
                 }
                 $Use_A_Potion = Read-Host " "
-                $Use_A_Potion = $Use_A_Potion.Trim()
+                $Script:Use_A_Potion = $Use_A_Potion.Trim()
             } until ($Use_A_Potion -ieq "y" -or $Use_A_Potion -ieq "n")
             if ($Use_A_Potion -ieq "y") {
                 do {
