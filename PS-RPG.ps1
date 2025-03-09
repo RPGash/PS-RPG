@@ -5,12 +5,6 @@
 #   when there are more than 14 items in your inventory, items 15+ are chopped off
 #       because combat messages are clearing the whole line.
 #       solution - update inventoDraw_Player_Stats_Windowry after every combat message?
-#   when using the last potion in the inventory, the inventory draw does not clear correctly
-#       still shwoing the bottom pat of the previous $Selected_Mob_Endurance
-#       ║1 ║ Lesser Health Potion : 35 ║
-#       ╚══╩═══════════════════════════╝
-#       ╚══╩═══════════════════════════╝ <----
-#       fix - clear all screen and redraw?
 #   
 #   
 #
@@ -993,20 +987,22 @@ Function Inventory_Choice{
                         $Script:Potion = $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name
                     }
                 }
-                    
+                
                 # $Potion = $Inventory_Item_Names | Where-Object {$PSItem.ID -eq $Inventory_ID}
                 # update current health
                 # Clear-Host
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                 Draw_Player_Stats_Info
                 # $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,9;$Host.UI.Write("")
-
+                
                 $Script:Selectable_ID_Potion_Search = "not_set" # resets ID colour back to DarkGray after a potion has been used the first time
                 # update health
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                " "*105 # length of combat messages
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                " "*105 # length of combat messages
+                Clear-Host
+                Draw_Player_Stats_Window # placed here to fix a bug where if the last potion is used in the inventory,
+                # it fully refreshes the page. otherwise the inventory window resizes and leaves an additional "bottom line of window" on the screen.
+                # e.g.  ║1 ║ Lesser Health Potion : 35 ║
+                #       ╚══╩═══════════════════════════╝
+                # ----> ╚══╩═══════════════════════════╝ <----
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                 if ($Potion.Name -ilike "*health potion*") {
                     if ($Character_HealthMax - $Character_HealthCurrent -ge $Potion.Restores) {
