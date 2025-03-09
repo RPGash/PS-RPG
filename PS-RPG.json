@@ -281,11 +281,11 @@
     "Total_XP": 0,
     "XP_TNL": 1,
     "Stats": {
-      "HealthCurrent": 65,
+      "HealthCurrent": 95,
       "HealthMax": 600,
       "StaminaCurrent": 80,
       "StaminaMax": 80,
-      "ManaCurrent": 15,
+      "ManaCurrent": 35,
       "ManaMax": 100,
       "Damage": 10,
       "Attack": 10,
@@ -308,7 +308,7 @@
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
-          "Quantity": 11,
+          "Quantity": 10,
           "Restores": 30,
           "Value": 15,
           "ID": 1,
@@ -316,7 +316,7 @@
         },
         "Mana Potion": {
           "Name": "Mana Potion",
-          "Quantity": 9,
+          "Quantity": 8,
           "Restores": 20,
           "Info": "Capacity 20",
           "Value": 50,

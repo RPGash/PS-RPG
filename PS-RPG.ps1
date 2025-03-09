@@ -7,8 +7,9 @@
 #   
 #
 # - NEXT
-#   
-#   
+#   change "you are low on health/mana" message to
+#       if less than 50% = "you are low on health/mana"
+#       if 50% or above = "you are not at max health" (maybe?)
 #   
 #   
 #   
