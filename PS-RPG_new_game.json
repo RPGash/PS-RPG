@@ -274,26 +274,26 @@
     }
   },
   "Character": {
-    "Name": "MyName",
+    "Name": "The Dude",
     "Class": "Rogue",
-    "Race": "Human",
+    "Race": "Elf",
     "Level": 112,
-    "Total_XP": 30200,
-    "XP_TNL": 24336.0,
+    "Total_XP": 31980,
+    "XP_TNL": 22556.0,
     "Stats": {
-      "HealthCurrent": 979,
-      "HealthMax": 66,
+      "HealthCurrent": 60,
+      "HealthMax": 60,
       "StaminaCurrent": 80,
-      "StaminaMax": 86,
+      "StaminaMax": 80,
       "ManaCurrent": 10,
-      "ManaMax": 35,
-      "Damage": 180,
-      "Attack": 180,
-      "Endurance": 12,
-      "Evade": 18,
-      "Quickness": 18,
-      "Spells": 6,
-      "Healing": 11
+      "ManaMax": 30,
+      "Damage": 10,
+      "Attack": 10,
+      "Endurance": 6,
+      "Evade": 10,
+      "Quickness": 10,
+      "Spells": 1,
+      "Healing": 4
     },
     "Skills": {
       "Dodge": 0,
@@ -305,173 +305,173 @@
     },
     "Items": {
       "Gold": 10,
-      "Inventory": [
-        {
+      "Inventory": {
+        "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
-          "Quantity": 37,
+          "Quantity": 30,
           "Restores": 30,
           "Value": 15,
           "ID": 1,
           "Info": "Capacity 30"
         },
-        {
+        "Mana Potion": {
           "Name": "Mana Potion",
           "Quantity": 0,
-          "Capacity": 20,
+          "Restores": 20,
           "Info": "Capacity 20",
           "Value": 50,
           "ID": 2
         },
-        {
+        "Greater Mana Potion": {
           "Name": "Greater Mana Potion",
           "Quantity": 0,
-          "Capacity": 50,
+          "Restores": 50,
           "Info": "Capacity 50",
           "Value": 100,
           "ID": 3
         },
-        {
+        "Lesser Mana Potion": {
           "Name": "Lesser Mana Potion",
           "Quantity": 0,
-          "Capacity": 10,
+          "Restores": 10,
           "Info": "Capacity 10",
           "Value": 20,
           "ID": 40
         },
-        {
+        "Bones": {
           "Name": "Bones",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 5,
           "ID": 5
         },
-        {
+        "Feather": {
           "Name": "Feather",
           "Quantity": 0,
           "Info": "Trader",
           "Value": 10,
           "ID": 6
         },
-        {
+        "Hides": {
           "Name": "Hides",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 10,
           "ID": 7
         },
-        {
+        "Chicken Feathers": {
           "Name": "Chicken Feathers",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 1,
           "ID": 8
         },
-        {
+        "Rook Feathers": {
           "Name": "Rook Feathers",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 2,
           "ID": 9
         },
-        {
+        "Rook Claws": {
           "Name": "Rook Claws",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 2,
           "ID": 10
         },
-        {
+        "Rat Tail": {
           "Name": "Rat Tail",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 3,
           "ID": 11
         },
-        {
+        "Rat Fur": {
           "Name": "Rat Fur",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 3,
           "ID": 12
         },
-        {
+        "Rat Guts": {
           "Name": "Rat Guts",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 3,
           "ID": 13
         },
-        {
+        "Mouse Tail": {
           "Name": "Mouse Tail",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 3,
           "ID": 14
         },
-        {
+        "Mouse Whiskers": {
           "Name": "Mouse Whiskers",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 3,
           "ID": 15
         },
-        {
+        "Wolf Hide": {
           "Name": "Wolf Hide",
           "Quantity": 0,
           "Info": "Skinner",
           "Value": 3,
           "ID": 16
         },
-        {
+        "Wolf Tooth": {
           "Name": "Wolf Tooth",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 3,
           "ID": 17
         },
-        {
+        "Boar Tail": {
           "Name": "Boar Tail",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 3,
           "ID": 18
         },
-        {
+        "Boar Hide": {
           "Name": "Boar Hide",
           "Quantity": 0,
           "Info": "Skinner",
           "Value": 3,
           "ID": 19
         },
-        {
+        "Broken Boar Tooth": {
           "Name": "Broken Boar Tooth",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 1,
           "ID": 20
         },
-        {
+        "Cat Whiskers": {
           "Name": "Cat Whiskers",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 1,
           "ID": 21
         },
-        {
+        "Sharp Cat Tooth": {
           "Name": "Sharp Cat Tooth",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 3,
           "ID": 22
         },
-        {
-          "Name": "Sharp Cat Claw",
+        "Sharp Cat Claw": {
+          "Name": "Sharp Cat Tooth",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 3,
           "ID": 23
         }
-      ]
+      }
     }
   },
   "Level_Up_Bonus": {

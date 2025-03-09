@@ -480,7 +480,7 @@ Function Level_Up {
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,26;$Host.UI.Write("")
         Write-Color "  You have also learned ", "x skills","." -Color DarkGray,White,DarkGray
         if ($Levels_Levelled_Up -ne '1') {
-            Start-Sleep -Seconds 2
+            Start-Sleep -Seconds 2 # leave in (shows multiple levels slowly)
         }
         Draw_Player_Stats_Info
     } until ($XP_Difference -gt 0)
@@ -1268,7 +1268,6 @@ Function Fight_Or_Run {
                                 $Random_5 = Get-Random -Minimum 0 -Maximum 6
                                 $Looted_Gold = [Math]::Round(($Random_5/10+1)*$Selected_Mob.Loot.Gold) # gold amount between 1-1.5
                                 $Looted_Items.Add("$($Looted_Gold) Gold")
-                                $Import_JSON.Character.Items.Inventory
                             } else { # add non-gold loot
                                 $Looted_Items.Add("1x $($Loot_Item)")
 
