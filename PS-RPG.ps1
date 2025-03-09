@@ -19,7 +19,7 @@
 #   max character limit = 10
 #   more than 10 characters suggest a random name?
 #   you hit/strike/bash/wack at mob
-#   combine Draw_Player_Stats_Window and Draw_Player_Stats_Info (same as Draw_Mob_Stats_Window_And_Info)
+#   combine Draw_Player_Stats_Window and Draw_Player_Stats_Info (same as Draw_Mob_Stats_Window_And_Info and Draw_Inventory)
 #   [ongoing] an info page available after starting the game
 #             (game info, PSWriteColour module, GitHub, website, uninstall module,
 #             CTRL+C warning AND FILE SYNCING ISSUE e.g. Google Drive or OneDrive etc.)
@@ -38,11 +38,13 @@ $PSRPG_Version = "v0.1-alpha"
 # Pre-requisite checks and install / import PSWriteColor module - NOT WORKING FOR PowerShell 5.1
 #
 if(($PSVersionTable).PSEdition -eq "Desktop") {
-    Write-Color "You are running ","PS-RPG.ps1 ","with ","Windows PowerShell Desktop version","." -Color DarkGray,Magenta,DarkGray,Blue,DarkGray
-    Write-Color "`r`nPS-RPG.ps1 ","only runs with ","PowerShell Core (7+)","." -Color Magenta,DarkGray,Blue,DarkGray
-    Write-Color "`r`nDownload and install ","PowerShell Core"," then re-run PS-RPG.ps1 using that version." -Color DarkGray,Blue,DarkGray
-    Write-Color "`r`nYou can download ","PowerShell Core ","from Microsoft's Docs page at" -Color DarkGray,Blue,DarkGray
-    Write-Color "https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows`r`n`n`n`n`n" -Color Yellow
+    Clear-Host
+    Write-Output  "`r`n"
+    Write-Warning "You are running PS-RPG.ps1 with Windows PowerShell Desktop version."
+    Write-Output  "`r`nPS-RPG.ps1 only runs with PowerShell Core (7+)."
+    Write-Output  "`r`nDownload and install PowerShell Core then re-run PS-RPG.ps1 using that version."
+    Write-Output  "`r`nYou can download PowerShell Core from Microsoft's Docs page at:"
+    Write-Output  "`r`nhttps://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows`r`n`n`n`n`n"
     Exit
 }
 
