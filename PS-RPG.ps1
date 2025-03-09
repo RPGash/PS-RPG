@@ -1072,17 +1072,28 @@ Function You_Died {
 # random mob from current Location with 10 percentage chance of rare mob
 #
 Function Random_Mob {
-    # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
     $Current_Location_Mobs = $Import_JSON.Locations.$Current_Location.Mobs
     $Random_100 = Get-Random -Minimum 1 -Maximum 100
     if ($Random_100 -lt 11) { # rare mob (10% of the time)
-        $All_Rare_Mobs_In_Current_Location = $Current_Location_Mobs | Where-Object {$PSItem.Rare -eq $true} # equals
-        $Random_Rare_Mob_In_Current_Location = Get-Random -Minimum 0 -Maximum ($All_Rare_Mobs_In_Current_Location | Measure-Object).count # measure-object added because incorrect number when there is only one rare mob
-        $Script:Selected_Mob = $All_Rare_Mobs_In_Current_Location[$Random_Rare_Mob_In_Current_Location]
+        $All_Rare_Mobs_In_Current_Location = @()
+        $All_Rare_Mobs_In_Current_Location = New-Object System.Collections.Generic.List[System.Object]
+        foreach ($Current_Location_Mob in $Current_Location_Mobs) {
+            if ($Current_Location_Mob.Rare -ieq "yes") {
+                $All_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob)
+            }
+        }
+        $Random_Rare_Mob_In_Current_Location_ID = Get-Random -Minimum 0 -Maximum ($All_Rare_Mobs_In_Current_Location | Measure-Object).count # measure-object added because incorrect number when there is only one rare mob
+        $Script:Selected_Mob = $All_Rare_Mobs_In_Current_Location[$Random_Rare_Mob_In_Current_Location_ID]
     } else { # "normal" mob (90% of the time)
-        $All_None_Rare_Mobs_In_Current_Location = $Current_Location_Mobs | Where-Object {$PSItem.Rare -ne $true} # does not equal
-        $Random_None_Rare_Mob_In_Current_Location = Get-Random -Minimum 0 -Maximum ($All_None_Rare_Mobs_In_Current_Location | Measure-Object).count
-        $Script:Selected_Mob = $All_None_Rare_Mobs_In_Current_Location[$Random_None_Rare_Mob_In_Current_Location]
+        $All_None_Rare_Mobs_In_Current_Location = @()
+        $All_None_Rare_Mobs_In_Current_Location = New-Object System.Collections.Generic.List[System.Object]
+        foreach ($Current_Location_Mob in $Current_Location_Mobs) {
+            if ($Current_Location_Mob.Rare -ieq "no") {
+                $All_None_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob)
+            }
+        }
+        $Random_None_Rare_Mob_In_Current_Location_ID = Get-Random -Minimum 0 -Maximum ($All_None_Rare_Mobs_In_Current_Location | Measure-Object).count # measure-object added because incorrect number when there is only one rare mob
+        $Script:Selected_Mob = $All_None_Rare_Mobs_In_Current_Location[$Random_None_Rare_Mob_In_Current_Location_ID]
     }
     $Script:Selected_Mob_Name           = $Selected_Mob.Name
     $Script:Selected_Mob_Level          = $Selected_Mob.Level
