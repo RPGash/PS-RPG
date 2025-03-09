@@ -4,14 +4,15 @@
 # - BUGS
 #   when there are more than 14 items in your inventory, items 15+ are chopped off
 #       because combat messages are clearing the whole line.
-#       solution - update inventoDraw_Player_Stats_Windowry after every combat message?
+#       solution - update inventory Draw_Player_Stats_Window after every combat message?
 #   "you are low on health" message - do not include in Q
 #   
 #
 # - NEXT
-#   add  ======= lines when using a potion
-#         invent
-#        =======
+#   
+#   
+#   
+#   
 #   
 #   random character name
 #   pre-built character
@@ -25,8 +26,8 @@
 #
 #
 # - KNOWN ISSUES
-#   if no JSON file is found, then you start a new game but quit before completing character creation, the game finds an "empty" game file and loads with no character data - FIX is to start a new game
-#   On the Travel page, the available locations to travel to does not show the single character highlighted in green as the choice for that location. e.g. if "Town" is listed, the letter "T" is not green. All location names are White, but the question does show the correct highlighted characters for hat area.
+#   - if no JSON file is found, then you start a new game but quit before completing character creation, the game finds an "empty" game file and loads with no character data - FIX is to start a new game
+#   - On the Travel page, the available locations to travel to does not show the single character highlighted in green as the choice for that location. e.g. if "Town" is listed, the letter "T" is not green. All location names are White, but the question does show the correct highlighted characters for hat area.
 #
 
 
