@@ -2,15 +2,19 @@
 # ----
 #
 # - BUGS
+#   opening inventory after starting combat over rights combat window display you are low on health/mana
+#       line 18 for low health/mana message? in and out of combat
+#       don't show inventory window in combat
+#   lower congrats message and learned spells + Q several lines as there are now an additional 3-4 extra lines for loot
 #   
-#   
+#   TEST
 #   
 #
 # - NEXT
 #   change "you are low on health/mana" message to
-#       if less than 50% = "you are low on health/mana"
+#       if less than 50% = "you are running low/very low on health/mana"
 #       if 50% or above = "you are not at max health" (maybe?)
-#   
+#   rename Display_Inventory_In_Combat to Display_Inventory
 #   
 #   
 #   random character name
@@ -1168,7 +1172,6 @@ Function Fight_Or_Run {
     } until ($Fight_Or_Run_Away -ieq "f" -or $Fight_Or_Run_Away -ieq "r")
     if ($Fight_Or_Run_Away -ieq "f") {
         $In_Combat = $true
-        # Clear-Host
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
         Draw_Player_Stats_Window
         Draw_Player_Stats_Info
@@ -1312,25 +1315,26 @@ Function Fight_Or_Run {
                                 $Looted_Items.Add("`r`n ")
                             }
                             if ($Loot_Item -ieq 'Gold' ) { # add gold
-                                $Random_5 = Get-Random -Minimum 0 -Maximum 6
+                                $Random_5 = Get-Random -Minimum 0 -Maximum 6 # 0-5 (e.g. base gold or anything up to x1.5 amount)
                                 $Looted_Gold = [Math]::Round(($Random_5/10+1)*$Selected_Mob.Loot.Gold) # gold amount between 1-1.5
                                 $Looted_Items.Add("$($Looted_Gold) Gold")
+                                # update gold in inventory
+                                $Script:Import_JSON.Character.Items.Gold = $Import_JSON.Character.Items.Gold + $Looted_Gold
+                                $Script:Gold = $Import_JSON.Character.Items.Gold + $Looted_Gold
                             } else { # add non-gold loot
                                 $Looted_Items.Add("1x $($Loot_Item)")
-
+                                # update non-gold items in inventory
+                                Add-Content -Path .\error_log.log -value "looted item $Loot_Item before: $($Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity)"
+                                $Script:Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity = $Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity += 1
+                                Set-JSON
+                                Add-Content -Path .\error_log.log -value "looted item $Loot_Item after : $($Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity)"
                             }
                         }
                     }
                     if ($Looted_Items -gt 0) {
                         Write-Color "  The ", "$($Selected_Mob.Name) ", "dropped the following items:" -Color Gray,Blue,Gray
                         Write-Color "  $($Looted_Items)" -Color Gray,White
-                        # update inventory items
-                        Add-Content -Path .\error_log.log -value "gold before: $($Import_JSON.Character.Items.Gold)"
-                        Add-Content -Path .\error_log.log -value "gold looted: $($Looted_Gold)"
-                        $Script:Import_JSON.Character.Items.Gold = $Import_JSON.Character.Items.Gold + $Looted_Gold
-                        $Script:Gold = $Import_JSON.Character.Items.Gold + $Looted_Gold
-                        Set-JSON
-                        Add-Content -Path .\error_log.log -value "gold after : $($Import_JSON.Character.Items.Gold)"
+
                     } else {
                         Write-Color "  The ", "$($Selected_Mob.Name) ", "did not drop any loot." -Color Gray,Blue,Gray
                     }
