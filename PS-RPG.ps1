@@ -1201,7 +1201,9 @@ Function Fight_Or_Run {
                     if ($Fight_Choice -ieq "i") {
                         $Inventory_Visible = $true
                         Inventory_Choice
+                        if ($Use_A_Potion -ieq "y") {
                         Break
+                        }
                     }
                 } until ($Fight_Choice -ieq "a" -or $Fight_Choice -ieq "s")
                 # attack choice
