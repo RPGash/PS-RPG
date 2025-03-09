@@ -11,7 +11,7 @@
 #   change "you are low on health/mana" message to
 #       if less than 50% = "you are running low/very low on health/mana"
 #       if 50% or above = "you are not at max health" (maybe?)
-#   rename Display_Inventory_In_Combat to Display_Inventory
+#
 #   
 #   
 #   random character name
@@ -858,7 +858,7 @@ Function Draw_Mob_Stats_Window_And_Info {
 #
 # displays inventory in combat (top right)
 #
-Function Display_Inventory_In_Combat {
+Function Draw_Inventory {
     $Inventory_Items_Name_Array = New-Object System.Collections.Generic.List[System.Object]
     $Script:Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name
     foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
@@ -921,7 +921,7 @@ Function Inventory_Choice{
     $Script:Selectable_ID_Potion_Search = "not_set"
     $Script:Potion_IDs_Array = New-Object System.Collections.Generic.List[System.Object]
     $Potion_IDs_Array.Clear()
-    Display_Inventory_In_Combat
+    Draw_Inventory
     # if health or mana is not at max - question is asked if one should be used
     $Script:Use_A_Potion = "" # reset so if max health is reached after using a potion, it's not still set to "y" which causes a skipped turn when viewing the inventory a second time
     if (($Character_HealthCurrent -lt $Character_HealthMax) -or ($Character_ManaCurrent -lt $Character_ManaMax)) {
@@ -992,7 +992,7 @@ Function Inventory_Choice{
             } until ($Use_A_Potion -ieq "y" -or $Use_A_Potion -ieq "n")
             if ($Use_A_Potion -ieq "y") {
                 do {
-                    Display_Inventory_In_Combat
+                    Draw_Inventory
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
                     " "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
@@ -1073,9 +1073,9 @@ Function Inventory_Choice{
                 
                 if($In_Combat -eq $true){
                     Draw_Mob_Stats_Window_And_Info
-                    Display_Inventory_In_Combat
+                    Draw_Inventory
                 } else {
-                    Display_Inventory_In_Combat
+                    Draw_Inventory
                 }
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
                 " "*105
@@ -1223,7 +1223,7 @@ Function Fight_Or_Run {
                         }
                         Draw_Mob_Stats_Window_And_Info
                         if ($Inventory_Visible -eq $true) {
-                            Display_Inventory_In_Combat
+                            Draw_Inventory
                         }
                         if ($First_Turn -eq $true) {
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
@@ -1332,7 +1332,7 @@ Function Fight_Or_Run {
                     if ($Looted_Items -gt 0) {
                         Write-Color "  The ", "$($Selected_Mob.Name) ", "dropped the following items:" -Color Gray,Blue,Gray
                         Write-Color "  $($Looted_Items)" -Color Gray,White
-                        Display_Inventory_In_Combat
+                        Draw_Inventory
                     } else {
                         Write-Color "  The ", "$($Selected_Mob.Name) ", "did not drop any loot." -Color Gray,Blue,Gray
                     }
@@ -1484,7 +1484,7 @@ if (Test-Path -Path .\PS-RPG.json) {
         Set_Variables
         Draw_Player_Stats_Window
         Draw_Player_Stats_Info
-        Display_Inventory_In_Combat
+        Draw_Inventory
         
         do {
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,27;$Host.UI.Write("")

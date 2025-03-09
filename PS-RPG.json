@@ -278,14 +278,14 @@
     "Class": "Rogue",
     "Race": "Elf",
     "Level": 13,
-    "Total_XP": 6060,
-    "XP_TNL": 364.0,
+    "Total_XP": 6220,
+    "XP_TNL": 204.0,
     "Stats": {
       "HealthCurrent": 110,
       "HealthMax": 120,
       "StaminaCurrent": 80,
       "StaminaMax": 164,
-      "ManaCurrent": 160,
+      "ManaCurrent": 170,
       "ManaMax": 170,
       "Damage": 28,
       "Attack": 118,
@@ -304,7 +304,7 @@
       }
     },
     "Items": {
-      "Gold": 77.0,
+      "Gold": 82.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
@@ -324,7 +324,7 @@
         },
         "Greater Mana Potion": {
           "Name": "Greater Mana Potion",
-          "Quantity": 15,
+          "Quantity": 14,
           "Restores": 50,
           "Info": "Capacity 50",
           "Value": 100,
@@ -368,14 +368,14 @@
         },
         "Rook Feathers": {
           "Name": "Rook Feathers",
-          "Quantity": 6,
+          "Quantity": 7,
           "Info": "Junk",
           "Value": 2,
           "ID": 9
         },
         "Rook Claws": {
           "Name": "Rook Claws",
-          "Quantity": 5,
+          "Quantity": 6,
           "Info": "Junk",
           "Value": 2,
           "ID": 10
