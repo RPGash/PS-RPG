@@ -1332,7 +1332,7 @@ Function Fight_Or_Run {
                     if ($Looted_Items -gt 0) {
                         Write-Color "  The ", "$($Selected_Mob.Name) ", "dropped the following items:" -Color Gray,Blue,Gray
                         Write-Color "  $($Looted_Items)" -Color Gray,White
-
+                        Display_Inventory_In_Combat
                     } else {
                         Write-Color "  The ", "$($Selected_Mob.Name) ", "did not drop any loot." -Color Gray,Blue,Gray
                     }

@@ -277,23 +277,23 @@
     "Name": "The Dude",
     "Class": "Rogue",
     "Race": "Elf",
-    "Level": 12,
-    "Total_XP": 4920,
-    "XP_TNL": 296.0,
+    "Level": 13,
+    "Total_XP": 6060,
+    "XP_TNL": 364.0,
     "Stats": {
       "HealthCurrent": 110,
-      "HealthMax": 115,
+      "HealthMax": 120,
       "StaminaCurrent": 80,
-      "StaminaMax": 157,
+      "StaminaMax": 164,
       "ManaCurrent": 160,
-      "ManaMax": 165,
-      "Damage": 19,
-      "Attack": 109,
-      "Endurance": 50,
-      "Evade": 20,
-      "Quickness": 120,
-      "Spells": 56,
-      "Healing": 92
+      "ManaMax": 170,
+      "Damage": 28,
+      "Attack": 118,
+      "Endurance": 54,
+      "Evade": 30,
+      "Quickness": 130,
+      "Spells": 61,
+      "Healing": 100
     },
     "Skills": {
       "Dodge": 0,
@@ -304,7 +304,7 @@
       }
     },
     "Items": {
-      "Gold": 57.0,
+      "Gold": 77.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
@@ -368,14 +368,14 @@
         },
         "Rook Feathers": {
           "Name": "Rook Feathers",
-          "Quantity": 4,
+          "Quantity": 6,
           "Info": "Junk",
           "Value": 2,
           "ID": 9
         },
         "Rook Claws": {
           "Name": "Rook Claws",
-          "Quantity": 1,
+          "Quantity": 5,
           "Info": "Junk",
           "Value": 2,
           "ID": 10
