@@ -1183,6 +1183,10 @@ Function Fight_Or_Run {
             $Player_Turn = $false
         }
         do {
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+            Write-Color "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════╗" -Color DarkGray
+            Write-Color "║ ","Combat","                                                                                                ║" -Color DarkGray,White,DarkGray
+            Write-Color "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════╝" -Color DarkGray
             if ($Player_Turn -eq $true) {
                 $Continue_Fight = $false
                 # ask if the action should be attack, spell or item
