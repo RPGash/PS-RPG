@@ -5,7 +5,7 @@
 #   when there are more than 14 items in your inventory, items 15+ are chopped off
 #       because combat messages are clearing the whole line.
 #       solution - update inventoDraw_Player_Stats_Windowry after every combat message?
-#   
+#   "you are low on health" message - do not include in Q
 #   
 #
 # - NEXT
@@ -931,10 +931,7 @@ Function Inventory_Choice{
                     $Enough_Health_Potions = "yes"
                     $Potion_IDs_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)
                 }
-                # $Enough_Health_Potions = $Import_JSON.Character.Items.Inventory | Where-Object {$Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*potion*" -and $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0}
             }
-            # if ($Enough_Health_Potions -eq "yes"){
-            # } 
         }
         $Enough_Mana_Potions = "no"
         if ($Character_ManaCurrent -lt $Character_ManaMax) {
@@ -943,18 +940,15 @@ Function Inventory_Choice{
                     $Enough_Mana_Potions = "yes"
                     $Potion_IDs_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)
                 }
-            # $Enough_Mana_Potions = $Import_JSON.Character.Items.Inventory | Where-Object {$PSItem.Name -like "*mana potion*" -and $PSItem.Quantity -gt 0}
-            # if ($Enough_Mana_Potions.Quantity -gt 0) {
-            #     $Enough_Mana_Potions | ForEach-Object { $Potion_IDs_Array.Add($PSItem.ID) }
-            #     $Enough_Mana_Potions = "yes"
-            # } else {
-            #     $Enough_Mana_Potions = "no"
-            # }
             }
         }
         if ($Enough_Health_Potions -eq "no" -and $Enough_Mana_Potions -eq "no") {
         } else {
             do {
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+                Write-Color "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════╗" -Color DarkGray
+                Write-Color "║ ","Inventory","                                                                                             ║" -Color DarkGray,White,DarkGray
+                Write-Color "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════╝" -Color DarkGray
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
                 " "*105
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
@@ -1010,6 +1004,10 @@ Function Inventory_Choice{
                 # e.g.  ║1 ║ Lesser Health Potion : 35 ║
                 #       ╚══╩═══════════════════════════╝
                 # ----> ╚══╩═══════════════════════════╝ <----
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+                Write-Color "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════╗" -Color DarkGray
+                Write-Color "║ ","Inventory","                                                                                             ║" -Color DarkGray,White,DarkGray
+                Write-Color "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════╝" -Color DarkGray
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                 if ($Potion.Name -ilike "*health potion*") {
                     if ($Character_HealthMax - $Character_HealthCurrent -ge $Potion.Restores) {
