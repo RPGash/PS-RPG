@@ -4,16 +4,16 @@
 # - BUGS
 #   lower congrats message and learned spells + Q several lines as there are now an additional 3-4 extra lines for loot
 #   
-#   TEST
-#
-#
+#   
+#   
+# - TEST
+#   
+#   
+#   
 # - NEXT
 #   change "you are low on health/mana" message to
 #       if less than 50% = "you are running low/very low on health/mana"
 #       if 50% or above = "you are not at max health" (maybe?)
-#
-#   
-#   
 #   random character name
 #   pre-built character
 #   max character limit = 10
