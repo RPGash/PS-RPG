@@ -952,22 +952,34 @@ Function Inventory_Choice{
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
                 " "*105
                 if ($Enough_Health_Potions -eq "yes" -and $Enough_Mana_Potions -eq "no") {
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
+                    " "*105
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     Write-Color -NoNewLine "  You are low on ","Health", "." -Color Gray,Green,Gray
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
+                    " "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
                     Write-Color -NoNewLine "Use a potion? ", "[Y/N]" -Color DarkYellow,Green
                     $Potion_Choice = "Health"
                     $Script:Selectable_ID_Potion_Search = "Health"
                 } elseif ($Enough_Mana_Potions -eq "yes" -and $Enough_Health_Potions -eq "no") {
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
+                    " "*105
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     Write-Color -NoNewLine "  You are low on ","Mana", "." -Color Gray,Blue,Gray
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
+                    " "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
                     Write-Color -NoNewLine "Use a potion? ", "[Y/N]" -Color DarkYellow,Green
                     $Potion_Choice = "Mana"
                     $Script:Selectable_ID_Potion_Search = "Mana"
                 } else {
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
+                    " "*105
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     Write-Color -NoNewLine "  You are low on ","Health ","and ","Mana", "." -Color Gray,Green,Gray,Blue,Gray
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
+                    " "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
                     Write-Color -NoNewLine "Use a potion? ", "[Y/N]" -Color DarkYellow,Green
                     $Potion_Choice = "Health or Mana"
