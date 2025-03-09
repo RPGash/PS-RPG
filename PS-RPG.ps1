@@ -2,9 +2,7 @@
 # ----
 #
 # - BUGS
-#   when there are more than 14 items in your inventory, items 15+ are chopped off
-#       because combat messages are clearing the whole line.
-#       solution - update inventory Draw_Player_Stats_Window after every combat message?
+#   
 #   
 #   
 #
