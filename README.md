@@ -4,8 +4,7 @@ An RPG text adventure created in PowerShell.
 
 - Alpha build
 - ~~May~~ Does contain bugs
-- Currently only works on Windows
-- Not tested on MAC or Linux
+- Currently only works on Windows (not tested on MAC or Linux)
 
 # Requirements
 - PowerShell 7+
