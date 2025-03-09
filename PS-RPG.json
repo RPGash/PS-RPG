@@ -92,8 +92,8 @@
           "Loot": {
             "Gold": 10,
             "Rat Tail": 1,
-            "Fur": 1,
-            "Guts": 1
+            "Rat Fur": 1,
+            "Rat Guts": 1
           }
         }
       ],
@@ -168,7 +168,7 @@
           "Loot": {
             "Gold": 3,
             "Mouse Tail": 1,
-            "Whiskers": 1
+            "Mouse Whiskers": 1
           }
         }
       ],
@@ -232,7 +232,7 @@
           "Loot": {
             "Gold": 10,
             "Boar Tail": 1,
-            "Boar Fur": 1,
+            "Boar Hide": 1,
             "Broken Boar Tooth": 1
           }
         },
@@ -281,11 +281,11 @@
     "Total_XP": 30200,
     "XP_TNL": 24336.0,
     "Stats": {
-      "HealthCurrent": 979,
+      "HealthCurrent": 61,
       "HealthMax": 66,
       "StaminaCurrent": 80,
       "StaminaMax": 86,
-      "ManaCurrent": 10,
+      "ManaCurrent": 21,
       "ManaMax": 35,
       "Damage": 180,
       "Attack": 180,
@@ -305,7 +305,25 @@
     },
     "Items": {
       "Gold": 10,
-      "Inventory": [
+      "Inventory": {
+        "Lesser Health Potion": {
+          "Name": "Lesser Health Potion",
+          "Quantity": 34,
+          "Restores": 30,
+          "Value": 15,
+          "ID": 1,
+          "Info": "Capacity 30"
+        },
+        "Mana Potion": {
+          "Name": "Mana Potion",
+          "Quantity": 0,
+          "Restores": 20,
+          "Info": "Capacity 20",
+          "Value": 50,
+          "ID": 2
+        }
+      },
+      "InventoryOLD": [
         {
           "Name": "Lesser Health Potion",
           "Quantity": 37,
@@ -374,11 +392,102 @@
           "ID": 9
         },
         {
+          "Name": "Rook Claws",
+          "Quantity": 0,
+          "Info": "Junk",
+          "Value": 2,
+          "ID": 10
+        },
+        {
           "Name": "Rat Tail",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 3,
-          "ID": 10
+          "ID": 11
+        },
+        {
+          "Name": "Rat Fur",
+          "Quantity": 0,
+          "Info": "Junk",
+          "Value": 3,
+          "ID": 12
+        },
+        {
+          "Name": "Rat Guts",
+          "Quantity": 0,
+          "Info": "Junk",
+          "Value": 3,
+          "ID": 13
+        },
+        {
+          "Name": "Mouse Tail",
+          "Quantity": 0,
+          "Info": "Junk",
+          "Value": 3,
+          "ID": 14
+        },
+        {
+          "Name": "Mouse Whiskers",
+          "Quantity": 0,
+          "Info": "Junk",
+          "Value": 3,
+          "ID": 15
+        },
+        {
+          "Name": "Wolf Hide",
+          "Quantity": 0,
+          "Info": "Skinner",
+          "Value": 3,
+          "ID": 16
+        },
+        {
+          "Name": "Wolf Tooth",
+          "Quantity": 0,
+          "Info": "Junk",
+          "Value": 3,
+          "ID": 17
+        },
+        {
+          "Name": "Boar Tail",
+          "Quantity": 0,
+          "Info": "Junk",
+          "Value": 3,
+          "ID": 18
+        },
+        {
+          "Name": "Boar Hide",
+          "Quantity": 0,
+          "Info": "Skinner",
+          "Value": 3,
+          "ID": 19
+        },
+        {
+          "Name": "Broken Boar Tooth",
+          "Quantity": 0,
+          "Info": "Junk",
+          "Value": 1,
+          "ID": 20
+        },
+        {
+          "Name": "Cat Whiskers",
+          "Quantity": 0,
+          "Info": "Junk",
+          "Value": 1,
+          "ID": 21
+        },
+        {
+          "Name": "Sharp Cat Tooth",
+          "Quantity": 0,
+          "Info": "Junk",
+          "Value": 3,
+          "ID": 22
+        },
+        {
+          "Name": "Sharp Cat Claw",
+          "Quantity": 0,
+          "Info": "Junk",
+          "Value": 3,
+          "ID": 23
         }
       ]
     }

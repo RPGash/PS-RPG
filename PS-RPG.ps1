@@ -5,7 +5,12 @@
 #   when there are more than 14 items in your inventory, items 15+ are chopped off
 #       because combat messages are clearing the whole line.
 #       solution - update inventoDraw_Player_Stats_Windowry after every combat message?
-#   
+#   when using the last potion in the inventory, the inventory draw does not clear correctly
+#       still shwoing the bottom pat of the previous $Selected_Mob_Endurance
+#       ║1 ║ Lesser Health Potion : 35 ║
+#       ╚══╩═══════════════════════════╝
+#       ╚══╩═══════════════════════════╝ <----
+#       fix - clear all screen and redraw?
 #   
 #   
 #
@@ -329,17 +334,17 @@ Function Inventory_Switch {
         $Script:Selectable_ID_Potion_Highlight = "DarkGray" # reset Selectable_ID_Potion_Highlight so it highlights correct potion IDs in inventory list
         switch ($Selectable_ID_Potion_Search) {
             Health {
-                if($Inventory_Item.Name -ilike "*health potion*") {
+                if($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -ilike "*health potion*") {
                     $Script:Selectable_ID_Potion_Highlight = "White"
                 }
             }
             Mana {
-                if($Inventory_Item.Name -ilike "*mana potion*") {
+                if($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -ilike "*mana potion*") {
                     $Script:Selectable_ID_Potion_Highlight = "White"
                 }
             }
             HealthMana {
-                if($Inventory_Item.Name -ilike "*mana potion*" -or $Inventory_Item.Name -ilike "*health potion*") {
+                if($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -ilike "*mana potion*" -or $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -ilike "*health potion*") {
                     $Script:Selectable_ID_Potion_Highlight = "White"
                 }
             }
@@ -352,93 +357,6 @@ Function Inventory_Switch {
     }
 }
 
-#
-# displays inventory out of combat - NOT USED - IN COMBAT USED INSTEAD
-#
-# Function Display_Inventory_Out_of_Combat {
-#     Clear-Host
-#     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
-#     Draw_Player_Stats_Window
-#     Draw_Player_Stats_Info
-#     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,9;$Host.UI.Write("")
-#     $Inventory_Items_Name_Array = New-Object System.Collections.Generic.List[System.Object]
-#     $Inventory_Items_Info_Array = New-Object System.Collections.Generic.List[System.Object]
-#     $Script:Inventory_Items = $Import_JSON.Character.Items.Inventory
-
-#     foreach ($Inventory_Item in $Inventory_Items) {
-#         if($Inventory_Item.Quantity -gt 0) {
-#             $Inventory_Items_Name_Array.Add($Inventory_Item.Name.Length)
-#             $Inventory_Items_Info_Array.Add($Inventory_Item.Info.Length)
-#             $Inventory_Empty = $false
-#         } else {
-#             $Inventory_Items_Name_Array.Add(10)
-#             $Inventory_Items_Info_Array.Add(10)
-#         }
-#     }
-#     # box window width for name
-#     $Inventory_Items_Name_Array_Max_Length = ($Inventory_Items_Name_Array | Measure-Object -Maximum).Maximum
-#     $Inventory_Box_Name_Width_Top_Bottom = $Inventory_Items_Name_Array_Max_Length + 7
-#     $Inventory_Box_Name_Width_Top_Bottom = "═"*$Inventory_Box_Name_Width_Top_Bottom
-#     $Inventory_Box_Name_Width_Middle = $Inventory_Items_Name_Array_Max_Length - 3
-#     $Inventory_Box_Name_Width_Middle = " "*$Inventory_Box_Name_Width_Middle
-    
-#     # box window width for info
-#     $Inventory_Items_Info_Array_Max_Length = ($Inventory_Items_Info_Array | Measure-Object -Maximum).Maximum
-#     $Inventory_Box_Info_Width_Top_Bottom = $Inventory_Items_Info_Array_Max_Length + 2
-#     $Inventory_Box_Info_Width_Top_Bottom = "═"*$Inventory_Box_Info_Width_Top_Bottom
-#     $Inventory_Box_Info_Width_Middle = $Inventory_Items_Info_Array_Max_Length - 5
-#     $Inventory_Box_Info_Width_Middle = " "*$Inventory_Box_Info_Width_Middle
-
-#     Write-Color "╔══╦$Inventory_Box_Name_Width_Top_Bottom╦$Inventory_Box_Info_Width_Top_Bottom╗" -Color DarkGray
-#     Write-Color "║","ID","║ ","Inventory","$Inventory_Box_Name_Width_Middle║"," Info"," $Inventory_Box_Info_Width_Middle ║" -Color DarkGray,White,DarkGray,White,DarkGray,White,DarkGray
-#     Write-Color "╠══╬$Inventory_Box_Name_Width_Top_Bottom╬$Inventory_Box_Info_Width_Top_Bottom╣" -Color DarkGray
-#     $Position = 11
-#     foreach ($Inventory_Item in $Inventory_Items | Sort-Object Name) {
-#         if ($Inventory_Item.Quantity -gt 0) {
-#             $Position += 1
-#             # box width for name
-#             if ($Inventory_Item.Name.Length -lt $Inventory_Items_Name_Array_Max_Length) {
-#                 $Name_Left_Padding = " "*($Inventory_Items_Name_Array_Max_Length - $Inventory_Item.Name.Length)
-#             } else {
-#                 $Name_Left_Padding = ""
-#             }
-#             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
-#             if ($Inventory_Item.Quantity -lt 10) { # quantity less than 10 in inventory (1 digit so needs 2 padding)
-#                 $Name_Right_Padding = "  "
-#             } else {
-#                 $Name_Right_Padding = " " # more than 9 quantity (2 digits so needs 1 padding)
-#             }
-#             # box width for info
-#             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
-#             if ($Inventory_Item.Info.Length -lt $Inventory_Items_Info_Array_Max_Length) {
-#                 $Info_Right_Padding_Number = ($Inventory_Items_Info_Array_Max_Length - $Inventory_Item.Info.Length)
-#                 $Info_Right_Padding = " "*$Info_Right_Padding_Number
-#             } else {
-#                 $Info_Right_Padding = "" # more than 9 quantity (2 digits so needs 1 padding)
-#             }
-#             # if item is a potion
-#             if($Inventory_Item.Name -like "*potion*") {
-#                 if(($Inventory_Item.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
-#                     $ID_Number = "$($Inventory_Item.ID)"
-#                 } else {
-#                     $ID_Number = "$($Inventory_Item.ID) " # if ID is a single digit (1 extra $Padding)
-#                 }
-#             } else {
-#                 $ID_Number = "  "
-#             }
-#             Inventory_Switch
-#             $Item_Info = $Inventory_Item.Info
-#             Write-Color "║","$ID_Number","║ $($Inventory_Item.Name)$Name_Left_Padding : ", "$($Inventory_Item.Quantity)$Name_Right_Padding","║ $Item_Info $Info_Right_Padding║" -Color DarkGray,$Selectable_ID_Potion_Highlight,DarkGray,White,DarkGray
-#         }
-#     }
-#     if ($Inventory_Empty -ne $false) {
-#         $Position += 1
-#         Write-Color "║  ║ no items        ║            ║" -Color DarkGray,Magenta,White,DarkGray
-#     }
-#     $Position += 1
-#     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
-#     Write-Color "╚══╩$Inventory_Box_Name_Width_Top_Bottom╩$Inventory_Box_Info_Width_Top_Bottom╝" -Color DarkGray
-# }
 
 #
 # sets variables
@@ -940,10 +858,10 @@ Function Draw_Mob_Stats_Window_And_Info {
 #
 Function Display_Inventory_In_Combat {
     $Inventory_Items_Name_Array = New-Object System.Collections.Generic.List[System.Object]
-    $Script:Inventory_Items = $Import_JSON.Character.Items.Inventory
-    foreach ($Inventory_Item in $Inventory_Items) {
-        if($Inventory_Item.Quantity -gt 0) {
-            $Inventory_Items_Name_Array.Add($Inventory_Item.Name.Length)
+    $Script:Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name
+    foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
+        if($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
+            $Inventory_Items_Name_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name.Length)
         }
     }
     $Inventory_Items_Name_Array_Max_Length = ($Inventory_Items_Name_Array | Measure-Object -Maximum).Maximum
@@ -958,31 +876,31 @@ Function Display_Inventory_In_Combat {
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,2;$Host.UI.Write("")
     Write-Color "╠══╬$Inventory_Box_Name_Width_Top_Bottom╣" -Color DarkGray
     $Position = 2
-    foreach ($Inventory_Item in $Inventory_Items | Sort-Object Name) {
-        if ($Inventory_Item.Quantity -gt 0) {
+    foreach ($Inventory_Item_Name in $Inventory_Item_Names | Sort-Object Name) {
+        if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
             $Position += 1
-            if ($Inventory_Item.Name.Length -lt $Inventory_Items_Name_Array_Max_Length) {
-                $Name_Left_Padding = " "*($Inventory_Items_Name_Array_Max_Length - $Inventory_Item.Name.Length)
+            if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name.Length -lt $Inventory_Items_Name_Array_Max_Length) {
+                $Name_Left_Padding = " "*($Inventory_Items_Name_Array_Max_Length - $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name.Length)
             } else {
                 $Name_Left_Padding = ""
             }
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Position;$Host.UI.Write("")
-            if ($Inventory_Item.Quantity -lt 10) { # quantity less than 10 in inventory (1 digit so needs 2 padding)
+            if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -lt 10) { # quantity less than 10 in inventory (1 digit so needs 2 padding)
                 $Name_Right_Padding = "  "
             } else {
                 $Name_Right_Padding = " " # more than 9 quantity (2 digits so needs 1 padding)
             }
-            if($Inventory_Item.Name -like "*potion*") {
-                if(($Inventory_Item.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
-                    $ID_Number = "$($Inventory_Item.ID)"
+            if($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*potion*") {
+                if(($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
+                    $ID_Number = "$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)"
                 } else {
-                    $ID_Number = "$($Inventory_Item.ID) " # if ID is a single digit (1 extra $Padding)
+                    $ID_Number = "$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID) " # if ID is a single digit (1 extra $Padding)
                 }
             } else {
                 $ID_Number = "  "
             }
             Inventory_Switch
-            Write-Color "║","$ID_Number","║ $($Inventory_Item.Name)$Name_Left_Padding : ", "$($Inventory_Item.Quantity)$Name_Right_Padding","║" -Color DarkGray,$Selectable_ID_Potion_Highlight,DarkGray,White,DarkGray
+            Write-Color "║","$ID_Number","║ $($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)$Name_Left_Padding : ", "$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity)$Name_Right_Padding","║" -Color DarkGray,$Selectable_ID_Potion_Highlight,DarkGray,White,DarkGray
             $Script:Selectable_ID_Potion_Highlight = "DarkGray"
         }
     }
@@ -1006,22 +924,31 @@ Function Inventory_Choice{
     if (($Character_HealthCurrent -lt $Character_HealthMax) -or ($Character_ManaCurrent -lt $Character_ManaMax)) {
         $Enough_Health_Potions = "no"
         if ($Character_HealthCurrent -lt $Character_HealthMax) {
-            $Enough_Health_Potions = $Import_JSON.Character.Items.Inventory | Where-Object {$PSItem.Name -like "*health potion*" -and $PSItem.Quantity -gt 0}
-            if ($Enough_Health_Potions.Quantity -gt 0){
-                $Enough_Health_Potions | ForEach-Object { $Potion_IDs_Array.Add($PSItem.ID) }
-                $Enough_Health_Potions = "yes"
-            } else {
-                $Enough_Health_Potions = "no"
+            $Script:Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name
+            foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
+                if($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*health potion*" -and $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
+                    $Enough_Health_Potions = "yes"
+                    $Potion_IDs_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)
+                }
+                # $Enough_Health_Potions = $Import_JSON.Character.Items.Inventory | Where-Object {$Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*potion*" -and $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0}
             }
+            # if ($Enough_Health_Potions -eq "yes"){
+            # } 
         }
         $Enough_Mana_Potions = "no"
         if ($Character_ManaCurrent -lt $Character_ManaMax) {
-            $Enough_Mana_Potions = $Import_JSON.Character.Items.Inventory | Where-Object {$PSItem.Name -like "*mana potion*" -and $PSItem.Quantity -gt 0}
-            if ($Enough_Mana_Potions.Quantity -gt 0) {
-                $Enough_Mana_Potions | ForEach-Object { $Potion_IDs_Array.Add($PSItem.ID) }
-                $Enough_Mana_Potions = "yes"
-            } else {
-                $Enough_Mana_Potions = "no"
+            foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
+                if($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*mana potion*" -and $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
+                    $Enough_Mana_Potions = "yes"
+                    $Potion_IDs_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)
+                }
+            # $Enough_Mana_Potions = $Import_JSON.Character.Items.Inventory | Where-Object {$PSItem.Name -like "*mana potion*" -and $PSItem.Quantity -gt 0}
+            # if ($Enough_Mana_Potions.Quantity -gt 0) {
+            #     $Enough_Mana_Potions | ForEach-Object { $Potion_IDs_Array.Add($PSItem.ID) }
+            #     $Enough_Mana_Potions = "yes"
+            # } else {
+            #     $Enough_Mana_Potions = "no"
+            # }
             }
         }
         if ($Enough_Health_Potions -eq "no" -and $Enough_Mana_Potions -eq "no") {
@@ -1059,8 +986,15 @@ Function Inventory_Choice{
                     $Inventory_ID = $Inventory_ID.Trim()
                 } until ($Inventory_ID -in $Potion_IDs_Array)
                 
-                # $Inventory_Items | Where-Object {$PSItem.ID -eq $Inventory_ID}
-                $Potion = $Inventory_Items | Where-Object {$PSItem.ID -eq $Inventory_ID}
+                # get the name of the potion from the ID selected above so the correct potion is used below
+
+                foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
+                    if($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID -eq $Inventory_ID) {
+                        $Script:Potion = $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name
+                    }
+                }
+                    
+                # $Potion = $Inventory_Item_Names | Where-Object {$PSItem.ID -eq $Inventory_ID}
                 # update current health
                 # Clear-Host
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
@@ -1080,14 +1014,14 @@ Function Inventory_Choice{
                         $Script:Character_HealthCurrent = $Character_HealthCurrent + $Potion.Restores
                         Write-Color -NoNewLine "  Your ","$($Potion.Name) ","restores ", "$($Potion.Restores) ","health." -Color Gray,Blue,Gray,Green,Gray
                         # decrement potion by 1 (updates JSON after battle has finished)
-                        $Import_JSON.Character.Items.Inventory | Where-Object {$PSItem.Name -eq $Potion.Name} | ForEach-Object {$PSItem.Quantity = ($PSItem.Quantity -1)}
+                        $Potion.Quantity -= 1
                     } else {
                         # or if adding additional messages, say "restores 8 health" (remaining amount of health - not full potion Restores)
                         Write-Color -NoNewLine "  Your ","$($Potion.Name) ","restores you to ", "maximum ","health." -Color Gray,Blue,Gray,Green,Gray,Green,Gray
                         # not full potion Restores (or in other words, fill them up to max HP instead of over healing)
                         $Script:Character_HealthCurrent = $Character_HealthMax
                         # decrement potion by 1 (updates JSON after battle has finished)
-                        $Import_JSON.Character.Items.Inventory | Where-Object {$PSItem.Name -eq $Potion.Name} | ForEach-Object {$PSItem.Quantity = ($PSItem.Quantity -1)}
+                        $Potion.Quantity -= 1
                     }
                     $Import_JSON.Character.Stats.HealthCurrent = $Character_HealthCurrent
                 }
@@ -1098,14 +1032,14 @@ Function Inventory_Choice{
                         $Script:Character_ManaCurrent = $Character_ManaCurrent + $Potion.Restores
                         Write-Color -NoNewLine "  Your ","$($Potion.Name) ","restores ", "$($Potion.Restores) ","mana." -Color Gray,Blue,Gray,Blue,Gray
                         # decrement potion by 1 (updates JSON after battle has finished)
-                        $Import_JSON.Character.Items.Inventory | Where-Object {$PSItem.Name -eq $Potion.Name} | ForEach-Object {$PSItem.Quantity = ($PSItem.Quantity -1)}
+                        $Potion.Quantity -= 1
                     } else {
                         # or if adding additional messages, say "restores 8 mana" (remaining amount of mana - not full potion Restores)
                         Write-Color -NoNewLine "  Your ","$($Potion.Name) ","restores you to maximum mana." -Color Gray,Blue,Gray,Green,Gray
                         # not full potion Restores (or in other words, fill them up to max HP instead of over healing)
                         $Script:Character_ManaCurrent = $Character_ManaMax
                         # decrement potion by 1 (updates JSON after battle has finished)
-                        $Import_JSON.Character.Items.Inventory | Where-Object {$PSItem.Name -eq $Potion.Name} | ForEach-Object {$PSItem.Quantity = ($PSItem.Quantity -1)}
+                        $Potion.Quantity -= 1
                     }
                     $Import_JSON.Character.Stats.ManaCurrent = $Character_ManaCurrent
                 }
@@ -1330,12 +1264,14 @@ Function Fight_Or_Run {
                             if ($Looted_Items.Count -gt 0) {
                                 $Looted_Items.Add("`r`n ")
                             }
-                            if ($Loot_Item -ieq 'Gold' ) {
+                            if ($Loot_Item -ieq 'Gold' ) { # add gold
                                 $Random_5 = Get-Random -Minimum 0 -Maximum 6
                                 $Looted_Gold = [Math]::Round(($Random_5/10+1)*$Selected_Mob.Loot.Gold) # gold amount between 1-1.5
                                 $Looted_Items.Add("$($Looted_Gold) Gold")
+                                $Import_JSON.Character.Items.Inventory
                             } else { # add non-gold loot
                                 $Looted_Items.Add("1x $($Loot_Item)")
+
                             }
                         }
                     }
