@@ -48,7 +48,7 @@
           "Loot": {
             "Gold": 5,
             "Rook Feathers": 3,
-            "Rook Claw": 3
+            "Rook Claws": 3
           }
         },
         {
@@ -278,8 +278,8 @@
     "Class": "Rogue",
     "Race": "Elf",
     "Level": 11,
-    "Total_XP": 3940,
-    "XP_TNL": 221.0,
+    "Total_XP": 4100,
+    "XP_TNL": 61.0,
     "Stats": {
       "HealthCurrent": 110,
       "HealthMax": 110,
@@ -304,7 +304,7 @@
       }
     },
     "Items": {
-      "Gold": 38.0,
+      "Gold": 44.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
@@ -368,7 +368,7 @@
         },
         "Rook Feathers": {
           "Name": "Rook Feathers",
-          "Quantity": 2,
+          "Quantity": 3,
           "Info": "Junk",
           "Value": 2,
           "ID": 9
