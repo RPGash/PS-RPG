@@ -12,13 +12,14 @@
 #   
 # - NEXT
 #   change "you are low on health/mana" message to
-#       if less than 50% = "you are running low/very low on health/mana"
+#       if less than 25%/50% = "you are running low/very low on health/mana"
 #       if 50% or above = "you are not at max health" (maybe?)
 #   random character name
-#   pre-built character
-#   max character limit = 10
-#   more than 10 characters suggest a random name?
-#   you hit/strike/bash/wack at mob
+#   max character limit = 10???
+#   more than 10 characters for name, suggest a random name?
+#   different message types
+#       you hit/strike/bash/wack at mob
+#       heals? kills? etc.
 #   combine Draw_Player_Stats_Window and Draw_Player_Stats_Info (same as Draw_Mob_Stats_Window_And_Info and Draw_Inventory)
 #   [ongoing] an info page available after starting the game
 #             (game info, PSWriteColour module, GitHub, website, uninstall module,
