@@ -1260,9 +1260,13 @@ Function Fight_Or_Run {
                         $Script:Character_HealthCurrent = 0
                         $Import_JSON.Character.Stats.Health = 0
                     }
+                    # 10% +/- of damage done
+                    $Random_PlusMinus10 = Get-Random -Minimum -10 -Maximum 11
+                    $Selected_Mob_Hit_Damage = [Math]::Round($Selected_Mob.Damage*$Random_PlusMinus10/100+$Selected_Mob.Damage)
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
-                    Write-Color "  The ","$($Selected_Mob.Name) ","hits you for ","$($Selected_Mob.Damage) ","health." -Color Gray,Blue,Gray,Red,Gray
-                    $Script:Character_HealthCurrent = $Character_HealthCurrent - $Selected_Mob.Damage
+                    Write-Color "  The ","$($Selected_Mob.Name) ","hits you for ","$Selected_Mob_Hit_Damage ","health." -Color Gray,Blue,Gray,Red,Gray
+                    # adjust player health by damage amount
+                    $Script:Character_HealthCurrent = $Character_HealthCurrent - $Selected_Mob_Hit_Damage
                     $Import_JSON.Character.Stats.HealthCurrent = $Character_HealthCurrent
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                     Draw_Player_Stats_Window
