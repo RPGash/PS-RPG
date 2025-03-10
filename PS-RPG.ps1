@@ -22,8 +22,10 @@
 #       heals? kills? etc.
 #   - combine Draw_Player_Stats_Window and Draw_Player_Stats_Info (same as Draw_Mob_Stats_Window_And_Info and Draw_Inventory)
 #   - [ongoing] an info page available after starting the game
-#             (game info, PSWriteColour module, GitHub, website, uninstall module,
-#             CTRL+C warning and file syncing issue (e.g. Google Drive or OneDrive etc.)
+#           game info, PSWriteColour module, GitHub, website, uninstall module,
+#           damage calculation ( damage * (damage / (damage + armour)),
+#           crit chance, 
+#           CTRL+C warning and file syncing issue (e.g. Google Drive or OneDrive etc.)
 #
 #
 # - KNOWN ISSUES
@@ -1091,8 +1093,8 @@ Function You_Died {
 #
 Function Random_Mob {
     $Current_Location_Mobs = $Import_JSON.Locations.$Current_Location.Mobs
-    $Random_100 = Get-Random -Minimum 1 -Maximum 100
-    if ($Random_100 -lt 11) { # rare mob (10% of the time)
+    $Random_100 = Get-Random -Minimum 1 -Maximum 101
+    if ($Random_100 -le 10) { # rare mob (10% of the time)
         $All_Rare_Mobs_In_Current_Location = @()
         $All_Rare_Mobs_In_Current_Location = New-Object System.Collections.Generic.List[System.Object]
         foreach ($Current_Location_Mob in $Current_Location_Mobs) {
@@ -1201,7 +1203,7 @@ Function Fight_Or_Run {
                 if ($Fight_Choice -ieq "a") {
                     $Hit_Chance = ($Character_Attack / $Selected_Mob_Dodge) / 2 * 100
                     # Write-Output "hit chance                : $Hit_Chance"
-                    $Random_100 = Get-Random -Minimum 1 -Maximum 100
+                    $Random_100 = Get-Random -Minimum 1 -Maximum 101
                     # Write-Output "random 100                : $([Math]::Round($Random_100))"
                     if ($Hit_Chance -ge $Random_100) {
                         # 10% +/- of damage done
@@ -1209,6 +1211,20 @@ Function Fight_Or_Run {
                         $Character_Hit_Damage = $Character_Damage*$Random_PlusMinus10/100+$Character_Damage
                         # damage done = damage * (damage / (damage + armour))
                         $Character_Hit_Damage = [Math]::Round($Character_Hit_Damage*($Character_Hit_Damage/($Character_Hit_Damage+$Selected_Mob_Armour)))
+                        
+                        # crit
+                        $Random_Crit_Chance = Get-Random -Minimum 1 -Maximum 101
+                        Add-Content -Path .\error_log.log -value "---------------------------------------"
+                        Add-Content -Path .\error_log.log -value "random %: $($Random_Crit_Chance)"
+                        $Crit_Hit = ""
+                        if ($Random_Crit_Chance -le 80) { # chance of crit 20%
+                            $Crit_Hit = $true
+                            Add-Content -Path .\error_log.log -value "random damage 1: $($Character_Hit_Damage)"
+                            $Character_Hit_Damage = [Math]::Round($Character_Hit_Damage*20/100+$Character_Hit_Damage)
+                            Add-Content -Path .\error_log.log -value "random damage 2: $($Character_Hit_Damage)"
+                            $Crit_Hit = "critically "
+                        }
+
                         # adjust mobs health by damage amount
                         $Selected_Mob_HealthCurrent = $Selected_Mob_HealthCurrent - $Character_Hit_Damage
                         $Selected_Mob.Health = $Selected_Mob_HealthCurrent
@@ -1234,7 +1250,7 @@ Function Fight_Or_Run {
                             " "*105
                         }
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                        Write-Color "  You successfully hit the ","$($Selected_Mob.Name)"," for ","$Character_Hit_Damage ","health." -Color Gray,Blue,Gray,Red,Gray
+                        Write-Color "  You successfully ",$Crit_Hit,"hit the ","$($Selected_Mob.Name)"," for ","$Character_Hit_Damage ","health." -Color Gray,Red,Gray,Blue,Gray,Red,Gray
                     } else {
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                         " "*105
@@ -1256,7 +1272,7 @@ Function Fight_Or_Run {
             } else {
                 # mobs turn
                 $Hit_Chance = ($Selected_Mob_Attack / $Character_Dodge) / 2 * 100
-                $Random_100 = Get-Random -Minimum 1 -Maximum 100
+                $Random_100 = Get-Random -Minimum 1 -Maximum 101
                 if ($Hit_Chance -ge $Random_100) {
                     if ($Character_HealthCurrent -lt 0) {
                         $Script:Character_HealthCurrent = 0
@@ -1301,15 +1317,15 @@ Function Fight_Or_Run {
                 $Script:XP_TNL = $XP_TNL - $Selected_Mob.XP
                 
                 # loot chance
-                $Random_100 = Get-Random -Minimum 1 -Maximum 100
-                if ($Random_100 -lt 21) { # no loot at all (20% chance)
+                $Random_100 = Get-Random -Minimum 1 -Maximum 101
+                if ($Random_100 -le 20) { # no loot at all (20% chance)
                     Write-Color "  The ", "$($Selected_Mob.Name) ", "did not drop any loot." -Color Gray,Blue,Gray
                 } else { # possible loot (80% chance per item)
                     $Looted_Items = New-Object System.Collections.Generic.List[System.Object]
                     $Loot_Item_Names = $Selected_Mob.Loot.PSObject.Properties.Name
                     foreach ($Loot_Item in $Loot_Item_Names) {
-                        $Random_100 = Get-Random -Minimum 1 -Maximum 100
-                        if ($Random_100 -lt 71) { # chance of each loot type (70%)
+                        $Random_100 = Get-Random -Minimum 1 -Maximum 101
+                        if ($Random_100 -le 70) { # chance of each loot type (70%)
                             if ($Looted_Items.Count -gt 0) {
                                 $Looted_Items.Add("`r`n ")
                             }
