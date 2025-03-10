@@ -1291,14 +1291,14 @@ Function Fight_Or_Run {
                 
                 # loot chance
                 $Random_100 = Get-Random -Minimum 1 -Maximum 100
-                if ($Random_100 -lt 1) { # no loot at all (20% chance)
+                if ($Random_100 -lt 21) { # no loot at all (20% chance)
                     Write-Color "  The ", "$($Selected_Mob.Name) ", "did not drop any loot." -Color Gray,Blue,Gray
                 } else { # possible loot (80% chance per item)
                     $Looted_Items = New-Object System.Collections.Generic.List[System.Object]
                     $Loot_Item_Names = $Selected_Mob.Loot.PSObject.Properties.Name
                     foreach ($Loot_Item in $Loot_Item_Names) {
                         $Random_100 = Get-Random -Minimum 1 -Maximum 100
-                        if ($Random_100 -lt 99) { # chance of each loot type (70%)
+                        if ($Random_100 -lt 71) { # chance of each loot type (70%)
                             if ($Looted_Items.Count -gt 0) {
                                 $Looted_Items.Add("`r`n ")
                             }
