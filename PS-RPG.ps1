@@ -1482,7 +1482,7 @@ Function Travel {
     switch ($Travel_Choice) {
         q {
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-            " "*1560
+            " "*3000
             break
         }
         t {
@@ -1490,7 +1490,7 @@ Function Travel {
             $Script:Current_Location = "Town"
             $Import_JSON.Locations.Town.CurrentLocation = $true
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-            " "*1560
+            " "*3000
             Set-JSON
         }
         f {
@@ -1498,14 +1498,14 @@ Function Travel {
             $Script:Current_Location = "The Forest"
             $Import_JSON.Locations.'The Forest'.CurrentLocation = $true
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-            " "*1560
+            " "*3000
         }
         r {
             $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
             $Script:Current_Location = "The River"
             $Import_JSON.Locations.'The River'.CurrentLocation = $true
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-            " "*1560
+            " "*3000
         }
         Default {
         }
