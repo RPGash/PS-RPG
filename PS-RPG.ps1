@@ -132,11 +132,7 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
 
     do {
         do {
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,27;$Host.UI.Write("")
-            " "*105
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
-            " "*105
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,27;$Host.UI.Write("")
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
             Write-Color -NoNewLine "`r`nNo save file found. Are you ready to start playing ", "PS-RPG", "?"," [Y/N/Q]" -Color DarkYellow,Magenta,DarkYellow,Green
             $Ready_To_Play_PSRPG = Read-Host " "
             $Ready_To_Play_PSRPG = $Ready_To_Play_PSRPG.Trim()
@@ -144,11 +140,9 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
 
         if ($Ready_To_Play_PSRPG -ieq "n" -or $Ready_To_Play_PSRPG -ieq "q") {
             do {
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,27;$Host.UI.Write("")
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,37;$Host.UI.Write("")
                 " "*105
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
-                " "*105
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,27;$Host.UI.Write("")
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                 Write-Color -NoNewLine "`r`nDo you want to quit ", "PS-RPG", "?"," [Y/N]" -Color DarkYellow,Magenta,DarkYellow,Green
                 $Quit_Game = Read-Host " "
                 $Quit_Game = $Quit_Game.Trim()
@@ -274,11 +268,9 @@ Function Game_Info {
     Write-Color "╚═════════════════════════════════════════════════════╝" -Color DarkGray
     do {
         do {
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,27;$Host.UI.Write("")
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
             " "*105
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
-            " "*105
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,27;$Host.UI.Write("")
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
             Write-Color -NoNewLine "`r`nSelect Page ","[1/2/3/Q]" -Color DarkYellow,Green
             $Game_Info_Page_Choice = Read-Host " "
             $Game_Info_Page_Choice = $Game_Info_Page_Choice.Trim()
@@ -954,7 +946,7 @@ Function Inventory_Choice{
                 Write-Color "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════╗" -Color DarkGray
                 Write-Color "║ ","Inventory","                                                                                             ║" -Color DarkGray,White,DarkGray
                 Write-Color "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════╝" -Color DarkGray
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                 " "*105
                 if ($Enough_Health_Potions -eq "yes" -and $Enough_Mana_Potions -eq "no") {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
@@ -963,7 +955,7 @@ Function Inventory_Choice{
                     Write-Color -NoNewLine "  You are low on ","Health", "." -Color Gray,Green,Gray
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
                     " "*105
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                     Write-Color -NoNewLine "Use a potion? ", "[Y/N]" -Color DarkYellow,Green
                     $Potion_Choice = "Health"
                     $Script:Selectable_ID_Potion_Search = "Health"
@@ -974,7 +966,7 @@ Function Inventory_Choice{
                     Write-Color -NoNewLine "  You are low on ","Mana", "." -Color Gray,Blue,Gray
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
                     " "*105
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                     Write-Color -NoNewLine "Use a potion? ", "[Y/N]" -Color DarkYellow,Green
                     $Potion_Choice = "Mana"
                     $Script:Selectable_ID_Potion_Search = "Mana"
@@ -985,7 +977,7 @@ Function Inventory_Choice{
                     Write-Color -NoNewLine "  You are low on ","Health ","and ","Mana", "." -Color Gray,Green,Gray,Blue,Gray
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
                     " "*105
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                     Write-Color -NoNewLine "Use a potion? ", "[Y/N]" -Color DarkYellow,Green
                     $Potion_Choice = "Health or Mana"
                     $Script:Selectable_ID_Potion_Search = "HealthMana"
@@ -996,9 +988,9 @@ Function Inventory_Choice{
             if ($Use_A_Potion -ieq "y") {
                 do {
                     Draw_Inventory
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                     " "*105
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                     $Potion_IDs_Array_String = "0"
                     $Potion_IDs_Array_String = $Potion_IDs_Array -join "/"
                     Write-Color -NoNewLine "Enter a $Potion_Choice potion ","ID ","number ", "[e.g. $Potion_IDs_Array_String]" -Color DarkYellow,Green,DarkYellow,Green
@@ -1007,19 +999,15 @@ Function Inventory_Choice{
                 } until ($Inventory_ID -in $Potion_IDs_Array)
                 
                 # get the name of the potion from the ID selected above so the correct potion is used below
-
                 foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
                     if($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID -eq $Inventory_ID) {
                         $Script:Potion = $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name
                     }
                 }
                 
-                # $Potion = $Inventory_Item_Names | Where-Object {$PSItem.ID -eq $Inventory_ID}
                 # update current health
-                # Clear-Host
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                 Draw_Player_Stats_Info
-                # $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,9;$Host.UI.Write("")
                 
                 $Script:Selectable_ID_Potion_Search = "not_set" # resets ID colour back to DarkGray after a potion has been used the first time
                 # update health
@@ -1159,14 +1147,13 @@ Function Fight_Or_Run {
         Clear-Host
         Draw_Player_Stats_Window
         Draw_Player_Stats_Info
-        # $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,9;$Host.UI.Write("")
         Draw_Mob_Stats_Window_And_Info
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
         Write-Color "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════╗" -Color DarkGray
         Write-Color "║ ","Combat","                                                                                                ║" -Color DarkGray,White,DarkGray
         Write-Color "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════╝" -Color DarkGray
         Write-Color -NoNewLine "  You encounter a ","$($Selected_Mob.Name)" -Color Gray,Blue
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         Write-Color -NoNewLine "Do you ","F", "ight or ","R","un away? ", "[F/R]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
         $Fight_Or_Run_Away = Read-Host " "
         $Fight_Or_Run_Away = $Fight_Or_Run_Away.Trim()
@@ -1196,9 +1183,9 @@ Function Fight_Or_Run {
                 # ask if the action should be attack, spell or item
                 do {
                     # clear health/mana restored message or it stays on screen until end of battle
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                     " "*105
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                     Write-Color -NoNewLine "A","ttack, cast a ","S","pell or use an ", "I", "tem?"," [A/S/I]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
                     $Fight_Choice = Read-Host " "
                     $Fight_Choice = $Fight_Choice.Trim()
@@ -1360,9 +1347,9 @@ Function Fight_Or_Run {
             # ask continue fight question after mobs turn
             if ($Continue_Fight -eq $true) {
                 do {
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                     " "*105
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                     Write-Color -NoNewLine "Continue to ","F", "ight or try and ","R","un away? ", "[F/R]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
                     $Fight_Or_Run_Away = Read-Host " "
                     $Fight_Or_Run_Away = $Fight_Or_Run_Away.Trim()
@@ -1423,9 +1410,9 @@ Function Travel {
     Write-Color "`r`n  You can travel to the following locations:" -Color DarkGray
     Write-Color "`r`n  $All_Linked_Locations_List" -Color White
     do {
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         " "*105
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         Write-Color -NoNewLine "Where do you want to travel to? ", "[$All_Linked_Locations_Letters_Array]" -Color DarkYellow,Green
         $Travel_Choice = Read-Host " "
         $Travel_Choice = $Travel_Choice.Trim()
@@ -1482,19 +1469,16 @@ Function Travel {
 if (Test-Path -Path .\PS-RPG.json) {
     do {
         Clear-Host
-        # display current saved file player stats
+        # display current saved file info
         Import-JSON
         Set_Variables
         Draw_Player_Stats_Window
         Draw_Player_Stats_Info
         Draw_Inventory
-        
         do {
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,27;$Host.UI.Write("")
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
             " "*105
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
-            " "*105
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,27;$Host.UI.Write("")
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
             Write-Color -NoNewLine "`r`nPS-RPG.json ","save data found. Load saved data?"," [Y/N/Q]" -Color Magenta,DarkYellow,Green
             $Load_Save_Data_Choice = Read-Host " "
             $Load_Save_Data_Choice = $Load_Save_Data_Choice.Trim()
@@ -1512,11 +1496,9 @@ if (Test-Path -Path .\PS-RPG.json) {
         }
         if ($Load_Save_Data_Choice -ieq "n") {
             do {
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,27;$Host.UI.Write("")
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                 " "*105
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
-                " "*105
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,27;$Host.UI.Write("")
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
                 Write-Color -NoNewLine "`r`nStart a new game?"," [Y/N/Q]" -Color Magenta,Green
                 $Start_A_New_Game = Read-Host " "
                 $Start_A_New_Game = $Start_A_New_Game.Trim()
@@ -1544,9 +1526,9 @@ if ($Load_Save_Data_Choice -ieq "q" -or $Start_A_New_Game -ieq "q") {
 # main loop
 do {
     do {
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         " "*105
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,28;$Host.UI.Write("")
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         Write-Color -NoNewLine "H", "unt, ","T","ravel, or look at your ","I","nventory? ", "[H/T/I]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
         $Hunt_Or_Inventory = Read-Host " "
         $Hunt_Or_Inventory = $Hunt_Or_Inventory.Trim()
