@@ -9,7 +9,7 @@
         {
           "Name": "Chicken",
           "Level": 1,
-          "Health": 5,
+          "Health": 5000,
           "Stamina": 50,
           "Mana": 50,
           "Attack": 5,
@@ -294,23 +294,23 @@
     "Name": "The Dude",
     "Class": "Rogue",
     "Race": "Elf",
-    "Level": 8,
-    "Total_XP": 3120,
-    "XP_TNL": 190.0,
+    "Level": 9,
+    "Total_XP": 3440,
+    "XP_TNL": 51007.0,
     "Stats": {
       "HealthCurrent": 999,
-      "HealthMax": 205,
+      "HealthMax": 210,
       "StaminaCurrent": 80,
-      "StaminaMax": 283,
+      "StaminaMax": 290,
       "ManaCurrent": 170,
-      "ManaMax": 255,
-      "Damage": 181,
-      "Attack": 271,
-      "Endurance": 122,
-      "Evade": 200,
-      "Quickness": 300,
-      "Spells": 146,
-      "Healing": 236
+      "ManaMax": 260,
+      "Damage": 100,
+      "Attack": 280,
+      "Endurance": 126,
+      "Evade": 210,
+      "Quickness": 310,
+      "Spells": 151,
+      "Healing": 244
     },
     "Skills": {
       "Dodge": 0,
@@ -321,7 +321,7 @@
       }
     },
     "Items": {
-      "Gold": 129.0,
+      "Gold": 140.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
@@ -490,35 +490,35 @@
         },
         "Random Loot #1": {
           "Name": "Random Loot #1",
-          "Quantity": 10,
+          "Quantity": 11,
           "Info": "Junk",
           "Value": 3,
           "ID": 23
         },
         "Random Loot #2": {
           "Name": "Random Loot #2",
-          "Quantity": 12,
+          "Quantity": 13,
           "Info": "Junk",
           "Value": 3,
           "ID": 23
         },
         "Random Loot #3": {
           "Name": "Random Loot #3",
-          "Quantity": 10,
+          "Quantity": 11,
           "Info": "Junk",
           "Value": 3,
           "ID": 23
         },
         "Random Loot #4": {
           "Name": "Random Loot #4",
-          "Quantity": 6,
+          "Quantity": 7,
           "Info": "Junk",
           "Value": 3,
           "ID": 23
         },
         "Random Loot #5": {
           "Name": "Random Loot #5",
-          "Quantity": 5,
+          "Quantity": 6,
           "Info": "Junk",
           "Value": 3,
           "ID": 23

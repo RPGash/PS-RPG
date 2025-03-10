@@ -1199,13 +1199,16 @@ Function Fight_Or_Run {
                 } until ($Fight_Choice -ieq "a" -or $Fight_Choice -ieq "s")
                 # attack choice
                 if ($Fight_Choice -ieq "a") {
-                    
                     $Hit_Chance = ($Character_Attack / $Selected_Mob_Evade) / 2 * 100
                     # Write-Output "hit chance                : $Hit_Chance"
                     $Random_100 = Get-Random -Minimum 1 -Maximum 100
                     # Write-Output "random 100                : $([Math]::Round($Random_100))"
                     if ($Hit_Chance -ge $Random_100) {
-                        $Selected_Mob_HealthCurrent = $Selected_Mob_HealthCurrent - $Character_Damage
+                        # 10% +/- of damage done
+                        $Random_PlusMinus10 = Get-Random -Minimum -10 -Maximum 11
+                        $Character_Hit_Damage = [Math]::Round($Character_Damage*$Random_PlusMinus10/100+$Character_Damage)
+                        # adjust mobs health by damage amount
+                        $Selected_Mob_HealthCurrent = $Selected_Mob_HealthCurrent - $Character_Hit_Damage
                         $Selected_Mob.Health = $Selected_Mob_HealthCurrent
                         if ($Selected_Mob_HealthCurrent -lt 0) {
                             $Selected_Mob_HealthCurrent = 0
@@ -1229,7 +1232,7 @@ Function Fight_Or_Run {
                             " "*105
                         }
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                        Write-Color "  You successfully hit the ","$($Selected_Mob.Name)"," for ","$Character_Damage ","health." -Color Gray,Blue,Gray,Red,Gray
+                        Write-Color "  You successfully hit the ","$($Selected_Mob.Name)"," for ","$Character_Hit_Damage ","health." -Color Gray,Blue,Gray,Red,Gray
                     } else {
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                         " "*105
