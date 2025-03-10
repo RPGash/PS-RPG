@@ -1461,7 +1461,7 @@ Function Travel {
     Write-Color "`r`n  $All_Linked_Locations_List" -Color White
     Write-Color " ,------------------------------------------------." -Color DarkYellow
     Write-Color "(_\  +--------+  +--------------+  +-------------+ \" -Color DarkYellow
-    Write-Color "   | |  Town  |  |  The Forest  |  |  The River  | |" -Color DarkYellow
+    Write-Color "   | |  ","T","own  |  |  The ","F","orest  |  |  The ","R","iver  | |" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow
     Write-Color "   | |        |  |              |  |             | |" -Color DarkYellow
     Write-Color "   | |        |  |              |  |             | |" -Color DarkYellow
     Write-Color "   | |      <------>          <------>           | |" -Color DarkYellow
