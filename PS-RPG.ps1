@@ -2,7 +2,7 @@
 # ----
 #
 # - BUGS
-#   lower congrats message and learned spells + Q several lines as there are now an additional 3-4 extra lines for loot
+#   
 #   
 #   
 #   
@@ -27,7 +27,7 @@
 #
 #
 # - KNOWN ISSUES
-#   - if no JSON file is found, then you start a new game but quit before completing character creation, the game finds an "empty" game file and loads with no character data - FIX is to start a new game
+#   - if no JSON file is found, then you start a new game but quit before completing character creation, the game finds an "empty" game file and loads with no character data - FIX is to start a new game? or check for an "empty" file and delete?
 #   - On the Travel page, the available locations to travel to does not show the single character highlighted in green as the choice for that location. e.g. if "Town" is listed, the letter "T" is not green. All location names are White, but the question does show the correct highlighted characters for hat area.
 #
 
