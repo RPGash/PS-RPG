@@ -1212,10 +1212,10 @@ Function Fight_Or_Run {
                         # damage done = damage * (damage / (damage + armour))
                         $Character_Hit_Damage = [Math]::Round($Character_Hit_Damage*($Character_Hit_Damage/($Character_Hit_Damage+$Selected_Mob_Armour)))
                         
-                        # crit
+                        # player crit
                         $Random_Crit_Chance = Get-Random -Minimum 1 -Maximum 101
                         $Crit_Hit = ""
-                        if ($Random_Crit_Chance -le 80) { # chance of crit 20%
+                        if ($Random_Crit_Chance -le 20) { # chance of crit 20%
                             $Crit_Hit = $true
                             $Character_Hit_Damage = [Math]::Round($Character_Hit_Damage*20/100+$Character_Hit_Damage)
                             $Crit_Hit = "critically "
@@ -1279,8 +1279,18 @@ Function Fight_Or_Run {
                     $Selected_Mob_Hit_Damage = $Selected_Mob.Damage*$Random_PlusMinus10/100+$Selected_Mob.Damage
                     # damage done = damage * (damage / (damage + armour))
                     $Selected_Mob_Hit_Damage = [Math]::Round($Selected_Mob_Hit_Damage*($Selected_Mob_Hit_Damage/($Selected_Mob_Hit_Damage+$Import_JSON.Character.Stats.Armour)))
+                    
+                    # mob crit
+                    $Random_Crit_Chance = Get-Random -Minimum 1 -Maximum 101
+                    $Crit_Hit = ""
+                    if ($Random_Crit_Chance -le 20) { # chance of crit 20%
+                        $Crit_Hit = $true
+                        $Selected_Mob_Hit_Damage = [Math]::Round($Selected_Mob_Hit_Damage*20/100+$Selected_Mob_Hit_Damage)
+                        $Crit_Hit = "critically "
+                    }
+                    
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
-                    Write-Color "  The ","$($Selected_Mob.Name) ","hits you for ","$Selected_Mob_Hit_Damage ","health." -Color Gray,Blue,Gray,Red,Gray
+                    Write-Color "  The ","$($Selected_Mob.Name) ",$Crit_Hit,"hits you for ","$Selected_Mob_Hit_Damage ","health." -Color Gray,Blue,Red,Gray,Red,Gray
                     # adjust player health by damage amount
                     $Script:Character_HealthCurrent = $Character_HealthCurrent - $Selected_Mob_Hit_Damage
                     $Import_JSON.Character.Stats.HealthCurrent = $Character_HealthCurrent
