@@ -11,6 +11,7 @@
 #   
 #   
 # - NEXT
+#   - sell / buy items
 #   - change "you are low on health/mana" message to
 #       if less than 25%/50% = "you are running low/very low on health/mana"
 #       if 50% or above = "you are not at max health" (maybe?)
@@ -1459,16 +1460,16 @@ Function Travel {
     Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
     Write-Color "`r`n  You can travel to the following locations:" -Color DarkGray
     Write-Color "`r`n  $All_Linked_Locations_List" -Color White
-    Write-Color " ,------------------------------------------------." -Color DarkYellow
-    Write-Color "(_\  +--------+  +--------------+  +-------------+ \" -Color DarkYellow
-    Write-Color "   | |  ","T","own  |  |  The ","F","orest  |  |  The ","R","iver  | |" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow
-    Write-Color "   | |        |  |              |  |             | |" -Color DarkYellow
-    Write-Color "   | |        |  |              |  |             | |" -Color DarkYellow
-    Write-Color "   | |      <------>          <------>           | |" -Color DarkYellow
-    Write-Color "   | |        |  |              |  |             | |" -Color DarkYellow
-    Write-Color "   | |        |  |              |  |             | |" -Color DarkYellow
-    Write-Color "  _| +--------+  +--------------+  +-------------+ |" -Color DarkYellow
-    Write-Color " (_/_______________________________________________/" -Color DarkYellow
+    Write-Color " ,------------------------------------------------------." -Color DarkYellow
+    Write-Color "(_\  +--------------+  +--------------+  +-------------+ \" -Color DarkYellow
+    Write-Color "   | |     ","T","own     |  |  The ","F","orest  |  |  The ","R","iver  | |" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow
+    Write-Color "   | |              |  |              |  |             | |" -Color DarkYellow
+    Write-Color "   | | Weapon Smith |  |              |  |             | |" -Color DarkYellow
+    Write-Color "   | |      <------------>          <------>           | |" -Color DarkYellow
+    Write-Color "   | | Armoury      |  |              |  |             | |" -Color DarkYellow
+    Write-Color "   | | Tavern       |  |  ????????    |  |  ????????   | |" -Color DarkYellow
+    Write-Color "  _| +--------------+  +--------------+  +-------------+ |" -Color DarkYellow
+    Write-Color " (_/____________________________________________________/" -Color DarkYellow
 
     do {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")

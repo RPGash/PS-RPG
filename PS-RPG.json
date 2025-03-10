@@ -1,7 +1,7 @@
 {
   "Locations": {
     "Town": {
-      "CurrentLocation": false,
+      "CurrentLocation": true,
       "LinkedLocations": {
         "The Forest": "F"
       },
@@ -138,7 +138,7 @@
       ]
     },
     "The Forest": {
-      "CurrentLocation": true,
+      "CurrentLocation": false,
       "LinkedLocations": {
         "Town": "T",
         "The River": "R"
@@ -291,9 +291,9 @@
     }
   },
   "Character": {
-    "Name": "RPG_ash",
+    "Name": "ash",
     "Class": "Cleric",
-    "Race": "Elf",
+    "Race": "Human",
     "Level": 9,
     "Total_XP": 4560,
     "XP_TNL": 49887.0,
