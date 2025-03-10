@@ -125,15 +125,11 @@
         },
         {
           "Name": "Tavern",
-          "Owner": "AAAAA"
+          "Owner": "Elara"
         },
         {
-          "Name": "Armoury",
-          "Owner": "BBBBB"
-        },
-        {
-          "Name": "Weapon Smith",
-          "Owner": "CCCCC"
+          "Name": "The Anvil & Blade",
+          "Owner": "Draven"
         }
       ]
     },

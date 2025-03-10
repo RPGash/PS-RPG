@@ -1464,10 +1464,10 @@ Function Travel {
     Write-Color "(_\  +--------------+  +--------------+  +-------------+ \" -Color DarkYellow
     Write-Color "   | |     ","T","own     |  |  The ","F","orest  |  |  The ","R","iver  | |" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow
     Write-Color "   | |              |  |              |  |             | |" -Color DarkYellow
-    Write-Color "   | | Weapon Smith |  |              |  |             | |" -Color DarkYellow
-    Write-Color "   | |      <------------>          <------>           | |" -Color DarkYellow
-    Write-Color "   | | Armoury      |  |              |  |             | |" -Color DarkYellow
-    Write-Color "   | | Tavern       |  |  ????????    |  |  ????????   | |" -Color DarkYellow
+    Write-Color "   | |   The Anvil  |  |              |  |             | |" -Color DarkYellow
+    Write-Color "   | |   & Blade    |  |            <------>           | |" -Color DarkYellow
+    Write-Color "   | |          <------------>        |  |             | |" -Color DarkYellow
+    Write-Color "   | |   Tavern     |  |  ????????    |  |  ????????   | |" -Color DarkYellow
     Write-Color "  _| +--------------+  +--------------+  +-------------+ |" -Color DarkYellow
     Write-Color " (_/____________________________________________________/" -Color DarkYellow
 
@@ -1516,6 +1516,98 @@ Function Travel {
     Draw_Player_Stats_Window
     Draw_Player_Stats_Info
 }
+
+
+
+#
+# visit a shop in whatever location you are in
+#
+Function Visit_A_Shop {
+    # Clear-Host
+    # Draw_Player_Stats_Window
+    # Draw_Player_Stats_Info
+    # # find all linked locations that you can travel to (not including your current location)
+    # $All_Location_Names = $Import_JSON.Locations.PSObject.Properties.Name
+    # foreach ($Single_Location in $All_Location_Names) {
+    #     if ($Import_JSON.Locations.$Single_Location.CurrentLocation -eq $true) {
+    #         $All_Linked_Locations = $Import_JSON.Locations.$Single_Location.LinkedLocations.PSObject.Properties.Name
+    #         $All_Linked_Locations_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
+    #         $All_Linked_Locations_List = New-Object System.Collections.Generic.List[System.Object]
+    #         foreach ($Linked_Location in $All_Linked_Locations) {
+    #             $All_Linked_Locations_Letters_Array.Add($Import_JSON.Locations.$Current_Location.LinkedLocations.$Linked_Location)
+    #             $All_Linked_Locations_List.Add($Linked_Location)
+    #             $All_Linked_Locations_List.Add("`r`n ")
+    #         }
+    #     }
+    # }
+    # $All_Linked_Locations_Letters_Array = $All_Linked_Locations_Letters_Array -Join '/'
+    # $All_Linked_Locations_Letters_Array = $All_Linked_Locations_Letters_Array + "/Q"
+
+    # $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+    # Write-Color "╔═════════════════════════════════════════════════════╗" -Color DarkGray
+    # Write-Color "║ ","Travel","                                              ║" -Color DarkGray,White,DarkGray
+    # Write-Color "╚═════════════════════════════════════════════════════╝" -Color DarkGray
+    # Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
+    # Write-Color "`r`n  You can travel to the following locations:" -Color DarkGray
+    # Write-Color "`r`n  $All_Linked_Locations_List" -Color White
+    # Write-Color " ,------------------------------------------------------." -Color DarkYellow
+    # Write-Color "(_\  +--------------+  +--------------+  +-------------+ \" -Color DarkYellow
+    # Write-Color "   | |     ","T","own     |  |  The ","F","orest  |  |  The ","R","iver  | |" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow
+    # Write-Color "   | |              |  |              |  |             | |" -Color DarkYellow
+    # Write-Color "   | |   The Anvil  |  |              |  |             | |" -Color DarkYellow
+    # Write-Color "   | |   & Blade    |  |            <------>           | |" -Color DarkYellow
+    # Write-Color "   | |          <------------>        |  |             | |" -Color DarkYellow
+    # Write-Color "   | |   Tavern     |  |  ????????    |  |  ????????   | |" -Color DarkYellow
+    # Write-Color "  _| +--------------+  +--------------+  +-------------+ |" -Color DarkYellow
+    # Write-Color " (_/____________________________________________________/" -Color DarkYellow
+
+    # do {
+    #     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+    #     " "*105
+    #     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+    #     Write-Color -NoNewLine "Where do you want to travel to? ", "[$All_Linked_Locations_Letters_Array]" -Color DarkYellow,Green
+    #     $Travel_Choice = Read-Host " "
+    #     $Travel_Choice = $Travel_Choice.Trim()
+    # } until ($Travel_Choice -ieq "q" -or $All_Linked_Locations_Letters_Array -match $Travel_Choice )
+    
+    # switch ($Travel_Choice) {
+    #     q {
+    #         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+    #         " "*3000
+    #         break
+    #     }
+    #     t {
+    #         $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
+    #         $Script:Current_Location = "Town"
+    #         $Import_JSON.Locations.Town.CurrentLocation = $true
+    #         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+    #         " "*3000
+    #         Set-JSON
+    #     }
+    #     f {
+    #         $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
+    #         $Script:Current_Location = "The Forest"
+    #         $Import_JSON.Locations.'The Forest'.CurrentLocation = $true
+    #         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+    #         " "*3000
+    #     }
+    #     r {
+    #         $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
+    #         $Script:Current_Location = "The River"
+    #         $Import_JSON.Locations.'The River'.CurrentLocation = $true
+    #         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+    #         " "*3000
+    #     }
+    #     Default {
+    #     }
+    # }
+    # Set-JSON
+    # $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
+    # Draw_Player_Stats_Window
+    # Draw_Player_Stats_Info
+
+}
+
 
 
 
@@ -1591,10 +1683,10 @@ do {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         " "*105
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-        Write-Color -NoNewLine "H", "unt, ","T","ravel, or look at your ","I","nventory? ", "[H/T/I]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+        Write-Color -NoNewLine "H", "unt, ","T","ravel, ","V","isit a shop, or look at your ","I","nventory? ", "[H/T/V/I]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
         $Hunt_Or_Inventory = Read-Host " "
         $Hunt_Or_Inventory = $Hunt_Or_Inventory.Trim()
-    } until ($Hunt_Or_Inventory -ieq "h" -or $Hunt_Or_Inventory -ieq "t" -or $Hunt_Or_Inventory -ieq "i" -or $Hunt_Or_Inventory -ieq "info")
+    } until ($Hunt_Or_Inventory -ieq "h" -or $Hunt_Or_Inventory -ieq "t" -or $Hunt_Or_Inventory -ieq "v" -or $Hunt_Or_Inventory -ieq "i" -or $Hunt_Or_Inventory -ieq "info")
     switch ($Hunt_Or_Inventory) {
         h {
             Set-JSON # save JSON
@@ -1602,15 +1694,19 @@ do {
             Fight_Or_Run
             # Break
         }
+        t {
+            Travel
+            # Break
+        }
+        v {
+            Visit_A_Shop
+            # Break
+        }
         i {
             Clear-Host
             Draw_Player_Stats_Window
             Draw_Player_Stats_Info
             Inventory_Choice
-            # Break
-        }
-        t {
-            Travel
             # Break
         }
         info {
