@@ -295,20 +295,20 @@
     "Class": "Rogue",
     "Race": "Elf",
     "Level": 9,
-    "Total_XP": 4080,
-    "XP_TNL": 50367.0,
+    "Total_XP": 4560,
+    "XP_TNL": 49887.0,
     "Stats": {
-      "HealthCurrent": 8785.0,
+      "HealthCurrent": 7796.0,
       "HealthMax": 210,
       "StaminaCurrent": 80,
       "StaminaMax": 290,
       "ManaCurrent": 170,
       "ManaMax": 260,
-      "Damage": 200,
-      "Attack": 280,
+      "Damage": 1,
+      "Attack": 1,
       "Armour": 200,
       "Dodge": 210,
-      "Quickness": 310,
+      "Quickness": 1,
       "Spells": 151,
       "Healing": 244
     },
@@ -321,7 +321,7 @@
       }
     },
     "Items": {
-      "Gold": 165.0,
+      "Gold": 190.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
@@ -399,14 +399,14 @@
         },
         "Rat Tails": {
           "Name": "Rat Tails",
-          "Quantity": 6,
+          "Quantity": 7,
           "Info": "Junk",
           "Value": 3,
           "ID": 11
         },
         "Rat Furs": {
           "Name": "Rat Furs",
-          "Quantity": 6,
+          "Quantity": 7,
           "Info": "Junk",
           "Value": 3,
           "ID": 12
@@ -490,14 +490,14 @@
         },
         "Random Loot #1": {
           "Name": "Random Loot #1",
-          "Quantity": 12,
+          "Quantity": 14,
           "Info": "Junk",
           "Value": 3,
           "ID": 23
         },
         "Random Loot #2": {
           "Name": "Random Loot #2",
-          "Quantity": 15,
+          "Quantity": 17,
           "Info": "Junk",
           "Value": 3,
           "ID": 23
@@ -511,14 +511,14 @@
         },
         "Random Loot #4": {
           "Name": "Random Loot #4",
-          "Quantity": 9,
+          "Quantity": 11,
           "Info": "Junk",
           "Value": 3,
           "ID": 23
         },
         "Random Loot #5": {
           "Name": "Random Loot #5",
-          "Quantity": 8,
+          "Quantity": 10,
           "Info": "Junk",
           "Value": 3,
           "ID": 23

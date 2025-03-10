@@ -1389,18 +1389,35 @@ Function Fight_Or_Run {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,26;$Host.UI.Write("")
                 " "*105
             }
+
+            # try to escape (during combat)
+            if ($Fight_Or_Escape -ieq "e") {
+                # escape formula = Player Q / (Player Q + (Mob Q / 3))
+                $Random_Escape_100 = Get-Random -Minimum 1 -Maximum 101
+                if ($Random_Escape_100 -le [Math]::Round($Character_Quickness/($Character_Quickness+($Selected_Mob_Quickness/3))*100)) {
+                    Clear-Host
+                    Draw_Player_Stats_Window
+                    Draw_Player_Stats_Info
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+                    Write-Color "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════╗" -Color DarkGray
+                    Write-Color "║ ","Combat","                                                                                                ║" -Color DarkGray,White,DarkGray
+                    Write-Color "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════╝" -Color DarkGray
+            
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
+                    Write-Color "  You escaped from the ","$($Selected_Mob.Name)","." -Color Gray,Blue,Gray
+                } else {
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                    " "*105
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
+                    " "*105
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
+                    Write-Color "  You failed to escape the ","$($Selected_Mob.Name)","!" -Color Gray,Blue,Gray
+                    $Fight_Or_Escape = "" # reset so it does not exit the loop and stays in combat
+                    $Player_Turn = $false # keeps it the mobs turn after failing to escape
+                }
+            }
             $First_Turn = $false
         } until ($Fight_Or_Escape -ieq "e")
-        
-        # Escape (during combat)
-        if ($Fight_Or_Escape -ieq "e") {
-            # escape formula = Player Q / (Player Q + (Mob Q / 3))
-            Clear-Host
-            Draw_Player_Stats_Window
-            Draw_Player_Stats_Info
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,15;$Host.UI.Write("")
-            Write-Output "You escaped from the $($Selected_Mob.Name)! (during combat)"
-        }
     } elseif ($Fight_Or_Escape -ieq "e") {
         # Escape before combat starts
         Clear-Host
