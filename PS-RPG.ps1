@@ -1157,11 +1157,11 @@ Function Fight_Or_Run {
         Write-Color "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════╝" -Color DarkGray
         Write-Color -NoNewLine "  You encounter a ","$($Selected_Mob.Name)" -Color Gray,Blue
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-        Write-Color -NoNewLine "Do you ","F", "ight or ","R","un away? ", "[F/R]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
-        $Fight_Or_Run_Away = Read-Host " "
-        $Fight_Or_Run_Away = $Fight_Or_Run_Away.Trim()
-    } until ($Fight_Or_Run_Away -ieq "f" -or $Fight_Or_Run_Away -ieq "r")
-    if ($Fight_Or_Run_Away -ieq "f") {
+        Write-Color -NoNewLine "Do you ","F", "ight or ","E","scape? ", "[F/E]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+        $Fight_Or_Escape = Read-Host " "
+        $Fight_Or_Escape = $Fight_Or_Escape.Trim()
+    } until ($Fight_Or_Escape -ieq "f" -or $Fight_Or_Escape -ieq "e")
+    if ($Fight_Or_Escape -ieq "f") {
         $In_Combat = $true
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
         Draw_Player_Stats_Window
@@ -1210,7 +1210,7 @@ Function Fight_Or_Run {
                         # 10% +/- of damage done
                         $Random_PlusMinus10 = Get-Random -Minimum -10 -Maximum 11
                         $Character_Hit_Damage = $Character_Damage*$Random_PlusMinus10/100+$Character_Damage
-                        # damage done = damage * (damage / (damage + armour))
+                        # damage done formula = damage * (damage / (damage + armour))
                         $Character_Hit_Damage = [Math]::Round($Character_Hit_Damage*($Character_Hit_Damage/($Character_Hit_Damage+$Selected_Mob_Armour)))
                         
                         # player crit
@@ -1382,31 +1382,32 @@ Function Fight_Or_Run {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                     " "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                    Write-Color -NoNewLine "Continue to ","F", "ight or try and ","R","un away? ", "[F/R]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
-                    $Fight_Or_Run_Away = Read-Host " "
-                    $Fight_Or_Run_Away = $Fight_Or_Run_Away.Trim()
-                } until ($Fight_Or_Run_Away -ieq "f" -or $Fight_Or_Run_Away -ieq "r")
+                    Write-Color -NoNewLine "Continue to ","F", "ight or try and ","E","scape? ", "[F/E]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                    $Fight_Or_Escape = Read-Host " "
+                    $Fight_Or_Escape = $Fight_Or_Escape.Trim()
+                } until ($Fight_Or_Escape -ieq "f" -or $Fight_Or_Escape -ieq "e")
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,26;$Host.UI.Write("")
                 " "*105
             }
             $First_Turn = $false
-        } until ($Fight_Or_Run_Away -ieq "r")
+        } until ($Fight_Or_Escape -ieq "e")
         
-        # run away (during combat)
-        if ($Fight_Or_Run_Away -ieq "r") {
+        # Escape (during combat)
+        if ($Fight_Or_Escape -ieq "e") {
+            # escape formula = Player Q / (Player Q + (Mob Q / 3))
             Clear-Host
             Draw_Player_Stats_Window
             Draw_Player_Stats_Info
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,15;$Host.UI.Write("")
-            Write-Output "You ran from $($Selected_Mob.Name)! (during combat)"
+            Write-Output "You escaped from the $($Selected_Mob.Name)! (during combat)"
         }
-    } elseif ($Fight_Or_Run_Away -ieq "r") {
-        # run away before combat starts
+    } elseif ($Fight_Or_Escape -ieq "e") {
+        # Escape before combat starts
         Clear-Host
         Draw_Player_Stats_Window
         Draw_Player_Stats_Info
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,15;$Host.UI.Write("")
-        Write-Output "You ran from $($Selected_Mob.Name)! (no combat)"
+        Write-Output "You escaped from the $($Selected_Mob.Name)! (no combat)"
     }
     $Script:In_Combat = $false
 }
