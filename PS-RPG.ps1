@@ -1264,7 +1264,9 @@ Function Fight_Or_Run {
                     }
                     # 10% +/- of damage done
                     $Random_PlusMinus10 = Get-Random -Minimum -10 -Maximum 11
-                    $Selected_Mob_Hit_Damage = [Math]::Round($Selected_Mob.Damage*$Random_PlusMinus10/100+$Selected_Mob.Damage)
+                    $Selected_Mob_Hit_Damage = $Selected_Mob.Damage*$Random_PlusMinus10/100+$Selected_Mob.Damage
+                    # damage done = damage * (damage / (damage + armour))
+                    $Selected_Mob_Hit_Damage = [Math]::Round($Selected_Mob_Hit_Damage*($Selected_Mob_Hit_Damage/($Selected_Mob_Hit_Damage+$Import_JSON.Character.Stats.Armour)))
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
                     Write-Color "  The ","$($Selected_Mob.Name) ","hits you for ","$Selected_Mob_Hit_Damage ","health." -Color Gray,Blue,Gray,Red,Gray
                     # adjust player health by damage amount
