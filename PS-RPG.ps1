@@ -23,7 +23,7 @@
 #   - combine Draw_Player_Stats_Window and Draw_Player_Stats_Info (same as Draw_Mob_Stats_Window_And_Info and Draw_Inventory)
 #   - [ongoing] an info page available after starting the game
 #           game info, PSWriteColour module, GitHub, website, uninstall module,
-#           damage calculation ( damage * (damage / (damage + armour)),
+#           damage calculation = damage * (damage / (damage + armour)),
 #           crit chance, 
 #           CTRL+C warning and file syncing issue (e.g. Google Drive or OneDrive etc.)
 #   - consider changing mob crit rate/damage to from fixed 20%/20% to specific % for different mobs
@@ -1459,6 +1459,17 @@ Function Travel {
     Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
     Write-Color "`r`n  You can travel to the following locations:" -Color DarkGray
     Write-Color "`r`n  $All_Linked_Locations_List" -Color White
+    Write-Color " ,------------------------------------------------." -Color DarkYellow
+    Write-Color "(_\  +--------+  +--------------+  +-------------+ \" -Color DarkYellow
+    Write-Color "   | |  Town  |  |  The Forest  |  |  The River  | |" -Color DarkYellow
+    Write-Color "   | |        |  |              |  |             | |" -Color DarkYellow
+    Write-Color "   | |        |  |              |  |             | |" -Color DarkYellow
+    Write-Color "   | |      <------>          <------>           | |" -Color DarkYellow
+    Write-Color "   | |        |  |              |  |             | |" -Color DarkYellow
+    Write-Color "   | |        |  |              |  |             | |" -Color DarkYellow
+    Write-Color "  _| +--------+  +--------------+  +-------------+ |" -Color DarkYellow
+    Write-Color " (_/_______________________________________________/" -Color DarkYellow
+
     do {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         " "*105
