@@ -6,13 +6,9 @@ An RPG text adventure coded in PowerShell.
 - ~~May~~ Does contain bugs 🐛
 - Currently only works on Windows 🪟 (not tested on MAC or Linux)
 
-Why?
+Why? - I love RPGs and PowerShell so thought it would be a good project.
 
-I love RPGs and PowerShell so thought it would be a good project.
-
-Want to try it out?
-
-If you do download and run it (a bif if haha), it is suggested to run the script then maximise the window before continuing. You can then adjust the font size with CTRL + mouse wheel to make sure everything fits on the screen correctly.
+Want to try it out? - If you do download and run it (a bif if haha), it is suggested to run the script then maximise the window before continuing. You can then adjust the font size with CTRL + mouse wheel to make sure everything fits on the screen correctly.
 
 # Requirements
 - PowerShell 7+ (needs manually installing)
