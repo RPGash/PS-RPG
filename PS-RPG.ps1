@@ -207,7 +207,7 @@ Function Draw_Player_Stats_Window {
     Write-Color "║ Class    :            ║ Attack    :                 ║" -Color DarkGray
     Write-Color "║ Race     :            ║ Damage    :                 ║" -Color DarkGray
     Write-Color "║ Level    :            ║ Defence   :                 ║" -Color DarkGray
-    Write-Color "║ Location :            ║ Evade     :                 ║" -Color DarkGray
+    Write-Color "║ Location :            ║ Dodge     :                 ║" -Color DarkGray
     Write-Color "║ Gold     :            ║ Quickness :                 ║" -Color DarkGray
     Write-Color "║ Total XP :            ║ Spells    :                 ║" -Color DarkGray
     Write-Color "║ XP TNL   :            ║ Healing   :                 ║" -Color DarkGray
@@ -240,7 +240,7 @@ Function Draw_Player_Stats_Info {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,6;$Host.UI.Write($Character_Attack)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,7;$Host.UI.Write($Character_Damage)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,8;$Host.UI.Write($Character_Defence)
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,9;$Host.UI.Write($Character_Evade)
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,9;$Host.UI.Write($Character_Dodge)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,10;$Host.UI.Write($Character_Quickness)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,11;$Host.UI.Write($Character_Spells)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,12;$Host.UI.Write($Character_Healing)
@@ -371,7 +371,7 @@ Function Set_Variables {
     $Script:Character_Damage         = $Import_JSON.Character.Stats.Damage
     $Script:Character_Attack         = $Import_JSON.Character.Stats.Attack
     $Script:Character_Defence        = $Import_JSON.Character.Stats.Defence
-    $Script:Character_Evade          = $Import_JSON.Character.Stats.Evade
+    $Script:Character_Dodge          = $Import_JSON.Character.Stats.Dodge
     $Script:Character_Quickness      = $Import_JSON.Character.Stats.Quickness
     $Script:Character_Spells         = $Import_JSON.Character.Stats.Spells
     $Script:Character_Healing        = $Import_JSON.Character.Stats.Healing
@@ -449,7 +449,7 @@ Function Level_Up {
         $Damage_Bonus_On_Level_Up    += $Import_JSON.Level_Up_Bonus.Class.$Character_Class.Damage + $Import_JSON.Level_Up_Bonus.Race.$Character_Race.Damage
         $Attack_Bonus_On_Level_Up    += $Import_JSON.Level_Up_Bonus.Class.$Character_Class.Attack + $Import_JSON.Level_Up_Bonus.Race.$Character_Race.Attack
         $Defence_Bonus_On_Level_Up   += $Import_JSON.Level_Up_Bonus.Class.$Character_Class.Defence + $Import_JSON.Level_Up_Bonus.Race.$Character_Race.Defence
-        $Evade_Bonus_On_Level_Up     += $Import_JSON.Level_Up_Bonus.Class.$Character_Class.Evade + $Import_JSON.Level_Up_Bonus.Race.$Character_Race.Evade
+        $Dodge_Bonus_On_Level_Up     += $Import_JSON.Level_Up_Bonus.Class.$Character_Class.Dodge + $Import_JSON.Level_Up_Bonus.Race.$Character_Race.Dodge
         $Quickness_Bonus_On_Level_Up += $Import_JSON.Level_Up_Bonus.Class.$Character_Class.Quickness + $Import_JSON.Level_Up_Bonus.Race.$Character_Race.Quickness
         $Spells_Bonus_On_Level_Up    += $Import_JSON.Level_Up_Bonus.Class.$Character_Class.Spells + $Import_JSON.Level_Up_Bonus.Race.$Character_Race.Spells
         $Healing_Bonus_On_Level_Up   += $Import_JSON.Level_Up_Bonus.Class.$Character_Class.Healing + $Import_JSON.Level_Up_Bonus.Race.$Character_Race.Healing
@@ -466,7 +466,7 @@ Function Level_Up {
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,6;$Host.UI.Write("(+$Damage_Bonus_On_Level_Up)")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,7;$Host.UI.Write("(+$Attack_Bonus_On_Level_Up)")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,8;$Host.UI.Write("(+$Defence_Bonus_On_Level_Up)")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,9;$Host.UI.Write("(+$Evade_Bonus_On_Level_Up)")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,9;$Host.UI.Write("(+$Dodge_Bonus_On_Level_Up)")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,10;$Host.UI.Write("(+$Quickness_Bonus_On_Level_Up)")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,11;$Host.UI.Write("(+$Spells_Bonus_On_Level_Up)")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,12;$Host.UI.Write("(+$Healing_Bonus_On_Level_Up)")
@@ -569,21 +569,21 @@ Function Create_Character {
                 Write-Color "Bonus values to Character stats are applied after each level up." -Color Gray
             }
             Write-Color " " -Color Gray
-            Write-Color " Class Base Stats | Health | Stamina | Mana  | Defence | Damage | Attack | Evade | Quickness | Spells | Healing " -Color Gray
+            Write-Color " Class Base Stats | Health | Stamina | Mana  | Defence | Damage | Attack | Dodge | Quickness | Spells | Healing " -Color Gray
             Write-Color "------------------------------------------------------------------------------------------------" -Color Gray
             Write-Color " M","age             |   50   |    40   |   80  |    4    |   10   |   4   |    1  |   4   |   10   |   6     " -Color $ClassRaceInfoColours1,$ClassRaceInfoColours2
             Write-Color " R","ogue            |   60   |    80   |   30  |    6    |   10   |   10   |   10  |  10   |    1   |   4     " -Color $ClassRaceInfoColours3,$ClassRaceInfoColours4
             Write-Color " C","leric           |   40   |    50   |  100  |    4    |    8   |   2   |    1  |   4   |   10   |   10    " -Color $ClassRaceInfoColours5,$ClassRaceInfoColours6
             Write-Color " W","arrior          |  100   |   100   |   10  |   10    |    1   |   8   |    8  |   6   |    1   |   4     " -Color $ClassRaceInfoColours7,$ClassRaceInfoColours8
             Write-Color ""
-            Write-Color " Class Bonus      | Health | Stamina | Mana  | Defence | Damage | Attack | Evade | Quickness | Spells | Healing " -Color Gray
+            Write-Color " Class Bonus      | Health | Stamina | Mana  | Defence | Damage | Attack | Dodge | Quickness | Spells | Healing " -Color Gray
             Write-Color "------------------------------------------------------------------------------------------------" -Color Gray
             Write-Color " M","age             |   +2   |   +1    |   +4  |    +2   |   +5   |   +4   |   +1  |   +1   |   +5   |   +3    " -Color $ClassRaceInfoColours1,$ClassRaceInfoColours2
             Write-Color " R","ogue            |   +3   |   +3    |   +2  |    +3   |   +5   |   +5   |   +5  |   +5   |   +1   |   +3    " -Color $ClassRaceInfoColours3,$ClassRaceInfoColours4
             Write-Color " C","leric           |   +1   |   +2    |   +5  |    +2   |   +4   |   +2   |   +1  |   +1   |   +5   |   +5    " -Color $ClassRaceInfoColours5,$ClassRaceInfoColours6
             Write-Color " W","arrior          |   +5   |   +5    |   +1  |    +5   |   +1   |   +4   |   +4  |   +3   |   +1   |   +4    " -Color $ClassRaceInfoColours7,$ClassRaceInfoColours8
             Write-Color ""
-            Write-Color " Race Bonus       | Health | Stamina | Mana  | Defence | Damage | Attack | Evade | Quickness | Spells | Healing " -Color Gray
+            Write-Color " Race Bonus       | Health | Stamina | Mana  | Defence | Damage | Attack | Dodge | Quickness | Spells | Healing " -Color Gray
             Write-Color "------------------------------------------------------------------------------------------------" -Color Gray
             Write-Color " E","lf              |   +2   |   +4    |   +3  |    +1   |   +4   |   +4   |   +5  |   +5   |   +4   |   +5    " -Color $ClassRaceInfoColours9,$ClassRaceInfoColours10
             Write-Color " O","rc              |   +4   |   +4    |   +1  |    +4   |   +4   |   +5   |   +3  |   +1   |   +1   |   +1    " -Color $ClassRaceInfoColours11,$ClassRaceInfoColours12
@@ -733,7 +733,7 @@ Function Create_Character {
         $Import_JSON.Character.Stats.Damage         = 10
         $Import_JSON.Character.Stats.Attack         = 4
         $Import_JSON.Character.Stats.Defence        = 4
-        $Import_JSON.Character.Stats.Evade          = 1
+        $Import_JSON.Character.Stats.Dodge          = 1
         $Import_JSON.Character.Stats.Quickness      = 4
         $Import_JSON.Character.Stats.Spells         = 10
         $Import_JSON.Character.Stats.Healing        = 6
@@ -748,7 +748,7 @@ Function Create_Character {
         $Import_JSON.Character.Stats.Damage         = 10
         $Import_JSON.Character.Stats.Attack         = 10
         $Import_JSON.Character.Stats.Defence        = 6
-        $Import_JSON.Character.Stats.Evade          = 10
+        $Import_JSON.Character.Stats.Dodge          = 10
         $Import_JSON.Character.Stats.Quickness      = 10
         $Import_JSON.Character.Stats.Spells         = 1
         $Import_JSON.Character.Stats.Healing        = 4
@@ -763,7 +763,7 @@ Function Create_Character {
         $Import_JSON.Character.Stats.Damage         = 8
         $Import_JSON.Character.Stats.Attack         = 2
         $Import_JSON.Character.Stats.Defence        = 4
-        $Import_JSON.Character.Stats.Evade          = 1
+        $Import_JSON.Character.Stats.Dodge          = 1
         $Import_JSON.Character.Stats.Quickness      = 4
         $Import_JSON.Character.Stats.Spells         = 10
         $Import_JSON.Character.Stats.Healing        = 10
@@ -778,7 +778,7 @@ Function Create_Character {
         $Import_JSON.Character.Stats.Damage         = 1
         $Import_JSON.Character.Stats.Attack         = 8
         $Import_JSON.Character.Stats.Defence        = 10
-        $Import_JSON.Character.Stats.Evade          = 8
+        $Import_JSON.Character.Stats.Dodge          = 8
         $Import_JSON.Character.Stats.Quickness      = 6
         $Import_JSON.Character.Stats.Spells         = 1
         $Import_JSON.Character.Stats.Healing        = 4
@@ -816,7 +816,7 @@ Function Draw_Mob_Stats_Window_And_Info {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,6;$Host.UI.Write("║ Attack    :            ║ Rare  :              ║")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,7;$Host.UI.Write("║ Damage    :            ║ Boss  : ???          ║")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,8;$Host.UI.Write("║ Defence   :            ║ Drops : a, b, c???   ║")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,9;$Host.UI.Write("║ Evade     :            ║         x, y, z???   ║")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,9;$Host.UI.Write("║ Dodge     :            ║         x, y, z???   ║")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,10;$Host.UI.Write("║ Quickness :            ║                      ║")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,11;$Host.UI.Write("║ Spells    :            ║                      ║")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,12;$Host.UI.Write("║ Healing   :            ║                      ║")
@@ -837,7 +837,7 @@ Function Draw_Mob_Stats_Window_And_Info {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,6;$Host.UI.Write($Selected_Mob_Attack)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,7;$Host.UI.Write($Selected_Mob_Damage)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,8;$Host.UI.Write($Selected_Mob_Defence)
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,9;$Host.UI.Write($Selected_Mob_Evade)
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,9;$Host.UI.Write($Selected_Mob_Dodge)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,10;$Host.UI.Write($Selected_Mob_Quickness)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,11;$Host.UI.Write($Selected_Mob_Spells)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,12;$Host.UI.Write($Selected_Mob_Healing)
@@ -1124,7 +1124,7 @@ Function Random_Mob {
     $Script:Selected_Mob_Attack         = $Selected_Mob.Attack
     $Script:Selected_Mob_Damage         = $Selected_Mob.Damage
     $Script:Selected_Mob_Defence        = $Selected_Mob.Defence
-    $Script:Selected_Mob_Evade          = $Selected_Mob.Evade
+    $Script:Selected_Mob_Dodge          = $Selected_Mob.Dodge
     $Script:Selected_Mob_Quickness      = $Selected_Mob.Quickness
     $Script:Selected_Mob_Spells         = $Selected_Mob.Spells
     $Script:Selected_Mob_Healing        = $Selected_Mob.Healing
@@ -1199,7 +1199,7 @@ Function Fight_Or_Run {
                 } until ($Fight_Choice -ieq "a" -or $Fight_Choice -ieq "s")
                 # attack choice
                 if ($Fight_Choice -ieq "a") {
-                    $Hit_Chance = ($Character_Attack / $Selected_Mob_Evade) / 2 * 100
+                    $Hit_Chance = ($Character_Attack / $Selected_Mob_Dodge) / 2 * 100
                     # Write-Output "hit chance                : $Hit_Chance"
                     $Random_100 = Get-Random -Minimum 1 -Maximum 100
                     # Write-Output "random 100                : $([Math]::Round($Random_100))"
@@ -1253,7 +1253,7 @@ Function Fight_Or_Run {
                 $Player_Turn = $false
             } else {
                 # mobs turn
-                $Hit_Chance = ($Selected_Mob_Attack / $Character_Evade) / 2 * 100
+                $Hit_Chance = ($Selected_Mob_Attack / $Character_Dodge) / 2 * 100
                 $Random_100 = Get-Random -Minimum 1 -Maximum 100
                 if ($Hit_Chance -ge $Random_100) {
                     if ($Character_HealthCurrent -lt 0) {
