@@ -435,7 +435,7 @@ Function Level_Up {
         Set_Variables
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
         Draw_Player_Stats_Info
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,24;$Host.UI.Write("")
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,29;$Host.UI.Write("")
         if ($Levels_Levelled_Up -eq '1') {
             $Level_Or_Levels = 'level'
         } else {
@@ -474,7 +474,7 @@ Function Level_Up {
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 18,11;$Host.UI.Write("(+$($Selected_Mob.XP))")
         
         # Write-Color "  You have gained ", "x Health ","x Stamina ", "and ", "x Mana","." -Color DarkGray,Green,Yellow,DarkGray,Blue,DarkGray
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,26;$Host.UI.Write("")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,31;$Host.UI.Write("")
         Write-Color "  You have also learned ", "x skills","." -Color DarkGray,White,DarkGray
         if ($Levels_Levelled_Up -ne '1') {
             Start-Sleep -Seconds 2 # leave in (shows multiple levels slowly)
@@ -1291,14 +1291,14 @@ Function Fight_Or_Run {
                 
                 # loot chance
                 $Random_100 = Get-Random -Minimum 1 -Maximum 100
-                if ($Random_100 -lt 21) { # no loot at all (20% chance)
+                if ($Random_100 -lt 1) { # no loot at all (20% chance)
                     Write-Color "  The ", "$($Selected_Mob.Name) ", "did not drop any loot." -Color Gray,Blue,Gray
                 } else { # possible loot (80% chance per item)
                     $Looted_Items = New-Object System.Collections.Generic.List[System.Object]
                     $Loot_Item_Names = $Selected_Mob.Loot.PSObject.Properties.Name
                     foreach ($Loot_Item in $Loot_Item_Names) {
                         $Random_100 = Get-Random -Minimum 1 -Maximum 100
-                        if ($Random_100 -lt 71) { # chance of each loot type (70%)
+                        if ($Random_100 -lt 99) { # chance of each loot type (70%)
                             if ($Looted_Items.Count -gt 0) {
                                 $Looted_Items.Add("`r`n ")
                             }
