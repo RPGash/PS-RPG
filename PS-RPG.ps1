@@ -1346,10 +1346,8 @@ Function Fight_Or_Run {
                             } else { # add non-gold loot
                                 $Looted_Items.Add("1x $($Loot_Item)")
                                 # update non-gold items in inventory
-                                Add-Content -Path .\error_log.log -value "looted item $Loot_Item before: $($Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity)"
                                 $Script:Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity = $Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity += 1
                                 Set-JSON
-                                Add-Content -Path .\error_log.log -value "looted item $Loot_Item after : $($Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity)"
                             }
                         }
                     }
