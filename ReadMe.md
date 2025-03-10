@@ -3,8 +3,8 @@
 An RPG text adventure created in PowerShell.
 
 - Alpha build
-- ~~May~~ Does contain bugs
-- Currently only works on Windows (not tested on MAC or Linux)
+- ~~May~~ Does contain bugs 🐛
+- Currently only works on Windows 🪟 (not tested on MAC or Linux)
 
 Why?
 I love RPGs and PowerShell so thought it would be a good project.
