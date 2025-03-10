@@ -91,8 +91,8 @@
           "XP": 160,
           "Loot": {
             "Gold": 10,
-            "Rat Tail": 1,
-            "Rat Fur": 1,
+            "Rat Tails": 1,
+            "Rat Furs": 1,
             "Rat Guts": 1
           }
         }
@@ -167,7 +167,7 @@
           "XP": 160,
           "Loot": {
             "Gold": 3,
-            "Mouse Tail": 1,
+            "Mouse Tails": 1,
             "Mouse Whiskers": 1
           }
         }
@@ -208,8 +208,8 @@
           "XP": 160,
           "Loot": {
             "Gold": 10,
-            "Wolf Hide": 1,
-            "Wolf Tooth": 1
+            "Wolf Hides": 1,
+            "Wolf Teeth": 1
           }
         },
         {
@@ -231,9 +231,9 @@
           "XP": 160,
           "Loot": {
             "Gold": 10,
-            "Boar Tail": 1,
-            "Boar Hide": 1,
-            "Broken Boar Tooth": 1
+            "Boar Tails": 1,
+            "Boar Hides": 1,
+            "Broken Boar Teeth": 1
           }
         },
         {
@@ -256,8 +256,8 @@
           "Loot": {
             "Gold": 10,
             "Cat Whiskers": 1,
-            "Sharp Cat Tooth": 1,
-            "Sharp Cat Claw": 1
+            "Sharp Cat Teeth": 1,
+            "Sharp Cat Claws": 1
           }
         }
       ],
@@ -277,23 +277,23 @@
     "Name": "The Dude",
     "Class": "Rogue",
     "Race": "Elf",
-    "Level": 11,
-    "Total_XP": 3940,
-    "XP_TNL": 221.0,
+    "Level": 13,
+    "Total_XP": 6220,
+    "XP_TNL": 204.0,
     "Stats": {
       "HealthCurrent": 110,
-      "HealthMax": 110,
+      "HealthMax": 120,
       "StaminaCurrent": 80,
-      "StaminaMax": 150,
-      "ManaCurrent": 160,
-      "ManaMax": 160,
-      "Damage": 10,
-      "Attack": 100,
-      "Endurance": 46,
-      "Evade": 10,
-      "Quickness": 110,
-      "Spells": 51,
-      "Healing": 84
+      "StaminaMax": 164,
+      "ManaCurrent": 170,
+      "ManaMax": 170,
+      "Damage": 28,
+      "Attack": 118,
+      "Endurance": 54,
+      "Evade": 30,
+      "Quickness": 130,
+      "Spells": 61,
+      "Healing": 100
     },
     "Skills": {
       "Dodge": 0,
@@ -304,7 +304,7 @@
       }
     },
     "Items": {
-      "Gold": 38.0,
+      "Gold": 82.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
@@ -324,7 +324,7 @@
         },
         "Greater Mana Potion": {
           "Name": "Greater Mana Potion",
-          "Quantity": 15,
+          "Quantity": 14,
           "Restores": 50,
           "Info": "Capacity 50",
           "Value": 100,
@@ -361,34 +361,34 @@
         },
         "Chicken Feathers": {
           "Name": "Chicken Feathers",
-          "Quantity": 2,
+          "Quantity": 3,
           "Info": "Junk",
           "Value": 1,
           "ID": 8
         },
         "Rook Feathers": {
           "Name": "Rook Feathers",
-          "Quantity": 2,
+          "Quantity": 7,
           "Info": "Junk",
           "Value": 2,
           "ID": 9
         },
         "Rook Claws": {
           "Name": "Rook Claws",
-          "Quantity": 1,
+          "Quantity": 6,
           "Info": "Junk",
           "Value": 2,
           "ID": 10
         },
-        "Rat Tail": {
-          "Name": "Rat Tail",
+        "Rat Tails": {
+          "Name": "Rat Tails",
           "Quantity": 3,
           "Info": "Junk",
           "Value": 3,
           "ID": 11
         },
-        "Rat Fur": {
-          "Name": "Rat Fur",
+        "Rat Furs": {
+          "Name": "Rat Furs",
           "Quantity": 2,
           "Info": "Junk",
           "Value": 3,
@@ -401,8 +401,8 @@
           "Value": 3,
           "ID": 13
         },
-        "Mouse Tail": {
-          "Name": "Mouse Tail",
+        "Mouse Tails": {
+          "Name": "Mouse Tails",
           "Quantity": 1,
           "Info": "Junk",
           "Value": 3,
@@ -415,36 +415,36 @@
           "Value": 3,
           "ID": 15
         },
-        "Wolf Hide": {
-          "Name": "Wolf Hide",
+        "Wolf Hides": {
+          "Name": "Wolf Hides",
           "Quantity": 1,
           "Info": "Skinner",
           "Value": 3,
           "ID": 16
         },
-        "Wolf Tooth": {
-          "Name": "Wolf Tooth",
+        "Wolf Teeth": {
+          "Name": "Wolf Teeth",
           "Quantity": 1,
           "Info": "Junk",
           "Value": 3,
           "ID": 17
         },
-        "Boar Tail": {
-          "Name": "Boar Tail",
+        "Boar Tails": {
+          "Name": "Boar Tails",
           "Quantity": 1,
           "Info": "Junk",
           "Value": 3,
           "ID": 18
         },
-        "Boar Hide": {
-          "Name": "Boar Hide",
+        "Boar Hides": {
+          "Name": "Boar Hides",
           "Quantity": 1,
           "Info": "Skinner",
           "Value": 3,
           "ID": 19
         },
-        "Broken Boar Tooth": {
-          "Name": "Broken Boar Tooth",
+        "Broken Boar Teeth": {
+          "Name": "Broken Boar Teeth",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 1,
@@ -457,15 +457,15 @@
           "Value": 1,
           "ID": 21
         },
-        "Sharp Cat Tooth": {
-          "Name": "Sharp Cat Tooth",
+        "Sharp Cat Teeth": {
+          "Name": "Sharp Cat Teeth",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 3,
           "ID": 22
         },
-        "Sharp Cat Claw": {
-          "Name": "Sharp Cat Tooth",
+        "Sharp Cat Claws": {
+          "Name": "Sharp Cat Teeth",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 3,
