@@ -1214,14 +1214,10 @@ Function Fight_Or_Run {
                         
                         # crit
                         $Random_Crit_Chance = Get-Random -Minimum 1 -Maximum 101
-                        Add-Content -Path .\error_log.log -value "---------------------------------------"
-                        Add-Content -Path .\error_log.log -value "random %: $($Random_Crit_Chance)"
                         $Crit_Hit = ""
                         if ($Random_Crit_Chance -le 80) { # chance of crit 20%
                             $Crit_Hit = $true
-                            Add-Content -Path .\error_log.log -value "random damage 1: $($Character_Hit_Damage)"
                             $Character_Hit_Damage = [Math]::Round($Character_Hit_Damage*20/100+$Character_Hit_Damage)
-                            Add-Content -Path .\error_log.log -value "random damage 2: $($Character_Hit_Damage)"
                             $Crit_Hit = "critically "
                         }
 
