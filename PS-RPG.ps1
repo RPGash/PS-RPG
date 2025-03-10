@@ -206,7 +206,7 @@ Function Draw_Player_Stats_Window {
     Write-Color "║ Name     :            ║ Mana      :     of          ║" -Color DarkGray
     Write-Color "║ Class    :            ║ Attack    :                 ║" -Color DarkGray
     Write-Color "║ Race     :            ║ Damage    :                 ║" -Color DarkGray
-    Write-Color "║ Level    :            ║ Defence   :                 ║" -Color DarkGray
+    Write-Color "║ Level    :            ║ Armour    :                 ║" -Color DarkGray
     Write-Color "║ Location :            ║ Dodge     :                 ║" -Color DarkGray
     Write-Color "║ Gold     :            ║ Quickness :                 ║" -Color DarkGray
     Write-Color "║ Total XP :            ║ Spells    :                 ║" -Color DarkGray
@@ -239,7 +239,7 @@ Function Draw_Player_Stats_Info {
 
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,6;$Host.UI.Write($Character_Attack)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,7;$Host.UI.Write($Character_Damage)
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,8;$Host.UI.Write($Character_Defence)
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,8;$Host.UI.Write($Character_Armour)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,9;$Host.UI.Write($Character_Dodge)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,10;$Host.UI.Write($Character_Quickness)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,11;$Host.UI.Write($Character_Spells)
@@ -370,7 +370,7 @@ Function Set_Variables {
     $Script:Character_ManaMax        = $Import_JSON.Character.Stats.ManaMax
     $Script:Character_Damage         = $Import_JSON.Character.Stats.Damage
     $Script:Character_Attack         = $Import_JSON.Character.Stats.Attack
-    $Script:Character_Defence        = $Import_JSON.Character.Stats.Defence
+    $Script:Character_Armour         = $Import_JSON.Character.Stats.Armour
     $Script:Character_Dodge          = $Import_JSON.Character.Stats.Dodge
     $Script:Character_Quickness      = $Import_JSON.Character.Stats.Quickness
     $Script:Character_Spells         = $Import_JSON.Character.Stats.Spells
@@ -448,7 +448,7 @@ Function Level_Up {
         $Mana_Bonus_On_Level_Up      += $Import_JSON.Level_Up_Bonus.Class.$Character_Class.ManaMax + $Import_JSON.Level_Up_Bonus.Race.$Character_Race.ManaMax
         $Damage_Bonus_On_Level_Up    += $Import_JSON.Level_Up_Bonus.Class.$Character_Class.Damage + $Import_JSON.Level_Up_Bonus.Race.$Character_Race.Damage
         $Attack_Bonus_On_Level_Up    += $Import_JSON.Level_Up_Bonus.Class.$Character_Class.Attack + $Import_JSON.Level_Up_Bonus.Race.$Character_Race.Attack
-        $Defence_Bonus_On_Level_Up   += $Import_JSON.Level_Up_Bonus.Class.$Character_Class.Defence + $Import_JSON.Level_Up_Bonus.Race.$Character_Race.Defence
+        $Armour_Bonus_On_Level_Up    += $Import_JSON.Level_Up_Bonus.Class.$Character_Class.Armour + $Import_JSON.Level_Up_Bonus.Race.$Character_Race.Armour
         $Dodge_Bonus_On_Level_Up     += $Import_JSON.Level_Up_Bonus.Class.$Character_Class.Dodge + $Import_JSON.Level_Up_Bonus.Race.$Character_Race.Dodge
         $Quickness_Bonus_On_Level_Up += $Import_JSON.Level_Up_Bonus.Class.$Character_Class.Quickness + $Import_JSON.Level_Up_Bonus.Race.$Character_Race.Quickness
         $Spells_Bonus_On_Level_Up    += $Import_JSON.Level_Up_Bonus.Class.$Character_Class.Spells + $Import_JSON.Level_Up_Bonus.Race.$Character_Race.Spells
@@ -465,7 +465,7 @@ Function Level_Up {
         $host.UI.RawUI.ForegroundColor = "White" # changes foreground color
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,6;$Host.UI.Write("(+$Damage_Bonus_On_Level_Up)")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,7;$Host.UI.Write("(+$Attack_Bonus_On_Level_Up)")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,8;$Host.UI.Write("(+$Defence_Bonus_On_Level_Up)")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,8;$Host.UI.Write("(+$Armour_Bonus_On_Level_Up)")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,9;$Host.UI.Write("(+$Dodge_Bonus_On_Level_Up)")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,10;$Host.UI.Write("(+$Quickness_Bonus_On_Level_Up)")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,11;$Host.UI.Write("(+$Spells_Bonus_On_Level_Up)")
@@ -569,26 +569,26 @@ Function Create_Character {
                 Write-Color "Bonus values to Character stats are applied after each level up." -Color Gray
             }
             Write-Color " " -Color Gray
-            Write-Color " Class Base Stats | Health | Stamina | Mana  | Defence | Damage | Attack | Dodge | Quickness | Spells | Healing " -Color Gray
+            Write-Color " Class Base Stats | Health | Stamina | Mana  | Armour | Damage | Attack | Dodge | Quickness | Spells | Healing " -Color Gray
             Write-Color "------------------------------------------------------------------------------------------------" -Color Gray
-            Write-Color " M","age             |   50   |    40   |   80  |    4    |   10   |   4   |    1  |   4   |   10   |   6     " -Color $ClassRaceInfoColours1,$ClassRaceInfoColours2
-            Write-Color " R","ogue            |   60   |    80   |   30  |    6    |   10   |   10   |   10  |  10   |    1   |   4     " -Color $ClassRaceInfoColours3,$ClassRaceInfoColours4
-            Write-Color " C","leric           |   40   |    50   |  100  |    4    |    8   |   2   |    1  |   4   |   10   |   10    " -Color $ClassRaceInfoColours5,$ClassRaceInfoColours6
-            Write-Color " W","arrior          |  100   |   100   |   10  |   10    |    1   |   8   |    8  |   6   |    1   |   4     " -Color $ClassRaceInfoColours7,$ClassRaceInfoColours8
+            Write-Color " M","age             |   50   |    40   |   80  |    4   |   10   |   4   |    1  |   4   |   10   |   6     " -Color $ClassRaceInfoColours1,$ClassRaceInfoColours2
+            Write-Color " R","ogue            |   60   |    80   |   30  |    6   |   10   |   10   |   10  |  10   |    1   |   4     " -Color $ClassRaceInfoColours3,$ClassRaceInfoColours4
+            Write-Color " C","leric           |   40   |    50   |  100  |    4   |    8   |   2   |    1  |   4   |   10   |   10    " -Color $ClassRaceInfoColours5,$ClassRaceInfoColours6
+            Write-Color " W","arrior          |  100   |   100   |   10  |   10   |    1   |   8   |    8  |   6   |    1   |   4     " -Color $ClassRaceInfoColours7,$ClassRaceInfoColours8
             Write-Color ""
-            Write-Color " Class Bonus      | Health | Stamina | Mana  | Defence | Damage | Attack | Dodge | Quickness | Spells | Healing " -Color Gray
+            Write-Color " Class Bonus      | Health | Stamina | Mana  | Armour | Damage | Attack | Dodge | Quickness | Spells | Healing " -Color Gray
             Write-Color "------------------------------------------------------------------------------------------------" -Color Gray
-            Write-Color " M","age             |   +2   |   +1    |   +4  |    +2   |   +5   |   +4   |   +1  |   +1   |   +5   |   +3    " -Color $ClassRaceInfoColours1,$ClassRaceInfoColours2
-            Write-Color " R","ogue            |   +3   |   +3    |   +2  |    +3   |   +5   |   +5   |   +5  |   +5   |   +1   |   +3    " -Color $ClassRaceInfoColours3,$ClassRaceInfoColours4
-            Write-Color " C","leric           |   +1   |   +2    |   +5  |    +2   |   +4   |   +2   |   +1  |   +1   |   +5   |   +5    " -Color $ClassRaceInfoColours5,$ClassRaceInfoColours6
-            Write-Color " W","arrior          |   +5   |   +5    |   +1  |    +5   |   +1   |   +4   |   +4  |   +3   |   +1   |   +4    " -Color $ClassRaceInfoColours7,$ClassRaceInfoColours8
+            Write-Color " M","age             |   +2   |   +1    |   +4  |   +2   |   +5   |   +4   |   +1  |   +1   |   +5   |   +3    " -Color $ClassRaceInfoColours1,$ClassRaceInfoColours2
+            Write-Color " R","ogue            |   +3   |   +3    |   +2  |   +3   |   +5   |   +5   |   +5  |   +5   |   +1   |   +3    " -Color $ClassRaceInfoColours3,$ClassRaceInfoColours4
+            Write-Color " C","leric           |   +1   |   +2    |   +5  |   +2   |   +4   |   +2   |   +1  |   +1   |   +5   |   +5    " -Color $ClassRaceInfoColours5,$ClassRaceInfoColours6
+            Write-Color " W","arrior          |   +5   |   +5    |   +1  |   +5   |   +1   |   +4   |   +4  |   +3   |   +1   |   +4    " -Color $ClassRaceInfoColours7,$ClassRaceInfoColours8
             Write-Color ""
-            Write-Color " Race Bonus       | Health | Stamina | Mana  | Defence | Damage | Attack | Dodge | Quickness | Spells | Healing " -Color Gray
+            Write-Color " Race Bonus       | Health | Stamina | Mana  | Armour | Damage | Attack | Dodge | Quickness | Spells | Healing " -Color Gray
             Write-Color "------------------------------------------------------------------------------------------------" -Color Gray
-            Write-Color " E","lf              |   +2   |   +4    |   +3  |    +1   |   +4   |   +4   |   +5  |   +5   |   +4   |   +5    " -Color $ClassRaceInfoColours9,$ClassRaceInfoColours10
-            Write-Color " O","rc              |   +4   |   +4    |   +1  |    +4   |   +4   |   +5   |   +3  |   +1   |   +1   |   +1    " -Color $ClassRaceInfoColours11,$ClassRaceInfoColours12
-            Write-Color " D","warf            |   +5   |   +5    |   +1  |    +5   |   +5   |   +5   |   +1  |   +1   |   +1   |   +3    " -Color $ClassRaceInfoColours13,$ClassRaceInfoColours14
-            Write-Color " H","uman            |   +3   |   +3    |   +3  |    +3   |   +3   |   +3   |   +3  |   +3   |   +4   |   +4    " -Color $ClassRaceInfoColours15,$ClassRaceInfoColours16
+            Write-Color " E","lf              |   +2   |   +4    |   +3  |   +1   |   +4   |   +4   |   +5  |   +5   |   +4   |   +5    " -Color $ClassRaceInfoColours9,$ClassRaceInfoColours10
+            Write-Color " O","rc              |   +4   |   +4    |   +1  |   +4   |   +4   |   +5   |   +3  |   +1   |   +1   |   +1    " -Color $ClassRaceInfoColours11,$ClassRaceInfoColours12
+            Write-Color " D","warf            |   +5   |   +5    |   +1  |   +5   |   +5   |   +5   |   +1  |   +1   |   +1   |   +3    " -Color $ClassRaceInfoColours13,$ClassRaceInfoColours14
+            Write-Color " H","uman            |   +3   |   +3    |   +3  |   +3   |   +3   |   +3   |   +3  |   +3   |   +4   |   +4    " -Color $ClassRaceInfoColours15,$ClassRaceInfoColours16
             Write-Output "`r"
         }
     
@@ -732,7 +732,7 @@ Function Create_Character {
         $Import_JSON.Character.Stats.ManaMax        = 80
         $Import_JSON.Character.Stats.Damage         = 10
         $Import_JSON.Character.Stats.Attack         = 4
-        $Import_JSON.Character.Stats.Defence        = 4
+        $Import_JSON.Character.Stats.Armour         = 4
         $Import_JSON.Character.Stats.Dodge          = 1
         $Import_JSON.Character.Stats.Quickness      = 4
         $Import_JSON.Character.Stats.Spells         = 10
@@ -747,7 +747,7 @@ Function Create_Character {
         $Import_JSON.Character.Stats.ManaMax        = 30
         $Import_JSON.Character.Stats.Damage         = 10
         $Import_JSON.Character.Stats.Attack         = 10
-        $Import_JSON.Character.Stats.Defence        = 6
+        $Import_JSON.Character.Stats.Armour         = 6
         $Import_JSON.Character.Stats.Dodge          = 10
         $Import_JSON.Character.Stats.Quickness      = 10
         $Import_JSON.Character.Stats.Spells         = 1
@@ -762,7 +762,7 @@ Function Create_Character {
         $Import_JSON.Character.Stats.ManaMax        = 100
         $Import_JSON.Character.Stats.Damage         = 8
         $Import_JSON.Character.Stats.Attack         = 2
-        $Import_JSON.Character.Stats.Defence        = 4
+        $Import_JSON.Character.Stats.Armour         = 4
         $Import_JSON.Character.Stats.Dodge          = 1
         $Import_JSON.Character.Stats.Quickness      = 4
         $Import_JSON.Character.Stats.Spells         = 10
@@ -777,7 +777,7 @@ Function Create_Character {
         $Import_JSON.Character.Stats.ManaMax        = 10
         $Import_JSON.Character.Stats.Damage         = 1
         $Import_JSON.Character.Stats.Attack         = 8
-        $Import_JSON.Character.Stats.Defence        = 10
+        $Import_JSON.Character.Stats.Armour         = 10
         $Import_JSON.Character.Stats.Dodge          = 8
         $Import_JSON.Character.Stats.Quickness      = 6
         $Import_JSON.Character.Stats.Spells         = 1
@@ -815,7 +815,7 @@ Function Draw_Mob_Stats_Window_And_Info {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,5;$Host.UI.Write("║ Mana      :     of     ║ Vulnerability : ???  ║")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,6;$Host.UI.Write("║ Attack    :            ║ Rare  :              ║")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,7;$Host.UI.Write("║ Damage    :            ║ Boss  : ???          ║")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,8;$Host.UI.Write("║ Defence   :            ║ Drops : a, b, c???   ║")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,8;$Host.UI.Write("║ Armour    :            ║ Drops : a, b, c???   ║")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,9;$Host.UI.Write("║ Dodge     :            ║         x, y, z???   ║")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,10;$Host.UI.Write("║ Quickness :            ║                      ║")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,11;$Host.UI.Write("║ Spells    :            ║                      ║")
@@ -836,7 +836,7 @@ Function Draw_Mob_Stats_Window_And_Info {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 58,1;$Host.UI.Write("Mob Info")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,6;$Host.UI.Write($Selected_Mob_Attack)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,7;$Host.UI.Write($Selected_Mob_Damage)
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,8;$Host.UI.Write($Selected_Mob_Defence)
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,8;$Host.UI.Write($Selected_Mob_Armour)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,9;$Host.UI.Write($Selected_Mob_Dodge)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,10;$Host.UI.Write($Selected_Mob_Quickness)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,11;$Host.UI.Write($Selected_Mob_Spells)
@@ -1123,7 +1123,7 @@ Function Random_Mob {
     $Script:Selected_Mob_ManaMax        = $Selected_Mob.Mana
     $Script:Selected_Mob_Attack         = $Selected_Mob.Attack
     $Script:Selected_Mob_Damage         = $Selected_Mob.Damage
-    $Script:Selected_Mob_Defence        = $Selected_Mob.Defence
+    $Script:Selected_Mob_Armour         = $Selected_Mob.Armour
     $Script:Selected_Mob_Dodge          = $Selected_Mob.Dodge
     $Script:Selected_Mob_Quickness      = $Selected_Mob.Quickness
     $Script:Selected_Mob_Spells         = $Selected_Mob.Spells
