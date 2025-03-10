@@ -1,7 +1,7 @@
 {
   "Locations": {
     "Town": {
-      "CurrentLocation": true,
+      "CurrentLocation": false,
       "LinkedLocations": {
         "The Forest": "F"
       },
@@ -21,7 +21,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": false,
+          "Boss": "No",
           "XP": 500,
           "Loot": {
             "Gold": 1,
@@ -47,7 +47,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 5,
@@ -73,7 +73,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "Yes",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 10,
@@ -99,7 +99,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 10,
@@ -138,7 +138,7 @@
       ]
     },
     "The Forest": {
-      "CurrentLocation": false,
+      "CurrentLocation": true,
       "LinkedLocations": {
         "Town": "T",
         "The River": "R"
@@ -159,7 +159,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 2
@@ -180,7 +180,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "Yes",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 3,
@@ -221,7 +221,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 10,
@@ -244,7 +244,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "No",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 10,
@@ -268,7 +268,7 @@
           "Healing": 50,
           "Killed": 0,
           "Rare": "Yes",
-          "Boss": false,
+          "Boss": "No",
           "XP": 160,
           "Loot": {
             "Gold": 10,
@@ -291,26 +291,26 @@
     }
   },
   "Character": {
-    "Name": "The Dude",
-    "Class": "Rogue",
+    "Name": "RPG_ash",
+    "Class": "Cleric",
     "Race": "Elf",
     "Level": 9,
     "Total_XP": 4560,
     "XP_TNL": 49887.0,
     "Stats": {
-      "HealthCurrent": 7796.0,
-      "HealthMax": 210,
-      "StaminaCurrent": 80,
-      "StaminaMax": 290,
-      "ManaCurrent": 170,
-      "ManaMax": 260,
-      "Damage": 1,
-      "Attack": 1,
-      "Armour": 200,
-      "Dodge": 210,
-      "Quickness": 1,
-      "Spells": 151,
-      "Healing": 244
+      "HealthCurrent": 40,
+      "HealthMax": 40,
+      "StaminaCurrent": 50,
+      "StaminaMax": 50,
+      "ManaCurrent": 100,
+      "ManaMax": 100,
+      "Damage": 8,
+      "Attack": 2,
+      "Armour": 4,
+      "Dodge": 1,
+      "Quickness": 4,
+      "Spells": 10,
+      "Healing": 10
     },
     "Skills": {
       "Dodge": 0,
