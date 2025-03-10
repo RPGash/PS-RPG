@@ -1206,7 +1206,9 @@ Function Fight_Or_Run {
                     if ($Hit_Chance -ge $Random_100) {
                         # 10% +/- of damage done
                         $Random_PlusMinus10 = Get-Random -Minimum -10 -Maximum 11
-                        $Character_Hit_Damage = [Math]::Round($Character_Damage*$Random_PlusMinus10/100+$Character_Damage)
+                        $Character_Hit_Damage = $Character_Damage*$Random_PlusMinus10/100+$Character_Damage
+                        # damage done = damage * (damage / (damage + armour))
+                        $Character_Hit_Damage = [Math]::Round($Character_Hit_Damage*($Character_Hit_Damage/($Character_Hit_Damage+$Selected_Mob_Armour)))
                         # adjust mobs health by damage amount
                         $Selected_Mob_HealthCurrent = $Selected_Mob_HealthCurrent - $Character_Hit_Damage
                         $Selected_Mob.Health = $Selected_Mob_HealthCurrent
