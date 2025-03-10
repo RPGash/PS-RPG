@@ -12,7 +12,7 @@ I love RPGs and PowerShell so thought it would be a good project.
 # Requirements
 - PowerShell 7+ (needs manually installing)
   - https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.5
-- PowerShell Module PSWriteColor (will install for you if not already installed)
+- PowerShell Module PSWriteColor (will prompt to install for you if not already installed)
   - PowerShell Gallery - https://www.powershellgallery.com/packages/PSWriteColor/1.0.1
   - GitHub project site - https://github.com/EvotecIT/PSWriteColor
   - Website - https://evotec.xyz/hub/scripts/pswritecolor
