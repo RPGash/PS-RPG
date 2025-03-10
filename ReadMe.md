@@ -7,7 +7,7 @@ An RPG text adventure created in PowerShell.
 - Currently only works on Windows (not tested on MAC or Linux)
 
 Why?
-I love RPGs and PowerShell and thought it would be a good project.
+I love RPGs and PowerShell so thought it would be a good project.
 
 # Requirements
 - PowerShell 7+
