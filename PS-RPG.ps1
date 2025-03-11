@@ -1532,7 +1532,7 @@ Function Draw_Town_Map {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,2;$Host.UI.Write( "|                                           |  The Anvil & Blade  | |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,3;$Host.UI.Write( "| +------+                                  |                     | |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,4;$Host.UI.Write( "| | Home |                                  |                     | |")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,5;$Host.UI.Write( "| |      |                                  |---------------------+ |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,5;$Host.UI.Write( "| |      |                                  +---------------------+ |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,6;$Host.UI.Write( "| |      |                                                          |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,7;$Host.UI.Write( "| +------+         +--------------+                                 |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,8;$Host.UI.Write( "|                  |    Tavern    |                                 |")
@@ -1549,6 +1549,68 @@ Function Draw_Town_Map {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 107,2;$Host.UI.Write("A") # The Anvil & Blade
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("H") # Home
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 80,8;$Host.UI.Write("T") # Tavern
+    $host.UI.RawUI.ForegroundColor = "Gray" # set the foreground color back to original colour
+}
+
+
+#
+#
+# draw The Forest map
+#
+Function Draw_The_Forest_Map {
+    $host.UI.RawUI.ForegroundColor = "DarkYellow" # changes foreground color
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,0;$Host.UI.Write( "+------------------------------------------------------------+")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,1;$Host.UI.Write( "|                     The Forest            +--------------+ |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,2;$Host.UI.Write( "|                                           |  Tree House  | |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,3;$Host.UI.Write( "|                                           |              | |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,4;$Host.UI.Write( "|                                           |              | |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,5;$Host.UI.Write( "|                                           +--------------+ |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,6;$Host.UI.Write( "|                                                            |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,7;$Host.UI.Write( "|                                                            |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,8;$Host.UI.Write( "|                                                            |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,9;$Host.UI.Write( "|                           +----------+                     |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,10;$Host.UI.Write("|                           | Secret   |                     |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,11;$Host.UI.Write("|                           | Location |                     |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,12;$Host.UI.Write("|      +-----+              +----------+                     |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,13;$Host.UI.Write("|      | Hut |                                               |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,14;$Host.UI.Write("|      |     |                                               |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,15;$Host.UI.Write("|      +-----+                                               |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,16;$Host.UI.Write("+------------------------------------------------------------+")
+
+    $host.UI.RawUI.ForegroundColor = "Green" # changes foreground color
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 103,2;$Host.UI.Write("T") # Tree House
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 86,10;$Host.UI.Write("S") # Secret Location
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 65,13;$Host.UI.Write("H") # Hut
+    $host.UI.RawUI.ForegroundColor = "Gray" # set the foreground color back to original colour
+}
+
+
+#
+#
+# draw The River map
+#
+Function Draw_The_River_Map {
+    $host.UI.RawUI.ForegroundColor = "DarkYellow" # changes foreground color
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,0;$Host.UI.Write( "+-------------------------------------------------------------------+")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,1;$Host.UI.Write( "|                     The River                                     |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,2;$Host.UI.Write( "|                                                                   |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,3;$Host.UI.Write( "|                                                                   |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,4;$Host.UI.Write( "|                                                                   |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,5;$Host.UI.Write( "|                                                                   |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,6;$Host.UI.Write( "|                                                                   |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,7;$Host.UI.Write( "|                                              +--------+           |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,8;$Host.UI.Write( "|                                              |  Camp  |           |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,9;$Host.UI.Write( "|                                              |        |           |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,10;$Host.UI.Write("|                                              |        |           |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,11;$Host.UI.Write("|                                              |        |           |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,12;$Host.UI.Write("|                                              +--------+           |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,13;$Host.UI.Write("|                                                                   |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,14;$Host.UI.Write("|                                                                   |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,15;$Host.UI.Write("|                                                                   |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,16;$Host.UI.Write("+-------------------------------------------------------------------+")
+
+    $host.UI.RawUI.ForegroundColor = "Green" # changes foreground color
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,8;$Host.UI.Write("C") # Camp
     $host.UI.RawUI.ForegroundColor = "Gray" # set the foreground color back to original colour
 }
 
@@ -1582,23 +1644,15 @@ Function Visit_A_Shop {
     Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
     Write-Color "`r`n  You can visit the following buildings:" -Color DarkGray
     Write-Color "  $All_Buildings_In_Current_Location_List" -Color White
-    # Write-Color "  +-------------------------------------------------------------------+" -Color DarkYellow
-    # Write-Color "  |                     ","Town","                  +--------------------+  |" -Color DarkYellow,White,DarkYellow
-    # Write-Color "  |                                           |  The ","A","nvil & Blade |  |" -Color DarkYellow,Green,DarkYellow
-    # Write-Color "  | +------+                                  |                    |  |" -Color DarkYellow
-    # Write-Color "  | | ","H","ome |                                  |                    |  |" -Color DarkYellow,Green,DarkYellow
-    # Write-Color "  | |      |                                  |--------------------+  |" -Color DarkYellow
-    # Write-Color "  | |      |                                                          |" -Color DarkYellow
-    # Write-Color "  | +------+         +--------------+                                 |" -Color DarkYellow
-    # Write-Color "  |                  |    ","T","avern    |                                 |" -Color DarkYellow,Green,DarkYellow
-    # Write-Color "  |                  |              |                                 |" -Color DarkYellow
-    # Write-Color "  |                  |              |                                 |" -Color DarkYellow
-    # Write-Color "  |                  |              |                                 |" -Color DarkYellow
-    # Write-Color "  |                  |              |                                 |" -Color DarkYellow
-    # Write-Color "  |                  |              |                                 |" -Color DarkYellow
-    # Write-Color "  |                  +--------------+                                 |" -Color DarkYellow
-    # Write-Color "  +-------------------------------------------------------------------+" -Color DarkYellow
-    Draw_Town_Map
+    if($Current_Location -eq "Town") {
+        Draw_Town_Map
+    }
+    if($Current_Location -eq "The Forest") {
+        Draw_The_Forest_Map
+    }
+    if($Current_Location -eq "The River") {
+        Draw_The_River_Map
+    }
     do {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         " "*105
