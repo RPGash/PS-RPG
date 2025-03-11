@@ -1,7 +1,7 @@
 {
   "Locations": {
     "Town": {
-      "CurrentLocation": false,
+      "CurrentLocation": true,
       "LinkedLocations": {
         "The Forest": "F"
       },
@@ -12,9 +12,9 @@
           "Health": 5000,
           "Stamina": 50,
           "Mana": 50,
-          "Attack": 500,
-          "Damage": 100,
-          "Armour": 200,
+          "Attack": 5,
+          "Damage": 1,
+          "Armour": 10,
           "Dodge": 10,
           "Quickness": 50,
           "Spells": 50,
@@ -207,7 +207,7 @@
       }
     },
     "The River": {
-      "CurrentLocation": true,
+      "CurrentLocation": false,
       "LinkedLocations": {
         "The Forest": "F"
       },
@@ -305,7 +305,7 @@
     "Total_XP": 4560,
     "XP_TNL": 49887.0,
     "Stats": {
-      "HealthCurrent": 40,
+      "HealthCurrent": 30.0,
       "HealthMax": 40,
       "StaminaCurrent": 50,
       "StaminaMax": 50,
@@ -332,7 +332,7 @@
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
-          "Quantity": 19,
+          "Quantity": 16,
           "Restores": 30,
           "Value": 15,
           "ID": 1,

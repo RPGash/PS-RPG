@@ -1085,7 +1085,7 @@ Function Inventory_Choice{
 #
 Function You_Died {
     Clear-Host
-    Get-Content .\ascii.txt
+    Get-Content ..\RPG\ascii.txt
 }
 
 
@@ -1520,9 +1520,6 @@ Function Travel {
 
 
 #
-#
-#
-#
 # draw Town map
 #
 Function Draw_Town_Map {
@@ -1553,7 +1550,7 @@ Function Draw_Town_Map {
 }
 
 
-#
+
 #
 # draw The Forest map
 #
@@ -1585,7 +1582,7 @@ Function Draw_The_Forest_Map {
 }
 
 
-#
+
 #
 # draw The River map
 #
@@ -1619,7 +1616,7 @@ Function Draw_The_River_Map {
 #
 # visit a shop in whatever location you are in
 #
-Function Visit_A_Shop {
+Function Visit_A_Building {
     Clear-Host
     Draw_Player_Stats_Window
     Draw_Player_Stats_Info
@@ -1634,8 +1631,8 @@ Function Visit_A_Shop {
         $All_Buildings_In_Current_Location_List.Add($Building_In_Current_Location)
         $All_Buildings_In_Current_Location_List.Add("`r`n ")
     }
-    $All_Buildings_In_Current_Location_Letters_Array = $All_Buildings_In_Current_Location_Letters_Array -Join '/'
-    $All_Buildings_In_Current_Location_Letters_Array = $All_Buildings_In_Current_Location_Letters_Array + "/Q"
+    $All_Buildings_In_Current_Location_Letters_Array_String = $All_Buildings_In_Current_Location_Letters_Array -Join '/'
+    $All_Buildings_In_Current_Location_Letters_Array_String = $All_Buildings_In_Current_Location_Letters_Array_String + "/Q"
 
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
     Write-Color "╔═════════════════════════════════════════════════════╗" -Color DarkGray
@@ -1644,48 +1641,128 @@ Function Visit_A_Shop {
     Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
     Write-Color "`r`n  You can visit the following buildings:" -Color DarkGray
     Write-Color "  $All_Buildings_In_Current_Location_List" -Color White
-    if($Current_Location -eq "Town") {
-        Draw_Town_Map
-    }
-    if($Current_Location -eq "The Forest") {
-        Draw_The_Forest_Map
-    }
-    if($Current_Location -eq "The River") {
-        Draw_The_River_Map
-    }
+
+    if($Current_Location -eq "Town") { Draw_Town_Map }
+    if($Current_Location -eq "The Forest") { Draw_The_Forest_Map }
+    if($Current_Location -eq "The River") { Draw_The_River_Map }
+
     do {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         " "*105
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-        Write-Color -NoNewLine "Which building do you want to visit? ", "[$All_Buildings_In_Current_Location_Letters_Array]" -Color DarkYellow,Green
+        Write-Color -NoNewLine "Which building do you want to visit? ", "[$All_Buildings_In_Current_Location_Letters_Array_String]" -Color DarkYellow,Green
         $Building_Choice = Read-Host " "
         $Building_Choice = $Building_Choice.Trim()
-    } until ($Building_Choice -ieq "q" -or $All_Buildings_In_Current_Location_Letters_Array -match $Building_Choice)
+    } until ($Building_Choice -ieq "q" -or $Building_Choice -in $All_Buildings_In_Current_Location_Letters_Array)
     
-    switch ($Building_Choice) {
-        q {
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-            " "*3000
-            break
-        }
-        h {
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-            " "*3000
-            break
-        }
-        t {
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-            " "*3000
-            break
-        }
-        a {
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-            " "*3000
-            break
-        }
-        Default {
+    # switch choice for Town
+    if($Current_Location -eq "Town") {
+        switch ($Building_Choice) {
+            q {
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+                " "*3000
+                # break
+            }
+            h { # Home
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+                " "*3000
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+                Write-Color "╔═════════════════════════════════════════════════════╗" -Color DarkGray
+                Write-Color "║ ","Home","                                                ║" -Color DarkGray,White,DarkGray
+                Write-Color "╚═════════════════════════════════════════════════════╝" -Color DarkGray
+                Draw_Town_Map
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
+                Write-Color "  You are now inside your ","Home","." -Color DarkGray,White,DarkGray
+                $Home_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
+                Add-Content -Path .\error_log.log -value "---------------------------------"
+                if (($Character_HealthCurrent -lt $Character_HealthMax) -or ($Character_ManaCurrent -lt $Character_ManaMax)) {
+                    
+                    $Fully_Healed = "."
+                    $Home_Choice_Array.Add("R")
+                    Add-Content -Path .\error_log.log -value "home choice array1: $($Home_Choice_Array)"
+                } else {
+                    $Fully_Healed = " but it looks like you are already fully rested."
+                }
+                $Home_Choice_Array.Add("L")
+                $Home_Choice_Array_String = $Home_Choice_Array -Join "/"
+                Write-Color "  You can rest here and recover your ","health ","and ","mana","$($Fully_Healed)" -Color DarkGray,Green,DarkGray,Blue,DarkGray
+                do {
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                    " "*105
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                    if ($Home_Choice_Array.Contains("R")) {
+                        Write-Color -NoNewLine "R","est or ","L","eave? ", "[$Home_Choice_Array_String]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                    } else {
+                        Write-Color -NoNewLine "L","eave ", "[$Home_Choice_Array]" -Color Green,DarkYellow,Green
+                    }
+                    $Home_Choice = Read-Host " "
+                    $Script:Home_Choice = $Home_Choice.Trim()
+                } until ($Home_Choice -in $Home_Choice_Array -or $Home_Choice -ieq 'info') # choice check against an array cannot be done after a -join
+            
+                # break
+            }
+            t { # Tavern
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+                " "*3000
+                # break
+            }
+            a { # The Anvil & Blade
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+                " "*3000
+                # break
+            }
+            # Default {
+            # }
         }
     }
+
+    # switch choice for The Forest
+    if($Current_Location -eq "The Forest") {
+        switch ($Building_Choice) {
+            q {
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+                " "*3000
+                # break
+            }
+            h { # Hut
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+                " "*3000
+                # break
+            }
+            t { # Tree House
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+                " "*3000
+                # break
+            }
+            s { # Secret Location
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+                " "*3000
+                # break
+            }
+            # Default {
+            # }
+        }
+    }
+
+    # switch choice for The River
+    if($Current_Location -eq "The River") {
+        switch ($Building_Choice) {
+            q {
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+                " "*3000
+                # break
+            }
+            c { # Camp
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+                " "*3000
+                # break
+            }
+            # Default {
+            # }
+        }
+    }
+
+    # below is run if Q quit is chosen in any location
     Set-JSON
     Clear-Host
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
@@ -1784,7 +1861,7 @@ do {
             # Break
         }
         v {
-            Visit_A_Shop
+            Visit_A_Building
             # Break
         }
         i {
