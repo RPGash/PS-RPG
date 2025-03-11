@@ -1654,6 +1654,8 @@ Function Visit_A_Building {
         $Building_Choice = Read-Host " "
         $Building_Choice = $Building_Choice.Trim()
     } until ($Building_Choice -ieq "q" -or $Building_Choice -in $All_Buildings_In_Current_Location_Letters_Array)
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+    " "*3000
     
     # switch choice for Town
     if($Current_Location -eq "Town") {
@@ -1664,42 +1666,58 @@ Function Visit_A_Building {
                 # break
             }
             h { # Home
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                " "*3000
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                Write-Color "╔═════════════════════════════════════════════════════╗" -Color DarkGray
-                Write-Color "║ ","Home","                                                ║" -Color DarkGray,White,DarkGray
-                Write-Color "╚═════════════════════════════════════════════════════╝" -Color DarkGray
-                Draw_Town_Map
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                Write-Color "  You are now inside your ","Home","." -Color DarkGray,White,DarkGray
-                $Home_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
-                Add-Content -Path .\error_log.log -value "---------------------------------"
-                if (($Character_HealthCurrent -lt $Character_HealthMax) -or ($Character_ManaCurrent -lt $Character_ManaMax)) {
-                    
-                    $Fully_Healed = "."
-                    $Home_Choice_Array.Add("R")
-                    Add-Content -Path .\error_log.log -value "home choice array1: $($Home_Choice_Array)"
-                } else {
-                    $Fully_Healed = " but it looks like you are already fully rested."
-                }
-                $Home_Choice_Array.Add("L")
-                $Home_Choice_Array_String = $Home_Choice_Array -Join "/"
-                Write-Color "  You can rest here and recover your ","health ","and ","mana","$($Fully_Healed)" -Color DarkGray,Green,DarkGray,Blue,DarkGray
                 do {
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                    " "*105
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                    if ($Home_Choice_Array.Contains("R")) {
-                        Write-Color -NoNewLine "R","est or ","L","eave? ", "[$Home_Choice_Array_String]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+                    Write-Color "╔═════════════════════════════════════════════════════╗" -Color DarkGray
+                    Write-Color "║ ","Home","                                                ║" -Color DarkGray,White,DarkGray
+                    Write-Color "╚═════════════════════════════════════════════════════╝" -Color DarkGray
+                    Draw_Town_Map
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
+                    $Home_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
+                    if ($Home_Choice -ieq 'r' ) { # rested (from choice below), so display fully rested message instead
+                        Set-JSON
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
+                        Draw_Player_Stats_Window
+                        Draw_Player_Stats_Info
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
+                        " "*105
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
+                        " "*105
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
+                        Write-Color "  You are now fully rested. There is nothing else to do but leave." -Color DarkGray
+                        $Home_Choice_Array.Add("L") # array now only contains L
                     } else {
-                        Write-Color -NoNewLine "L","eave ", "[$Home_Choice_Array]" -Color Green,DarkYellow,Green
+                        Write-Color "  You are now inside your ","Home","." -Color DarkGray,White,DarkGray
+                        if (($Character_HealthCurrent -lt $Character_HealthMax) -or ($Character_ManaCurrent -lt $Character_ManaMax)) {
+                            
+                            $Fully_Healed = "."
+                            $Home_Choice_Array.Add("R")
+                        } else {
+                            $Fully_Healed = " but it looks like you are already fully rested."
+                        }
+                        $Home_Choice_Array.Add("L")
+                        $Home_Choice_Array_String = $Home_Choice_Array -Join "/"
+                        Write-Color "  You can rest here and recover your ","health ","and ","mana","$($Fully_Healed)" -Color DarkGray,Green,DarkGray,Blue,DarkGray
                     }
-                    $Home_Choice = Read-Host " "
-                    $Script:Home_Choice = $Home_Choice.Trim()
-                } until ($Home_Choice -in $Home_Choice_Array -or $Home_Choice -ieq 'info') # choice check against an array cannot be done after a -join
-            
-                # break
+                    do {
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                        " "*105
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                        if ($Home_Choice_Array.Contains("R")) {
+                            Write-Color -NoNewLine "R","est or ","L","eave? ", "[$Home_Choice_Array_String]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                        } else {
+                            Write-Color -NoNewLine "L","eave ", "[$Home_Choice_Array]" -Color Green,DarkYellow,Green
+                        }
+                        $Home_Choice = Read-Host " "
+                        $Script:Home_Choice = $Home_Choice.Trim()
+                    } until ($Home_Choice -in $Home_Choice_Array -or $Home_Choice -ieq 'info') # choice check against an array cannot be done after a -join
+                    
+                    if ($Home_Choice -ieq 'r') {
+                        $Script:Character_HealthCurrent = $Character_HealthMax
+                        $Import_JSON.Character.Stats.HealthCurrent = $Character_HealthCurrent
+                    }
+                    # break
+                } until ($Home_Choice -ieq 'l')
             }
             t { # Tavern
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
@@ -1794,6 +1812,8 @@ if (Test-Path -Path .\PS-RPG.json) {
         do {
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
             " "*105
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+            " "*105
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
             Write-Color -NoNewLine "`r`nPS-RPG.json ","save data found. Load saved data?"," [Y/N/Q]" -Color Magenta,DarkYellow,Green
             $Load_Save_Data_Choice = Read-Host " "
@@ -1875,7 +1895,7 @@ do {
             Game_Info
             # Break
         }
-        Default {}
+        # Default {}
     }
 } while ($true)
 
