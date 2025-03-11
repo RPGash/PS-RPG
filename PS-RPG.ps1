@@ -1887,7 +1887,7 @@ do {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         " "*105
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-        Write-Color -NoNewLine "H", "unt, ","T","ravel, ","V","isit a shop, or look at your ","I","nventory? ", "[H/T/V/I]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+        Write-Color -NoNewLine "H", "unt, ","T","ravel, ","V","isit a building, or look at your ","I","nventory? ", "[H/T/V/I]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
         $Hunt_Or_Inventory = Read-Host " "
         $Hunt_Or_Inventory = $Hunt_Or_Inventory.Trim()
     } until ($Hunt_Or_Inventory -ieq "h" -or $Hunt_Or_Inventory -ieq "t" -or $Hunt_Or_Inventory -ieq "v" -or $Hunt_Or_Inventory -ieq "i" -or $Hunt_Or_Inventory -ieq "info")
