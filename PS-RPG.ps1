@@ -1444,7 +1444,7 @@ Function Travel {
             $All_Linked_Locations_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
             $All_Linked_Locations_List = New-Object System.Collections.Generic.List[System.Object]
             foreach ($Linked_Location in $All_Linked_Locations) {
-                $All_Linked_Locations_Letters_Array.Add($Import_JSON.Locations.$Current_Location.LinkedLocations.$Linked_Location)
+                $All_Linked_Locations_Letters_Array.Add($Import_JSON.Locations.$Current_Location.LinkedLocations.$Linked_Location) # grabs single character for that building
                 $All_Linked_Locations_List.Add($Linked_Location)
                 $All_Linked_Locations_List.Add("`r`n ")
             }
@@ -1459,7 +1459,7 @@ Function Travel {
     Write-Color "╚═════════════════════════════════════════════════════╝" -Color DarkGray
     Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
     Write-Color "`r`n  You can travel to the following locations:" -Color DarkGray
-    Write-Color "`r`n  $All_Linked_Locations_List" -Color White
+    Write-Color "  $All_Linked_Locations_List" -Color White
     Write-Color " ,------------------------------------------------------." -Color DarkYellow
     Write-Color "(_\  +--------------+  +--------------+  +-------------+ \" -Color DarkYellow
     Write-Color "   | |     ","T","own     |  |  The ","F","orest  |  |  The ","R","iver  | |" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow
@@ -1478,7 +1478,7 @@ Function Travel {
         Write-Color -NoNewLine "Where do you want to travel to? ", "[$All_Linked_Locations_Letters_Array]" -Color DarkYellow,Green
         $Travel_Choice = Read-Host " "
         $Travel_Choice = $Travel_Choice.Trim()
-    } until ($Travel_Choice -ieq "q" -or $All_Linked_Locations_Letters_Array -match $Travel_Choice )
+    } until ($Travel_Choice -ieq "q" -or $All_Linked_Locations_Letters_Array -match $Travel_Choice)
     
     switch ($Travel_Choice) {
         q {
@@ -1520,92 +1520,123 @@ Function Travel {
 
 
 #
+#
+#
+#
+# draw Town map
+#
+Function Draw_Town_Map {
+    $host.UI.RawUI.ForegroundColor = "DarkYellow" # changes foreground color
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,0;$Host.UI.Write( "+-------------------------------------------------------------------+")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,1;$Host.UI.Write( "|                     Town                  +---------------------+ |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,2;$Host.UI.Write( "|                                           |  The Anvil & Blade  | |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,3;$Host.UI.Write( "| +------+                                  |                     | |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,4;$Host.UI.Write( "| | Home |                                  |                     | |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,5;$Host.UI.Write( "| |      |                                  |---------------------+ |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,6;$Host.UI.Write( "| |      |                                                          |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,7;$Host.UI.Write( "| +------+         +--------------+                                 |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,8;$Host.UI.Write( "|                  |    Tavern    |                                 |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,9;$Host.UI.Write( "|                  |              |                                 |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,10;$Host.UI.Write("|                  |              |                                 |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,11;$Host.UI.Write("|                  |              |                                 |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,12;$Host.UI.Write("|                  |              |                                 |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,13;$Host.UI.Write("|                  |              |                                 |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,14;$Host.UI.Write("|                  |              |                                 |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,15;$Host.UI.Write("|                  +--------------+                                 |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,16;$Host.UI.Write("+-------------------------------------------------------------------+")
+
+    $host.UI.RawUI.ForegroundColor = "Green" # changes foreground color
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 107,2;$Host.UI.Write("A") # The Anvil & Blade
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("H") # Home
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 80,8;$Host.UI.Write("T") # Tavern
+    $host.UI.RawUI.ForegroundColor = "Gray" # set the foreground color back to original colour
+}
+
+
+
+#
 # visit a shop in whatever location you are in
 #
 Function Visit_A_Shop {
-    # Clear-Host
-    # Draw_Player_Stats_Window
-    # Draw_Player_Stats_Info
+    Clear-Host
+    Draw_Player_Stats_Window
+    Draw_Player_Stats_Info
+    # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
+
     # # find all linked locations that you can travel to (not including your current location)
-    # $All_Location_Names = $Import_JSON.Locations.PSObject.Properties.Name
-    # foreach ($Single_Location in $All_Location_Names) {
-    #     if ($Import_JSON.Locations.$Single_Location.CurrentLocation -eq $true) {
-    #         $All_Linked_Locations = $Import_JSON.Locations.$Single_Location.LinkedLocations.PSObject.Properties.Name
-    #         $All_Linked_Locations_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
-    #         $All_Linked_Locations_List = New-Object System.Collections.Generic.List[System.Object]
-    #         foreach ($Linked_Location in $All_Linked_Locations) {
-    #             $All_Linked_Locations_Letters_Array.Add($Import_JSON.Locations.$Current_Location.LinkedLocations.$Linked_Location)
-    #             $All_Linked_Locations_List.Add($Linked_Location)
-    #             $All_Linked_Locations_List.Add("`r`n ")
-    #         }
-    #     }
-    # }
-    # $All_Linked_Locations_Letters_Array = $All_Linked_Locations_Letters_Array -Join '/'
-    # $All_Linked_Locations_Letters_Array = $All_Linked_Locations_Letters_Array + "/Q"
+    $All_Buildings_In_Current_Location = $Import_JSON.Locations.$Current_Location.Buildings.PSObject.Properties.Name
+    $All_Buildings_In_Current_Location_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
+    $All_Buildings_In_Current_Location_List = New-Object System.Collections.Generic.List[System.Object]
+    foreach ($Building_In_Current_Location in $All_Buildings_In_Current_Location) {
+        $All_Buildings_In_Current_Location_Letters_Array.Add($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.$Building_In_Current_Location) # grabs single character for that building
+        $All_Buildings_In_Current_Location_List.Add($Building_In_Current_Location)
+        $All_Buildings_In_Current_Location_List.Add("`r`n ")
+    }
+    $All_Buildings_In_Current_Location_Letters_Array = $All_Buildings_In_Current_Location_Letters_Array -Join '/'
+    $All_Buildings_In_Current_Location_Letters_Array = $All_Buildings_In_Current_Location_Letters_Array + "/Q"
 
-    # $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-    # Write-Color "╔═════════════════════════════════════════════════════╗" -Color DarkGray
-    # Write-Color "║ ","Travel","                                              ║" -Color DarkGray,White,DarkGray
-    # Write-Color "╚═════════════════════════════════════════════════════╝" -Color DarkGray
-    # Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
-    # Write-Color "`r`n  You can travel to the following locations:" -Color DarkGray
-    # Write-Color "`r`n  $All_Linked_Locations_List" -Color White
-    # Write-Color " ,------------------------------------------------------." -Color DarkYellow
-    # Write-Color "(_\  +--------------+  +--------------+  +-------------+ \" -Color DarkYellow
-    # Write-Color "   | |     ","T","own     |  |  The ","F","orest  |  |  The ","R","iver  | |" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow
-    # Write-Color "   | |              |  |              |  |             | |" -Color DarkYellow
-    # Write-Color "   | |   The Anvil  |  |              |  |             | |" -Color DarkYellow
-    # Write-Color "   | |   & Blade    |  |            <------>           | |" -Color DarkYellow
-    # Write-Color "   | |          <------------>        |  |             | |" -Color DarkYellow
-    # Write-Color "   | |   Tavern     |  |  ????????    |  |  ????????   | |" -Color DarkYellow
-    # Write-Color "  _| +--------------+  +--------------+  +-------------+ |" -Color DarkYellow
-    # Write-Color " (_/____________________________________________________/" -Color DarkYellow
-
-    # do {
-    #     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-    #     " "*105
-    #     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-    #     Write-Color -NoNewLine "Where do you want to travel to? ", "[$All_Linked_Locations_Letters_Array]" -Color DarkYellow,Green
-    #     $Travel_Choice = Read-Host " "
-    #     $Travel_Choice = $Travel_Choice.Trim()
-    # } until ($Travel_Choice -ieq "q" -or $All_Linked_Locations_Letters_Array -match $Travel_Choice )
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+    Write-Color "╔═════════════════════════════════════════════════════╗" -Color DarkGray
+    Write-Color "║ ","Visit","                                               ║" -Color DarkGray,White,DarkGray
+    Write-Color "╚═════════════════════════════════════════════════════╝" -Color DarkGray
+    Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
+    Write-Color "`r`n  You can visit the following buildings:" -Color DarkGray
+    Write-Color "  $All_Buildings_In_Current_Location_List" -Color White
+    # Write-Color "  +-------------------------------------------------------------------+" -Color DarkYellow
+    # Write-Color "  |                     ","Town","                  +--------------------+  |" -Color DarkYellow,White,DarkYellow
+    # Write-Color "  |                                           |  The ","A","nvil & Blade |  |" -Color DarkYellow,Green,DarkYellow
+    # Write-Color "  | +------+                                  |                    |  |" -Color DarkYellow
+    # Write-Color "  | | ","H","ome |                                  |                    |  |" -Color DarkYellow,Green,DarkYellow
+    # Write-Color "  | |      |                                  |--------------------+  |" -Color DarkYellow
+    # Write-Color "  | |      |                                                          |" -Color DarkYellow
+    # Write-Color "  | +------+         +--------------+                                 |" -Color DarkYellow
+    # Write-Color "  |                  |    ","T","avern    |                                 |" -Color DarkYellow,Green,DarkYellow
+    # Write-Color "  |                  |              |                                 |" -Color DarkYellow
+    # Write-Color "  |                  |              |                                 |" -Color DarkYellow
+    # Write-Color "  |                  |              |                                 |" -Color DarkYellow
+    # Write-Color "  |                  |              |                                 |" -Color DarkYellow
+    # Write-Color "  |                  |              |                                 |" -Color DarkYellow
+    # Write-Color "  |                  +--------------+                                 |" -Color DarkYellow
+    # Write-Color "  +-------------------------------------------------------------------+" -Color DarkYellow
+    Draw_Town_Map
+    do {
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+        " "*105
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+        Write-Color -NoNewLine "Which building do you want to visit? ", "[$All_Buildings_In_Current_Location_Letters_Array]" -Color DarkYellow,Green
+        $Building_Choice = Read-Host " "
+        $Building_Choice = $Building_Choice.Trim()
+    } until ($Building_Choice -ieq "q" -or $All_Buildings_In_Current_Location_Letters_Array -match $Building_Choice)
     
-    # switch ($Travel_Choice) {
-    #     q {
-    #         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-    #         " "*3000
-    #         break
-    #     }
-    #     t {
-    #         $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
-    #         $Script:Current_Location = "Town"
-    #         $Import_JSON.Locations.Town.CurrentLocation = $true
-    #         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-    #         " "*3000
-    #         Set-JSON
-    #     }
-    #     f {
-    #         $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
-    #         $Script:Current_Location = "The Forest"
-    #         $Import_JSON.Locations.'The Forest'.CurrentLocation = $true
-    #         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-    #         " "*3000
-    #     }
-    #     r {
-    #         $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
-    #         $Script:Current_Location = "The River"
-    #         $Import_JSON.Locations.'The River'.CurrentLocation = $true
-    #         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-    #         " "*3000
-    #     }
-    #     Default {
-    #     }
-    # }
-    # Set-JSON
-    # $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
-    # Draw_Player_Stats_Window
-    # Draw_Player_Stats_Info
-
+    switch ($Building_Choice) {
+        q {
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+            " "*3000
+            break
+        }
+        h {
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+            " "*3000
+            break
+        }
+        t {
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+            " "*3000
+            break
+        }
+        a {
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+            " "*3000
+            break
+        }
+        Default {
+        }
+    }
+    Set-JSON
+    Clear-Host
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
+    Draw_Player_Stats_Window
+    Draw_Player_Stats_Info
 }
 
 

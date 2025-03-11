@@ -114,24 +114,25 @@
           }
         }
       ],
-      "NPC": [
+      "NPCs": [
         {
           "Name": "Nobody"
         }
       ],
-      "Buildings": [
-        {
-          "Name": "Home"
+      "Buildings": {
+        "Home": {
+          "Home": "H",
+          "Owner": "PLAYER NAME"
         },
-        {
-          "Name": "Tavern",
+        "Tavern": {
+          "Tavern": "T",
           "Owner": "Elara"
         },
-        {
-          "Name": "The Anvil & Blade",
+        "The Anvil & Blade": {
+          "The Anvil & Blade": "A",
           "Owner": "Draven"
         }
-      ]
+      }
     },
     "The Forest": {
       "CurrentLocation": false,
