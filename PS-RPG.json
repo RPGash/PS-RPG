@@ -135,7 +135,7 @@
       }
     },
     "The Forest": {
-      "CurrentLocation": false,
+      "CurrentLocation": true,
       "LinkedLocations": {
         "Town": "T",
         "The River": "R"
@@ -197,7 +197,7 @@
           "Owner": "Hut Owner?????"
         },
         "Tree House": {
-          "Tavern": "T",
+          "Tree House": "T",
           "Owner": "Tree House Owner???"
         },
         "Secret Location": {
@@ -207,7 +207,7 @@
       }
     },
     "The River": {
-      "CurrentLocation": true,
+      "CurrentLocation": false,
       "LinkedLocations": {
         "The Forest": "F"
       },

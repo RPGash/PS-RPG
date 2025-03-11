@@ -191,11 +191,20 @@
           "Name": "Bob"
         }
       ],
-      "Buildings": [
-        {
-          "Name": "Hut"
+      "Buildings": {
+        "Hut": {
+          "Hut": "H",
+          "Owner": "Hut Owner?????"
+        },
+        "Tree House": {
+          "Tree House": "T",
+          "Owner": "Tree House Owner???"
+        },
+        "Secret Location": {
+          "Secret Location": "S",
+          "Owner": "Unknown"
         }
-      ]
+      }
     },
     "The River": {
       "CurrentLocation": false,
@@ -280,11 +289,12 @@
           "Name": "Nobody"
         }
       ],
-      "Buildings": [
-        {
-          "Name": "Shack"
+      "Buildings": {
+        "Camp": {
+          "Camp": "C",
+          "Owner": "Camp Owner???"
         }
-      ]
+      }
     }
   },
   "Character": {
