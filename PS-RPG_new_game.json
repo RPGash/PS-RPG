@@ -114,28 +114,25 @@
           }
         }
       ],
-      "NPC": [
+      "NPCs": [
         {
           "Name": "Nobody"
         }
       ],
-      "Buildings": [
-        {
-          "Name": "Home"
+      "Buildings": {
+        "Home": {
+          "Home": "H",
+          "Owner": "PLAYER NAME"
         },
-        {
-          "Name": "Tavern",
-          "Owner": "AAAAA"
+        "Tavern": {
+          "Tavern": "T",
+          "Owner": "Elara"
         },
-        {
-          "Name": "Armoury",
-          "Owner": "BBBBB"
-        },
-        {
-          "Name": "Weapon Smith",
-          "Owner": "CCCCC"
+        "The Anvil & Blade": {
+          "The Anvil & Blade": "A",
+          "Owner": "Draven"
         }
-      ]
+      }
     },
     "The Forest": {
       "CurrentLocation": true,
@@ -291,9 +288,9 @@
     }
   },
   "Character": {
-    "Name": "RPG_ash",
+    "Name": "ash",
     "Class": "Cleric",
-    "Race": "Elf",
+    "Race": "Human",
     "Level": 9,
     "Total_XP": 4560,
     "XP_TNL": 49887.0,
