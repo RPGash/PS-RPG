@@ -1656,6 +1656,7 @@ Function Visit_A_Building {
     } until ($Building_Choice -ieq "q" -or $Building_Choice -in $All_Buildings_In_Current_Location_Letters_Array)
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
     " "*3000
+
     
     # switch choice for Town
     if($Current_Location -eq "Town") {
@@ -1672,6 +1673,11 @@ Function Visit_A_Building {
                     Write-Color "║ ","Home","                                                ║" -Color DarkGray,White,DarkGray
                     Write-Color "╚═════════════════════════════════════════════════════╝" -Color DarkGray
                     Draw_Town_Map
+                    # set building single name characters to DarkYellow as they are no longer valid locations to visit
+                    $host.UI.RawUI.ForegroundColor = "DarkYellow"
+                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 107,2;$Host.UI.Write("A") # The Anvil & Blade
+                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("H") # Home
+                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 80,8;$Host.UI.Write("T") # Tavern
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     $Home_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
                     if ($Home_Choice -ieq 'r' ) { # rested (from choice below), so display fully rested message instead
