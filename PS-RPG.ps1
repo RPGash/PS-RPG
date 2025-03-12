@@ -42,16 +42,18 @@ $PSRPG_Version = "v0.1-alpha"
 #
 # Pre-requisite checks and install / import PSWriteColor module - NOT WORKING FOR PowerShell 5.1
 #
+<#
 if(($PSVersionTable).PSEdition -eq "Desktop") {
     Clear-Host
     Write-Output  "`r`n"
     Write-Warning "You are running PS-RPG.ps1 with Windows PowerShell Desktop version."
     Write-Output  "`r`nPS-RPG.ps1 only runs with PowerShell Core (7+)."
     Write-Output  "`r`nDownload and install PowerShell Core then re-run PS-RPG.ps1 using that version."
-    Write-Output  "`r`nYou can download PowerShell Core from Microsoft's Docs page at:"
+    Write-Output  "`r`nYou can download PowerShell Core from Microsoft"s Docs page at:"
     Write-Output  "`r`nhttps://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows`r`n`n`n`n`n"
     Exit
 }
+#>
 
 
 if (-not(Test-Path -Path .\PS-RPG.json)) {
@@ -91,7 +93,7 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
         }
         Write-Output "`r`nAttempting to install PSWriteColor module."
         Write-Output "Install path will be $ENV:USERPROFILE\Documents\WindowsPowerShell\Modules\."
-        Write-Host "Accept the install prompt with either 'Y' or 'A' then Enter to install." -ForegroundColor Green
+        Write-Host "Accept the install prompt with either "Y" or "A" then Enter to install." -ForegroundColor Green
         Install-Module -Name "PSWriteColor" -Scope CurrentUser
         $PSWriteModule_Install_Check = Get-Module -Name "PSWriteColor" -ListAvailable
         if ($PSWriteModule_Install_Check) {
@@ -156,7 +158,7 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
                 Exit
             }
         }
-    } until ($Ready_To_Play_PSRPG -ieq 'y')
+    } until ($Ready_To_Play_PSRPG -ieq "y")
 }
 
 
@@ -202,20 +204,20 @@ Function Set-JSON {
 # player stats window
 #
 Function Draw_Player_Stats_Window {
-    Write-Color "╔═════════════════════════════════════════════════════╗" -Color DarkGray
-    Write-Color "║                                                     ║" -Color DarkGray
-    Write-Color "╠═══════════════════════╦═════════════════════════════╣" -Color DarkGray
-    Write-Color "║                       ║ Health    :     of          ║" -Color DarkGray
-    Write-Color "║                       ║ Stamina   :     of          ║" -Color DarkGray
-    Write-Color "║ Name     :            ║ Mana      :     of          ║" -Color DarkGray
-    Write-Color "║ Class    :            ║ Attack    :                 ║" -Color DarkGray
-    Write-Color "║ Race     :            ║ Damage    :                 ║" -Color DarkGray
-    Write-Color "║ Level    :            ║ Armour    :                 ║" -Color DarkGray
-    Write-Color "║ Location :            ║ Dodge     :                 ║" -Color DarkGray
-    Write-Color "║ Gold     :            ║ Quickness :                 ║" -Color DarkGray
-    Write-Color "║ Total XP :            ║ Spells    :                 ║" -Color DarkGray
-    Write-Color "║ XP TNL   :            ║ Healing   :                 ║" -Color DarkGray
-    Write-Color "╚═══════════════════════╩═════════════════════════════╝" -Color DarkGray
+    Write-Color "+-----------------------------------------------------+" -Color DarkGray
+    Write-Color "|                                                     |" -Color DarkGray
+    Write-Color "+-----------------------+-----------------------------+" -Color DarkGray
+    Write-Color "|                       | Health    :     of          |" -Color DarkGray
+    Write-Color "|                       | Stamina   :     of          |" -Color DarkGray
+    Write-Color "| Name     :            | Mana      :     of          |" -Color DarkGray
+    Write-Color "| Class    :            | Attack    :                 |" -Color DarkGray
+    Write-Color "| Race     :            | Damage    :                 |" -Color DarkGray
+    Write-Color "| Level    :            | Armour    :                 |" -Color DarkGray
+    Write-Color "| Location :            | Dodge     :                 |" -Color DarkGray
+    Write-Color "| Gold     :            | Quickness :                 |" -Color DarkGray
+    Write-Color "| Total XP :            | Spells    :                 |" -Color DarkGray
+    Write-Color "| XP TNL   :            | Healing   :                 |" -Color DarkGray
+    Write-Color "+-----------------------+-----------------------------+" -Color DarkGray
 }
 
 
@@ -263,13 +265,13 @@ Function Draw_Player_Stats_Info {
 
 Function Game_Info {
     Clear-Host
-    Write-Color "╔═════════════════════════════════════════════════════╗" -Color DarkGray
-    Write-Color "║ Game Info                                           ║" -Color DarkGray
-    Write-Color "╠═════════════════════════════════════════════════════╣" -Color DarkGray
-    Write-Color "║ Page 1 - Info                                       ║" -Color DarkGray
-    Write-Color "║ Page 2 - Stat                                       ║" -Color DarkGray
-    Write-Color "║ Page 3 - ????                                       ║" -Color DarkGray
-    Write-Color "╚═════════════════════════════════════════════════════╝" -Color DarkGray
+    Write-Color "--------------------------------------------------------" -Color DarkGray
+    Write-Color " Game Info                                           " -Color DarkGray
+    Write-Color "---------------------------------------------------------" -Color DarkGray
+    Write-Color " Page 1 - Info                                       " -Color DarkGray
+    Write-Color " Page 2 - Stat                                       " -Color DarkGray
+    Write-Color " Page 3 - ????                                       " -Color DarkGray
+    Write-Color "---------------------------------------------------------" -Color DarkGray
     do {
         do {
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -287,11 +289,11 @@ Function Game_Info {
         }
         if ($Game_Info_Page_Choice -ieq "1") {
             Clear-Host
-            Write-Color "╔═════════════════════════════════════════════════════╗" -Color DarkGray
-            Write-Color "║ Page 1 of 1 - Info                                  ║" -Color DarkGray
-            Write-Color "╠═════════════════════════════════════════════════════╣" -Color DarkGray
-            Write-Color "║                                                     ║" -Color DarkGray
-            Write-Color "╚═════════════════════════════════════════════════════╝" -Color DarkGray
+            Write-Color "--------------------------------------------------------" -Color DarkGray
+            Write-Color " Page 1 of 1 - Info                                  " -Color DarkGray
+            Write-Color "---------------------------------------------------------" -Color DarkGray
+            Write-Color "                                                     " -Color DarkGray
+            Write-Color "---------------------------------------------------------" -Color DarkGray
             Write-Color "`r`nWelcome to ", "PS-RPG", ", my 1st RPG text adventure written in PowerShell." -Color Gray,Magenta,Gray
             Write-Color "`r`nAs previously mentioned, the PSWriteColor PowerShell module written by Przemyslaw Klys" -Color Gray
             Write-Color "is required which if you are seeing this message then it has installed and imported successfully." -Color Gray
@@ -299,27 +301,27 @@ Function Game_Info {
             Write-Color "`r`nAll the ", "PS-RPG ", "games files are stored your ", "$PSScriptRoot"," folder`r`nwhich is where you have run the game from. They include:" -Color Gray,Magenta,Gray,Cyan,Gray
             Write-Color "The main PowerShell script            : ", "PS-RPG.ps1" -Color Gray,Cyan
             Write-Color "ASCII art for death messages          : ", "ASCII.txt" -Color Gray,Cyan
-            Write-Color "A JSON file that stores all game info : ", "PS-RPG.json ", "(Locations, Mobs, NPCs and Character Stats etc.)" -Color Gray,Cyan,Gray
-            Write-Color "`r`nPlayer input options appear in ","green ", "e.g. ", "[Y/N/Q/I] ", "would be ", "yes/no/quit/inventory", "." -Color Gray,Green,Gray,Green,Gray,Green,Gray
+            Write-Color "A JSON file that stores all game info : ", "PS-RPG.json ", "e.g. Locations, Mobs, NPCs and Character Stats etc." -Color Gray,Cyan,Gray
+            Write-Color "`r`nPlayer input options appear in ","green ", "e.g. ", "Y/N/Q/I ", "would be ", "yes/no/quit/inventory", "." -Color Gray,Green,Gray,Green,Gray,Green,Gray
             Write-Color "Enter the single character then hit Enter to confirm the choice." -Color Gray
             Write-Color "`r`nWARNING - Quitting the game unexpectedly may cause lose of data." -Color Cyan
         }
         if ($Game_Info_Page_Choice -ieq "2") {
             Clear-Host
-            Write-Color "╔═════════════════════════════════════════════════════╗" -Color DarkGray
-            Write-Color "║ Page 2 of 3 - stats                                 ║" -Color DarkGray
-            Write-Color "╠═════════════════════════════════════════════════════╣" -Color DarkGray
-            Write-Color "║                                                     ║" -Color DarkGray
-            Write-Color "╚═════════════════════════════════════════════════════╝" -Color DarkGray
+            Write-Color "---------------------------------------------------------" -Color DarkGray
+            Write-Color " Page 2 of 3 - stats                                 " -Color DarkGray
+            Write-Color "---------------------------------------------------------" -Color DarkGray
+            Write-Color "                                                     " -Color DarkGray
+            Write-Color "---------------------------------------------------------" -Color DarkGray
             Write-Color "`r`nStats" -Color Gray,Magenta,Gray
         }
         if ($Game_Info_Page_Choice -ieq "3") {
             Clear-Host
-            Write-Color "╔═════════════════════════════════════════════════════╗" -Color DarkGray
-            Write-Color "║ Page 3 of 2 - ????                                  ║" -Color DarkGray
-            Write-Color "╠═════════════════════════════════════════════════════╣" -Color DarkGray
-            Write-Color "║                                                     ║" -Color DarkGray
-            Write-Color "╚═════════════════════════════════════════════════════╝" -Color DarkGray
+            Write-Color "---------------------------------------------------------" -Color DarkGray
+            Write-Color " Page 3 of 2 - ????                                  " -Color DarkGray
+            Write-Color "---------------------------------------------------------" -Color DarkGray
+            Write-Color "                                                     " -Color DarkGray
+            Write-Color "---------------------------------------------------------" -Color DarkGray
             Write-Color "`r`n????" -Color Gray,Magenta,Gray
         }
     } until ($Game_Info_Page_Choice -ieq "q")
@@ -409,7 +411,7 @@ Function Level_Up {
         $Script:XP_TNL                   = $Total_XP_For_Next_Level + $XP_Difference
         $XP_Difference                   = $XP_Difference + $Total_XP_For_Next_Level
         $Import_JSON.Character.XP_TNL = $XP_TNL
-        $prefixes = 'Character_'
+        $prefixes = "Character_"
         # class bonus
         foreach ($JSON_Item in $import_JSON) {
             $options = $JSON_Item.Level_Up_Bonus.Class.$Character_Class
@@ -421,7 +423,7 @@ Function Level_Up {
             }
         }
         # race bonus
-        $prefixes = 'Character_'
+        $prefixes = "Character_"
         foreach ($JSON_Item in $import_JSON) {
             $options = $JSON_Item.Level_Up_Bonus.Race.$Character_Race
             $Race_Stats = $options.PSObject.Properties.Name
@@ -440,10 +442,10 @@ Function Level_Up {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
         Draw_Player_Stats_Info
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,29;$Host.UI.Write("")
-        if ($Levels_Levelled_Up -eq '1') {
-            $Level_Or_Levels = 'level'
+        if ($Levels_Levelled_Up -eq "1") {
+            $Level_Or_Levels = "level"
         } else {
-            $Level_Or_Levels = 'levels'
+            $Level_Or_Levels = "levels"
         }
         Write-Color "  Congratulations! ", "You gained ", "$Levels_Levelled_Up ", "$Level_Or_Levels. You are now level ", "$($Import_JSON.Character.Level)","." -Color Cyan,DarkGray,White,DarkGray,White,DarkGray
         
@@ -459,7 +461,7 @@ Function Level_Up {
         $Healing_Bonus_On_Level_Up   += $Import_JSON.Level_Up_Bonus.Class.$Character_Class.Healing + $Import_JSON.Level_Up_Bonus.Race.$Character_Race.Healing
         
         $host.UI.RawUI.ForegroundColor = "Cyan" # changes foreground color
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 32,1;$Host.UI.Write("Class + Race Bonus ⇓")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 32,1;$Host.UI.Write("Class + Race Bonus ")
         $host.UI.RawUI.ForegroundColor = "Green" # changes foreground color
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,3;$Host.UI.Write("(+$Health_Bonus_On_Level_Up)")
         $host.UI.RawUI.ForegroundColor = "Yellow" # changes foreground color
@@ -480,7 +482,7 @@ Function Level_Up {
         # Write-Color "  You have gained ", "x Health ","x Stamina ", "and ", "x Mana","." -Color DarkGray,Green,Yellow,DarkGray,Blue,DarkGray
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,31;$Host.UI.Write("")
         Write-Color "  You have also learned ", "x skills","." -Color DarkGray,White,DarkGray
-        if ($Levels_Levelled_Up -ne '1') {
+        if ($Levels_Levelled_Up -ne "1") {
             Start-Sleep -Seconds 2 # leave in (shows multiple levels slowly)
         }
         Draw_Player_Stats_Info
@@ -524,7 +526,7 @@ Function Create_Character {
                 $Character_Name_Valid -eq $true
             )
             do {
-                Write-Color -NoNewLine "You have chosen ", "$Character_Name ", "for your Character name, is this correct? ", "[Y/N/Q]" -Color DarkYellow,Blue,DarkYellow,Green
+                Write-Color -NoNewLine "You have chosen ", "$Character_Name ", "for your Character name, is this correct? ", "Y/N/Q" -Color DarkYellow,Blue,DarkYellow,Green
                 ######################################################################################################################
                 $Character_Name_Confirm = Read-Host " "
                 # $Character_Name_Confirm = "y"
@@ -811,20 +813,20 @@ Function Create_Character {
 #
 Function Draw_Mob_Stats_Window_And_Info {
     $host.UI.RawUI.ForegroundColor = "DarkGray" # changes foreground color
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,0;$Host.UI.Write("╔═══════════════════════════════════════════════╗")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,1;$Host.UI.Write("║                                               ║")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,2;$Host.UI.Write("╠════════════════════════╦══════════════════════╣")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,3;$Host.UI.Write("║ Health    :     of     ║ Name  :              ║")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,4;$Host.UI.Write("║ Stamina   :     of     ║ Level :              ║")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,5;$Host.UI.Write("║ Mana      :     of     ║ Vulnerability : ???  ║")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,6;$Host.UI.Write("║ Attack    :            ║ Rare  :              ║")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,7;$Host.UI.Write("║ Damage    :            ║ Boss  : ???          ║")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,8;$Host.UI.Write("║ Armour    :            ║ Drops : a, b, c???   ║")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,9;$Host.UI.Write("║ Dodge     :            ║         x, y, z???   ║")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,10;$Host.UI.Write("║ Quickness :            ║                      ║")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,11;$Host.UI.Write("║ Spells    :            ║                      ║")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,12;$Host.UI.Write("║ Healing   :            ║                      ║")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,13;$Host.UI.Write("╚════════════════════════╩══════════════════════╝")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,0;$Host.UI.Write("--------------------------------------------------")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,1;$Host.UI.Write("                                               ")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,2;$Host.UI.Write("----------------------------------------------------")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,3;$Host.UI.Write(" Health    :     of      Name  :              ")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,4;$Host.UI.Write(" Stamina   :     of      Level :              ")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,5;$Host.UI.Write(" Mana      :     of      Vulnerability : ???  ")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,6;$Host.UI.Write(" Attack    :             Rare  :              ")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,7;$Host.UI.Write(" Damage    :             Boss  : ???          ")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,8;$Host.UI.Write(" Armour    :             Drops : a, b, c???   ")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,9;$Host.UI.Write(" Dodge     :                     x, y, z???   ")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,10;$Host.UI.Write(" Quickness :                                  ")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,11;$Host.UI.Write(" Spells    :                                  ")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,12;$Host.UI.Write(" Healing   :                                  ")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,13;$Host.UI.Write("----------------------------------------------------")
 
     $host.UI.RawUI.ForegroundColor = "Green" # changes foreground color
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,3;$Host.UI.Write($Selected_Mob_HealthCurrent)
@@ -867,15 +869,15 @@ Function Draw_Inventory {
     }
     $Inventory_Items_Name_Array_Max_Length = ($Inventory_Items_Name_Array | Measure-Object -Maximum).Maximum
     $Inventory_Box_Name_Width_Top_Bottom = $Inventory_Items_Name_Array_Max_Length + 7
-    $Inventory_Box_Name_Width_Top_Bottom = "═"*$Inventory_Box_Name_Width_Top_Bottom
+    $Inventory_Box_Name_Width_Top_Bottom = "-"*$Inventory_Box_Name_Width_Top_Bottom
     $Inventory_Box_Name_Width_Middle = $Inventory_Items_Name_Array_Max_Length - 3
     $Inventory_Box_Name_Width_Middle = " "*$Inventory_Box_Name_Width_Middle
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,0;$Host.UI.Write("")
-    Write-Color "╔══╦$Inventory_Box_Name_Width_Top_Bottom╗" -Color DarkGray
+    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+" -Color DarkGray
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,1;$Host.UI.Write("")
-    Write-Color "║ID║ ","Inventory","$Inventory_Box_Name_Width_Middle║" -Color DarkGray,White,DarkGray
+    Write-Color "|ID| ","Inventory","$Inventory_Box_Name_Width_Middle|" -Color DarkGray,White,DarkGray
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,2;$Host.UI.Write("")
-    Write-Color "╠══╬$Inventory_Box_Name_Width_Top_Bottom╣" -Color DarkGray
+    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+" -Color DarkGray
     $Position = 2
     foreach ($Inventory_Item_Name in $Inventory_Item_Names | Sort-Object Name) {
         if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
@@ -901,13 +903,13 @@ Function Draw_Inventory {
                 $ID_Number = "  "
             }
             Inventory_Switch
-            Write-Color "║","$ID_Number","║ $($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)$Name_Left_Padding : ", "$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity)$Name_Right_Padding","║" -Color DarkGray,$Selectable_ID_Potion_Highlight,DarkGray,White,DarkGray
+            Write-Color "|","$ID_Number","| $($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)$Name_Left_Padding : ", "$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity)$Name_Right_Padding","|" -Color DarkGray,$Selectable_ID_Potion_Highlight,DarkGray,White,DarkGray
             $Script:Selectable_ID_Potion_Highlight = "DarkGray"
         }
     }
     $Position += 1
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Position;$Host.UI.Write("")
-    Write-Color "╚══╩$Inventory_Box_Name_Width_Top_Bottom╝" -Color DarkGray
+    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+" -Color DarkGray
 }
 
 #
@@ -922,7 +924,7 @@ Function Inventory_Choice{
     $Potion_IDs_Array.Clear()
     Draw_Inventory
     # if health or mana is not at max - question is asked if one should be used
-    $Script:Use_A_Potion = "" # reset so if max health is reached after using a potion, it's not still set to "y" which causes a skipped turn when viewing the inventory a second time
+    $Script:Use_A_Potion = "" # reset so if max health is reached after using a potion, it"s not still set to "y" which causes a skipped turn when viewing the inventory a second time
     if (($Character_HealthCurrent -lt $Character_HealthMax) -or ($Character_ManaCurrent -lt $Character_ManaMax)) {
         $Enough_Health_Potions = "no"
         if ($Character_HealthCurrent -lt $Character_HealthMax) {
@@ -947,9 +949,9 @@ Function Inventory_Choice{
         } else {
             do {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                Write-Color "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════╗" -Color DarkGray
-                Write-Color "║ ","Inventory","                                                                                             ║" -Color DarkGray,White,DarkGray
-                Write-Color "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════╝" -Color DarkGray
+                Write-Color "--------------------------------------------------------------" -Color DarkGray
+                Write-Color " ","Inventory","                                                    " -Color DarkGray,White,DarkGray
+                Write-Color "--------------------------------------------------------------" -Color DarkGray
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                 " "*105
                 if ($Enough_Health_Potions -eq "yes" -and $Enough_Mana_Potions -eq "no") {
@@ -1018,13 +1020,13 @@ Function Inventory_Choice{
                 Clear-Host
                 Draw_Player_Stats_Window # placed here to fix a bug where if the last potion is used in the inventory,
                 # it fully refreshes the page. otherwise the inventory window resizes and leaves an additional "bottom line of window" on the screen.
-                # e.g.  ║1 ║ Lesser Health Potion : 35 ║
-                #       ╚══╩═══════════════════════════╝
-                # ----> ╚══╩═══════════════════════════╝ <----
+                # e.g.  1  Lesser Health Potion : 35 
+                #       -----------------------------------
+                # ----> ----------------------------------- <----
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                Write-Color "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════╗" -Color DarkGray
-                Write-Color "║ ","Inventory","                                                                                             ║" -Color DarkGray,White,DarkGray
-                Write-Color "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════╝" -Color DarkGray
+                Write-Color "--------------------------------------------------------------" -Color DarkGray
+                Write-Color " ","Inventory","                                                    " -Color DarkGray,White,DarkGray
+                Write-Color "--------------------------------------------------------------" -Color DarkGray
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                 if ($Potion.Name -ilike "*health potion*") {
                     if ($Character_HealthMax - $Character_HealthCurrent -ge $Potion.Restores) {
@@ -1153,9 +1155,9 @@ Function Fight_Or_Run {
         Draw_Player_Stats_Info
         Draw_Mob_Stats_Window_And_Info
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-        Write-Color "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════╗" -Color DarkGray
-        Write-Color "║ ","Combat","                                                                                                ║" -Color DarkGray,White,DarkGray
-        Write-Color "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════╝" -Color DarkGray
+        Write-Color "--------------------------------------------------------------" -Color DarkGray
+        Write-Color " ","Combat","                                                       " -Color DarkGray,White,DarkGray
+        Write-Color "--------------------------------------------------------------" -Color DarkGray
         Write-Color -NoNewLine "  You encounter a ","$($Selected_Mob.Name)" -Color Gray,Blue
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         Write-Color -NoNewLine "Do you ","F", "ight or ","E","scape? ", "[F/E]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
@@ -1169,7 +1171,7 @@ Function Fight_Or_Run {
         Draw_Player_Stats_Info
         Draw_Mob_Stats_Window_And_Info
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-        Write-Color "  You have chosen to fight the ", "$($Selected_Mob.Name)",", " -NoNewLine -Color Gray,Blue,Gray
+        Write-Color "  You have chosen to fight the ", "$($Selected_Mob.Name)","." -NoNewLine -Color Gray,Blue,Gray
         if ($Character_Quickness -gt $Selected_Mob.Quickness) {
             Write-Color "and your quickness allows you to take the first turn!" -Color Gray
             $Player_Turn = $true
@@ -1179,9 +1181,9 @@ Function Fight_Or_Run {
         }
         do {
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-            Write-Color "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════╗" -Color DarkGray
-            Write-Color "║ ","Combat","                                                                                                ║" -Color DarkGray,White,DarkGray
-            Write-Color "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════╝" -Color DarkGray
+            Write-Color "--------------------------------------------------------------" -Color DarkGray
+            Write-Color " ","Combat","                                                       " -Color DarkGray,White,DarkGray
+            Write-Color "--------------------------------------------------------------" -Color DarkGray
             if ($Player_Turn -eq $true) {
                 $Continue_Fight = $false
                 # ask if the action should be attack, spell or item
@@ -1337,7 +1339,7 @@ Function Fight_Or_Run {
                             if ($Looted_Items.Count -gt 0) {
                                 $Looted_Items.Add("`r`n ")
                             }
-                            if ($Loot_Item -ieq 'Gold' ) { # add gold
+                            if ($Loot_Item -ieq "Gold" ) { # add gold
                                 $Random_5 = Get-Random -Minimum 0 -Maximum 6 # 0-5 (e.g. base gold or anything up to x1.5 amount)
                                 $Looted_Gold = [Math]::Round(($Random_5/10+1)*$Selected_Mob.Loot.Gold) # gold amount between 1-1.5
                                 $Looted_Items.Add("$($Looted_Gold) Gold")
@@ -1400,9 +1402,9 @@ Function Fight_Or_Run {
                     Draw_Player_Stats_Window
                     Draw_Player_Stats_Info
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                    Write-Color "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════╗" -Color DarkGray
-                    Write-Color "║ ","Combat","                                                                                                ║" -Color DarkGray,White,DarkGray
-                    Write-Color "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════╝" -Color DarkGray
+                    Write-Color "----------------------------------------------------------------------------------------------------------" -Color DarkGray
+                    Write-Color " ","Combat","                                                                                                " -Color DarkGray,White,DarkGray
+                    Write-Color "-----------------------------------------------------------------------------------------------------------" -Color DarkGray
             
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     Write-Color "  You escaped from the ","$($Selected_Mob.Name)","." -Color Gray,Blue,Gray
@@ -1450,13 +1452,13 @@ Function Travel {
             }
         }
     }
-    $All_Linked_Locations_Letters_Array = $All_Linked_Locations_Letters_Array -Join '/'
+    $All_Linked_Locations_Letters_Array = $All_Linked_Locations_Letters_Array -Join "/"
     $All_Linked_Locations_Letters_Array = $All_Linked_Locations_Letters_Array + "/Q"
 
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-    Write-Color "╔═════════════════════════════════════════════════════╗" -Color DarkGray
-    Write-Color "║ ","Travel","                                              ║" -Color DarkGray,White,DarkGray
-    Write-Color "╚═════════════════════════════════════════════════════╝" -Color DarkGray
+    Write-Color "--------------------------------------------------------" -Color DarkGray
+    Write-Color " ","Travel","                                              " -Color DarkGray,White,DarkGray
+    Write-Color "---------------------------------------------------------" -Color DarkGray
     Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
     Write-Color "`r`n  You can travel to the following locations:" -Color DarkGray
     Write-Color "  $All_Linked_Locations_List" -Color White
@@ -1497,14 +1499,14 @@ Function Travel {
         f {
             $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
             $Script:Current_Location = "The Forest"
-            $Import_JSON.Locations.'The Forest'.CurrentLocation = $true
+            $Import_JSON.Locations."The Forest".CurrentLocation = $true
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
             " "*3000
         }
         r {
             $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
             $Script:Current_Location = "The River"
-            $Import_JSON.Locations.'The River'.CurrentLocation = $true
+            $Import_JSON.Locations."The River".CurrentLocation = $true
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
             " "*3000
         }
@@ -1630,13 +1632,13 @@ Function Visit_A_Building {
         $All_Buildings_In_Current_Location_List.Add($Building_In_Current_Location)
         $All_Buildings_In_Current_Location_List.Add("`r`n ")
     }
-    $All_Buildings_In_Current_Location_Letters_Array_String = $All_Buildings_In_Current_Location_Letters_Array -Join '/'
+    $All_Buildings_In_Current_Location_Letters_Array_String = $All_Buildings_In_Current_Location_Letters_Array -Join "/"
     $All_Buildings_In_Current_Location_Letters_Array_String = $All_Buildings_In_Current_Location_Letters_Array_String + "/Q"
 
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-    Write-Color "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗" -Color DarkGray
-    Write-Color "║ ","Visit","                                                                                                                     ║" -Color DarkGray,White,DarkGray
-    Write-Color "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝" -Color DarkGray
+    Write-Color "------------------------------------------------------------------------------------------------------------------------------" -Color DarkGray
+    Write-Color " ","Visit","                                                                                                                     " -Color DarkGray,White,DarkGray
+    Write-Color "-------------------------------------------------------------------------------------------------------------------------------" -Color DarkGray
     Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
     Write-Color "`r`n  You can visit the following buildings:" -Color DarkGray
     Write-Color "  $All_Buildings_In_Current_Location_List" -Color White
@@ -1677,11 +1679,11 @@ Function Visit_A_Building {
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
                 do {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                    Write-Color "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗" -Color DarkGray
-                    Write-Color "║ ","Home","                                                                                                                      ║" -Color DarkGray,White,DarkGray
-                    Write-Color "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝" -Color DarkGray
+                    Write-Color "------------------------------------------------------------------------------------------------------------------------------" -Color DarkGray
+                    Write-Color " ","Home","                                                                                                                      " -Color DarkGray,White,DarkGray
+                    Write-Color "-------------------------------------------------------------------------------------------------------------------------------" -Color DarkGray
                     $Home_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
-                    if ($Home_Choice -ieq 'r' ) { # rested (from choice below), so display fully rested message instead
+                    if ($Home_Choice -ieq "r" ) { # rested (from choice below), so display fully rested message instead
                         Set-JSON
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                         Draw_Player_Stats_Window
@@ -1717,13 +1719,13 @@ Function Visit_A_Building {
                         }
                         $Home_Choice = Read-Host " "
                         $Home_Choice = $Home_Choice.Trim()
-                    } until ($Home_Choice -in $Home_Choice_Array -or $Home_Choice -ieq 'info') # choice check against an array cannot be done after a -join
+                    } until ($Home_Choice -in $Home_Choice_Array -or $Home_Choice -ieq "info") # choice check against an array cannot be done after a -join
                     
-                    if ($Home_Choice -ieq 'r') {
+                    if ($Home_Choice -ieq "r") {
                         $Script:Character_HealthCurrent = $Character_HealthMax
                         $Import_JSON.Character.Stats.HealthCurrent = $Character_HealthCurrent
                     }
-                } until ($Home_Choice -ieq 'l')
+                } until ($Home_Choice -ieq "l")
             }
             t { # Tavern
                 $host.UI.RawUI.ForegroundColor = "White"
@@ -1738,9 +1740,9 @@ Function Visit_A_Building {
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
                 do {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                    Write-Color "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗" -Color DarkGray
-                    Write-Color "║ ","The Anvil & Blade","                                                                                                         ║" -Color DarkGray,White,DarkGray
-                    Write-Color "╚═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝" -Color DarkGray
+                    Write-Color "------------------------------------------------------------------------------------------------------------------------------" -Color DarkGray
+                    Write-Color " ","The Anvil & Blade","                                                                                                         " -Color DarkGray,White,DarkGray
+                    Write-Color "-------------------------------------------------------------------------------------------------------------------------------" -Color DarkGray
                     $Anvil_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
 
                     do {
@@ -1750,12 +1752,12 @@ Function Visit_A_Building {
                         Write-Color -NoNewLine "B","uy, ","S","ell, or ", "L","eave ","[B/S/L]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
                         $Anvil_Choice = Read-Host " "
                         $Anvil_Choice = $Anvil_Choice.Trim()
-                    } until ($Anvil_Choice -ieq 'b' -or $Anvil_Choice -ieq 's' -or $Anvil_Choice -ieq 'l') # choice check against an array cannot be done after a -join
+                    } until ($Anvil_Choice -ieq "b" -or $Anvil_Choice -ieq "s" -or $Anvil_Choice -ieq "l") # choice check against an array cannot be done after a -join
                     
-                    # if ($Anvil_Choice -ieq 'b') {
+                    # if ($Anvil_Choice -ieq "b") {
                         #
                     # }
-                } until ($Anvil_Choice -ieq 'l')
+                } until ($Anvil_Choice -ieq "l")
             }
             # Default {}
         }
