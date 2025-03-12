@@ -1,12 +1,12 @@
 {
   "Locations": {
-    "Town": {
+      "Town": {
       "CurrentLocation": true,
       "LinkedLocations": {
-        "The Forest": "F"
+          "The Forest": "F"
       },
       "Mobs": [
-        {
+          {
           "Name": "Chicken",
           "Level": 1,
           "Health": 5000,
@@ -24,15 +24,15 @@
           "Boss": "No",
           "XP": 500,
           "Loot": {
-            "Gold": 1,
-            "Chicken Feathers": 5,
-            "Random Loot #1": 1,
-            "Random Loot #2": 1,
-            "Random Loot #3": 1,
-            "Random Loot #4": 1
+              "Gold": 1,
+              "Chicken Feathers": 5,
+              "Random Loot #1": 1,
+              "Random Loot #2": 1,
+              "Random Loot #3": 1,
+              "Random Loot #4": 1
           }
-        },
-        {
+          },
+          {
           "Name": "Rook",
           "Level": 3,
           "Health": 30,
@@ -50,15 +50,15 @@
           "Boss": "No",
           "XP": 160,
           "Loot": {
-            "Gold": 5,
-            "Rook Feathers": 3,
-            "Rook Claws": 3,
-            "Random Loot #1": 1,
-            "Random Loot #2": 1,
-            "Random Loot #3": 1
+              "Gold": 5,
+              "Rook Feathers": 3,
+              "Rook Claws": 3,
+              "Random Loot #1": 1,
+              "Random Loot #2": 1,
+              "Random Loot #3": 1
           }
-        },
-        {
+          },
+          {
           "Name": "Beetle",
           "Level": 2,
           "Health": 10,
@@ -76,15 +76,15 @@
           "Boss": "No",
           "XP": 160,
           "Loot": {
-            "Gold": 10,
-            "Random Loot #1": 1,
-            "Random Loot #2": 1,
-            "Random Loot #3": 1,
-            "Random Loot #4": 1,
-            "Random Loot #5": 1
+              "Gold": 10,
+              "Random Loot #1": 1,
+              "Random Loot #2": 1,
+              "Random Loot #3": 1,
+              "Random Loot #4": 1,
+              "Random Loot #5": 1
           }
-        },
-        {
+          },
+          {
           "Name": "Rat",
           "Level": 2,
           "Health": 40,
@@ -102,46 +102,46 @@
           "Boss": "No",
           "XP": 160,
           "Loot": {
-            "Gold": 10,
-            "Rat Tails": 1,
-            "Rat Furs": 1,
-            "Rat Guts": 1,
-            "Random Loot #1": 1,
-            "Random Loot #2": 1,
-            "Random Loot #3": 1,
-            "Random Loot #4": 1,
-            "Random Loot #5": 1
+              "Gold": 10,
+              "Rat Tails": 1,
+              "Rat Furs": 1,
+              "Rat Guts": 1,
+              "Random Loot #1": 1,
+              "Random Loot #2": 1,
+              "Random Loot #3": 1,
+              "Random Loot #4": 1,
+              "Random Loot #5": 1
           }
-        }
+          }
       ],
       "NPCs": [
-        {
+          {
           "Name": "Nobody"
-        }
+          }
       ],
       "Buildings": {
-        "Home": {
+          "Home": {
           "Home": "H",
           "Owner": "PLAYER NAME"
-        },
-        "Tavern": {
+          },
+          "Tavern": {
           "Tavern": "T",
           "Owner": "Elara"
-        },
-        "The Anvil & Blade": {
+          },
+          "The Anvil & Blade": {
           "The Anvil & Blade": "A",
           "Owner": "Draven"
-        }
+          }
       }
-    },
-    "The Forest": {
+      },
+      "The Forest": {
       "CurrentLocation": false,
       "LinkedLocations": {
-        "Town": "T",
-        "The River": "R"
+          "Town": "T",
+          "The River": "R"
       },
       "Mobs": [
-        {
+          {
           "Name": "Worm",
           "Level": 5,
           "Health": 40,
@@ -159,10 +159,10 @@
           "Boss": "No",
           "XP": 160,
           "Loot": {
-            "Gold": 2
+              "Gold": 2
           }
-        },
-        {
+          },
+          {
           "Name": "Mouse",
           "Level": 6,
           "Health": 40,
@@ -180,39 +180,39 @@
           "Boss": "No",
           "XP": 160,
           "Loot": {
-            "Gold": 3,
-            "Mouse Tails": 1,
-            "Mouse Whiskers": 1
+              "Gold": 3,
+              "Mouse Tails": 1,
+              "Mouse Whiskers": 1
           }
-        }
+          }
       ],
       "NPC": [
-        {
+          {
           "Name": "Bob"
-        }
+          }
       ],
       "Buildings": {
-        "Hut": {
+          "Hut": {
           "Hut": "H",
           "Owner": "Hut Owner?????"
-        },
-        "Tree House": {
+          },
+          "Tree House": {
           "Tree House": "T",
           "Owner": "Tree House Owner???"
-        },
-        "Secret Location": {
+          },
+          "Secret Location": {
           "Secret Location": "S",
           "Owner": "Unknown"
-        }
+          }
       }
-    },
-    "The River": {
+      },
+      "The River": {
       "CurrentLocation": false,
       "LinkedLocations": {
-        "The Forest": "F"
+          "The Forest": "F"
       },
       "Mobs": [
-        {
+          {
           "Name": "Wolf",
           "Level": 15,
           "Health": 40,
@@ -230,12 +230,12 @@
           "Boss": "No",
           "XP": 160,
           "Loot": {
-            "Gold": 10,
-            "Wolf Hides": 1,
-            "Wolf Teeth": 1
+              "Gold": 10,
+              "Wolf Hides": 1,
+              "Wolf Teeth": 1
           }
-        },
-        {
+          },
+          {
           "Name": "Boar",
           "Level": 10,
           "Health": 40,
@@ -253,13 +253,13 @@
           "Boss": "No",
           "XP": 160,
           "Loot": {
-            "Gold": 10,
-            "Boar Tails": 1,
-            "Boar Hides": 1,
-            "Broken Boar Teeth": 1
+              "Gold": 10,
+              "Boar Tails": 1,
+              "Boar Hides": 1,
+              "Broken Boar Teeth": 1
           }
-        },
-        {
+          },
+          {
           "Name": "Crazy Cat",
           "Level": 11,
           "Health": 40,
@@ -277,34 +277,34 @@
           "Boss": "No",
           "XP": 160,
           "Loot": {
-            "Gold": 10,
-            "Cat Whiskers": 1,
-            "Sharp Cat Teeth": 1,
-            "Sharp Cat Claws": 1
+              "Gold": 10,
+              "Cat Whiskers": 1,
+              "Sharp Cat Teeth": 1,
+              "Sharp Cat Claws": 1
           }
-        }
+          }
       ],
       "NPC": [
-        {
+          {
           "Name": "Nobody"
-        }
+          }
       ],
       "Buildings": {
-        "Camp": {
+          "Camp": {
           "Camp": "C",
           "Owner": "Camp Owner???"
-        }
+          }
       }
-    }
+      }
   },
   "Character": {
-    "Name": "ash",
-    "Class": "Cleric",
-    "Race": "Human",
-    "Level": 9,
-    "Total_XP": 4560,
-    "XP_TNL": 49887.0,
-    "Stats": {
+      "Name": "ash",
+      "Class": "Cleric",
+      "Race": "Human",
+      "Level": 9,
+      "Total_XP": 4560,
+      "XP_TNL": 49887.0,
+      "Stats": {
       "HealthCurrent": 40,
       "HealthMax": 40,
       "StaminaCurrent": 50,
@@ -318,321 +318,321 @@
       "Quickness": 4,
       "Spells": 10,
       "Healing": 10
-    },
-    "Skills": {
+      },
+      "Skills": {
       "Dodge": 0,
       "Attack": 0,
       "Spells": {
-        "Fire": 0,
-        "Ice": 0
+          "Fire": 0,
+          "Ice": 0
       }
-    },
-    "Items": {
+      },
+      "Items": {
       "Gold": 190.0,
       "Inventory": {
-        "Lesser Health Potion": {
+          "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
           "Quantity": 16,
           "Restores": 30,
           "Value": 15,
           "ID": 1,
           "Info": "Capacity 30"
-        },
-        "Mana Potion": {
+          },
+          "Mana Potion": {
           "Name": "Mana Potion",
           "Quantity": 0,
           "Restores": 20,
           "Info": "Capacity 20",
           "Value": 50,
           "ID": 2
-        },
-        "Greater Mana Potion": {
+          },
+          "Greater Mana Potion": {
           "Name": "Greater Mana Potion",
           "Quantity": 14,
           "Restores": 50,
           "Info": "Capacity 50",
           "Value": 100,
           "ID": 3
-        },
-        "Lesser Mana Potion": {
+          },
+          "Lesser Mana Potion": {
           "Name": "Lesser Mana Potion",
           "Quantity": 21,
           "Restores": 10,
           "Info": "Capacity 10",
           "Value": 20,
           "ID": 40
-        },
-        "Bones": {
+          },
+          "Bones": {
           "Name": "Bones",
           "Quantity": 1,
           "Info": "Junk",
           "Value": 5,
           "ID": 5
-        },
-        "Feather": {
+          },
+          "Feather": {
           "Name": "Feather",
           "Quantity": 1,
           "Info": "Trader",
           "Value": 10,
           "ID": 6
-        },
-        "Hides": {
+          },
+          "Hides": {
           "Name": "Hides",
           "Quantity": 1,
           "Info": "Junk",
           "Value": 10,
           "ID": 7
-        },
-        "Chicken Feathers": {
+          },
+          "Chicken Feathers": {
           "Name": "Chicken Feathers",
           "Quantity": 7,
           "Info": "Junk",
           "Value": 1,
           "ID": 8
-        },
-        "Rook Feathers": {
+          },
+          "Rook Feathers": {
           "Name": "Rook Feathers",
           "Quantity": 12,
           "Info": "Junk",
           "Value": 2,
           "ID": 9
-        },
-        "Rook Claws": {
+          },
+          "Rook Claws": {
           "Name": "Rook Claws",
           "Quantity": 13,
           "Info": "Junk",
           "Value": 2,
           "ID": 10
-        },
-        "Rat Tails": {
+          },
+          "Rat Tails": {
           "Name": "Rat Tails",
           "Quantity": 7,
           "Info": "Junk",
           "Value": 3,
           "ID": 11
-        },
-        "Rat Furs": {
+          },
+          "Rat Furs": {
           "Name": "Rat Furs",
           "Quantity": 7,
           "Info": "Junk",
           "Value": 3,
           "ID": 12
-        },
-        "Rat Guts": {
+          },
+          "Rat Guts": {
           "Name": "Rat Guts",
           "Quantity": 4,
           "Info": "Junk",
           "Value": 3,
           "ID": 13
-        },
-        "Mouse Tails": {
+          },
+          "Mouse Tails": {
           "Name": "Mouse Tails",
           "Quantity": 1,
           "Info": "Junk",
           "Value": 3,
           "ID": 14
-        },
-        "Mouse Whiskers": {
+          },
+          "Mouse Whiskers": {
           "Name": "Mouse Whiskers",
           "Quantity": 1,
           "Info": "Junk",
           "Value": 3,
           "ID": 15
-        },
-        "Wolf Hides": {
+          },
+          "Wolf Hides": {
           "Name": "Wolf Hides",
           "Quantity": 1,
           "Info": "Skinner",
           "Value": 3,
           "ID": 16
-        },
-        "Wolf Teeth": {
+          },
+          "Wolf Teeth": {
           "Name": "Wolf Teeth",
           "Quantity": 1,
           "Info": "Junk",
           "Value": 3,
           "ID": 17
-        },
-        "Boar Tails": {
+          },
+          "Boar Tails": {
           "Name": "Boar Tails",
           "Quantity": 1,
           "Info": "Junk",
           "Value": 3,
           "ID": 18
-        },
-        "Boar Hides": {
+          },
+          "Boar Hides": {
           "Name": "Boar Hides",
           "Quantity": 1,
           "Info": "Skinner",
           "Value": 3,
           "ID": 19
-        },
-        "Broken Boar Teeth": {
+          },
+          "Broken Boar Teeth": {
           "Name": "Broken Boar Teeth",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 1,
           "ID": 20
-        },
-        "Cat Whiskers": {
+          },
+          "Cat Whiskers": {
           "Name": "Cat Whiskers",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 1,
           "ID": 21
-        },
-        "Sharp Cat Teeth": {
+          },
+          "Sharp Cat Teeth": {
           "Name": "Sharp Cat Teeth",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 3,
           "ID": 22
-        },
-        "Sharp Cat Claws": {
+          },
+          "Sharp Cat Claws": {
           "Name": "Sharp Cat Teeth",
           "Quantity": 0,
           "Info": "Junk",
           "Value": 3,
           "ID": 23
-        },
-        "Random Loot #1": {
+          },
+          "Random Loot #1": {
           "Name": "Random Loot #1",
           "Quantity": 14,
           "Info": "Junk",
           "Value": 3,
           "ID": 23
-        },
-        "Random Loot #2": {
+          },
+          "Random Loot #2": {
           "Name": "Random Loot #2",
           "Quantity": 17,
           "Info": "Junk",
           "Value": 3,
           "ID": 23
-        },
-        "Random Loot #3": {
+          },
+          "Random Loot #3": {
           "Name": "Random Loot #3",
           "Quantity": 13,
           "Info": "Junk",
           "Value": 3,
           "ID": 23
-        },
-        "Random Loot #4": {
+          },
+          "Random Loot #4": {
           "Name": "Random Loot #4",
           "Quantity": 11,
           "Info": "Junk",
           "Value": 3,
           "ID": 23
-        },
-        "Random Loot #5": {
+          },
+          "Random Loot #5": {
           "Name": "Random Loot #5",
           "Quantity": 10,
           "Info": "Junk",
           "Value": 3,
           "ID": 23
-        }
+          }
       }
-    }
+      }
   },
   "Level_Up_Bonus": {
-    "Class": {
+      "Class": {
       "Mage": {
-        "HealthMax": 2,
-        "StaminaMax": 1,
-        "ManaMax": 4,
-        "Armour": 2,
-        "Damage": 5,
-        "Attack": 4,
-        "Dodge": 1,
-        "Quickness": 1,
-        "Spells": 5,
-        "Healing": 3
+          "HealthMax": 2,
+          "StaminaMax": 1,
+          "ManaMax": 4,
+          "Armour": 2,
+          "Damage": 5,
+          "Attack": 4,
+          "Dodge": 1,
+          "Quickness": 1,
+          "Spells": 5,
+          "Healing": 3
       },
       "Rogue": {
-        "HealthMax": 3,
-        "StaminaMax": 3,
-        "ManaMax": 2,
-        "Armour": 3,
-        "Damage": 5,
-        "Attack": 5,
-        "Dodge": 5,
-        "Quickness": 5,
-        "Spells": 1,
-        "Healing": 3
+          "HealthMax": 3,
+          "StaminaMax": 3,
+          "ManaMax": 2,
+          "Armour": 3,
+          "Damage": 5,
+          "Attack": 5,
+          "Dodge": 5,
+          "Quickness": 5,
+          "Spells": 1,
+          "Healing": 3
       },
       "Cleric": {
-        "HealthMax": 1,
-        "StaminaMax": 2,
-        "ManaMax": 5,
-        "Armour": 2,
-        "Damage": 4,
-        "Attack": 2,
-        "Dodge": 1,
-        "Quickness": 1,
-        "Spells": 5,
-        "Healing": 5
+          "HealthMax": 1,
+          "StaminaMax": 2,
+          "ManaMax": 5,
+          "Armour": 2,
+          "Damage": 4,
+          "Attack": 2,
+          "Dodge": 1,
+          "Quickness": 1,
+          "Spells": 5,
+          "Healing": 5
       },
       "Warrior": {
-        "HealthMax": 5,
-        "StaminaMax": 5,
-        "ManaMax": 1,
-        "Armour": 5,
-        "Damage": 1,
-        "Attack": 4,
-        "Dodge": 4,
-        "Quickness": 3,
-        "Spells": 1,
-        "Healing": 4
+          "HealthMax": 5,
+          "StaminaMax": 5,
+          "ManaMax": 1,
+          "Armour": 5,
+          "Damage": 1,
+          "Attack": 4,
+          "Dodge": 4,
+          "Quickness": 3,
+          "Spells": 1,
+          "Healing": 4
       }
-    },
-    "Race": {
+      },
+      "Race": {
       "Elf": {
-        "HealthMax": 2,
-        "StaminaMax": 4,
-        "ManaMax": 3,
-        "Armour": 1,
-        "Damage": 4,
-        "Attack": 4,
-        "Dodge": 5,
-        "Quickness": 5,
-        "Spells": 4,
-        "Healing": 5
+          "HealthMax": 2,
+          "StaminaMax": 4,
+          "ManaMax": 3,
+          "Armour": 1,
+          "Damage": 4,
+          "Attack": 4,
+          "Dodge": 5,
+          "Quickness": 5,
+          "Spells": 4,
+          "Healing": 5
       },
       "Orc": {
-        "HealthMax": 4,
-        "StaminaMax": 4,
-        "ManaMax": 1,
-        "Armour": 4,
-        "Damage": 4,
-        "Attack": 5,
-        "Dodge": 3,
-        "Quickness": 1,
-        "Spells": 1,
-        "Healing": 1
+          "HealthMax": 4,
+          "StaminaMax": 4,
+          "ManaMax": 1,
+          "Armour": 4,
+          "Damage": 4,
+          "Attack": 5,
+          "Dodge": 3,
+          "Quickness": 1,
+          "Spells": 1,
+          "Healing": 1
       },
       "Dwarf": {
-        "HealthMax": 5,
-        "StaminaMax": 5,
-        "ManaMax": 1,
-        "Armour": 5,
-        "Damage": 5,
-        "Attack": 5,
-        "Dodge": 1,
-        "Quickness": 1,
-        "Spells": 1,
-        "Healing": 3
+          "HealthMax": 5,
+          "StaminaMax": 5,
+          "ManaMax": 1,
+          "Armour": 5,
+          "Damage": 5,
+          "Attack": 5,
+          "Dodge": 1,
+          "Quickness": 1,
+          "Spells": 1,
+          "Healing": 3
       },
       "Human": {
-        "HealthMax": 3,
-        "StaminaMax": 3,
-        "ManaMax": 3,
-        "Armour": 3,
-        "Damage": 3,
-        "Attack": 3,
-        "Dodge": 3,
-        "Quickness": 3,
-        "Spells": 4,
-        "Healing": 4
+          "HealthMax": 3,
+          "StaminaMax": 3,
+          "ManaMax": 3,
+          "Armour": 3,
+          "Damage": 3,
+          "Attack": 3,
+          "Dodge": 3,
+          "Quickness": 3,
+          "Spells": 4,
+          "Healing": 4
       }
-    }
+      }
   }
 }

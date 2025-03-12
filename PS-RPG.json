@@ -9,14 +9,14 @@
         {
           "Name": "Chicken",
           "Level": 1,
-          "Health": 5,
+          "Health": 5000,
           "Stamina": 50,
           "Mana": 50,
           "Attack": 5,
           "Damage": 1,
           "Armour": 10,
-          "Dodge": 5,
-          "Quickness": 50,
+          "Dodge": 10,
+          "Quickness": 1,
           "Spells": 50,
           "Healing": 50,
           "Killed": 0,
@@ -298,26 +298,26 @@
     }
   },
   "Character": {
-    "Name": "y",
+    "Name": "ash",
     "Class": "Cleric",
-    "Race": "Elf",
-    "Level": 5,
-    "Total_XP": 500,
-    "XP_TNL": 53.0,
+    "Race": "Human",
+    "Level": 9,
+    "Total_XP": 4560,
+    "XP_TNL": 49887.0,
     "Stats": {
-      "HealthCurrent": 40,
-      "HealthMax": 52,
+      "HealthCurrent": 28.0,
+      "HealthMax": 40,
       "StaminaCurrent": 50,
-      "StaminaMax": 74,
+      "StaminaMax": 50,
       "ManaCurrent": 100,
-      "ManaMax": 132,
-      "Damage": 42,
-      "Attack": 34,
-      "Armour": 32,
-      "Dodge": 39,
-      "Quickness": 39,
-      "Spells": 46,
-      "Healing": 50
+      "ManaMax": 100,
+      "Damage": 8,
+      "Attack": 2,
+      "Armour": 4,
+      "Dodge": 1,
+      "Quickness": 4,
+      "Spells": 10,
+      "Healing": 10
     },
     "Skills": {
       "Dodge": 0,
@@ -328,13 +328,13 @@
       }
     },
     "Items": {
-      "Gold": 191.0,
+      "Gold": 190.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
-          "Quantity": 16,
+          "Quantity": 6,
           "Restores": 30,
-          "Value": 15,
+          "GoldValue": 5,
           "ID": 1,
           "Info": "Capacity 30"
         },
@@ -343,192 +343,185 @@
           "Quantity": 0,
           "Restores": 20,
           "Info": "Capacity 20",
-          "Value": 50,
+          "GoldValue": 1,
           "ID": 2
         },
         "Greater Mana Potion": {
           "Name": "Greater Mana Potion",
-          "Quantity": 14,
+          "Quantity": 4,
           "Restores": 50,
           "Info": "Capacity 50",
-          "Value": 100,
+          "GoldValue": 1,
           "ID": 3
         },
         "Lesser Mana Potion": {
           "Name": "Lesser Mana Potion",
-          "Quantity": 21,
+          "Quantity": 2,
           "Restores": 10,
           "Info": "Capacity 10",
-          "Value": 20,
+          "GoldValue": 2,
           "ID": 40
         },
         "Bones": {
           "Name": "Bones",
           "Quantity": 1,
           "Info": "Junk",
-          "Value": 5,
+          "GoldValue": 5,
           "ID": 5
         },
         "Feather": {
           "Name": "Feather",
           "Quantity": 1,
           "Info": "Trader",
-          "Value": 10,
+          "GoldValue": 1,
           "ID": 6
         },
         "Hides": {
           "Name": "Hides",
           "Quantity": 1,
           "Info": "Junk",
-          "Value": 10,
+          "GoldValue": 1,
           "ID": 7
         },
         "Chicken Feathers": {
           "Name": "Chicken Feathers",
-          "Quantity": 8,
+          "Quantity": 7,
           "Info": "Junk",
-          "Value": 1,
+          "GoldValue": 1,
           "ID": 8
         },
         "Rook Feathers": {
           "Name": "Rook Feathers",
-          "Quantity": 12,
+          "Quantity": 1,
           "Info": "Junk",
-          "Value": 2,
+          "GoldValue": 2,
           "ID": 9
         },
         "Rook Claws": {
           "Name": "Rook Claws",
-          "Quantity": 13,
+          "Quantity": 1,
           "Info": "Junk",
-          "Value": 2,
+          "GoldValue": 2,
           "ID": 10
         },
         "Rat Tails": {
           "Name": "Rat Tails",
           "Quantity": 7,
           "Info": "Junk",
-          "Value": 3,
+          "GoldValue": 3,
           "ID": 11
         },
         "Rat Furs": {
           "Name": "Rat Furs",
           "Quantity": 7,
           "Info": "Junk",
-          "Value": 3,
+          "GoldValue": 3,
           "ID": 12
         },
         "Rat Guts": {
           "Name": "Rat Guts",
           "Quantity": 4,
           "Info": "Junk",
-          "Value": 3,
+          "GoldValue": 3,
           "ID": 13
         },
         "Mouse Tails": {
           "Name": "Mouse Tails",
           "Quantity": 1,
           "Info": "Junk",
-          "Value": 3,
+          "GoldValue": 8,
           "ID": 14
         },
         "Mouse Whiskers": {
           "Name": "Mouse Whiskers",
           "Quantity": 1,
           "Info": "Junk",
-          "Value": 3,
+          "GoldValue": 3,
           "ID": 15
         },
         "Wolf Hides": {
           "Name": "Wolf Hides",
           "Quantity": 1,
           "Info": "Skinner",
-          "Value": 3,
+          "GoldValue": 9,
           "ID": 16
         },
         "Wolf Teeth": {
           "Name": "Wolf Teeth",
           "Quantity": 1,
           "Info": "Junk",
-          "Value": 3,
+          "GoldValue": 3,
           "ID": 17
         },
         "Boar Tails": {
           "Name": "Boar Tails",
           "Quantity": 1,
           "Info": "Junk",
-          "Value": 3,
+          "GoldValue": 4,
           "ID": 18
         },
         "Boar Hides": {
           "Name": "Boar Hides",
           "Quantity": 1,
           "Info": "Skinner",
-          "Value": 3,
+          "GoldValue": 3,
           "ID": 19
         },
         "Broken Boar Teeth": {
           "Name": "Broken Boar Teeth",
           "Quantity": 0,
           "Info": "Junk",
-          "Value": 1,
+          "GoldValue": 1,
           "ID": 20
         },
         "Cat Whiskers": {
           "Name": "Cat Whiskers",
           "Quantity": 0,
           "Info": "Junk",
-          "Value": 1,
+          "GoldValue": 1,
           "ID": 21
         },
         "Sharp Cat Teeth": {
           "Name": "Sharp Cat Teeth",
           "Quantity": 0,
           "Info": "Junk",
-          "Value": 3,
+          "GoldValue": 5,
           "ID": 22
-        },
-        "Sharp Cat Claws": {
-          "Name": "Sharp Cat Teeth",
-          "Quantity": 0,
-          "Info": "Junk",
-          "Value": 3,
-          "ID": 23
         },
         "Random Loot #1": {
           "Name": "Random Loot #1",
-          "Quantity": 15,
+          "Quantity": 4,
           "Info": "Junk",
-          "Value": 3,
-          "ID": 23
+          "GoldValue": 5,
+          "ID": 99
         },
         "Random Loot #2": {
           "Name": "Random Loot #2",
-          "Quantity": 18,
+          "Quantity": 7,
           "Info": "Junk",
-          "Value": 3,
-          "ID": 23
+          "GoldValue": 3,
+          "ID": 98
         },
         "Random Loot #3": {
           "Name": "Random Loot #3",
-          "Quantity": 14,
+          "Quantity": 3,
           "Info": "Junk",
-          "Value": 3,
-          "ID": 23
+          "GoldValue": 999,
+          "ID": 97
         },
         "Random Loot #4": {
           "Name": "Random Loot #4",
-          "Quantity": 12,
+          "Quantity": 1,
           "Info": "Junk",
-          "Value": 3,
-          "ID": 23
+          "GoldValue": 3,
+          "ID": 96
         },
         "Random Loot #5": {
           "Name": "Random Loot #5",
-          "Quantity": 10,
+          "Quantity": 1,
           "Info": "Junk",
-          "Value": 3,
-          "ID": 23
+          "GoldValue": 3333333,
+          "ID": 95
         }
       }
     }

@@ -2,7 +2,7 @@
 # ----
 #
 # - BUGS
-#   
+#   "Sort-Object Name" not working when displaying inventory items (items are not collected then displayed, but instead written out one by one)
 #   
 #   
 #   
@@ -348,21 +348,21 @@ Function Game_Info {
 # highlights health and or mana potion ID in inventory when available for use
 #
 Function Inventory_Switch {
-    if($Selectable_ID_Potion_Search -ine "not_set" ){
+    if ($Selectable_ID_Potion_Search -ine "not_set" ){
         $Script:Selectable_ID_Potion_Highlight = "DarkGray" # reset Selectable_ID_Potion_Highlight so it highlights correct potion IDs in inventory list
         switch ($Selectable_ID_Potion_Search) {
             Health {
-                if($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -ilike "*health potion*") {
+                if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -ilike "*health potion*") {
                     $Script:Selectable_ID_Potion_Highlight = "White"
                 }
             }
             Mana {
-                if($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -ilike "*mana potion*") {
+                if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -ilike "*mana potion*") {
                     $Script:Selectable_ID_Potion_Highlight = "White"
                 }
             }
             HealthMana {
-                if($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -ilike "*mana potion*" -or $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -ilike "*health potion*") {
+                if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -ilike "*mana potion*" -or $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -ilike "*health potion*") {
                     $Script:Selectable_ID_Potion_Highlight = "White"
                 }
             }
@@ -583,7 +583,7 @@ Function Create_Character {
                 if ($Character_Race -eq "Dwarf") {$ClassRaceInfoColours13 = $ClassRaceInfoColours14 = "Green"}
                 if ($Character_Race -eq "Human") {$ClassRaceInfoColours15 = $ClassRaceInfoColours16 = "Green"}
             }
-            if(-not($Character_Race)){
+            if (-not($Character_Race)){
                 Write-Color "`r`nChoose a Class and Race from the below tables." -Color Gray
                 Write-Color "Bonus values to Character stats are applied after each level up." -Color Gray
             }
@@ -872,67 +872,118 @@ Function Draw_Mob_Stats_Window_And_Info {
 #
 Function Draw_Inventory {
     $Inventory_Items_Name_Array = New-Object System.Collections.Generic.List[System.Object]
+    $Inventory_Items_Gold_Value_Array = New-Object System.Collections.Generic.List[System.Object]
     $Script:Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name
     foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
-        if($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
+        if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
             $Inventory_Items_Name_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name.Length)
+            $Inventory_Items_Gold_Value_Array.Add(($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters)
         }
     }
+    # get max item gold value length
+    $Inventory_Items_Gold_Value_Array_Max_Length = ($Inventory_Items_Gold_Value_Array | Measure-Object -Maximum).Maximum
+    # calculate top and bottom gold value box width
+    if ($Inventory_Items_Gold_Value_Array_Max_Length -le 5) {
+        $Inventory_Box_Gold_Value_Width_Top_Bottom = "-"*7
+    } else {
+        $Inventory_Box_Gold_Value_Width_Top_Bottom = "-"*($Inventory_Items_Gold_Value_Array_Max_Length + 2)
+    }
+    # calculate middle gold value width
+    if ($Inventory_Items_Gold_Value_Array_Max_Length -gt 5 ) {
+        $Inventory_Box_Gold_Value_Width_Middle = " "*($Inventory_Items_Gold_Value_Array_Max_Length - 4)
+    } else {
+        $Inventory_Box_Gold_Value_Width_Middle = " "*1
+    }
+    
+    # get max item name length
     $Inventory_Items_Name_Array_Max_Length = ($Inventory_Items_Name_Array | Measure-Object -Maximum).Maximum
-    $Inventory_Box_Name_Width_Top_Bottom = $Inventory_Items_Name_Array_Max_Length + 7
-    $Inventory_Box_Name_Width_Top_Bottom = "-"*$Inventory_Box_Name_Width_Top_Bottom
-    $Inventory_Box_Name_Width_Middle = $Inventory_Items_Name_Array_Max_Length - 3
-    $Inventory_Box_Name_Width_Middle = " "*$Inventory_Box_Name_Width_Middle
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 116,0;$Host.UI.Write("")
-    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+" -Color DarkGray
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 116,1;$Host.UI.Write("")
-    Write-Color "|ID| ","Inventory","$Inventory_Box_Name_Width_Middle|" -Color DarkGray,White,DarkGray
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 116,2;$Host.UI.Write("")
-    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+" -Color DarkGray
+    # calculate top and bottom name width
+    $Inventory_Box_Name_Width_Top_Bottom = "-"*($Inventory_Items_Name_Array_Max_Length + 7)
+    # calculate middle name width
+    $Inventory_Box_Name_Width_Middle = " "*($Inventory_Items_Name_Array_Max_Length - 3)
+    
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,0;$Host.UI.Write("")
+    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+" -Color DarkGray
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,1;$Host.UI.Write("")
+    Write-Color "|ID| ","Inventory","$Inventory_Box_Name_Width_Middle| ","Value","$Inventory_Box_Gold_Value_Width_Middle|" -Color DarkGray,White,DarkGray,White,DarkGray
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,2;$Host.UI.Write("")
+    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+" -Color DarkGray
     $Position = 2
     foreach ($Inventory_Item_Name in $Inventory_Item_Names | Sort-Object Name) {
         if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
             $Position += 1
+            # padding for name length
             if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name.Length -lt $Inventory_Items_Name_Array_Max_Length) {
                 $Name_Left_Padding = " "*($Inventory_Items_Name_Array_Max_Length - $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name.Length)
             } else {
                 $Name_Left_Padding = ""
             }
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 116,$Position;$Host.UI.Write("")
+            # padding for quantity
             if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -lt 10) { # quantity less than 10 in inventory (1 digit so needs 2 padding)
                 $Quantity_Left_Padding = "  " # less than 10 quantity (1 digit so needs 2 padding)
             } else {
                 $Quantity_Left_Padding = " " # more than 9 quantity (2 digits so needs 1 padding)
             }
+
+            if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters -le '5') {
+                $Gold_Value_Right_Padding = " "*(6 - ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters)
+                if ($Inventory_Items_Gold_Value_Array_Max_Length -gt 5 ) {
+                    $Gold_Value_Right_Padding = " "*($Inventory_Items_Gold_Value_Array_Max_Length - ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters + 1)
+                }
+            } else {
+                $Gold_Value_Right_Padding = " "*($Inventory_Items_Gold_Value_Array_Max_Length - ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters + 1)
+            }
+            # padding for gold value
+            # if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters -eq '1') {
+            #     $Gold_Value_Right_Padding = " "*($Inventory_Items_Gold_Value_Array_Max_Length - 1) # gold value 1-9 (1 digit so padding is 1 less than max gold length)
+            # }
+            # if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters -eq '2') {
+            #     $Gold_Value_Right_Padding = " "*($Inventory_Items_Gold_Value_Array_Max_Length - 2) # gold value 10-99 quantity (2 digit so padding is 2 less than max gold length)
+            # }
+            # if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters -eq '3') {
+            #     $Gold_Value_Right_Padding = " "*($Inventory_Items_Gold_Value_Array_Max_Length - 3) # gold value 100-999 quantity (3 digit so padding is 3 less than max gold length)
+            # }
+            # if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters -eq '4') {
+            #     $Gold_Value_Right_Padding = " "*($Inventory_Items_Gold_Value_Array_Max_Length - 4) # gold value 1000-9999 quantity (4 digit so padding is 4 less than max gold length)
+            # }
+            # if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters -eq '5') {
+            #     $Gold_Value_Right_Padding = " "*($Inventory_Items_Gold_Value_Array_Max_Length - 5) # gold value 1000-9999 quantity (4 digit so padding is 4 less than max gold length)
+            # }
+
+
+
+
             $ID_Number = "  " # sets ID padding to "  " so on game start, no IDs are listed
             # in combat IDs for potions (usable items)
             if ($In_Combat -eq $true) {
-            if($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*potion*") {
-                if(($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
-                    $ID_Number = "$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)"
-                } else {
+                if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*potion*") {
+                    if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
+                        $ID_Number = "$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)"
+                    } else {
                         $ID_Number = " $($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)" # if ID is a single digit (1 extra $Padding)
-                }
+                    }
                 } else { # padding for non-potions (so displays no IDs)
-                $ID_Number = "  "
+                    $ID_Number = "  "
+                }
             }
-            }
+
             # if buying/selling in the shop, display all item IDs
             if ($Buying_and_Selling -eq $true) {
-                if(($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
+                if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
                     $ID_Number = "$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)"
                 } else {
                     $ID_Number = " $($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)" # if ID is a single digit (1 extra padding)
                 }
             }
             Inventory_Switch
-            Write-Color "|","$ID_Number","| $($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)$Name_Left_Padding :", "$Quantity_Left_Padding$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity) ","|" -Color DarkGray,$Selectable_ID_Potion_Highlight,DarkGray,White,DarkGray
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Position;$Host.UI.Write("")
+            Write-Color "|","$ID_Number","| $($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)$Name_Left_Padding :", "$Quantity_Left_Padding$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity) ","| ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue)$Gold_Value_Right_Padding","|" -Color DarkGray,$Selectable_ID_Potion_Highlight,DarkGray,White,DarkGray,White,DarkGray
             $Script:Selectable_ID_Potion_Highlight = "DarkGray"
         }
     }
     $Position += 1
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 116,$Position;$Host.UI.Write("")
-    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+" -Color DarkGray
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Position;$Host.UI.Write("")
+    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+" -Color DarkGray
 }
 
 #
@@ -953,7 +1004,7 @@ Function Inventory_Choice{
         if ($Character_HealthCurrent -lt $Character_HealthMax) {
             $Script:Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name
             foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
-                if($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*health potion*" -and $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
+                if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*health potion*" -and $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
                     $Enough_Health_Potions = "yes"
                     $Potion_IDs_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)
                 }
@@ -962,7 +1013,7 @@ Function Inventory_Choice{
         $Enough_Mana_Potions = "no"
         if ($Character_ManaCurrent -lt $Character_ManaMax) {
             foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
-                if($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*mana potion*" -and $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
+                if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*mana potion*" -and $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
                     $Enough_Mana_Potions = "yes"
                     $Potion_IDs_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)
                 }
@@ -972,9 +1023,9 @@ Function Inventory_Choice{
         } else {
             do {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                Write-Color "+-----------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-                Write-Color "| ","Inventory","                                                                                                       |" -Color DarkGray,White,DarkGray
-                Write-Color "+-----------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                Write-Color "| ","Inventory","                                                                                             |" -Color DarkGray,White,DarkGray
+                Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                 " "*105
                 if ($Enough_Health_Potions -eq "yes" -and $Enough_Mana_Potions -eq "no") {
@@ -1029,7 +1080,7 @@ Function Inventory_Choice{
                 
                 # get the name of the potion from the ID selected above so the correct potion is used below
                 foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
-                    if($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID -eq $Inventory_ID) {
+                    if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID -eq $Inventory_ID) {
                         $Script:Potion = $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name
                     }
                 }
@@ -1091,7 +1142,7 @@ Function Inventory_Choice{
                 Set_Variables
                 Draw_Player_Stats_Info # redraws play stats to update health or mana values
                 
-                if($In_Combat -eq $true){
+                if ($In_Combat -eq $true){
                     Draw_Mob_Stats_Window_And_Info
                     Draw_Inventory
                 } else {
@@ -1628,7 +1679,7 @@ Function Draw_The_River_Map {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,15;$Host.UI.Write("|                                                                   |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,16;$Host.UI.Write("+-------------------------------------------------------------------+")
     $host.UI.RawUI.ForegroundColor = "Green" # changes foreground color
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 116,8;$Host.UI.Write("C") # Camp
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,8;$Host.UI.Write("C") # Camp
     $host.UI.RawUI.ForegroundColor = "Gray" # set the foreground color back to original colour
 }
 
@@ -1656,16 +1707,16 @@ Function Visit_A_Building {
     $All_Buildings_In_Current_Location_Letters_Array_String = $All_Buildings_In_Current_Location_Letters_Array_String + "/Q"
 
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-    Write-Color "+-----------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-    Write-Color "| ","Visit","                                                                                                           |" -Color DarkGray,White,DarkGray
-    Write-Color "+-----------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+    Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
+    Write-Color "| ","Visit","                                                                                                 |" -Color DarkGray,White,DarkGray
+    Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
     Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
     Write-Color "`r`n  You can visit the following buildings:" -Color DarkGray
     Write-Color "  $All_Buildings_In_Current_Location_List" -Color White
 
-    if($Current_Location -eq "Town") { Draw_Town_Map }
-    if($Current_Location -eq "The Forest") { Draw_The_Forest_Map }
-    if($Current_Location -eq "The River") { Draw_The_River_Map }
+    if ($Current_Location -eq "Town") { Draw_Town_Map }
+    if ($Current_Location -eq "The Forest") { Draw_The_Forest_Map }
+    if ($Current_Location -eq "The River") { Draw_The_River_Map }
 
     do {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -1685,7 +1736,7 @@ Function Visit_A_Building {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
 
     # switch choice for Town
-    if($Current_Location -eq "Town") {
+    if ($Current_Location -eq "Town") {
         switch ($Building_Choice) {
             q {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
@@ -1699,9 +1750,9 @@ Function Visit_A_Building {
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
                 do {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                    Write-Color "+-----------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-                    Write-Color "| ","Home","                                                                                                            |" -Color DarkGray,White,DarkGray
-                    Write-Color "+-----------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                    Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                    Write-Color "| ","Home","                                                                                                  |" -Color DarkGray,White,DarkGray
+                    Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
                     $Home_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
                     if ($Home_Choice -ieq "r" ) { # rested (from choice below), so display fully rested message instead
                         Set-JSON
@@ -1761,10 +1812,11 @@ Function Visit_A_Building {
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
                 do {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                    Write-Color "+-----------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-                    Write-Color "| ","The Anvil & Blade","                                                                                               |" -Color DarkGray,White,DarkGray
-                    Write-Color "+-----------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                    Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                    Write-Color "| ","The Anvil & Blade","                                                                                     |" -Color DarkGray,White,DarkGray
+                    Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
                     $Anvil_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
+                    Draw_Inventory
 
                     do {
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -1786,7 +1838,7 @@ Function Visit_A_Building {
     }
 
     # switch choice for The Forest
-    if($Current_Location -eq "The Forest") {
+    if ($Current_Location -eq "The Forest") {
         switch ($Building_Choice) {
             q {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
@@ -1809,7 +1861,7 @@ Function Visit_A_Building {
     }
 
     # switch choice for The River
-    if($Current_Location -eq "The River") {
+    if ($Current_Location -eq "The River") {
         switch ($Building_Choice) {
             q {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
