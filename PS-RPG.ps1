@@ -812,20 +812,20 @@ Function Create_Character {
 #
 Function Draw_Mob_Stats_Window_And_Info {
     $host.UI.RawUI.ForegroundColor = "DarkGray" # changes foreground color
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,0;$Host.UI.Write("--------------------------------------------------")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,1;$Host.UI.Write("                                               ")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,2;$Host.UI.Write("----------------------------------------------------")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,3;$Host.UI.Write(" Health    :     of      Name  :              ")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,4;$Host.UI.Write(" Stamina   :     of      Level :              ")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,5;$Host.UI.Write(" Mana      :     of      Vulnerability : ???  ")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,6;$Host.UI.Write(" Attack    :             Rare  :              ")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,7;$Host.UI.Write(" Damage    :             Boss  : ???          ")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,8;$Host.UI.Write(" Armour    :             Drops : a, b, c???   ")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,9;$Host.UI.Write(" Dodge     :                     x, y, z???   ")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,10;$Host.UI.Write(" Quickness :                                  ")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,11;$Host.UI.Write(" Spells    :                                  ")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,12;$Host.UI.Write(" Healing   :                                  ")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,13;$Host.UI.Write("----------------------------------------------------")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,0;$Host.UI.Write( "+-----------------------------------------------+")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,1;$Host.UI.Write( "|                                               |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,2;$Host.UI.Write( "+------------------------+----------------------+")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,3;$Host.UI.Write( "| Health    :     of     | Name  :              |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,4;$Host.UI.Write( "| Stamina   :     of     | Level :              |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,5;$Host.UI.Write( "| Mana      :     of     | Vulnerability : ???  |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,6;$Host.UI.Write( "| Attack    :            | Rare  :              |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,7;$Host.UI.Write( "| Damage    :            | Boss  : ???          |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,8;$Host.UI.Write( "| Armour    :            | Drops : a, b, c???   |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,9;$Host.UI.Write( "| Dodge     :            |         x, y, z???   |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,10;$Host.UI.Write("| Quickness :            |                      |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,11;$Host.UI.Write("| Spells    :            |                      |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,12;$Host.UI.Write("| Healing   :            |                      |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,13;$Host.UI.Write("+------------------------+----------------------+")
 
     $host.UI.RawUI.ForegroundColor = "Green" # changes foreground color
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,3;$Host.UI.Write($Selected_Mob_HealthCurrent)
@@ -948,9 +948,9 @@ Function Inventory_Choice{
         } else {
             do {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-                Write-Color "| ","Inventory","                                                                                                                 |" -Color DarkGray,White,DarkGray
-                Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                Write-Color "| ","Inventory","                                                                                             |" -Color DarkGray,White,DarkGray
+                Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                 " "*105
                 if ($Enough_Health_Potions -eq "yes" -and $Enough_Mana_Potions -eq "no") {
@@ -1023,9 +1023,9 @@ Function Inventory_Choice{
                 #       -----------------------------------
                 # ----> ----------------------------------- <----
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-                Write-Color "| ","Inventory","                                                                                                                 |" -Color DarkGray,White,DarkGray
-                Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                Write-Color "| ","Inventory","                                                                                             |" -Color DarkGray,White,DarkGray
+                Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                 if ($Potion.Name -ilike "*health potion*") {
                     if ($Character_HealthMax - $Character_HealthCurrent -ge $Potion.Restores) {
@@ -1154,9 +1154,9 @@ Function Fight_Or_Run {
         Draw_Player_Stats_Info
         Draw_Mob_Stats_Window_And_Info
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-        Write-Color "--------------------------------------------------------------" -Color DarkGray
-        Write-Color " ","Combat","                                                       " -Color DarkGray,White,DarkGray
-        Write-Color "--------------------------------------------------------------" -Color DarkGray
+        Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
+        Write-Color "| ","Combat","                                                                                                |" -Color DarkGray,White,DarkGray
+        Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
         Write-Color -NoNewLine "  You encounter a ","$($Selected_Mob.Name)" -Color Gray,Blue
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         Write-Color -NoNewLine "Do you ","F", "ight or ","E","scape? ", "[F/E]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
@@ -1180,9 +1180,9 @@ Function Fight_Or_Run {
         }
         do {
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-            Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-            Write-Color "| ","Combat","                                                                                                                    |" -Color DarkGray,White,DarkGray
-            Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+            Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
+            Write-Color "| ","Combat","                                                                                                |" -Color DarkGray,White,DarkGray
+            Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
             if ($Player_Turn -eq $true) {
                 $Continue_Fight = $false
                 # ask if the action should be attack, spell or item
@@ -1401,9 +1401,9 @@ Function Fight_Or_Run {
                     Draw_Player_Stats_Window
                     Draw_Player_Stats_Info
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                    Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-                    Write-Color "| ","Combat","                                                                                                                    |" -Color DarkGray,White,DarkGray
-                    Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                    Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                    Write-Color "| ","Combat","                                                                                                |" -Color DarkGray,White,DarkGray
+                    Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
             
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     Write-Color "  You escaped from the ","$($Selected_Mob.Name)","." -Color Gray,Blue,Gray
@@ -1455,9 +1455,9 @@ Function Travel {
     $All_Linked_Locations_Letters_Array = $All_Linked_Locations_Letters_Array + "/Q"
 
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-    Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-    Write-Color "| ","Travel","                                                                                                                    |" -Color DarkGray,White,DarkGray
-    Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+    Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
+    Write-Color "| ","Travel","                                                                                                |" -Color DarkGray,White,DarkGray
+    Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
     Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
     Write-Color "`r`n  You can travel to the following locations:" -Color DarkGray
     Write-Color "  $All_Linked_Locations_List" -Color White
