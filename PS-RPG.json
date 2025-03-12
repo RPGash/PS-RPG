@@ -305,7 +305,7 @@
     "Total_XP": 4560,
     "XP_TNL": 49887.0,
     "Stats": {
-      "HealthCurrent": 28.0,
+      "HealthCurrent": 40,
       "HealthMax": 40,
       "StaminaCurrent": 50,
       "StaminaMax": 50,
@@ -332,7 +332,7 @@
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
-          "Quantity": 6,
+          "Quantity": 1,
           "Restores": 30,
           "GoldValue": 5,
           "ID": 1,

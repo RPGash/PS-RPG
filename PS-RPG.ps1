@@ -933,47 +933,20 @@ Function Draw_Inventory {
             } else {
                 $Gold_Value_Right_Padding = " "*($Inventory_Items_Gold_Value_Array_Max_Length - ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters + 1)
             }
-            # padding for gold value
-            # if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters -eq '1') {
-            #     $Gold_Value_Right_Padding = " "*($Inventory_Items_Gold_Value_Array_Max_Length - 1) # gold value 1-9 (1 digit so padding is 1 less than max gold length)
+            # only show potion IDs in inventory
+            # if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*potion*") {
+            #     if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
+            #         $ID_Number = "$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)"
+            #     } else {
+            #         $ID_Number = " $($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)" # if ID is a single digit (1 extra $Padding)
+            #     }
+            # } else { # padding for non-potions (so displays no IDs)
+            #     $ID_Number = "  "
             # }
-            # if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters -eq '2') {
-            #     $Gold_Value_Right_Padding = " "*($Inventory_Items_Gold_Value_Array_Max_Length - 2) # gold value 10-99 quantity (2 digit so padding is 2 less than max gold length)
-            # }
-            # if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters -eq '3') {
-            #     $Gold_Value_Right_Padding = " "*($Inventory_Items_Gold_Value_Array_Max_Length - 3) # gold value 100-999 quantity (3 digit so padding is 3 less than max gold length)
-            # }
-            # if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters -eq '4') {
-            #     $Gold_Value_Right_Padding = " "*($Inventory_Items_Gold_Value_Array_Max_Length - 4) # gold value 1000-9999 quantity (4 digit so padding is 4 less than max gold length)
-            # }
-            # if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters -eq '5') {
-            #     $Gold_Value_Right_Padding = " "*($Inventory_Items_Gold_Value_Array_Max_Length - 5) # gold value 1000-9999 quantity (4 digit so padding is 4 less than max gold length)
-            # }
-
-
-
-
-            $ID_Number = "  " # sets ID padding to "  " so on game start, no IDs are listed
-            # in combat IDs for potions (usable items)
-            if ($In_Combat -eq $true) {
-                if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*potion*") {
-                    if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
-                        $ID_Number = "$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)"
-                    } else {
-                        $ID_Number = " $($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)" # if ID is a single digit (1 extra $Padding)
-                    }
-                } else { # padding for non-potions (so displays no IDs)
-                    $ID_Number = "  "
-                }
-            }
-
-            # if buying/selling in the shop, display all item IDs
-            if ($Buying_and_Selling -eq $true) {
-                if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
-                    $ID_Number = "$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)"
-                } else {
-                    $ID_Number = " $($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)" # if ID is a single digit (1 extra padding)
-                }
+            if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
+                $ID_Number = "$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)"
+            } else {
+                $ID_Number = " $($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)" # if ID is a single digit (1 extra padding)
             }
             Inventory_Switch
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Position;$Host.UI.Write("")
@@ -1528,7 +1501,7 @@ Function Travel {
     }
     $All_Linked_Locations_Letters_Array = $All_Linked_Locations_Letters_Array -Join "/"
     $All_Linked_Locations_Letters_Array = $All_Linked_Locations_Letters_Array + "/Q"
-
+    
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
     Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
     Write-Color "| ","Travel","                                                                                                |" -Color DarkGray,White,DarkGray
