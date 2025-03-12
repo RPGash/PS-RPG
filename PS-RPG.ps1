@@ -150,7 +150,7 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
         }
     } until ($Ready_To_Play_PSRPG -ieq "y")
 }
-# double check module is still installed if JSON file has previouslly been created, just in case the module has been removed.
+# double check module is still installed if JSON file has previously been created, just in case the module has been removed.
 if (Test-Path -Path .\PS-RPG.json) {
     $PSWriteModule_Install_Check = Get-Module -Name "PSWriteColor" -ListAvailable
     if ($PSWriteModule_Install_Check) {
