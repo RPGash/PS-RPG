@@ -258,7 +258,6 @@ Function Draw_Player_Stats_Info {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 13,10;$Host.UI.Write($Gold)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 13,11;$Host.UI.Write($Total_XP)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 13,12;$Host.UI.Write($XP_TNL)
-
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,6;$Host.UI.Write($Character_Attack)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,7;$Host.UI.Write($Character_Damage)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,8;$Host.UI.Write($Character_Armour)
@@ -901,21 +900,33 @@ Function Draw_Inventory {
             }
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 116,$Position;$Host.UI.Write("")
             if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -lt 10) { # quantity less than 10 in inventory (1 digit so needs 2 padding)
-                $Name_Right_Padding = "  "
+                $Quantity_Left_Padding = "  " # less than 10 quantity (1 digit so needs 2 padding)
             } else {
-                $Name_Right_Padding = " " # more than 9 quantity (2 digits so needs 1 padding)
+                $Quantity_Left_Padding = " " # more than 9 quantity (2 digits so needs 1 padding)
             }
+            $ID_Number = "  " # sets ID padding to "  " so on game start, no IDs are listed
+            # in combat IDs for potions (usable items)
+            if ($In_Combat -eq $true) {
             if($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*potion*") {
                 if(($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
                     $ID_Number = "$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)"
                 } else {
-                    $ID_Number = "$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID) " # if ID is a single digit (1 extra $Padding)
+                        $ID_Number = " $($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)" # if ID is a single digit (1 extra $Padding)
                 }
-            } else {
+                } else { # padding for non-potions (so displays no IDs)
                 $ID_Number = "  "
             }
+            }
+            # if buying/selling in the shop, display all item IDs
+            if ($Buying_and_Selling -eq $true) {
+                if(($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
+                    $ID_Number = "$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)"
+                } else {
+                    $ID_Number = " $($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)" # if ID is a single digit (1 extra padding)
+                }
+            }
             Inventory_Switch
-            Write-Color "|","$ID_Number","| $($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)$Name_Left_Padding : ", "$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity)$Name_Right_Padding","|" -Color DarkGray,$Selectable_ID_Potion_Highlight,DarkGray,White,DarkGray
+            Write-Color "|","$ID_Number","| $($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)$Name_Left_Padding :", "$Quantity_Left_Padding$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity) ","|" -Color DarkGray,$Selectable_ID_Potion_Highlight,DarkGray,White,DarkGray
             $Script:Selectable_ID_Potion_Highlight = "DarkGray"
         }
     }
@@ -1743,6 +1754,7 @@ Function Visit_A_Building {
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
             }
             a { # The Anvil & Blade
+                $Buying_and_Selling = $true
                 $host.UI.RawUI.ForegroundColor = "White"
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 93,2;$Host.UI.Write("The Anvil & Blade")
                 $host.UI.RawUI.ForegroundColor = "DarkYellow" # changes foreground color
@@ -1767,6 +1779,7 @@ Function Visit_A_Building {
                         
                     }
                 } until ($Anvil_Choice -ieq "l")
+                $Buying_and_Selling = $false
             }
             # Default {}
         }
