@@ -281,13 +281,13 @@ Function Draw_Player_Stats_Info {
 
 Function Game_Info {
     Clear-Host
-    Write-Color "--------------------------------------------------------" -Color DarkGray
-    Write-Color " Game Info                                           " -Color DarkGray
-    Write-Color "---------------------------------------------------------" -Color DarkGray
-    Write-Color " Page 1 - Info                                       " -Color DarkGray
-    Write-Color " Page 2 - Stat                                       " -Color DarkGray
-    Write-Color " Page 3 - ????                                       " -Color DarkGray
-    Write-Color "---------------------------------------------------------" -Color DarkGray
+    Write-Color "+--------------------------------------------------------+" -Color DarkGray
+    Write-Color "| Game Info                                              |" -Color DarkGray
+    Write-Color "+--------------------------------------------------------+" -Color DarkGray
+    Write-Color "| Page 1 - Info                                          |" -Color DarkGray
+    Write-Color "| Page 2 - Stat                                          |" -Color DarkGray
+    Write-Color "| Page 3 - ????                                          |" -Color DarkGray
+    Write-Color "+--------------------------------------------------------+" -Color DarkGray
     do {
         do {
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -305,40 +305,40 @@ Function Game_Info {
         }
         if ($Game_Info_Page_Choice -ieq "1") {
             Clear-Host
-            Write-Color "--------------------------------------------------------" -Color DarkGray
-            Write-Color " Page 1 of 1 - Info                                  " -Color DarkGray
-            Write-Color "---------------------------------------------------------" -Color DarkGray
-            Write-Color "                                                     " -Color DarkGray
-            Write-Color "---------------------------------------------------------" -Color DarkGray
-            Write-Color "`r`nWelcome to ", "PS-RPG", ", my 1st RPG text adventure written in PowerShell." -Color Gray,Magenta,Gray
-            Write-Color "`r`nAs previously mentioned, the PSWriteColor PowerShell module written by Przemyslaw Klys" -Color Gray
-            Write-Color "is required which if you are seeing this message then it has installed and imported successfully." -Color Gray
-            Write-Color "`r`nAbsolutely ", "NO ", "info personal or otherwise is collected or sent anywhere or to anybody. " -Color Gray,Red,Gray
-            Write-Color "`r`nAll the ", "PS-RPG ", "games files are stored your ", "$PSScriptRoot"," folder`r`nwhich is where you have run the game from. They include:" -Color Gray,Magenta,Gray,Cyan,Gray
-            Write-Color "The main PowerShell script            : ", "PS-RPG.ps1" -Color Gray,Cyan
-            Write-Color "ASCII art for death messages          : ", "ASCII.txt" -Color Gray,Cyan
-            Write-Color "A JSON file that stores all game info : ", "PS-RPG.json ", "e.g. Locations, Mobs, NPCs and Character Stats etc." -Color Gray,Cyan,Gray
-            Write-Color "`r`nPlayer input options appear in ","green ", "e.g. ", "Y/N/Q/I ", "would be ", "yes/no/quit/inventory", "." -Color Gray,Green,Gray,Green,Gray,Green,Gray
-            Write-Color "Enter the single character then hit Enter to confirm the choice." -Color Gray
-            Write-Color "`r`nWARNING - Quitting the game unexpectedly may cause lose of data." -Color Cyan
+            Write-Color "+--------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+            Write-Color "| Page 1 of 1 - Info                                                                                                       |" -Color DarkGray
+            Write-Color "+--------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+            Write-Color "|                                                                                                                          |" -Color DarkGray
+            Write-Color "| `r`nWelcome to ", "PS-RPG", ", my 1st RPG text adventure written in PowerShell." -Color Gray,Magenta,Gray
+            Write-Color "| `r`nAs previously mentioned, the PSWriteColor PowerShell module written by Przemyslaw Klys" -Color Gray
+            Write-Color "| is required which if you are seeing this message then it has installed and imported successfully." -Color Gray
+            Write-Color "| `r`nAbsolutely ", "NO ", "info personal or otherwise is collected or sent anywhere or to anybody. " -Color Gray,Red,Gray
+            Write-Color "| `r`nAll the ", "PS-RPG ", "games files are stored your ", "$PSScriptRoot"," folder                                       |" -Color Gray,Red,Gray
+            Write-Color "| which is where you have run the game from. They include:" -Color Gray,Magenta,Gray,Cyan,Gray
+            Write-Color "| The main PowerShell script            : ", "PS-RPG.ps1" -Color Gray,Cyan
+            Write-Color "| ASCII art for death messages          : ", "ASCII.txt" -Color Gray,Cyan
+            Write-Color "| A JSON file that stores all game info : ", "PS-RPG.json ", "e.g. Locations, Mobs, NPCs and Character Stats etc.          |" -Color Gray,Cyan,Gray
+            Write-Color "| `r`nPlayer input options appear in ","green ", "e.g. ", "Y/N/Q/I ", "would be ", "yes/no/quit/inventory", "." -Color Gray,Green,Gray,Green,Gray,Green,Gray
+            Write-Color "| Enter the single character then hit Enter to confirm the choice." -Color Gray
+            Write-Color "| `r`nWARNING - Quitting the game unexpectedly may cause lose of data." -Color Cyan
+            Write-Color "+--------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
         }
         if ($Game_Info_Page_Choice -ieq "2") {
             Clear-Host
-            Write-Color "---------------------------------------------------------" -Color DarkGray
-            Write-Color " Page 2 of 3 - stats                                 " -Color DarkGray
-            Write-Color "---------------------------------------------------------" -Color DarkGray
-            Write-Color "                                                     " -Color DarkGray
-            Write-Color "---------------------------------------------------------" -Color DarkGray
-            Write-Color "`r`nStats" -Color Gray,Magenta,Gray
+            Write-Color "+--------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+            Write-Color "| Page 2 of 3 - ","Stats","                                                                                                      |" -Color DarkGray,White,DarkYellow
+            Write-Color "+--------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+            Write-Color "|                                                                                                                          |" -Color DarkGray
+            Write-Color "+--------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
         }
         if ($Game_Info_Page_Choice -ieq "3") {
             Clear-Host
-            Write-Color "---------------------------------------------------------" -Color DarkGray
-            Write-Color " Page 3 of 2 - ????                                  " -Color DarkGray
-            Write-Color "---------------------------------------------------------" -Color DarkGray
-            Write-Color "                                                     " -Color DarkGray
-            Write-Color "---------------------------------------------------------" -Color DarkGray
-            Write-Color "`r`n????" -Color Gray,Magenta,Gray
+            Write-Color "+--------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+            Write-Color "| Page 3 of 3 - ","?????","                                                                                                      |" -Color DarkGray,White,DarkYellow
+            Write-Color "+--------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+            Write-Color "|                                                                                                                          |" -Color DarkGray
+            Write-Color "|                                                                                                                          |" -Color DarkGray
+            Write-Color "+--------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
         }
     } until ($Game_Info_Page_Choice -ieq "q")
 }
@@ -401,8 +401,6 @@ Function Set_Variables {
     $Script:Character_Level          = $Import_JSON.Character.Level
     $Script:Total_XP                 = $Import_JSON.Character.Total_XP
     $Script:XP_TNL                   = $Import_JSON.Character.XP_TNL
-    # $Script:XP_TNL_Calc           = 0
-    # $Script:XP_TNL2           = 0
     # sets current Location
     $All_Locations                       = $Import_JSON.Locations.PSObject.Properties.Name
     foreach ($Single_Location in $All_Locations) {
@@ -843,7 +841,6 @@ Function Draw_Mob_Stats_Window_And_Info {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,11;$Host.UI.Write("| Spells    :            |                      |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,12;$Host.UI.Write("| Healing   :            |                      |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,13;$Host.UI.Write("+------------------------+----------------------+")
-
     $host.UI.RawUI.ForegroundColor = "Green" # changes foreground color
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,3;$Host.UI.Write($Selected_Mob_HealthCurrent)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 77,3;$Host.UI.Write($Selected_Mob_HealthMax)
@@ -853,7 +850,6 @@ Function Draw_Mob_Stats_Window_And_Info {
     $host.UI.RawUI.ForegroundColor = "Blue" # changes foreground color
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,5;$Host.UI.Write($Selected_Mob_ManaCurrent)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 77,5;$Host.UI.Write($Selected_Mob_ManaMax)
-    
     $host.UI.RawUI.ForegroundColor = "White" # changes foreground color
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 58,1;$Host.UI.Write("Mob Info")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,6;$Host.UI.Write($Selected_Mob_Attack)
@@ -1556,7 +1552,6 @@ Function Draw_Town_Map {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,11;$Host.UI.Write("|             |              |                            |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,12;$Host.UI.Write("|             +--------------+                            |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,13;$Host.UI.Write("+---------------------------------------------------------+")
-
     $host.UI.RawUI.ForegroundColor = "White" # changes foreground color
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town") # Town
     $host.UI.RawUI.ForegroundColor = "Green" # changes foreground color
@@ -1590,7 +1585,6 @@ Function Draw_The_Forest_Map {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,14;$Host.UI.Write("|      |     |                                               |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,15;$Host.UI.Write("|      +-----+                                               |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,16;$Host.UI.Write("+------------------------------------------------------------+")
-
     $host.UI.RawUI.ForegroundColor = "Green" # changes foreground color
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 103,2;$Host.UI.Write("T") # Tree House
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 86,10;$Host.UI.Write("S") # Secret Location
@@ -1622,7 +1616,6 @@ Function Draw_The_River_Map {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,14;$Host.UI.Write("|                                                                   |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,15;$Host.UI.Write("|                                                                   |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,16;$Host.UI.Write("+-------------------------------------------------------------------+")
-
     $host.UI.RawUI.ForegroundColor = "Green" # changes foreground color
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 116,8;$Host.UI.Write("C") # Camp
     $host.UI.RawUI.ForegroundColor = "Gray" # set the foreground color back to original colour
