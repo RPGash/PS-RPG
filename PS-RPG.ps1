@@ -1183,12 +1183,12 @@ Function Fight_Or_Run {
         Draw_Player_Stats_Info
         Draw_Mob_Stats_Window_And_Info
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-        Write-Color "  You have chosen to fight the ", "$($Selected_Mob.Name)","." -NoNewLine -Color Gray,Blue,Gray
+        Write-Color "  You have chosen to fight the ", "$($Selected_Mob.Name)" -NoNewLine -Color Gray,Blue,Gray
         if ($Character_Quickness -gt $Selected_Mob.Quickness) {
-            Write-Color "and your quickness allows you to take the first turn!" -Color Gray
+            Write-Color " and your quickness allows you to take the first turn!" -Color Gray
             $Player_Turn = $true
         } else {
-            Write-Color "but the ","$($Selected_Mob.Name) ","strikes first." -Color Gray,Blue,Gray
+            Write-Color ", but the ","$($Selected_Mob.Name) ","strikes first." -Color Gray,Blue,Gray
             $Player_Turn = $false
         }
         do {
