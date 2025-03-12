@@ -39,6 +39,46 @@
 Clear-Host
 $PSRPG_Version = "v0.1-alpha"
 
+Function Install_PSWriteColor {
+    Write-Host "PSWriteColor module is not installed." -ForegroundColor Red
+    Write-Output "`r`nThis game requires a PowerShell module called PSWriteColor to be installed."
+    Write-Output "It allows the game to use coloured console output text for a better experience."
+    Write-Output "The module will install as the Current User Scope and does NOT require Admin credentials."
+    Write-Output "`r`nMore info about the module can be found from the below links if you"
+    Write-Output "wish to research it before deciding to install it on your system."
+    Write-Output "`r`nAuthor              - Przemyslaw Klys"
+    Write-Output "PowerShell Gallery  - https://www.powershellgallery.com/packages/PSWriteColor/1.0.1"
+    Write-Output "GitHub project site - https://github.com/EvotecIT/PSWriteColor"
+    Write-Output "More info           - https://evotec.xyz/hub/scripts/pswritecolor/"
+    $Install_Module_Check = Read-Host "`r`nDo you want to allow the PSWriteColor module to be installed? [Y/N]"
+    if (-not($Install_Module_Check -ieq "y")) {
+        Write-Host "`r`nThe PSWriteColor module was NOT installed." -ForegroundColor Red
+        Write-Host "Run the script again if you change your mind.`r`n"
+        Exit
+    }
+    Write-Output "`r`nAttempting to install PSWriteColor module."
+    Write-Output "Install path will be $ENV:USERPROFILE\Documents\WindowsPowerShell\Modules\."
+    Write-Host "Accept the install prompt with either 'Y' or 'A' then Enter to install." -ForegroundColor Green
+    Install-Module -Name "PSWriteColor" -Scope CurrentUser
+    $PSWriteModule_Install_Check = Get-Module -Name "PSWriteColor" -ListAvailable
+    if ($PSWriteModule_Install_Check) {
+        Write-Host "PSWriteColor module is installed." -ForegroundColor Green
+        $PSWriteModule_Install_Check
+        Write-Output "`r`nImporting PSWriteColor module."
+        Import-Module -Name "PSWriteColor"
+        $Import_PSWriteColor_Module_Check = Get-Module -Name "PSWriteColor"
+        if ($Import_PSWriteColor_Module_Check) {
+            Write-Host "PSWriteColor module imported." -ForegroundColor Green
+        } else {
+            Write-Host "PSWriteColor module not imported." -ForegroundColor Red
+            Break
+        }
+    } else {
+        Write-Host "`r`nPSWriteColor module did not install correctly." -ForegroundColor Red
+        Break
+    }
+}
+
 #
 # Pre-requisite checks and install / import PSWriteColor module
 #
@@ -61,45 +101,6 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
         }
         Start-Sleep -Seconds 3 # leave in
     } else {
-        Function Install_PSWriteColor {
-            Write-Host "PSWriteColor module is not installed." -ForegroundColor Red
-            Write-Output "`r`nThis game requires a PowerShell module called PSWriteColor to be installed."
-            Write-Output "It allows the game to use coloured console output text for a better experience."
-            Write-Output "The module will install as the Current User Scope and does NOT require Admin credentials."
-            Write-Output "`r`nMore info about the module can be found from the below links if you"
-            Write-Output "wish to research it before deciding to install it on your system."
-            Write-Output "`r`nAuthor              - Przemyslaw Klys"
-            Write-Output "PowerShell Gallery  - https://www.powershellgallery.com/packages/PSWriteColor/1.0.1"
-            Write-Output "GitHub project site - https://github.com/EvotecIT/PSWriteColor"
-            Write-Output "More info           - https://evotec.xyz/hub/scripts/pswritecolor/"
-            $Install_Module_Check = Read-Host "`r`nDo you want to allow the PSWriteColor module to be installed? [Y/N]"
-            if (-not($Install_Module_Check -ieq "y")) {
-                Write-Host "`r`nThe PSWriteColor module was NOT installed." -ForegroundColor Red
-                Write-Host "Run the script again if you change your mind.`r`n"
-                Exit
-            }
-            Write-Output "`r`nAttempting to install PSWriteColor module."
-            Write-Output "Install path will be $ENV:USERPROFILE\Documents\WindowsPowerShell\Modules\."
-            Write-Host "Accept the install prompt with either 'Y' or 'A' then Enter to install." -ForegroundColor Green
-            Install-Module -Name "PSWriteColor" -Scope CurrentUser
-            $PSWriteModule_Install_Check = Get-Module -Name "PSWriteColor" -ListAvailable
-            if ($PSWriteModule_Install_Check) {
-                Write-Host "PSWriteColor module is installed." -ForegroundColor Green
-                $PSWriteModule_Install_Check
-                Write-Output "`r`nImporting PSWriteColor module."
-                Import-Module -Name "PSWriteColor"
-                $Import_PSWriteColor_Module_Check = Get-Module -Name "PSWriteColor"
-                if ($Import_PSWriteColor_Module_Check) {
-                    Write-Host "PSWriteColor module imported." -ForegroundColor Green
-                } else {
-                    Write-Host "PSWriteColor module not imported." -ForegroundColor Red
-                    Break
-                }
-            } else {
-                Write-Host "`r`nPSWriteColor module did not install correctly." -ForegroundColor Red
-                Break
-            }
-        }
         Install_PSWriteColor
     }
     #
@@ -158,7 +159,6 @@ if (Test-Path -Path .\PS-RPG.json) {
         Install_PSWriteColor
     }
 }
-
 
 
 #
