@@ -298,26 +298,26 @@
     }
   },
   "Character": {
-    "Name": "l",
-    "Class": "Mage",
+    "Name": "y",
+    "Class": "Cleric",
     "Race": "Elf",
     "Level": 9,
     "Total_XP": 4560,
     "XP_TNL": 49887.0,
     "Stats": {
-      "HealthCurrent": 50,
-      "HealthMax": 50,
-      "StaminaCurrent": 40,
-      "StaminaMax": 40,
-      "ManaCurrent": 80,
-      "ManaMax": 80,
-      "Damage": 10,
-      "Attack": 4,
+      "HealthCurrent": 40,
+      "HealthMax": 40,
+      "StaminaCurrent": 50,
+      "StaminaMax": 50,
+      "ManaCurrent": 100,
+      "ManaMax": 100,
+      "Damage": 8,
+      "Attack": 2,
       "Armour": 4,
       "Dodge": 1,
       "Quickness": 4,
       "Spells": 10,
-      "Healing": 6
+      "Healing": 10
     },
     "Skills": {
       "Dodge": 0,

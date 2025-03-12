@@ -83,6 +83,23 @@ Function Install_PSWriteColor {
 # Pre-requisite checks and install / import PSWriteColor module
 #
 if (-not(Test-Path -Path .\PS-RPG.json)) {
+    # adjust window size
+    do {
+        Clear-Host
+        Write-Color "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" -Color DarkYellow
+        for ($i = 0; $i -lt 36; $i++) {
+            Write-Color "+                                                                                                                                        +" -Color DarkYellow
+        }
+        Write-Color "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" -Color DarkYellow
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 20,10;$Host.UI.Write( "Using the CTRL + mouse scroll wheel forward and back,")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 20,11;$Host.UI.Write( "adjust the font size to make sure the yellow box fits within the screen.")
+
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
+        Write-Color -NoNewLine "+ Adjust font size with ","CTRL + mouse scroll wheel",", then confirm with 'go' and Enter" -Color DarkYellow,Green,DarkYellow
+        $Adjust_Font_Size = Read-Host " "
+        $Adjust_Font_Size = $Adjust_Font_Size.Trim()
+    } until ($Adjust_Font_Size -ieq "go")
+    Clear-Host
     Write-Host "Pre-requisite checks" -ForegroundColor Red
     Write-Host "--------------------" -ForegroundColor Red
     Write-Output "`r`nChecking if PSWriteColor module is installed."
@@ -128,7 +145,7 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
 
     do {
         do {
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
             Write-Color -NoNewLine "`r`nNo save file found. Are you ready to start playing ", "PS-RPG", "?"," [Y/N/Q]" -Color DarkYellow,Magenta,DarkYellow,Green
             $Ready_To_Play_PSRPG = Read-Host " "
             $Ready_To_Play_PSRPG = $Ready_To_Play_PSRPG.Trim()
@@ -136,9 +153,9 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
 
         if ($Ready_To_Play_PSRPG -ieq "n" -or $Ready_To_Play_PSRPG -ieq "q") {
             do {
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,37;$Host.UI.Write("")
-                " "*105
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                " "*105
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
                 Write-Color -NoNewLine "`r`nDo you want to quit ", "PS-RPG", "?"," [Y/N]" -Color DarkYellow,Magenta,DarkYellow,Green
                 $Quit_Game = Read-Host " "
                 $Quit_Game = $Quit_Game.Trim()
@@ -574,26 +591,26 @@ Function Create_Character {
                 Write-Color "Bonus values to Character stats are applied after each level up." -Color Gray
             }
             Write-Color " " -Color Gray
-            Write-Color " Class Base Stats | Health | Stamina | Mana  | Armour | Damage | Attack | Dodge | Quickness | Spells | Healing " -Color Gray
-            Write-Color "------------------------------------------------------------------------------------------------" -Color Gray
-            Write-Color " M","age             |   50   |    40   |   80  |    4   |   10   |   4   |    1  |   4   |   10   |   6     " -Color $ClassRaceInfoColours1,$ClassRaceInfoColours2
-            Write-Color " R","ogue            |   60   |    80   |   30  |    6   |   10   |   10   |   10  |  10   |    1   |   4     " -Color $ClassRaceInfoColours3,$ClassRaceInfoColours4
-            Write-Color " C","leric           |   40   |    50   |  100  |    4   |    8   |   2   |    1  |   4   |   10   |   10    " -Color $ClassRaceInfoColours5,$ClassRaceInfoColours6
-            Write-Color " W","arrior          |  100   |   100   |   10  |   10   |    1   |   8   |    8  |   6   |    1   |   4     " -Color $ClassRaceInfoColours7,$ClassRaceInfoColours8
+            Write-Color " Class Base Stats | Health | Stamina | Mana | Armour | Damage | Attack | Dodge | Quickness | Spells | Healing |" -Color Gray
+            Write-Color "------------------+--------+---------+------+--------+--------+--------+-------+-----------+--------+---------+" -Color Gray
+            Write-Color " M","age             |   50   |    40   |  80  |    4   |   10   |    4   |    1  |     4     |   10   |    6    |" -Color $ClassRaceInfoColours1,$ClassRaceInfoColours2
+            Write-Color " R","ogue            |   60   |    80   |  30  |    6   |   10   |   10   |   10  |    10     |    1   |    4    |" -Color $ClassRaceInfoColours3,$ClassRaceInfoColours4
+            Write-Color " C","leric           |   40   |    50   | 100  |    4   |    8   |    2   |    1  |     4     |   10   |   10    |" -Color $ClassRaceInfoColours5,$ClassRaceInfoColours6
+            Write-Color " W","arrior          |  100   |   100   |  10  |   10   |    1   |    8   |    8  |     6     |    1   |    4    |" -Color $ClassRaceInfoColours7,$ClassRaceInfoColours8
             Write-Color ""
-            Write-Color " Class Bonus      | Health | Stamina | Mana  | Armour | Damage | Attack | Dodge | Quickness | Spells | Healing " -Color Gray
-            Write-Color "------------------------------------------------------------------------------------------------" -Color Gray
-            Write-Color " M","age             |   +2   |   +1    |   +4  |   +2   |   +5   |   +4   |   +1  |   +1   |   +5   |   +3    " -Color $ClassRaceInfoColours1,$ClassRaceInfoColours2
-            Write-Color " R","ogue            |   +3   |   +3    |   +2  |   +3   |   +5   |   +5   |   +5  |   +5   |   +1   |   +3    " -Color $ClassRaceInfoColours3,$ClassRaceInfoColours4
-            Write-Color " C","leric           |   +1   |   +2    |   +5  |   +2   |   +4   |   +2   |   +1  |   +1   |   +5   |   +5    " -Color $ClassRaceInfoColours5,$ClassRaceInfoColours6
-            Write-Color " W","arrior          |   +5   |   +5    |   +1  |   +5   |   +1   |   +4   |   +4  |   +3   |   +1   |   +4    " -Color $ClassRaceInfoColours7,$ClassRaceInfoColours8
+            Write-Color " Class Bonus      | Health | Stamina | Mana | Armour | Damage | Attack | Dodge | Quickness | Spells | Healing |" -Color Gray
+            Write-Color "------------------+--------+---------+------+--------+--------+--------+-------+-----------+--------+---------+" -Color Gray
+            Write-Color " M","age             |   +2   |   +1    |  +4  |   +2   |   +5   |    +4  |   +1  |    +1     |   +5   |   +3    |" -Color $ClassRaceInfoColours1,$ClassRaceInfoColours2
+            Write-Color " R","ogue            |   +3   |   +3    |  +2  |   +3   |   +5   |    +5  |   +5  |    +5     |   +1   |   +3    |" -Color $ClassRaceInfoColours3,$ClassRaceInfoColours4
+            Write-Color " C","leric           |   +1   |   +2    |  +5  |   +2   |   +4   |    +2  |   +1  |    +1     |   +5   |   +5    |" -Color $ClassRaceInfoColours5,$ClassRaceInfoColours6
+            Write-Color " W","arrior          |   +5   |   +5    |  +1  |   +5   |   +1   |    +4  |   +4  |    +3     |   +1   |   +4    |" -Color $ClassRaceInfoColours7,$ClassRaceInfoColours8
             Write-Color ""
-            Write-Color " Race Bonus       | Health | Stamina | Mana  | Armour | Damage | Attack | Dodge | Quickness | Spells | Healing " -Color Gray
-            Write-Color "------------------------------------------------------------------------------------------------" -Color Gray
-            Write-Color " E","lf              |   +2   |   +4    |   +3  |   +1   |   +4   |   +4   |   +5  |   +5   |   +4   |   +5    " -Color $ClassRaceInfoColours9,$ClassRaceInfoColours10
-            Write-Color " O","rc              |   +4   |   +4    |   +1  |   +4   |   +4   |   +5   |   +3  |   +1   |   +1   |   +1    " -Color $ClassRaceInfoColours11,$ClassRaceInfoColours12
-            Write-Color " D","warf            |   +5   |   +5    |   +1  |   +5   |   +5   |   +5   |   +1  |   +1   |   +1   |   +3    " -Color $ClassRaceInfoColours13,$ClassRaceInfoColours14
-            Write-Color " H","uman            |   +3   |   +3    |   +3  |   +3   |   +3   |   +3   |   +3  |   +3   |   +4   |   +4    " -Color $ClassRaceInfoColours15,$ClassRaceInfoColours16
+            Write-Color " Race Bonus       | Health | Stamina | Mana | Armour | Damage | Attack | Dodge | Quickness | Spells | Healing |" -Color Gray
+            Write-Color "------------------+--------+---------+------+--------+--------+--------+-------+-----------+--------+---------+" -Color Gray
+            Write-Color " E","lf              |   +2   |   +4    |  +3  |   +1   |   +4   |    +4  |   +5  |    +5     |   +4   |   +5    |" -Color $ClassRaceInfoColours9,$ClassRaceInfoColours10
+            Write-Color " O","rc              |   +4   |   +4    |  +1  |   +4   |   +4   |    +5  |   +3  |    +1     |   +1   |   +1    |" -Color $ClassRaceInfoColours11,$ClassRaceInfoColours12
+            Write-Color " D","warf            |   +5   |   +5    |  +1  |   +5   |   +5   |    +5  |   +1  |    +1     |   +1   |   +3    |" -Color $ClassRaceInfoColours13,$ClassRaceInfoColours14
+            Write-Color " H","uman            |   +3   |   +3    |  +3  |   +3   |   +3   |    +3  |   +3  |    +3     |   +4   |   +4    |" -Color $ClassRaceInfoColours15,$ClassRaceInfoColours16
             Write-Output "`r"
         }
     
@@ -1817,6 +1834,13 @@ Function Visit_A_Building {
 #
 # place Functions above here
 #
+
+
+
+
+
+
+
 
 
 
