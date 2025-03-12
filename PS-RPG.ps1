@@ -477,7 +477,7 @@ Function Level_Up {
         $Healing_Bonus_On_Level_Up   += $Import_JSON.Level_Up_Bonus.Class.$Character_Class.Healing + $Import_JSON.Level_Up_Bonus.Race.$Character_Race.Healing
         
         $host.UI.RawUI.ForegroundColor = "Cyan" # changes foreground color
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 32,1;$Host.UI.Write("Class + Race Bonus ")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 35,1;$Host.UI.Write("(Class + Race Bonus)")
         $host.UI.RawUI.ForegroundColor = "Green" # changes foreground color
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,3;$Host.UI.Write("(+$Health_Bonus_On_Level_Up)")
         $host.UI.RawUI.ForegroundColor = "Yellow" # changes foreground color
@@ -888,11 +888,11 @@ Function Draw_Inventory {
     $Inventory_Box_Name_Width_Top_Bottom = "-"*$Inventory_Box_Name_Width_Top_Bottom
     $Inventory_Box_Name_Width_Middle = $Inventory_Items_Name_Array_Max_Length - 3
     $Inventory_Box_Name_Width_Middle = " "*$Inventory_Box_Name_Width_Middle
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,0;$Host.UI.Write("")
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 116,0;$Host.UI.Write("")
     Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+" -Color DarkGray
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,1;$Host.UI.Write("")
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 116,1;$Host.UI.Write("")
     Write-Color "|ID| ","Inventory","$Inventory_Box_Name_Width_Middle|" -Color DarkGray,White,DarkGray
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,2;$Host.UI.Write("")
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 116,2;$Host.UI.Write("")
     Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+" -Color DarkGray
     $Position = 2
     foreach ($Inventory_Item_Name in $Inventory_Item_Names | Sort-Object Name) {
@@ -903,7 +903,7 @@ Function Draw_Inventory {
             } else {
                 $Name_Left_Padding = ""
             }
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Position;$Host.UI.Write("")
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 116,$Position;$Host.UI.Write("")
             if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -lt 10) { # quantity less than 10 in inventory (1 digit so needs 2 padding)
                 $Name_Right_Padding = "  "
             } else {
@@ -924,7 +924,7 @@ Function Draw_Inventory {
         }
     }
     $Position += 1
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Position;$Host.UI.Write("")
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 116,$Position;$Host.UI.Write("")
     Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+" -Color DarkGray
 }
 
@@ -965,9 +965,9 @@ Function Inventory_Choice{
         } else {
             do {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
-                Write-Color "| ","Inventory","                                                                                             |" -Color DarkGray,White,DarkGray
-                Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                Write-Color "+-----------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                Write-Color "| ","Inventory","                                                                                                       |" -Color DarkGray,White,DarkGray
+                Write-Color "+-----------------------------------------------------------------------------------------------------------------+" -Color DarkGray
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                 " "*105
                 if ($Enough_Health_Potions -eq "yes" -and $Enough_Mana_Potions -eq "no") {
@@ -1542,27 +1542,27 @@ Function Travel {
 #
 Function Draw_Town_Map {
     $host.UI.RawUI.ForegroundColor = "DarkYellow" # changes foreground color
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,0;$Host.UI.Write( "+-------------------------------------------------------------------+")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,1;$Host.UI.Write( "|                     Town                  +---------------------+ |")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,2;$Host.UI.Write( "|                                           |  The Anvil & Blade  | |")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,3;$Host.UI.Write( "| +------+                                  |                     | |")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,4;$Host.UI.Write( "| | Home |                                  |                     | |")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,5;$Host.UI.Write( "| |      |         +--------------+         +---------------------+ |")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,6;$Host.UI.Write( "| |      |         |    Tavern    |                                 |")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,7;$Host.UI.Write( "| +------+         |              |                                 |")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,8;$Host.UI.Write( "|                  |              |                                 |")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,9;$Host.UI.Write( "|                  |              |                                 |")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,10;$Host.UI.Write("|                  |              |                                 |")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,11;$Host.UI.Write("|                  |              |                                 |")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,12;$Host.UI.Write("|                  +--------------+                                 |")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,13;$Host.UI.Write("+-------------------------------------------------------------------+")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,0;$Host.UI.Write( "+---------------------------------------------------------+")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,1;$Host.UI.Write( "|                     Town        +---------------------+ |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,2;$Host.UI.Write( "|                                 |  The Anvil & Blade  | |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,3;$Host.UI.Write( "| +------+                        |                     | |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,4;$Host.UI.Write( "| | Home |                        |                     | |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,5;$Host.UI.Write( "| |      |    +--------------+    +---------------------+ |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,6;$Host.UI.Write( "| |      |    |    Tavern    |                            |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,7;$Host.UI.Write( "| +------+    |              |                            |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,8;$Host.UI.Write( "|             |              |                            |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,9;$Host.UI.Write( "|             |              |                            |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,10;$Host.UI.Write("|             |              |                            |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,11;$Host.UI.Write("|             |              |                            |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,12;$Host.UI.Write("|             +--------------+                            |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,13;$Host.UI.Write("+---------------------------------------------------------+")
 
     $host.UI.RawUI.ForegroundColor = "White" # changes foreground color
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town") # Town
     $host.UI.RawUI.ForegroundColor = "Green" # changes foreground color
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 107,2;$Host.UI.Write("A") # The Anvil & Blade
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 97,2;$Host.UI.Write("A") # The Anvil & Blade
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("H") # Home
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 80,6;$Host.UI.Write("T") # Tavern
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("T") # Tavern
     $host.UI.RawUI.ForegroundColor = "Gray" # set the foreground color back to original colour
 }
 
@@ -1624,7 +1624,7 @@ Function Draw_The_River_Map {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,16;$Host.UI.Write("+-------------------------------------------------------------------+")
 
     $host.UI.RawUI.ForegroundColor = "Green" # changes foreground color
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,8;$Host.UI.Write("C") # Camp
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 116,8;$Host.UI.Write("C") # Camp
     $host.UI.RawUI.ForegroundColor = "Gray" # set the foreground color back to original colour
 }
 
@@ -1652,9 +1652,9 @@ Function Visit_A_Building {
     $All_Buildings_In_Current_Location_Letters_Array_String = $All_Buildings_In_Current_Location_Letters_Array_String + "/Q"
 
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-    Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-    Write-Color "| ","Visit","                                                                                                                     |" -Color DarkGray,White,DarkGray
-    Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+    Write-Color "+-----------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+    Write-Color "| ","Visit","                                                                                                           |" -Color DarkGray,White,DarkGray
+    Write-Color "+-----------------------------------------------------------------------------------------------------------------+" -Color DarkGray
     Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
     Write-Color "`r`n  You can visit the following buildings:" -Color DarkGray
     Write-Color "  $All_Buildings_In_Current_Location_List" -Color White
@@ -1675,9 +1675,9 @@ Function Visit_A_Building {
     " "*3000
     # set building name single characters to DarkYellow as they are no longer valid locations to visit
     $host.UI.RawUI.ForegroundColor = "DarkYellow"
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 107,2;$Host.UI.Write("A") # The Anvil & Blade
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 97,2;$Host.UI.Write("A") # The Anvil & Blade
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("H") # Home
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 80,6;$Host.UI.Write("T") # Tavern
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("T") # Tavern
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
 
     # switch choice for Town
@@ -1695,9 +1695,9 @@ Function Visit_A_Building {
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
                 do {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                    Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-                    Write-Color "| ","Home","                                                                                                                      |" -Color DarkGray,White,DarkGray
-                    Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                    Write-Color "+-----------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                    Write-Color "| ","Home","                                                                                                            |" -Color DarkGray,White,DarkGray
+                    Write-Color "+-----------------------------------------------------------------------------------------------------------------+" -Color DarkGray
                     $Home_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
                     if ($Home_Choice -ieq "r" ) { # rested (from choice below), so display fully rested message instead
                         Set-JSON
@@ -1745,20 +1745,20 @@ Function Visit_A_Building {
             }
             t { # Tavern
                 $host.UI.RawUI.ForegroundColor = "White"
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 81,6;$Host.UI.Write("Tavern")
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("Tavern")
                 $host.UI.RawUI.ForegroundColor = "DarkYellow" # changes foreground color
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
             }
             a { # The Anvil & Blade
                 $host.UI.RawUI.ForegroundColor = "White"
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 103,2;$Host.UI.Write("The Anvil & Blade")
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 93,2;$Host.UI.Write("The Anvil & Blade")
                 $host.UI.RawUI.ForegroundColor = "DarkYellow" # changes foreground color
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
                 do {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                    Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-                    Write-Color "| ","The Anvil & Blade","                                                                                                         |" -Color DarkGray,White,DarkGray
-                    Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                    Write-Color "+-----------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                    Write-Color "| ","The Anvil & Blade","                                                                                               |" -Color DarkGray,White,DarkGray
+                    Write-Color "+-----------------------------------------------------------------------------------------------------------------+" -Color DarkGray
                     $Anvil_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
 
                     do {
@@ -1770,9 +1770,9 @@ Function Visit_A_Building {
                         $Anvil_Choice = $Anvil_Choice.Trim()
                     } until ($Anvil_Choice -ieq "b" -or $Anvil_Choice -ieq "s" -or $Anvil_Choice -ieq "l") # choice check against an array cannot be done after a -join
                     
-                    # if ($Anvil_Choice -ieq "b") {
-                        #
-                    # }
+                    if ($Anvil_Choice -ieq "b") {
+                        
+                    }
                 } until ($Anvil_Choice -ieq "l")
             }
             # Default {}
