@@ -18,7 +18,9 @@ Want to try it out? - If you do download and run it (a big if haha), it is sugge
 
 # Screenshots
 Combat
-![PS-RPG combat](https://github.com/user-attachments/assets/f967271d-81f5-41d2-9d6e-827d9116f184)
+![PS-RPG combat](https://github.com/user-attachments/assets/680ea9d3-cadc-444d-8ae6-5c726c30ca2f)
+
 
 Character Creation
-![PS-RPG character creation](https://github.com/user-attachments/assets/213e7648-0b5f-4b2f-b0e0-4529bb44d7a0)
+![PS-RPG character creation](https://github.com/user-attachments/assets/169f9f80-505f-40b5-a125-6ca12b52a3e7)
+
