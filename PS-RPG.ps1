@@ -949,9 +949,9 @@ Function Inventory_Choice{
         } else {
             do {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                Write-Color "--------------------------------------------------------------" -Color DarkGray
-                Write-Color " ","Inventory","                                                    " -Color DarkGray,White,DarkGray
-                Write-Color "--------------------------------------------------------------" -Color DarkGray
+                Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                Write-Color "| ","Inventory","                                                                                                                 |" -Color DarkGray,White,DarkGray
+                Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                 " "*105
                 if ($Enough_Health_Potions -eq "yes" -and $Enough_Mana_Potions -eq "no") {
@@ -1024,9 +1024,9 @@ Function Inventory_Choice{
                 #       -----------------------------------
                 # ----> ----------------------------------- <----
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                Write-Color "--------------------------------------------------------------" -Color DarkGray
-                Write-Color " ","Inventory","                                                    " -Color DarkGray,White,DarkGray
-                Write-Color "--------------------------------------------------------------" -Color DarkGray
+                Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                Write-Color "| ","Inventory","                                                                                                                 |" -Color DarkGray,White,DarkGray
+                Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                 if ($Potion.Name -ilike "*health potion*") {
                     if ($Character_HealthMax - $Character_HealthCurrent -ge $Potion.Restores) {
@@ -1181,9 +1181,9 @@ Function Fight_Or_Run {
         }
         do {
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-            Write-Color "--------------------------------------------------------------" -Color DarkGray
-            Write-Color " ","Combat","                                                       " -Color DarkGray,White,DarkGray
-            Write-Color "--------------------------------------------------------------" -Color DarkGray
+            Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+            Write-Color "| ","Combat","                                                                                                                    |" -Color DarkGray,White,DarkGray
+            Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
             if ($Player_Turn -eq $true) {
                 $Continue_Fight = $false
                 # ask if the action should be attack, spell or item
@@ -1402,9 +1402,9 @@ Function Fight_Or_Run {
                     Draw_Player_Stats_Window
                     Draw_Player_Stats_Info
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                    Write-Color "----------------------------------------------------------------------------------------------------------" -Color DarkGray
-                    Write-Color " ","Combat","                                                                                                " -Color DarkGray,White,DarkGray
-                    Write-Color "-----------------------------------------------------------------------------------------------------------" -Color DarkGray
+                    Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                    Write-Color "| ","Combat","                                                                                                                    |" -Color DarkGray,White,DarkGray
+                    Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
             
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     Write-Color "  You escaped from the ","$($Selected_Mob.Name)","." -Color Gray,Blue,Gray
@@ -1456,9 +1456,9 @@ Function Travel {
     $All_Linked_Locations_Letters_Array = $All_Linked_Locations_Letters_Array + "/Q"
 
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-    Write-Color "--------------------------------------------------------" -Color DarkGray
-    Write-Color " ","Travel","                                              " -Color DarkGray,White,DarkGray
-    Write-Color "---------------------------------------------------------" -Color DarkGray
+    Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+    Write-Color "| ","Travel","                                                                                                                    |" -Color DarkGray,White,DarkGray
+    Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
     Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
     Write-Color "`r`n  You can travel to the following locations:" -Color DarkGray
     Write-Color "  $All_Linked_Locations_List" -Color White
@@ -1636,9 +1636,9 @@ Function Visit_A_Building {
     $All_Buildings_In_Current_Location_Letters_Array_String = $All_Buildings_In_Current_Location_Letters_Array_String + "/Q"
 
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-    Write-Color "------------------------------------------------------------------------------------------------------------------------------" -Color DarkGray
-    Write-Color " ","Visit","                                                                                                                     " -Color DarkGray,White,DarkGray
-    Write-Color "-------------------------------------------------------------------------------------------------------------------------------" -Color DarkGray
+    Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+    Write-Color "| ","Visit","                                                                                                                     |" -Color DarkGray,White,DarkGray
+    Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
     Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
     Write-Color "`r`n  You can visit the following buildings:" -Color DarkGray
     Write-Color "  $All_Buildings_In_Current_Location_List" -Color White
@@ -1679,9 +1679,9 @@ Function Visit_A_Building {
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
                 do {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                    Write-Color "------------------------------------------------------------------------------------------------------------------------------" -Color DarkGray
-                    Write-Color " ","Home","                                                                                                                      " -Color DarkGray,White,DarkGray
-                    Write-Color "-------------------------------------------------------------------------------------------------------------------------------" -Color DarkGray
+                    Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                    Write-Color "| ","Home","                                                                                                                      |" -Color DarkGray,White,DarkGray
+                    Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
                     $Home_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
                     if ($Home_Choice -ieq "r" ) { # rested (from choice below), so display fully rested message instead
                         Set-JSON
@@ -1740,9 +1740,9 @@ Function Visit_A_Building {
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
                 do {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                    Write-Color "------------------------------------------------------------------------------------------------------------------------------" -Color DarkGray
-                    Write-Color " ","The Anvil & Blade","                                                                                                         " -Color DarkGray,White,DarkGray
-                    Write-Color "-------------------------------------------------------------------------------------------------------------------------------" -Color DarkGray
+                    Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                    Write-Color "| ","The Anvil & Blade","                                                                                                         |" -Color DarkGray,White,DarkGray
+                    Write-Color "+---------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
                     $Anvil_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
 
                     do {
@@ -1922,6 +1922,5 @@ do {
         # Default {}
     }
 } while ($true)
-
 
 
