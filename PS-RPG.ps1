@@ -2,8 +2,8 @@
 # ----
 #
 # - BUGS
-#   "Sort-Object Name" not working when displaying inventory items (items are not collected then displayed, but instead written out one by one)
-#   
+#   - "Sort-Object Name" not working when displaying inventory items (items are not collected then displayed, but instead written out one by one)
+#   - when attacking, potion IDs are turning white.
 #   
 #   
 # - TEST
@@ -474,7 +474,7 @@ Function Level_Up {
         $Healing_Bonus_On_Level_Up   += $Import_JSON.Level_Up_Bonus.Class.$Character_Class.Healing + $Import_JSON.Level_Up_Bonus.Race.$Character_Race.Healing
         
         $host.UI.RawUI.ForegroundColor = "Cyan" # changes foreground color
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 35,1;$Host.UI.Write("(Class + Race Bonus)")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 34,1;$Host.UI.Write("(Class + Race Bonus)")
         $host.UI.RawUI.ForegroundColor = "Green" # changes foreground color
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,3;$Host.UI.Write("(+$Health_Bonus_On_Level_Up)")
         $host.UI.RawUI.ForegroundColor = "Yellow" # changes foreground color
@@ -867,6 +867,19 @@ Function Draw_Mob_Stats_Window_And_Info {
 }
 
 
+
+#
+# draw info banner for different areas / places/ combat / info etc. max width 105 (left edge of screen to Inventory)
+#
+Function Draw_Info_Banner {
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
+    Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
+    Write-Color "| ","$Info_Banner","$Info_Banner_Padding|" -Color DarkGray,White,DarkGray
+    Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
+}
+
+
+
 #
 # displays inventory in combat (top right)
 #
@@ -995,10 +1008,9 @@ Function Inventory_Choice{
         if ($Enough_Health_Potions -eq "no" -and $Enough_Mana_Potions -eq "no") {
         } else {
             do {
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
-                Write-Color "| ","Inventory","                                                                                             |" -Color DarkGray,White,DarkGray
-                Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                $Info_Banner = "Inventory"
+                $Info_Banner_Padding = " "*(105-3-($Info_Banner | Measure-Object -Character).Characters)
+                Draw_Info_Banner
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                 " "*105
                 if ($Enough_Health_Potions -eq "yes" -and $Enough_Mana_Potions -eq "no") {
@@ -1070,10 +1082,9 @@ Function Inventory_Choice{
                 # e.g.  1  Lesser Health Potion : 35 
                 #       -----------------------------------
                 # ----> ----------------------------------- <----
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
-                Write-Color "| ","Inventory","                                                                                             |" -Color DarkGray,White,DarkGray
-                Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                $Info_Banner = "Inventory"
+                $Info_Banner_Padding = " "*(105-3-($Info_Banner | Measure-Object -Character).Characters)
+                Draw_Info_Banner
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                 if ($Potion.Name -ilike "*health potion*") {
                     if ($Character_HealthMax - $Character_HealthCurrent -ge $Potion.Restores) {
@@ -1201,11 +1212,10 @@ Function Fight_Or_Run {
         Draw_Player_Stats_Window
         Draw_Player_Stats_Info
         Draw_Mob_Stats_Window_And_Info
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-        Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
-        Write-Color "| ","Combat","                                                                                                |" -Color DarkGray,White,DarkGray
-        Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
-        Write-Color -NoNewLine "  You encounter a ","$($Selected_Mob.Name)" -Color Gray,Blue
+        $Info_Banner = "Combat"
+        $Info_Banner_Padding = " "*(105-3-($Info_Banner | Measure-Object -Character).Characters)
+        Draw_Info_Banner
+Write-Color -NoNewLine "  You encounter a ","$($Selected_Mob.Name)" -Color Gray,Blue
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         Write-Color -NoNewLine "Do you ","F", "ight or ","E","scape? ", "[F/E]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
         $Fight_Or_Escape = Read-Host " "
@@ -1227,11 +1237,10 @@ Function Fight_Or_Run {
             $Player_Turn = $false
         }
         do {
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-            Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
-            Write-Color "| ","Combat","                                                                                                |" -Color DarkGray,White,DarkGray
-            Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
-            if ($Player_Turn -eq $true) {
+            $Info_Banner = "Combat"
+            $Info_Banner_Padding = " "*(105-3-($Info_Banner | Measure-Object -Character).Characters)
+            Draw_Info_Banner
+        if ($Player_Turn -eq $true) {
                 $Continue_Fight = $false
                 # ask if the action should be attack, spell or item
                 do {
@@ -1252,7 +1261,10 @@ Function Fight_Or_Run {
                 } until ($Fight_Choice -ieq "a" -or $Fight_Choice -ieq "s")
                 # attack choice
                 if ($Fight_Choice -ieq "a") {
-                    $Hit_Chance = ($Character_Attack / $Selected_Mob_Dodge) / 2 * 100
+                    $Info_Banner = "Combat"
+                    $Info_Banner_Padding = " "*(105-3-($Info_Banner | Measure-Object -Character).Characters)
+                    Draw_Info_Banner
+                        $Hit_Chance = ($Character_Attack / $Selected_Mob_Dodge) / 2 * 100
                     # Write-Output "hit chance                : $Hit_Chance"
                     $Random_100 = Get-Random -Minimum 1 -Maximum 101
                     # Write-Output "random 100                : $([Math]::Round($Random_100))"
@@ -1448,12 +1460,10 @@ Function Fight_Or_Run {
                     Clear-Host
                     Draw_Player_Stats_Window
                     Draw_Player_Stats_Info
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                    Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
-                    Write-Color "| ","Combat","                                                                                                |" -Color DarkGray,White,DarkGray
-                    Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
-            
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
+                    $Info_Banner = "Combat"
+                    $Info_Banner_Padding = " "*(105-3-($Info_Banner | Measure-Object -Character).Characters)
+                    Draw_Info_Banner
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     Write-Color "  You escaped from the ","$($Selected_Mob.Name)","." -Color Gray,Blue,Gray
                 } else {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
@@ -1502,11 +1512,10 @@ Function Travel {
     $All_Linked_Locations_Letters_Array = $All_Linked_Locations_Letters_Array -Join "/"
     $All_Linked_Locations_Letters_Array = $All_Linked_Locations_Letters_Array + "/Q"
     
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-    Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
-    Write-Color "| ","Travel","                                                                                                |" -Color DarkGray,White,DarkGray
-    Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
-    Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
+    $Info_Banner = "Travel"
+    $Info_Banner_Padding = " "*(105-3-($Info_Banner | Measure-Object -Character).Characters)
+    Draw_Info_Banner
+Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
     Write-Color "`r`n  You can travel to the following locations:" -Color DarkGray
     Write-Color "  $All_Linked_Locations_List" -Color White
     Write-Color " ,------------------------------------------------------." -Color DarkYellow
@@ -1680,11 +1689,10 @@ Function Visit_A_Building {
     $All_Buildings_In_Current_Location_Letters_Array_String = $All_Buildings_In_Current_Location_Letters_Array -Join "/"
     $All_Buildings_In_Current_Location_Letters_Array_String = $All_Buildings_In_Current_Location_Letters_Array_String + "/Q"
 
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-    Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
-    Write-Color "| ","Visit","                                                                                                 |" -Color DarkGray,White,DarkGray
-    Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
-    Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
+    $Info_Banner = "Visit"
+    $Info_Banner_Padding = " "*(105-3-($Info_Banner | Measure-Object -Character).Characters)
+    Draw_Info_Banner
+Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
     Write-Color "`r`n  You can visit the following buildings:" -Color DarkGray
     Write-Color "  $All_Buildings_In_Current_Location_List" -Color White
 
@@ -1723,10 +1731,9 @@ Function Visit_A_Building {
                 $host.UI.RawUI.ForegroundColor = "DarkYellow" # changes foreground color
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
                 do {
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                    Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
-                    Write-Color "| ","Home","                                                                                                  |" -Color DarkGray,White,DarkGray
-                    Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                    $Info_Banner = "Info"
+                    $Info_Banner_Padding = " "*(105-3-($Info_Banner | Measure-Object -Character).Characters)
+                    Draw_Info_Banner
                     $Home_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
                     if ($Home_Choice -ieq "r" ) { # rested (from choice below), so display fully rested message instead
                         Set-JSON
@@ -1786,10 +1793,9 @@ Function Visit_A_Building {
                 $host.UI.RawUI.ForegroundColor = "DarkYellow" # changes foreground color
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
                 do {
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                    Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
-                    Write-Color "| ","The Anvil & Blade","                                                                                     |" -Color DarkGray,White,DarkGray
-                    Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                    $Info_Banner = "The Anvil & Blade"
+                    $Info_Banner_Padding = " "*(105-3-($Info_Banner | Measure-Object -Character).Characters)
+                    Draw_Info_Banner
                     $Anvil_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
                     Draw_Inventory
 
