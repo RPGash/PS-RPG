@@ -12,7 +12,7 @@
 #   
 # - NEXT
 #   - sell / buy items (junk items can now be sold in The Anvil & Blade ahop)
-#       no sell if no junk items
+#   
 #   - change "you are low on health/mana" message to
 #       if less than 25%/50% = "you are running low/very low on health/mana"
 #       if 50% or above = "you are not at max health" (maybe?)
