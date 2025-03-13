@@ -1050,6 +1050,9 @@ Function Inventory_Choice{
                 $Use_A_Potion = Read-Host " "
                 $Script:Use_A_Potion = $Use_A_Potion.Trim()
             } until ($Use_A_Potion -ieq "y" -or $Use_A_Potion -ieq "n")
+            if ($Use_A_Potion -ieq "n") { # resets potion ID if not chosen to use one, otherwise on next attack, potions IDs are highlighted
+                $Script:Selectable_ID_Potion_Search = "not_set"
+            }
             if ($Use_A_Potion -ieq "y") {
                 do {
                     Draw_Inventory
@@ -1204,7 +1207,6 @@ Function Fight_Or_Run {
     Import-JSON
     $Continue_Fight = $false
     $First_Turn = $true
-    $Inventory_Visible = $false
     # $Character_HealthCurrent = $Import_JSON.Character.Stats.HealthCurrent
     do {
         Clear-Host
@@ -1249,7 +1251,6 @@ Function Fight_Or_Run {
                     $Fight_Choice = Read-Host " "
                     $Fight_Choice = $Fight_Choice.Trim()
                     if ($Fight_Choice -ieq "i") {
-                        $Inventory_Visible = $true
                         Inventory_Choice
                         if ($Use_A_Potion -ieq "y") {
                             Break
@@ -1288,9 +1289,6 @@ Function Fight_Or_Run {
                             $Selected_Mob.Health = 0
                         }
                         Draw_Mob_Stats_Window_And_Info
-                        if ($Inventory_Visible -eq $true) {
-                            Draw_Inventory
-                        }
                         if ($First_Turn -eq $true) {
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                             " "*105

@@ -9,7 +9,7 @@
         {
           "Name": "Chicken",
           "Level": 1,
-          "Health": 5,
+          "Health": 500,
           "Stamina": 50,
           "Mana": 50,
           "Attack": 5,
@@ -301,23 +301,23 @@
     "Name": "Ash",
     "Class": "Cleric",
     "Race": "Human",
-    "Level": 8,
-    "Total_XP": 1400,
-    "XP_TNL": 430.0,
+    "Level": 10,
+    "Total_XP": 2600,
+    "XP_TNL": 651.0,
     "Stats": {
-      "HealthCurrent": 70,
-      "HealthMax": 120,
+      "HealthCurrent": 124,
+      "HealthMax": 1003,
       "StaminaCurrent": 50,
-      "StaminaMax": 150,
-      "ManaCurrent": 150,
-      "ManaMax": 260,
-      "Damage": 150,
-      "Attack": 110,
-      "Armour": 110,
-      "Dodge": 95,
-      "Quickness": 95,
-      "Spells": 190,
-      "Healing": 190
+      "StaminaMax": 160,
+      "ManaCurrent": 298,
+      "ManaMax": 1007,
+      "Damage": 164,
+      "Attack": 120,
+      "Armour": 120,
+      "Dodge": 103,
+      "Quickness": 103,
+      "Spells": 208,
+      "Healing": 208
     },
     "Skills": {
       "Dodge": 0,
@@ -328,11 +328,11 @@
       }
     },
     "Items": {
-      "Gold": 207.0,
+      "Gold": 238.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
-          "Quantity": 0,
+          "Quantity": 97,
           "Restores": 30,
           "GoldValue": 50,
           "ID": 1,
@@ -340,7 +340,7 @@
         },
         "Mana Potion": {
           "Name": "Mana Potion",
-          "Quantity": 0,
+          "Quantity": 33,
           "Restores": 20,
           "Info": "Capacity 20",
           "GoldValue": 10,
@@ -348,7 +348,7 @@
         },
         "Greater Mana Potion": {
           "Name": "Greater Mana Potion",
-          "Quantity": 3,
+          "Quantity": 22,
           "Restores": 50,
           "Info": "Capacity 50",
           "GoldValue": 30,
@@ -356,7 +356,7 @@
         },
         "Lesser Mana Potion": {
           "Name": "Lesser Mana Potion",
-          "Quantity": 2,
+          "Quantity": 85,
           "Restores": 10,
           "Info": "Capacity 10",
           "GoldValue": 20,
@@ -392,7 +392,7 @@
         },
         "Rook Feathers": {
           "Name": "Rook Feathers",
-          "Quantity": 1,
+          "Quantity": 2,
           "Info": "Junk",
           "GoldValue": 2,
           "ID": 9
@@ -406,21 +406,21 @@
         },
         "Rat Tails": {
           "Name": "Rat Tails",
-          "Quantity": 8,
+          "Quantity": 9,
           "Info": "Junk",
           "GoldValue": 3,
           "ID": 11
         },
         "Rat Furs": {
           "Name": "Rat Furs",
-          "Quantity": 8,
+          "Quantity": 10,
           "Info": "Junk",
           "GoldValue": 3,
           "ID": 12
         },
         "Rat Guts": {
           "Name": "Rat Guts",
-          "Quantity": 5,
+          "Quantity": 6,
           "Info": "Junk",
           "GoldValue": 3,
           "ID": 13
@@ -490,35 +490,35 @@
         },
         "Random Loot #1": {
           "Name": "Random Loot #1",
-          "Quantity": 13,
+          "Quantity": 16,
           "Info": "Junk",
           "GoldValue": 5,
           "ID": 99
         },
         "Random Loot #2": {
           "Name": "Random Loot #2",
-          "Quantity": 15,
+          "Quantity": 19,
           "Info": "Junk",
           "GoldValue": 3,
           "ID": 98
         },
         "Random Loot #3": {
           "Name": "Random Loot #3",
-          "Quantity": 12,
+          "Quantity": 13,
           "Info": "Junk",
           "GoldValue": 4,
           "ID": 97
         },
         "Random Loot #4": {
           "Name": "Random Loot #4",
-          "Quantity": 6,
+          "Quantity": 7,
           "Info": "Junk",
           "GoldValue": 3,
           "ID": 96
         },
         "Random Loot #5": {
           "Name": "Random Loot #5",
-          "Quantity": 2,
+          "Quantity": 3,
           "Info": "Junk",
           "GoldValue": 3,
           "ID": 95
