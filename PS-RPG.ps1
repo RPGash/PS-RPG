@@ -12,6 +12,7 @@
 #   
 # - NEXT
 #   - sell / buy items (junk items are now sellable in The Anvil & Blade ahop)
+#       add +gold to player window after selling
 #   - change "you are low on health/mana" message to
 #       if less than 25%/50% = "you are running low/very low on health/mana"
 #       if 50% or above = "you are not at max health" (maybe?)
@@ -1418,7 +1419,7 @@ Function Fight_Or_Run {
                             } else { # add non-gold loot
                                 $Looted_Items.Add("1x $($Loot_Item)")
                                 # update non-gold items in inventory
-                                $Script:Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity = $Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity += 1
+                                $Script:Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity = ($Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity += 1)
                                 Set-JSON
                             }
                         }
@@ -1883,10 +1884,11 @@ Function Visit_A_Building {
                             Draw_Info_Banner
                             Draw_Inventory
                         }
+                        $Script:Selectable_ID_Search = "not_set"
+                        $First_Time_Entered = $false
                         if ($Anvil_Sell_Choice -ieq "e") { # leaves The Anvil & Blade
                             Break
                         }
-                        $First_Time_Entered = $false
                     }
                     
                 } until ($Anvil_Choice -ieq "e")
