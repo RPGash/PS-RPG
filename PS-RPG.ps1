@@ -1852,6 +1852,8 @@ Function Visit_A_Building {
                             $Anvil_Choice_Sell_Junk_Array = New-Object System.Collections.Generic.List[System.Object]
                             # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
                             $Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name
+                            $Script:Anvil_Choice_Sell_Junk_Quantity = 0
+                            $Script:Anvil_Choice_Sell_Junk_GoldValue = 0
                             $Script:Selectable_ID_Search = "Junk"
                             Draw_Inventory
                             do {

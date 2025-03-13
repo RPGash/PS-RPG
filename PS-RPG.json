@@ -303,8 +303,8 @@
     "Class": "Cleric",
     "Race": "Human",
     "Level": 11,
-    "Total_XP": 3600,
-    "XP_TNL": 561.0,
+    "Total_XP": 4000,
+    "XP_TNL": 161.0,
     "Stats": {
       "HealthCurrent": 124,
       "HealthMax": 1007,
@@ -329,7 +329,7 @@
       }
     },
     "Items": {
-      "Gold": 128.0,
+      "Gold": 853474.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
@@ -401,7 +401,7 @@
         },
         "Rook Feathers": {
           "Name": "Rook Feathers",
-          "Quantity": 1,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 2,
           "IsJunk": true,
@@ -409,7 +409,7 @@
         },
         "Rook Claws": {
           "Name": "Rook Claws",
-          "Quantity": 1,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 2,
           "IsJunk": true,
@@ -417,7 +417,7 @@
         },
         "Rat Tails": {
           "Name": "Rat Tails",
-          "Quantity": 1,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 3,
           "IsJunk": true,
@@ -497,7 +497,7 @@
         },
         "Random Loot #1": {
           "Name": "Random Loot #1",
-          "Quantity": 1,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 5,
           "IsJunk": true,
@@ -505,7 +505,7 @@
         },
         "Random Loot #2": {
           "Name": "Random Loot #2",
-          "Quantity": 21,
+          "Quantity": 23,
           "Info": "?????",
           "GoldValue": 3,
           "IsJunk": false,
@@ -513,7 +513,7 @@
         },
         "Random Loot #3": {
           "Name": "Random Loot #3",
-          "Quantity": 2,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 4,
           "IsJunk": true,
@@ -521,7 +521,7 @@
         },
         "Random Loot #4": {
           "Name": "Random Loot #4",
-          "Quantity": 1,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 3,
           "IsJunk": true,
