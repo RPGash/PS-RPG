@@ -373,8 +373,8 @@ Function Inventory_Switch {
             Junk {
                 if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.IsJunk -eq $true) {
                     $Anvil_Choice_Sell_Junk_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)
-                    $Script:Anvil_Choice_Sell_Junk_GoldValue += $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue
-                    $Script:Anvil_Choice_Sell_Junk_Quantity += 1
+                    $Script:Anvil_Choice_Sell_Junk_GoldValue += ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue * $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity) 
+                    $Script:Anvil_Choice_Sell_Junk_Quantity += $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity
                     $Script:Selectable_ID_Highlight = "DarkCyan"
                     $Script:Selectable_Name_Highlight = "DarkCyan"
                 }
@@ -1868,9 +1868,28 @@ Function Visit_A_Building {
                                 $Anvil_Sell_Junk_Choice = Read-Host " "
                                 $Anvil_Sell_Junk_Choice = $Anvil_Sell_Junk_Choice.Trim()
                             } until ($Anvil_Sell_Junk_Choice -ieq "y" -or $Anvil_Sell_Junk_Choice -ieq "n")
+                        }
+                        if ($Anvil_Sell_Junk_Choice -ieq "y") { # sells all junk
+                            Add-Content -Path .\error_log.log -value "gold B: $($Import_JSON.Character.Items.Gold)"
+                            $Import_JSON.Character.Items.Gold = $Import_JSON.Character.Items.Gold + $Anvil_Choice_Sell_Junk_GoldValue
+                            Add-Content -Path .\error_log.log -value "gold A: $($Import_JSON.Character.Items.Gold)"
+                            foreach (${JunkItem} in ${Anvil_Choice_Sell_Junk_Array}) {
+                                Add-Content -Path .\error_log.log -value "------------------------------------"
+                                Add-Content -Path .\error_log.log -value "junk qty B: $($Import_JSON.Character.Items.Inventory.$JunkItem.Quantity)"
+                                $Import_JSON.Character.Items.Inventory.$JunkItem.Quantity = 0
+                                Add-Content -Path .\error_log.log -value "junk qty A: $($Import_JSON.Character.Items.Inventory.$JunkItem.Quantity)"
                             }
-                        if ($Anvil_Sell_Choice -ieq "e") {
-                            Break # leaves The Anvil & Blade
+                            Set-JSON
+                            Clear-Host
+                            Set_Variables
+                            Draw_Player_Stats_Window
+                            Draw_Player_Stats_Info
+                            Draw_Town_Map
+                            Draw_Info_Banner
+                            Draw_Inventory
+                        }
+                        if ($Anvil_Sell_Choice -ieq "e") { # leaves The Anvil & Blade
+                            Break
                         }
                         $First_Time_Entered = $false
                     }
