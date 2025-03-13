@@ -1811,6 +1811,9 @@ Function Visit_A_Building {
                                 " "*105
                             }
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                            if ($No_Items_To_Sell -eq $true) {
+                                Write-Color "  It doesn't look like you have any junk items you want to get rid off." -Color Gray
+                            }
                             Write-Color "  Anything else i can interest you in?" -Color Gray
                         } else {
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
@@ -1852,25 +1855,31 @@ Function Visit_A_Building {
                             $Anvil_Choice_Sell_Junk_Array = New-Object System.Collections.Generic.List[System.Object]
                             # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
                             $Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name
+
                             $Script:Anvil_Choice_Sell_Junk_Quantity = 0 # reset variables so they don't increase next time
                             $Script:Anvil_Choice_Sell_Junk_GoldValue = 0 # reset variables so they don't increase next time
                             $Script:Selectable_ID_Search = "Junk"
                             Draw_Inventory
-                            do {
-                                for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
+                            if ($Anvil_Choice_Sell_Junk_Quantity -gt 0) {
+                                Add-Content -Path .\error_log.log -value "Anvil_Choice_Sell_Junk_Quantity: $Anvil_Choice_Sell_Junk_Quantity"
+                                do {
+                                    for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
+                                        " "*105
+                                    }
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                    Write-Color "  You have ","$($Script:Anvil_Choice_Sell_Junk_Quantity) ","junk items." -Color DarkGray,DarkCyan,DarkGray
+                                    Write-Color "  I will give you ","$($Script:Anvil_Choice_Sell_Junk_GoldValue) ","gold for them." -Color DarkGray,DarkYellow,DarkGray
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                                     " "*105
-                                }
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                Write-Color "  You have ","$($Script:Anvil_Choice_Sell_Junk_Quantity) ","junk items." -Color DarkGray,DarkCyan,DarkGray
-                                Write-Color "  I will give you ","$($Script:Anvil_Choice_Sell_Junk_GoldValue) ","gold for them." -Color DarkGray,DarkYellow,DarkGray
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                " "*105
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                Write-Color -NoNewLine "Do you agree? ","Y","es or ", "N","o ","[Y/N]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
-                                $Anvil_Sell_Junk_Choice = Read-Host " "
-                                $Anvil_Sell_Junk_Choice = $Anvil_Sell_Junk_Choice.Trim()
-                            } until ($Anvil_Sell_Junk_Choice -ieq "y" -or $Anvil_Sell_Junk_Choice -ieq "n")
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                    Write-Color -NoNewLine "Do you agree? ","Y","es or ", "N","o ","[Y/N]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                                    $Anvil_Sell_Junk_Choice = Read-Host " "
+                                    $Anvil_Sell_Junk_Choice = $Anvil_Sell_Junk_Choice.Trim()
+                                } until ($Anvil_Sell_Junk_Choice -ieq "y" -or $Anvil_Sell_Junk_Choice -ieq "n")
+                            } else {
+                                $No_Items_To_Sell = $true
+                            }
                         }
                         if ($Anvil_Sell_Junk_Choice -ieq "y") { # sells all junk
                             $Import_JSON.Character.Items.Gold = $Import_JSON.Character.Items.Gold + $Anvil_Choice_Sell_Junk_GoldValue
