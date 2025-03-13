@@ -11,7 +11,7 @@
 #   
 #   
 # - NEXT
-#   - sell / buy items
+#   - sell / buy items (junk items are now sellable in The Anvil & Blade ahop)
 #   - change "you are low on health/mana" message to
 #       if less than 25%/50% = "you are running low/very low on health/mana"
 #       if 50% or above = "you are not at max health" (maybe?)
@@ -1870,14 +1870,9 @@ Function Visit_A_Building {
                             } until ($Anvil_Sell_Junk_Choice -ieq "y" -or $Anvil_Sell_Junk_Choice -ieq "n")
                         }
                         if ($Anvil_Sell_Junk_Choice -ieq "y") { # sells all junk
-                            Add-Content -Path .\error_log.log -value "gold B: $($Import_JSON.Character.Items.Gold)"
                             $Import_JSON.Character.Items.Gold = $Import_JSON.Character.Items.Gold + $Anvil_Choice_Sell_Junk_GoldValue
-                            Add-Content -Path .\error_log.log -value "gold A: $($Import_JSON.Character.Items.Gold)"
                             foreach (${JunkItem} in ${Anvil_Choice_Sell_Junk_Array}) {
-                                Add-Content -Path .\error_log.log -value "------------------------------------"
-                                Add-Content -Path .\error_log.log -value "junk qty B: $($Import_JSON.Character.Items.Inventory.$JunkItem.Quantity)"
                                 $Import_JSON.Character.Items.Inventory.$JunkItem.Quantity = 0
-                                Add-Content -Path .\error_log.log -value "junk qty A: $($Import_JSON.Character.Items.Inventory.$JunkItem.Quantity)"
                             }
                             Set-JSON
                             Clear-Host
