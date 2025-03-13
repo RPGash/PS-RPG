@@ -1798,25 +1798,84 @@ Function Visit_A_Building {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 92,3;$Host.UI.Write("& Blade")
                 $host.UI.RawUI.ForegroundColor = "DarkYellow" # changes foreground color
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
+                $First_Time_Entered = $true
                 do {
                     $Script:Info_Banner = "The Anvil & Blade"
                     Draw_Info_Banner
-                    $Anvil_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
                     Draw_Inventory
-
                     do {
+                        if ($First_Time_Entered -eq $false) {
+                            for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
+                                " "*105
+                            }
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                            Write-Color "  Anything else i can interest you in?" -Color Gray
+                        } else {
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                            Write-Color "  Greetings adventurer." -Color Gray
+                            Write-Color "  I buy and sell Weapons and Armour if you are interested." -Color Gray
+                        }
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                         " "*105
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                        Write-Color -NoNewLine "B","uy, ","S","ell, or ", "L","eave ","[B/S/L]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                        Write-Color -NoNewLine "B","uy, ","S","ell, or ", "E","xit ","[B/S/E]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
                         $Anvil_Choice = Read-Host " "
                         $Anvil_Choice = $Anvil_Choice.Trim()
-                    } until ($Anvil_Choice -ieq "b" -or $Anvil_Choice -ieq "s" -or $Anvil_Choice -ieq "l") # choice check against an array cannot be done after a -join
+                    } until ($Anvil_Choice -ieq "b" -or $Anvil_Choice -ieq "s" -or $Anvil_Choice -ieq "e")
                     
-                    if ($Anvil_Choice -ieq "b") {
+                    # if ($Anvil_Choice -ieq "b") {
                         
+                    # }
+                    if ($Anvil_Choice -ieq "s") {
+                        do {
+                            for ($Position = 17; $Position -lt 19; $Position++) { # clear some lines from previous widow
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
+                                " "*105
+                            }
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                            Write-Color "  What do you want to get rid of?" -Color Gray
+                            Write-Color "`r`n  J","unk items" -Color Green,Gray
+                            Write-Color "  A","rmour" -Color Green,Gray
+                            Write-Color "  W","eapons" -Color Green,Gray
+                            Write-Color "  N","othing for now." -Color Green,Gray
+                            Write-Color "  E","xit The Anvil & Blade." -Color Green,Gray
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                            " "*105
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                            Write-Color -NoNewLine "J","unk, ","A","rmour, ","W","eapons, or ", "E","xit ","[J/A/W/N]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                            $Anvil_Sell_Choice = Read-Host " "
+                            $Anvil_Sell_Choice = $Anvil_Sell_Choice.Trim()
+                        } until ($Anvil_Sell_Choice -ieq "j" -or $Anvil_Sell_Choice -ieq "a" -or $Anvil_Sell_Choice -ieq "w" -or $Anvil_Sell_Choice -ieq "n" -or $Anvil_Sell_Choice -ieq "e")
+                        if ($Anvil_Sell_Choice -ieq "j") {
+                            $Anvil_Choice_Sell_Junk_Array = New-Object System.Collections.Generic.List[System.Object]
+                            # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
+                            $Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name
+                            $Script:Selectable_ID_Search = "Junk"
+                            Draw_Inventory
+                            do {
+                                for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
+                                    " "*105
+                                }
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                Write-Color "  You have ","$($Script:Anvil_Choice_Sell_Junk_Quantity) ","junk items." -Color DarkGray,DarkCyan,DarkGray
+                                Write-Color "  I will give you ","$($Script:Anvil_Choice_Sell_Junk_GoldValue) ","gold for them." -Color DarkGray,DarkYellow,DarkGray
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                " "*105
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                Write-Color -NoNewLine "Do you agree? ","Y","es or ", "N","o ","[Y/N]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                                $Anvil_Sell_Junk_Choice = Read-Host " "
+                                $Anvil_Sell_Junk_Choice = $Anvil_Sell_Junk_Choice.Trim()
+                            } until ($Anvil_Sell_Junk_Choice -ieq "y" -or $Anvil_Sell_Junk_Choice -ieq "n")
+                            }
+                        if ($Anvil_Sell_Choice -ieq "e") {
+                            Break # leaves The Anvil & Blade
+                        }
+                        $First_Time_Entered = $false
                     }
-                } until ($Anvil_Choice -ieq "l")
+                    
+                } until ($Anvil_Choice -ieq "e")
                 $Buying_and_Selling = $false
             }
             # Default {}
