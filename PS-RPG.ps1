@@ -348,7 +348,7 @@ Function Game_Info {
 #
 # highlights health and or mana potion ID in inventory when available for use
 #
-Function Inventory_Switch {
+Function Inventory_Highlight {
     if ($Selectable_ID_Search -ine "not_set" ){
         $Script:Selectable_ID_Highlight = "DarkGray" # reset Selectable_ID_Highlight so it highlights correct potion IDs in inventory list
         $Script:Selectable_Name_Highlight = "DarkGray" # reset Selectable_Name_Highlight so it highlights correct potion IDs in inventory list
@@ -978,7 +978,7 @@ Function Draw_Inventory {
             } else {
                 $ID_Number = " $($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)" # if ID is a single digit (1 extra padding)
             }
-            Inventory_Switch
+            Inventory_Highlight
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Position;$Host.UI.Write("")
             Write-Color "|","$ID_Number","| ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)$Name_Left_Padding ",":", "$Quantity_Left_Padding$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity) ","| ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue)$Gold_Value_Right_Padding","|" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,White,DarkGray,White,DarkGray
             $Script:Selectable_ID_Highlight = "DarkGray"
