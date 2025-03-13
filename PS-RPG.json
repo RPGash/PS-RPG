@@ -302,8 +302,8 @@
     "Class": "Cleric",
     "Race": "Human",
     "Level": 7,
-    "Total_XP": 1040,
-    "XP_TNL": 260.0,
+    "Total_XP": 1200,
+    "XP_TNL": 100.0,
     "Stats": {
       "HealthCurrent": 70,
       "HealthMax": 116,
@@ -399,7 +399,7 @@
         },
         "Rook Claws": {
           "Name": "Rook Claws",
-          "Quantity": 3,
+          "Quantity": 4,
           "Info": "Junk",
           "GoldValue": 2,
           "ID": 10
@@ -490,7 +490,7 @@
         },
         "Random Loot #1": {
           "Name": "Random Loot #1",
-          "Quantity": 11,
+          "Quantity": 12,
           "Info": "Junk",
           "GoldValue": 5,
           "ID": 99
