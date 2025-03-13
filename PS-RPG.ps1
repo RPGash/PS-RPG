@@ -3,7 +3,7 @@
 #
 # - BUGS
 #   - "Sort-Object Name" not working when displaying inventory items (items are not collected then displayed, but instead written out one by one)
-#   - when attacking, potion IDs are turning white.
+#   
 #   
 #   
 # - TEST
