@@ -1861,7 +1861,6 @@ Function Visit_A_Building {
                             $Script:Selectable_ID_Search = "Junk"
                             Draw_Inventory
                             if ($Anvil_Choice_Sell_Junk_Quantity -gt 0) {
-                                Add-Content -Path .\error_log.log -value "Anvil_Choice_Sell_Junk_Quantity: $Anvil_Choice_Sell_Junk_Quantity"
                                 do {
                                     for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
