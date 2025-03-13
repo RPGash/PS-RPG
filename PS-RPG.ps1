@@ -348,30 +348,45 @@ Function Game_Info {
 # highlights health and or mana potion ID in inventory when available for use
 #
 Function Inventory_Switch {
-    if ($Selectable_ID_Potion_Search -ine "not_set" ){
-        $Script:Selectable_ID_Potion_Highlight = "DarkGray" # reset Selectable_ID_Potion_Highlight so it highlights correct potion IDs in inventory list
-        switch ($Selectable_ID_Potion_Search) {
+    if ($Selectable_ID_Search -ine "not_set" ){
+        $Script:Selectable_ID_Highlight = "DarkGray" # reset Selectable_ID_Highlight so it highlights correct potion IDs in inventory list
+        $Script:Selectable_Name_Highlight = "DarkGray" # reset Selectable_Name_Highlight so it highlights correct potion IDs in inventory list
+        switch ($Selectable_ID_Search) {
             Health {
                 if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -ilike "*health potion*") {
-                    $Script:Selectable_ID_Potion_Highlight = "White"
+                    $Script:Selectable_ID_Highlight = "DarkCyan"
+                    $Script:Selectable_Name_Highlight = "DarkCyan"
                 }
             }
             Mana {
                 if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -ilike "*mana potion*") {
-                    $Script:Selectable_ID_Potion_Highlight = "White"
+                    $Script:Selectable_ID_Highlight = "DarkCyan"
+                    $Script:Selectable_Name_Highlight = "DarkCyan"
                 }
             }
             HealthMana {
                 if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -ilike "*mana potion*" -or $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -ilike "*health potion*") {
-                    $Script:Selectable_ID_Potion_Highlight = "White"
+                    $Script:Selectable_ID_Highlight = "DarkCyan"
+                    $Script:Selectable_Name_Highlight = "DarkCyan"
+                }
+            }
+            Junk {
+                if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.IsJunk -eq $true) {
+                    $Anvil_Choice_Sell_Junk_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)
+                    $Script:Anvil_Choice_Sell_Junk_GoldValue += $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue
+                    $Script:Anvil_Choice_Sell_Junk_Quantity += 1
+                    $Script:Selectable_ID_Highlight = "DarkCyan"
+                    $Script:Selectable_Name_Highlight = "DarkCyan"
                 }
             }
             Default {
-                $Script:Selectable_ID_Potion_Highlight = "DarkGray"
+                $Script:Selectable_ID_Highlight = "DarkGray"
+                $Script:Selectable_Name_Highlight = "DarkGray"
             }
         }
     } else {
-        $Script:Selectable_ID_Potion_Highlight = "DarkGray"
+        $Script:Selectable_ID_Highlight = "DarkGray"
+        $Script:Selectable_Name_Highlight = "DarkGray"
     }
 }
 
@@ -914,12 +929,12 @@ Function Draw_Inventory {
     # calculate top and bottom name width
     $Inventory_Box_Name_Width_Top_Bottom = "-"*($Inventory_Items_Name_Array_Max_Length + 7)
     # calculate middle name width
-    $Inventory_Box_Name_Width_Middle = " "*($Inventory_Items_Name_Array_Max_Length - 3)
+    $Inventory_Box_Name_Width_Middle = " "*($Inventory_Items_Name_Array_Max_Length - 7)
     
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,0;$Host.UI.Write("")
     Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+" -Color DarkGray
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,1;$Host.UI.Write("")
-    Write-Color "|ID| ","Inventory","$Inventory_Box_Name_Width_Middle| ","Value","$Inventory_Box_Gold_Value_Width_Middle|" -Color DarkGray,White,DarkGray,White,DarkGray
+    Write-Color "|","ID","| ","Inventory","$Inventory_Box_Name_Width_Middle","Qty ","| ","Value","$Inventory_Box_Gold_Value_Width_Middle|" -Color DarkGray,White,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,2;$Host.UI.Write("")
     Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+" -Color DarkGray
     $Position = 2
@@ -964,8 +979,9 @@ Function Draw_Inventory {
             }
             Inventory_Switch
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Position;$Host.UI.Write("")
-            Write-Color "|","$ID_Number","| $($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)$Name_Left_Padding :", "$Quantity_Left_Padding$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity) ","| ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue)$Gold_Value_Right_Padding","|" -Color DarkGray,$Selectable_ID_Potion_Highlight,DarkGray,White,DarkGray,White,DarkGray
-            $Script:Selectable_ID_Potion_Highlight = "DarkGray"
+            Write-Color "|","$ID_Number","| ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)$Name_Left_Padding ",":", "$Quantity_Left_Padding$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity) ","| ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue)$Gold_Value_Right_Padding","|" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,White,DarkGray,White,DarkGray
+            $Script:Selectable_ID_Highlight = "DarkGray"
+            $Script:Selectable_Name_Highlight = "DarkGray"
         }
     }
     $Position += 1
@@ -980,7 +996,7 @@ Function Draw_Inventory {
 # sets and asks if a potion should be used
 #
 Function Inventory_Choice{
-    $Script:Selectable_ID_Potion_Search = "not_set"
+    $Script:Selectable_ID_Search = "not_set"
     $Script:Potion_IDs_Array = New-Object System.Collections.Generic.List[System.Object]
     $Potion_IDs_Array.Clear()
     Draw_Inventory
@@ -1023,7 +1039,7 @@ Function Inventory_Choice{
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                     Write-Color -NoNewLine "Use a potion? ", "[Y/N]" -Color DarkYellow,Green
                     $Potion_Choice = "Health"
-                    $Script:Selectable_ID_Potion_Search = "Health"
+                    $Script:Selectable_ID_Search = "Health"
                 } elseif ($Enough_Mana_Potions -eq "yes" -and $Enough_Health_Potions -eq "no") {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     " "*105
@@ -1034,7 +1050,7 @@ Function Inventory_Choice{
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                     Write-Color -NoNewLine "Use a potion? ", "[Y/N]" -Color DarkYellow,Green
                     $Potion_Choice = "Mana"
-                    $Script:Selectable_ID_Potion_Search = "Mana"
+                    $Script:Selectable_ID_Search = "Mana"
                 } else {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     " "*105
@@ -1045,13 +1061,13 @@ Function Inventory_Choice{
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                     Write-Color -NoNewLine "Use a potion? ", "[Y/N]" -Color DarkYellow,Green
                     $Potion_Choice = "Health or Mana"
-                    $Script:Selectable_ID_Potion_Search = "HealthMana"
+                    $Script:Selectable_ID_Search = "HealthMana"
                 }
                 $Use_A_Potion = Read-Host " "
                 $Script:Use_A_Potion = $Use_A_Potion.Trim()
             } until ($Use_A_Potion -ieq "y" -or $Use_A_Potion -ieq "n")
             if ($Use_A_Potion -ieq "n") { # resets potion ID if not chosen to use one, otherwise on next attack, potions IDs are highlighted
-                $Script:Selectable_ID_Potion_Search = "not_set"
+                $Script:Selectable_ID_Search = "not_set"
             }
             if ($Use_A_Potion -ieq "y") {
                 do {
@@ -1077,7 +1093,7 @@ Function Inventory_Choice{
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                 Draw_Player_Stats_Info
                 
-                $Script:Selectable_ID_Potion_Search = "not_set" # resets ID colour back to DarkGray after a potion has been used the first time
+                $Script:Selectable_ID_Search = "not_set" # resets ID colour back to DarkGray after a potion has been used the first time
                 # update health
                 Clear-Host
                 Draw_Player_Stats_Window # placed here to fix a bug where if the last potion is used in the inventory,
