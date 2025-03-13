@@ -11,8 +11,8 @@
 #   
 #   
 # - NEXT
-#   - sell / buy items (junk items are now sellable in The Anvil & Blade ahop)
-#       add +gold to player window after selling
+#   - sell / buy items (junk items can now be sold in The Anvil & Blade ahop)
+#       no sell if no junk items
 #   - change "you are low on health/mana" message to
 #       if less than 25%/50% = "you are running low/very low on health/mana"
 #       if 50% or above = "you are not at max health" (maybe?)
@@ -1852,8 +1852,8 @@ Function Visit_A_Building {
                             $Anvil_Choice_Sell_Junk_Array = New-Object System.Collections.Generic.List[System.Object]
                             # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
                             $Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name
-                            $Script:Anvil_Choice_Sell_Junk_Quantity = 0
-                            $Script:Anvil_Choice_Sell_Junk_GoldValue = 0
+                            $Script:Anvil_Choice_Sell_Junk_Quantity = 0 # reset variables so they don't increase next time
+                            $Script:Anvil_Choice_Sell_Junk_GoldValue = 0 # reset variables so they don't increase next time
                             $Script:Selectable_ID_Search = "Junk"
                             Draw_Inventory
                             do {
@@ -1885,6 +1885,8 @@ Function Visit_A_Building {
                             Draw_Town_Map
                             Draw_Info_Banner
                             Draw_Inventory
+                            $host.UI.RawUI.ForegroundColor = "DarkYellow" # changes foreground color
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 18,10;$Host.UI.Write("(+$($Script:Anvil_Choice_Sell_Junk_GoldValue))")
                         }
                         $Script:Selectable_ID_Search = "not_set"
                         $First_Time_Entered = $false
