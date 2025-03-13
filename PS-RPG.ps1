@@ -872,6 +872,7 @@ Function Draw_Mob_Stats_Window_And_Info {
 # draw info banner for different areas / places/ combat / info etc. max width 105 (left edge of screen to Inventory)
 #
 Function Draw_Info_Banner {
+    $Info_Banner_Padding = " "*(105-3-($Info_Banner | Measure-Object -Character).Characters)
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
     Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
     Write-Color "| ","$Info_Banner","$Info_Banner_Padding|" -Color DarkGray,White,DarkGray
@@ -1008,8 +1009,7 @@ Function Inventory_Choice{
         if ($Enough_Health_Potions -eq "no" -and $Enough_Mana_Potions -eq "no") {
         } else {
             do {
-                $Info_Banner = "Inventory"
-                $Info_Banner_Padding = " "*(105-3-($Info_Banner | Measure-Object -Character).Characters)
+                $Script:Info_Banner = "Inventory"
                 Draw_Info_Banner
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                 " "*105
@@ -1082,8 +1082,7 @@ Function Inventory_Choice{
                 # e.g.  1  Lesser Health Potion : 35 
                 #       -----------------------------------
                 # ----> ----------------------------------- <----
-                $Info_Banner = "Inventory"
-                $Info_Banner_Padding = " "*(105-3-($Info_Banner | Measure-Object -Character).Characters)
+                $Script:Info_Banner = "Inventory"
                 Draw_Info_Banner
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                 if ($Potion.Name -ilike "*health potion*") {
@@ -1212,10 +1211,9 @@ Function Fight_Or_Run {
         Draw_Player_Stats_Window
         Draw_Player_Stats_Info
         Draw_Mob_Stats_Window_And_Info
-        $Info_Banner = "Combat"
-        $Info_Banner_Padding = " "*(105-3-($Info_Banner | Measure-Object -Character).Characters)
+        $Script:Info_Banner = "Combat"
         Draw_Info_Banner
-Write-Color -NoNewLine "  You encounter a ","$($Selected_Mob.Name)" -Color Gray,Blue
+        Write-Color -NoNewLine "  You encounter a ","$($Selected_Mob.Name)" -Color Gray,Blue
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         Write-Color -NoNewLine "Do you ","F", "ight or ","E","scape? ", "[F/E]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
         $Fight_Or_Escape = Read-Host " "
@@ -1237,8 +1235,7 @@ Write-Color -NoNewLine "  You encounter a ","$($Selected_Mob.Name)" -Color Gray,
             $Player_Turn = $false
         }
         do {
-            $Info_Banner = "Combat"
-            $Info_Banner_Padding = " "*(105-3-($Info_Banner | Measure-Object -Character).Characters)
+            $Script:Info_Banner = "Combat"
             Draw_Info_Banner
         if ($Player_Turn -eq $true) {
                 $Continue_Fight = $false
@@ -1261,10 +1258,9 @@ Write-Color -NoNewLine "  You encounter a ","$($Selected_Mob.Name)" -Color Gray,
                 } until ($Fight_Choice -ieq "a" -or $Fight_Choice -ieq "s")
                 # attack choice
                 if ($Fight_Choice -ieq "a") {
-                    $Info_Banner = "Combat"
-                    $Info_Banner_Padding = " "*(105-3-($Info_Banner | Measure-Object -Character).Characters)
+                    $Script:Info_Banner = "Combat"
                     Draw_Info_Banner
-                        $Hit_Chance = ($Character_Attack / $Selected_Mob_Dodge) / 2 * 100
+                    $Hit_Chance = ($Character_Attack / $Selected_Mob_Dodge) / 2 * 100
                     # Write-Output "hit chance                : $Hit_Chance"
                     $Random_100 = Get-Random -Minimum 1 -Maximum 101
                     # Write-Output "random 100                : $([Math]::Round($Random_100))"
@@ -1460,10 +1456,9 @@ Write-Color -NoNewLine "  You encounter a ","$($Selected_Mob.Name)" -Color Gray,
                     Clear-Host
                     Draw_Player_Stats_Window
                     Draw_Player_Stats_Info
-                    $Info_Banner = "Combat"
-                    $Info_Banner_Padding = " "*(105-3-($Info_Banner | Measure-Object -Character).Characters)
+                    $Script:Info_Banner = "Combat"
                     Draw_Info_Banner
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     Write-Color "  You escaped from the ","$($Selected_Mob.Name)","." -Color Gray,Blue,Gray
                 } else {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
@@ -1512,10 +1507,9 @@ Function Travel {
     $All_Linked_Locations_Letters_Array = $All_Linked_Locations_Letters_Array -Join "/"
     $All_Linked_Locations_Letters_Array = $All_Linked_Locations_Letters_Array + "/Q"
     
-    $Info_Banner = "Travel"
-    $Info_Banner_Padding = " "*(105-3-($Info_Banner | Measure-Object -Character).Characters)
+    $Script:Info_Banner = "Travel"
     Draw_Info_Banner
-Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
+    Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
     Write-Color "`r`n  You can travel to the following locations:" -Color DarkGray
     Write-Color "  $All_Linked_Locations_List" -Color White
     Write-Color " ,------------------------------------------------------." -Color DarkYellow
@@ -1689,10 +1683,9 @@ Function Visit_A_Building {
     $All_Buildings_In_Current_Location_Letters_Array_String = $All_Buildings_In_Current_Location_Letters_Array -Join "/"
     $All_Buildings_In_Current_Location_Letters_Array_String = $All_Buildings_In_Current_Location_Letters_Array_String + "/Q"
 
-    $Info_Banner = "Visit"
-    $Info_Banner_Padding = " "*(105-3-($Info_Banner | Measure-Object -Character).Characters)
+    $Script:Info_Banner = "Visit"
     Draw_Info_Banner
-Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
+    Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
     Write-Color "`r`n  You can visit the following buildings:" -Color DarkGray
     Write-Color "  $All_Buildings_In_Current_Location_List" -Color White
 
@@ -1731,8 +1724,7 @@ Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGr
                 $host.UI.RawUI.ForegroundColor = "DarkYellow" # changes foreground color
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
                 do {
-                    $Info_Banner = "Info"
-                    $Info_Banner_Padding = " "*(105-3-($Info_Banner | Measure-Object -Character).Characters)
+                    $Script:Info_Banner = "Home"
                     Draw_Info_Banner
                     $Home_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
                     if ($Home_Choice -ieq "r" ) { # rested (from choice below), so display fully rested message instead
@@ -1793,8 +1785,7 @@ Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGr
                 $host.UI.RawUI.ForegroundColor = "DarkYellow" # changes foreground color
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
                 do {
-                    $Info_Banner = "The Anvil & Blade"
-                    $Info_Banner_Padding = " "*(105-3-($Info_Banner | Measure-Object -Character).Characters)
+                    $Script:Info_Banner = "The Anvil & Blade"
                     Draw_Info_Banner
                     $Anvil_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
                     Draw_Inventory

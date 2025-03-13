@@ -301,23 +301,23 @@
     "Name": "Ash",
     "Class": "Cleric",
     "Race": "Human",
-    "Level": 7,
-    "Total_XP": 1200,
-    "XP_TNL": 100.0,
+    "Level": 8,
+    "Total_XP": 1400,
+    "XP_TNL": 430.0,
     "Stats": {
       "HealthCurrent": 70,
-      "HealthMax": 116,
+      "HealthMax": 120,
       "StaminaCurrent": 50,
-      "StaminaMax": 145,
+      "StaminaMax": 150,
       "ManaCurrent": 150,
-      "ManaMax": 252,
-      "Damage": 143,
-      "Attack": 105,
-      "Armour": 105,
-      "Dodge": 91,
-      "Quickness": 91,
-      "Spells": 181,
-      "Healing": 181
+      "ManaMax": 260,
+      "Damage": 150,
+      "Attack": 110,
+      "Armour": 110,
+      "Dodge": 95,
+      "Quickness": 95,
+      "Spells": 190,
+      "Healing": 190
     },
     "Skills": {
       "Dodge": 0,
@@ -385,7 +385,7 @@
         },
         "Chicken Feathers": {
           "Name": "Chicken Feathers",
-          "Quantity": 11,
+          "Quantity": 12,
           "Info": "Junk",
           "GoldValue": 1,
           "ID": 8
@@ -490,28 +490,28 @@
         },
         "Random Loot #1": {
           "Name": "Random Loot #1",
-          "Quantity": 12,
+          "Quantity": 13,
           "Info": "Junk",
           "GoldValue": 5,
           "ID": 99
         },
         "Random Loot #2": {
           "Name": "Random Loot #2",
-          "Quantity": 14,
+          "Quantity": 15,
           "Info": "Junk",
           "GoldValue": 3,
           "ID": 98
         },
         "Random Loot #3": {
           "Name": "Random Loot #3",
-          "Quantity": 11,
+          "Quantity": 12,
           "Info": "Junk",
           "GoldValue": 4,
           "ID": 97
         },
         "Random Loot #4": {
           "Name": "Random Loot #4",
-          "Quantity": 5,
+          "Quantity": 6,
           "Info": "Junk",
           "GoldValue": 3,
           "ID": 96
