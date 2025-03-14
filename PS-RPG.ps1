@@ -535,39 +535,129 @@ Function Create_Character {
             $Character_Name = $false
             $Character_Name_Valid = $false
             $Character_Name_Confirm = $false
+            $Character_Name_Random_Confirm = $false
             do {
                 Clear-Host
-                Write-Color -NoNewLine "Enter your Characters Name" -Color DarkYellow
+                Write-Color "What will be your character name?" -Color DarkYellow
+                Write-Color "If you cannot think of a name, try searching for one online." -Color DarkYellow
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,8;$Host.UI.Write("")
+                Write-Color -NoNewLine "Enter your Characters Name, or enter @random for a random name (max 10 characters)" -Color DarkYellow
                 ######################################################################################################################
                 $Character_Name = Read-Host " "
                 # $Character_Name = "Loop"
                 ######################################################################################################################
-    
+                
                 $Character_Name = $Character_Name.Trim()
                 if (-not($null -eq $Character_Name -or $Character_Name -eq " " -or $Character_Name -eq "")) {
                     $Character_Name_Valid = $true
                 }
-            } until (
-                $Character_Name_Valid -eq $true
-            )
-            do {
-                Write-Color -NoNewLine "You have chosen ", "$Character_Name ", "for your Character name, is this correct? ", "Y/N/Q" -Color DarkYellow,Blue,DarkYellow,Green
-                ######################################################################################################################
-                $Character_Name_Confirm = Read-Host " "
-                # $Character_Name_Confirm = "y"
-                ######################################################################################################################
-    
-            } until (
-                $Character_Name_Confirm -ieq "y" -or $Character_Name_Confirm -ieq "n" -or $Character_Name_Confirm -eq "q"
-            )
-            if ($Character_Name_Confirm -ieq "y") {
-                $Character_Name_Confirm = $true
-            } else {
-                if ($Character_Name_Confirm -ieq "q") {Exit}
+                if ($Character_Name -ieq '@random') {
+                    # $Character_Name_Valid = $false
+                    $Random_Character_Name_Count = 0
+                    [System.Collections.ArrayList]$Random_Character_Names = @('Igert','Cyne','Aened','Alchred','Altes','Reyny','Wine','Eonild','Conga','Burgiua','Wene','Belia','Ryellia','Ellet','Wyna','Kamin','Bori','Ukhlar','Bifur','Nainan','Akad','Sanzagh','Zuri','Dwoinarv','Azan','Ukras','Ilmin','Banain','Zaghim','Gwali','Zuri','Kada','Urul','Duri','Geda','Throdore','Galdore','Finrandan','Celodhil','Aldon','Endingond','Ebrir','Edhrorod','Findore','Elerwen','Enen','Anelyel','Arwerdas','Findalye','Minerde','Mithrielye','Ilarel','Neladrie','Nerwende')
+                    do {
+                        $Random_Character_Name = Get-Random -Input $Random_Character_Names
+                        do {
+                            for ($Position = 0; $Position -lt 10; $Position++) {
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                            }
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
+                            if ($Gandalf_Joke -ieq "Gandalf the Gray") {
+                                Write-Color "Oh wait. That name has more than 10 characters. You'll have to pick another name, sorry about that =|" -Color DarkYellow
+                                Write-Color "Where were we..." -Color DarkYellow
+                                # $Gandalf_Joke = ""
+                            }
+                            if ($Character_Name_Random -ieq "n") {
+                                $Random_Character_Name_Count += 1
+                                switch ($Random_Character_Name_Count) {
+                                    1 { Write-Color "What about ", "$Random_Character_Name ", "for your Character's name?" -Color DarkYellow,Blue,DarkYellow }
+                                    2 { Write-Color "How about ", "$Random_Character_Name ", "for your Character's name instead?" -Color DarkYellow,Blue,DarkYellow}
+                                    3 { Write-Color "Okay, how about ", "$Random_Character_Name ", "then?" -Color DarkYellow,Blue,DarkYellow }
+                                    4 { Write-Color "Didn't like that one huh? What about ", "$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow }
+                                    5 { Write-Color "Didn't like that one either? ", "$Random_Character_Name ", "then?" -Color DarkYellow,Blue,DarkYellow }
+                                    6 { Write-Color "$Random_Character_Name", "?" -Color Blue,DarkYellow }
+                                    7 { Write-Color "$Random_Character_Name", "?" -Color Blue,DarkYellow }
+                                    8 { Write-Color "$Random_Character_Name", "?" -Color Blue,DarkYellow }
+                                    9 { Write-Color "You're getting picky now. Let's go with ","$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow }
+                                    10 { Write-Color "You're getting really picky now. Why don't you choose ","$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow }
+                                    11 { Write-Color "Or ","$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow }
+                                    12 { Write-Color "I'm running out of names now. ","$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow }
+                                    13 { Write-Color "If you don't pick this one, i'm choose for you. ","$Random_Character_Name", "." -Color DarkYellow,Blue,DarkYellow }
+                                    14 { Write-Color "WoW, you really didn't like THAT one??? ","$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow }
+                                    15 { Write-Color "Still deciding? ","$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow }
+                                    16 { Write-Color "Can't make up your mind can you? ","$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow }
+                                    17 { Write-Color "This is getting boring. ","$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow }
+                                    18 { Write-Color "*Yawn* ","$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow }
+                                    19 {
+                                        Write-Color "Gandalf the Gray", "?" -Color Blue,DarkYellow
+                                        $Random_Character_Name = "Gandalf the Gray"
+                                    }
+                                    20 {
+                                        if ($Gandalf_Joke -ieq "Gandalf the Gray") {
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("");" "*105
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,1;$Host.UI.Write("");" "*105
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,2;$Host.UI.Write("");" "*105
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
+                                            Write-Color "Sorry about the ","Gandalf ","joke, that wasn't very funny." -Color DarkYellow,Blue,DarkYellow
+                                            Write-Color "If you like, i'll let you have ","Gandalf",". ","How about that?" -Color DarkYellow,Blue,DarkYellow
+                                            $Random_Character_Name = "Gandalf"
+                                            $Gandalf_Joke = "Gandalf"
+                                        } else {
+                                            Write-Color "Here is another name... ","$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow
+                                        }
+                                    }
+                                    21 {
+                                        Write-Color "$Random_Character_Name", "?" -Color Blue,DarkYellow
+                                    }
+                                    Default {
+                                        Write-Color "Default - $Random_Character_Name", "?" -Color Blue,DarkYellow
+                                    }
+                                }
+                            } else {
+                                Write-Color "How about ", "$Random_Character_Name ", "for your Character's name? " -Color DarkYellow,Blue,DarkYellow
+                            }
+                            $Character_Name = $Random_Character_Name
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,8;$Host.UI.Write("")
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,8;$Host.UI.Write("");" "*105
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,8;$Host.UI.Write("")
+                            Write-Color -NoNewLine "Choose this name? ","[Y/N]" -Color DarkYellow,Green
+                            $Character_Name_Random = Read-Host " "
+                        } until ($Character_Name_Random -ieq "y" -or $Character_Name_Random -ieq "n")
+                        if ($Character_Name_Random -ieq "y") {
+                            Write-Color -NoNewLine "You have chosen ", "$Character_Name ", "for your Character name, is this correct? ", "Y/N" -Color DarkYellow,Blue,DarkYellow,Green
+                            $Character_Name_Random = Read-Host " "
+                            if ($Character_Name_Random -ieq "y") {
+                                $Character_Name_Random_Confirm = $true
+                                $Character_Name_Confirm = $true
+                                if ($Character_Name -ieq "Gandalf the Gray") {
+                                    $Character_Name_Random_Confirm = $false
+                                    $Gandalf_Joke = "Gandalf the Gray"
+                                }
+                            }
+                        }
+                        if ($Character_Name_Random -ieq "n") {
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,9;$Host.UI.Write("")
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,9;$Host.UI.Write("");" "*105
+                        }
+                    } until ($Character_Name_Random_Confirm -eq $true)
+                }
+            } until ($Character_Name_Valid -eq $true)
+            if ($Character_Name_Random_Confirm -ieq $false) {
+                do {
+                    Write-Color -NoNewLine "You have chosen ", "$Character_Name ", "for your Character name, is this correct? ", "Y/N/Q" -Color DarkYellow,Blue,DarkYellow,Green
+                    ######################################################################################################################
+                    $Character_Name_Confirm = Read-Host " "
+                    # $Character_Name_Confirm = "y"
+                    ######################################################################################################################
+        
+                } until ($Character_Name_Confirm -ieq "y" -or $Character_Name_Confirm -ieq "n" -or $Character_Name_Confirm -eq "q")
+                if ($Character_Name_Confirm -ieq "y") {
+                    $Character_Name_Confirm = $true
+                } else {
+                    if ($Character_Name_Confirm -ieq "q") {Exit}
+                }
             }
-        } until (
-            $Character_Name_Confirm -eq $true
-        )
+        } until ($Character_Name_Confirm -eq $true)
         $Import_JSON.Character.Name = $Character_Name
     
         # character info Function while choosing details
@@ -638,9 +728,7 @@ Function Create_Character {
                 ######################################################################################################################
     
             if ($Character_Class -ieq "q") {{Exit}}
-            } until (
-                $Character_Class -ieq "m" -or $Character_Class -ieq "r" -or $Character_Class -eq "c" -or $Character_Class -eq "w"
-            )
+            } until ($Character_Class -ieq "m" -or $Character_Class -ieq "r" -or $Character_Class -eq "c" -or $Character_Class -eq "w")
             switch ($Character_Class) {
                 m { $Character_Class = "Mage" }
                 r { $Character_Class = "Rogue" }
@@ -654,17 +742,13 @@ Function Create_Character {
                 # $Character_Class_Confirm = "y"
                 ######################################################################################################################
     
-            } until (
-                $Character_Class_Confirm -ieq "y" -or $Character_Class_Confirm -ieq "n" -or $Character_Class_Confirm -eq "q"
-            )
+            } until ($Character_Class_Confirm -ieq "y" -or $Character_Class_Confirm -ieq "n" -or $Character_Class_Confirm -eq "q")
             if ($Character_Class_Confirm -ieq "y") {
                 $Character_Class_Confirm = $true
             } else {
                 if ($Character_Class_Confirm -ieq "q") {Exit}
             }
-        } until (
-            $Character_Class_Confirm -eq $true
-        )
+        } until ($Character_Class_Confirm -eq $true)
         $Import_JSON.Character.Class = $Character_Class
     
         # character race choice
@@ -682,9 +766,7 @@ Function Create_Character {
                 ######################################################################################################################
     
                 if ($Character_Race -ieq "q") {{Exit}}
-            } until (
-                $Character_Race -ieq "e" -or $Character_Race -ieq "o" -or $Character_Race -eq "d" -or $Character_Race -eq "h"
-            )
+            } until ($Character_Race -ieq "e" -or $Character_Race -ieq "o" -or $Character_Race -eq "d" -or $Character_Race -eq "h")
             switch ($Character_Race) {
                 e { $Character_Race = "Elf";$A_AN = "an" }
                 o { $Character_Race = "Orc";$A_AN = "an" }
@@ -698,17 +780,13 @@ Function Create_Character {
                 # $Character_Race_Confirm = "y"
                 ######################################################################################################################
     
-            } until (
-                $Character_Race_Confirm -ieq "y" -or $Character_Race_Confirm -ieq "n" -or $Character_Race_Confirm -eq "q"
-            )
+            } until ($Character_Race_Confirm -ieq "y" -or $Character_Race_Confirm -ieq "n" -or $Character_Race_Confirm -eq "q")
             if ($Character_Race_Confirm -ieq "y") {
                 $Character_Race_Confirm = $true
             } else {
                 if ($Character_Race_Confirm -ieq "q") {Exit}
             }
-        } until (
-            $Character_Race_Confirm -eq $true
-        )
+        } until ($Character_Race_Confirm -eq $true)
         $Import_JSON.Character.Race = $Character_Race
         
         # confirm all character choices
@@ -728,18 +806,14 @@ Function Create_Character {
             if (-not($null -eq $Update_Character_JSON -or $Update_Character_JSON -eq " " -or $Update_Character_JSON -eq "")) {
                 $Update_Character_JSON_Valid = $true
             }
-        } until (
-            $Update_Character_JSON_Valid -eq $true
-        )
+        } until ($Update_Character_JSON_Valid -eq $true)
         if ($Update_Character_JSON -ieq "y") {
             $Update_Character_JSON_Confirm = $true
         } else {
             if ($Update_Character_JSON -ieq "q") {Exit}
         }
-    } until (
-        $Update_Character_JSON_Confirm -eq $true
-    )
-    Set-JSON # TEMP?
+    } until ($Update_Character_JSON_Confirm -eq $true)
+    Set-JSON
 
     # TEMP FO TESTING
     # set JSON character stats and items

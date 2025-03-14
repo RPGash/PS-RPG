@@ -299,23 +299,23 @@
     "Name": "Ash",
     "Class": "Cleric",
     "Race": "Human",
-    "Level": 13,
-    "Total_XP": 5320,
-    "XP_TNL": 1104.0,
+    "Level": 12,
+    "Total_XP": 4640,
+    "XP_TNL": 576.0,
     "Stats": {
-      "HealthCurrent": 154,
-      "HealthMax": 1015,
+      "HealthCurrent": 124,
+      "HealthMax": 1011,
       "StaminaCurrent": 50,
-      "StaminaMax": 175,
-      "ManaCurrent": 358,
-      "ManaMax": 1031,
-      "Damage": 185,
-      "Attack": 135,
-      "Armour": 135,
-      "Dodge": 115,
-      "Quickness": 115,
-      "Spells": 235,
-      "Healing": 235
+      "StaminaMax": 170,
+      "ManaCurrent": 308,
+      "ManaMax": 1023,
+      "Damage": 178,
+      "Attack": 130,
+      "Armour": 130,
+      "Dodge": 111,
+      "Quickness": 111,
+      "Spells": 226,
+      "Healing": 226
     },
     "Skills": {
       "Dodge": 0,
@@ -326,11 +326,11 @@
       }
     },
     "Items": {
-      "Gold": 853541.0,
+      "Gold": 853519.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
-          "Quantity": 96,
+          "Quantity": 97,
           "Restores": 30,
           "GoldValue": 50,
           "IsJunk": false,
@@ -357,7 +357,7 @@
         },
         "Lesser Mana Potion": {
           "Name": "Lesser Mana Potion",
-          "Quantity": 79,
+          "Quantity": 84,
           "Restores": 10,
           "Info": "Capacity 10",
           "GoldValue": 20,
@@ -398,7 +398,7 @@
         },
         "Rook Feathers": {
           "Name": "Rook Feathers",
-          "Quantity": 1,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 2,
           "IsJunk": true,
@@ -406,7 +406,7 @@
         },
         "Rook Claws": {
           "Name": "Rook Claws",
-          "Quantity": 1,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 2,
           "IsJunk": true,
@@ -494,7 +494,7 @@
         },
         "Random Loot #1": {
           "Name": "Random Loot #1",
-          "Quantity": 1,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 5,
           "IsJunk": true,
@@ -502,7 +502,7 @@
         },
         "Random Loot #2": {
           "Name": "Random Loot #2",
-          "Quantity": 26,
+          "Quantity": 24,
           "Info": "?????",
           "GoldValue": 3,
           "IsJunk": false,
@@ -510,7 +510,7 @@
         },
         "Random Loot #3": {
           "Name": "Random Loot #3",
-          "Quantity": 2,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 4,
           "IsJunk": true,
