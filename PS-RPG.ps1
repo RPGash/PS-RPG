@@ -11,8 +11,14 @@
 #   
 #   
 # - NEXT
-#   - sell / buy items (junk items can now be sold in The Anvil & Blade ahop)
-#   
+#   - sell / buy items (junk items can now be sold in The Anvil & Blade shop)
+#   - add spells
+#   - add item equipment drops from mob loot
+#   - add equipment?
+#       armour protection, stat bonuses/buffs etc.
+#   - add somewhere to buy/sell potions
+#   - add some quests
+#       mob kill count
 #   - change "you are low on health/mana" message to
 #       if less than 25%/50% = "you are running low/very low on health/mana"
 #       if 50% or above = "you are not at max health" (maybe?)
@@ -22,7 +28,6 @@
 #   - different message types
 #       you hit/strike/bash/wack at mob
 #       heals? kills? etc.
-#   - combine Draw_Player_Stats_Window and Draw_Player_Stats_Info (same as Draw_Mob_Stats_Window_And_Info and Draw_Inventory)
 #   - [ongoing] an info page available after starting the game
 #           game info, PSWriteColour module, GitHub, website, uninstall module,
 #           damage calculation = damage * (damage / (damage + armour)),
@@ -218,36 +223,28 @@ Function Set-JSON {
 }
 
 #
-# player stats window
+# player window and stats
 #
-Function Draw_Player_Stats_Window {
-    Write-Color "+-----------------------------------------------------+" -Color DarkGray
-    Write-Color "|                                                     |" -Color DarkGray
-    Write-Color "+-----------------------+-----------------------------+" -Color DarkGray
-    Write-Color "|                       | Health    :     of          |" -Color DarkGray
-    Write-Color "|                       | Stamina   :     of          |" -Color DarkGray
-    Write-Color "| Name     :            | Mana      :     of          |" -Color DarkGray
-    Write-Color "| Class    :            | Attack    :                 |" -Color DarkGray
-    Write-Color "| Race     :            | Damage    :                 |" -Color DarkGray
-    Write-Color "| Level    :            | Armour    :                 |" -Color DarkGray
-    Write-Color "| Location :            | Dodge     :                 |" -Color DarkGray
-    Write-Color "| Gold     :            | Quickness :                 |" -Color DarkGray
-    Write-Color "| Total XP :            | Spells    :                 |" -Color DarkGray
-    Write-Color "| XP TNL   :            | Healing   :                 |" -Color DarkGray
-    Write-Color "+-----------------------+-----------------------------+" -Color DarkGray
-}
-
-
-
-#
-# draw player stats info
-#
-Function Draw_Player_Stats_Info {
+Function Draw_Player_Window_and_Stats {
+    $host.UI.RawUI.ForegroundColor = "DarkGray" # changes foreground color
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write( "+-----------------------------------------------------+")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,1;$Host.UI.Write( "|                                                     |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,2;$Host.UI.Write( "+-----------------------+-----------------------------+")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,3;$Host.UI.Write( "|                       | Health    :     of          |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,4;$Host.UI.Write( "|                       | Stamina   :     of          |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,5;$Host.UI.Write( "| Name     :            | Mana      :     of          |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,6;$Host.UI.Write( "| Class    :            | Attack    :                 |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,7;$Host.UI.Write( "| Race     :            | Damage    :                 |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,8;$Host.UI.Write( "| Level    :            | Armour    :                 |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,9;$Host.UI.Write( "| Location :            | Dodge     :                 |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,10;$Host.UI.Write("| Gold     :            | Quickness :                 |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,11;$Host.UI.Write("| Total XP :            | Spells    :                 |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,12;$Host.UI.Write("| XP TNL   :            | Healing   :                 |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,13;$Host.UI.Write("+-----------------------+-----------------------------+")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 9,3;$Host.UI.Write($PSRPG_Version)
     $host.UI.RawUI.ForegroundColor = "Magenta" # changes foreground color
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 2,3;$Host.UI.Write("PS-RPG")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 2,4;$Host.UI.Write("=====")
-    $host.UI.RawUI.ForegroundColor = "DarkGray" # changes foreground color
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 9,3;$Host.UI.Write($PSRPG_Version)
     $host.UI.RawUI.ForegroundColor = "White" # changes foreground color
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 2,1;$Host.UI.Write("Player Info")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 13,5;$Host.UI.Write($Character_Name)
@@ -299,8 +296,7 @@ Function Game_Info {
         } until ($Game_Info_Page_Choice -ieq "1" -or $Game_Info_Page_Choice -ieq "2" -or $Game_Info_Page_Choice -ieq "3" -or $Game_Info_Page_Choice -ieq "q")
         if ($Game_Info_Page_Choice -ieq "q") {
             Clear-Host
-            Draw_Player_Stats_Window
-            Draw_Player_Stats_Info
+            Draw_Player_Window_and_Stats
             Break
         }
         if ($Game_Info_Page_Choice -ieq "1") {
@@ -469,7 +465,7 @@ Function Level_Up {
         Import-JSON
         Set_Variables
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
-        Draw_Player_Stats_Info
+        Draw_Player_Window_and_Stats
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,29;$Host.UI.Write("")
         if ($Levels_Levelled_Up -eq "1") {
             $Level_Or_Levels = "level"
@@ -514,7 +510,7 @@ Function Level_Up {
         if ($Levels_Levelled_Up -ne "1") {
             Start-Sleep -Seconds 2 # leave in (shows multiple levels slowly)
         }
-        Draw_Player_Stats_Info
+        Draw_Player_Window_and_Stats
     } until ($XP_Difference -gt 0)
 }
 
@@ -822,8 +818,7 @@ Function Create_Character {
     Import-JSON
     Set_Variables
     Clear-Host
-    Draw_Player_Stats_Window
-    Draw_Player_Stats_Info
+    Draw_Player_Window_and_Stats
 }
 
 
@@ -840,7 +835,7 @@ Function Create_Character {
 #
 # draw mob stats
 #
-Function Draw_Mob_Stats_Window_And_Info {
+Function Draw_Mob_Window_and_Stats {
     $host.UI.RawUI.ForegroundColor = "DarkGray" # changes foreground color
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,0;$Host.UI.Write( "+-----------------------------------------------+")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,1;$Host.UI.Write( "|                                               |")
@@ -1092,12 +1087,12 @@ Function Inventory_Choice{
                 
                 # update current health
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
-                Draw_Player_Stats_Info
+                Draw_Player_Window_and_Stats
                 
                 $Script:Selectable_ID_Search = "not_set" # resets ID colour back to DarkGray after a potion has been used the first time
                 # update health
                 Clear-Host
-                Draw_Player_Stats_Window # placed here to fix a bug where if the last potion is used in the inventory,
+                Draw_Player_Window_and_Stats # placed here to fix a bug where if the last potion is used in the inventory,
                 # it fully refreshes the page. otherwise the inventory window resizes and leaves an additional "bottom line of window" on the screen.
                 # e.g.  1  Lesser Health Potion : 35 
                 #       -----------------------------------
@@ -1143,10 +1138,10 @@ Function Inventory_Choice{
                 Set-JSON
                 Import-JSON
                 Set_Variables
-                Draw_Player_Stats_Info # redraws play stats to update health or mana values
+                Draw_Player_Window_and_Stats # redraws play stats to update health or mana values
                 
                 if ($In_Combat -eq $true){
-                    Draw_Mob_Stats_Window_And_Info
+                    Draw_Mob_Window_and_Stats
                     Draw_Inventory
                 } else {
                     Draw_Inventory
@@ -1227,9 +1222,8 @@ Function Fight_Or_Run {
     # $Character_HealthCurrent = $Import_JSON.Character.Stats.HealthCurrent
     do {
         Clear-Host
-        Draw_Player_Stats_Window
-        Draw_Player_Stats_Info
-        Draw_Mob_Stats_Window_And_Info
+        Draw_Player_Window_and_Stats
+        Draw_Mob_Window_and_Stats
         $Script:Info_Banner = "Combat"
         Draw_Info_Banner
         Write-Color -NoNewLine "  You encounter a ","$($Selected_Mob.Name)" -Color Gray,Blue
@@ -1241,9 +1235,8 @@ Function Fight_Or_Run {
     if ($Fight_Or_Escape -ieq "f") {
         $In_Combat = $true
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
-        Draw_Player_Stats_Window
-        Draw_Player_Stats_Info
-        Draw_Mob_Stats_Window_And_Info
+        Draw_Player_Window_and_Stats
+        Draw_Mob_Window_and_Stats
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
         Write-Color "  You have chosen to fight the ", "$($Selected_Mob.Name)" -NoNewLine -Color Gray,Blue,Gray
         if ($Character_Quickness -gt $Selected_Mob.Quickness) {
@@ -1305,7 +1298,7 @@ Function Fight_Or_Run {
                             $Selected_Mob_HealthCurrent = 0
                             $Selected_Mob.Health = 0
                         }
-                        Draw_Mob_Stats_Window_And_Info
+                        Draw_Mob_Window_and_Stats
                         if ($First_Turn -eq $true) {
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                             " "*105
@@ -1369,8 +1362,7 @@ Function Fight_Or_Run {
                     $Script:Character_HealthCurrent = $Character_HealthCurrent - $Selected_Mob_Hit_Damage
                     $Import_JSON.Character.Stats.HealthCurrent = $Character_HealthCurrent
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
-                    Draw_Player_Stats_Window
-                    Draw_Player_Stats_Info
+                    Draw_Player_Window_and_Stats
                 } else {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
                     Write-Color "  The ","$($Selected_Mob.Name) ","misses you." -Color Gray,Blue,Gray
@@ -1444,8 +1436,7 @@ Function Fight_Or_Run {
                 Import-JSON
                 Set_Variables
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
-                # Draw_Player_Stats_Window
-                Draw_Player_Stats_Info
+                Draw_Player_Window_and_Stats
                 Break
             }
 
@@ -1469,8 +1460,7 @@ Function Fight_Or_Run {
                 $Random_Escape_100 = Get-Random -Minimum 1 -Maximum 101
                 if ($Random_Escape_100 -le [Math]::Round($Character_Quickness/($Character_Quickness+($Selected_Mob_Quickness/3))*100)) {
                     Clear-Host
-                    Draw_Player_Stats_Window
-                    Draw_Player_Stats_Info
+                    Draw_Player_Window_and_Stats
                     $Script:Info_Banner = "Combat"
                     Draw_Info_Banner
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
@@ -1491,8 +1481,7 @@ Function Fight_Or_Run {
     } elseif ($Fight_Or_Escape -ieq "e") {
         # Escape before combat starts
         Clear-Host
-        Draw_Player_Stats_Window
-        Draw_Player_Stats_Info
+        Draw_Player_Window_and_Stats
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,15;$Host.UI.Write("")
         Write-Output "You escaped from the $($Selected_Mob.Name)! (no combat)"
     }
@@ -1503,8 +1492,7 @@ Function Fight_Or_Run {
 
 Function Travel {
     Clear-Host
-    Draw_Player_Stats_Window
-    Draw_Player_Stats_Info
+    Draw_Player_Window_and_Stats
     # find all linked locations that you can travel to (not including your current location)
     $All_Location_Names = $Import_JSON.Locations.PSObject.Properties.Name
     foreach ($Single_Location in $All_Location_Names) {
@@ -1580,8 +1568,7 @@ Function Travel {
     }
     Set-JSON
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
-    Draw_Player_Stats_Window
-    Draw_Player_Stats_Info
+    Draw_Player_Window_and_Stats
 }
 
 
@@ -1682,8 +1669,7 @@ Function Draw_The_River_Map {
 #
 Function Visit_A_Building {
     Clear-Host
-    Draw_Player_Stats_Window
-    Draw_Player_Stats_Info
+    Draw_Player_Window_and_Stats
     # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
 
     # # find all linked locations that you can travel to (not including your current location)
@@ -1745,8 +1731,7 @@ Function Visit_A_Building {
                     if ($Home_Choice -ieq "r" ) { # rested (from choice below), so display fully rested message instead
                         Set-JSON
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
-                        Draw_Player_Stats_Window
-                        Draw_Player_Stats_Info
+                        Draw_Player_Window_and_Stats
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                         " "*105
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
@@ -1888,8 +1873,7 @@ Function Visit_A_Building {
                             Set-JSON
                             Clear-Host
                             Set_Variables
-                            Draw_Player_Stats_Window
-                            Draw_Player_Stats_Info
+                            Draw_Player_Window_and_Stats
                             Draw_Town_Map
                             Draw_Info_Banner
                             Draw_Inventory
@@ -1955,8 +1939,7 @@ Function Visit_A_Building {
     Set-JSON
     Clear-Host
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
-    Draw_Player_Stats_Window
-    Draw_Player_Stats_Info
+    Draw_Player_Window_and_Stats
 }
 
 
@@ -1984,8 +1967,7 @@ if (Test-Path -Path .\PS-RPG.json) {
         # display current saved file info
         Import-JSON
         Set_Variables
-        Draw_Player_Stats_Window
-        Draw_Player_Stats_Info
+        Draw_Player_Window_and_Stats
         Draw_Inventory
         do {
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
@@ -2005,8 +1987,7 @@ if (Test-Path -Path .\PS-RPG.json) {
             Import-JSON
             Set_Variables
             Clear-Host
-            Draw_Player_Stats_Window
-            Draw_Player_Stats_Info
+            Draw_Player_Window_and_Stats
         }
         if ($Load_Save_Data_Choice -ieq "n") {
             do {
@@ -2064,8 +2045,7 @@ do {
         }
         i {
             Clear-Host
-            Draw_Player_Stats_Window
-            Draw_Player_Stats_Info
+            Draw_Player_Window_and_Stats
             Inventory_Choice
             # Break
         }
