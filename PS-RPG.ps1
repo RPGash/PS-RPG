@@ -22,8 +22,6 @@
 #   - change "you are low on health/mana" message to
 #       if less than 25%/50% = "you are running low/very low on health/mana"
 #       if 50% or above = "you are not at max health" (maybe?)
-#   - max character limit = 10???
-#   - more than 10 characters for name, suggest a random name?
 #   - different message types
 #       you hit/strike/bash/wack at mob
 #       heals? kills? etc.
