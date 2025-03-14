@@ -11,7 +11,7 @@
 #   
 #   
 # - NEXT
-#   - sell / buy items (junk items can now be sold in The Anvil & Blade shop)
+#   - buy items in The Anvil & Blade shop
 #   - add spells
 #   - add item equipment drops from mob loot
 #   - add equipment?
@@ -541,6 +541,7 @@ Function Create_Character {
                     Write-Color "If you cannot think of a name, try searching for one online." -Color DarkYellow
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,8;$Host.UI.Write("")
                     Write-Color -NoNewLine "Enter your Characters Name, or enter @random for a random name (max 10 characters)" -Color DarkYellow
+                    $Character_Name_Valid = $false
                     $Character_Name = Read-Host " "
                     $Character_Name = $Character_Name.Trim()
                     if (-not($null -eq $Character_Name -or $Character_Name -eq " " -or $Character_Name -eq "")) {
