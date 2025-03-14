@@ -22,7 +22,6 @@
 #   - change "you are low on health/mana" message to
 #       if less than 25%/50% = "you are running low/very low on health/mana"
 #       if 50% or above = "you are not at max health" (maybe?)
-#   - random character name
 #   - max character limit = 10???
 #   - more than 10 characters for name, suggest a random name?
 #   - different message types
@@ -530,19 +529,26 @@ Function Create_Character {
             $Character_Name_Confirm = $false
             $Character_Name_Random_Confirm = $false
             do {
-                Clear-Host
-                if ($Random_Character_Name_Count -eq 0) {
-                    Write-Color "*All random names have been suggested*" -Color Red
-                }
-                Write-Color "What will be your character name?" -Color DarkYellow
-                Write-Color "If you cannot think of a name, try searching for one online." -Color DarkYellow
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,8;$Host.UI.Write("")
-                Write-Color -NoNewLine "Enter your Characters Name, or enter @random for a random name (max 10 characters)" -Color DarkYellow
-                $Character_Name = Read-Host " "
-                $Character_Name = $Character_Name.Trim()
-                if (-not($null -eq $Character_Name -or $Character_Name -eq " " -or $Character_Name -eq "")) {
-                    $Character_Name_Valid = $true
-                }
+                do {
+                    Clear-Host
+                    if ($($Character_Name | Measure-Object -Character).Characters -gt 10) {
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,9
+                        Write-Color "*Your name is too long, your name must be 10 characters or less*" -Color Red
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0
+                    }
+                    if ($Random_Character_Name_Count -eq 0) {
+                        Write-Color "*All random names have been suggested*" -Color Red
+                    }
+                    Write-Color "What will be your character name?" -Color DarkYellow
+                    Write-Color "If you cannot think of a name, try searching for one online." -Color DarkYellow
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,8;$Host.UI.Write("")
+                    Write-Color -NoNewLine "Enter your Characters Name, or enter @random for a random name (max 10 characters)" -Color DarkYellow
+                    $Character_Name = Read-Host " "
+                    $Character_Name = $Character_Name.Trim()
+                    if (-not($null -eq $Character_Name -or $Character_Name -eq " " -or $Character_Name -eq "")) {
+                        $Character_Name_Valid = $true
+                    }
+                } until ($($Character_Name | Measure-Object -Character).Characters -le 10)
                 if ($Character_Name -ieq '@random') {
                     $Random_Character_Name_Count = 0
                     [System.Collections.ArrayList]$Random_Character_Names = ('Igert','Cyne','Aened','Alchred','Altes','Reyny','Wine','Eonild','Conga','Burgiua','Wene','Belia','Ryellia','Ellet','Wyna','Kamin','Bori','Ukhlar','Bifur','Nainan','Akad','Sanzagh','Zuri','Dwoinarv','Azan','Ukras','Ilmin','Banain','Zaghim','Gwali','Zuri','Kada','Urul','Duri','Geda','Throdore','Galdore','Finrandan','Celodhil','Aldon','Endingond','Ebrir','Edhrorod','Findore','Elerwen','Enen','Anelyel','Arwerdas','Findalye','Minerde','Mithrielye','Ilarel','Neladrie','Nerwende')
