@@ -2,8 +2,9 @@
 # ----
 #
 # - BUGS
-#   - "Sort-Object Name" not working when displaying inventory items (items are not collected then displayed, but instead written out one by one)
-#   
+#   - "Sort-Object Name" not working when displaying inventory Items
+#     (items are not collected then displayed, but instead written out one by one)
+#   -
 #   
 #   
 # - TEST
@@ -35,7 +36,7 @@
 #
 # - KNOWN ISSUES
 #   - if no JSON file is found, then you start a new game but quit before completing character creation, the game finds an "empty" game file and loads with no character data - FIX is to start a new game? or check for an "empty" file and delete?
-#   - On the Travel page, the available locations to travel to does not show the single character highlighted in green as the choice for that location. e.g. if "Town" is listed, the letter "T" is not green. All location names are White, but the question does show the correct highlighted characters for hat area.
+#   - On the Travel page, the available locations to travel to does not show the single character highlighted in Green as the choice for that location. e.g. if "Town" is listed, the letter "T" is not Green. All location names are White, but the question does show the correct highlighted characters for hat area.
 #
 
 
@@ -139,7 +140,7 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
     Write-Color "The main PowerShell script            : ", "PS-RPG.ps1" -Color Gray,Cyan
     Write-Color "ASCII art for death messages          : ", "ASCII.txt" -Color Gray,Cyan
     Write-Color "A JSON file that stores all game info : ", "PS-RPG.json ", "(Locations, Mobs, NPCs and Character Stats etc.)" -Color Gray,Cyan,Gray
-    Write-Color "`r`nPlayer input options appear in ","green ", "e.g. ", "[Y/N/Q/I] ", "would be ", "yes/no/quit/inventory", "." -Color Gray,Green,Gray,Green,Gray,Green,Gray
+    Write-Color "`r`nPlayer input options appear in ","Green ", "e.g. ", "[Y/N/Q/I] ", "would be ", "yes/no/quit/inventory", "." -Color Gray,Green,Gray,Green,Gray,Green,Gray
     Write-Color "Enter the single character then hit Enter to confirm the choice." -Color Gray
     Write-Color "`r`nWARNING - Quitting the game unexpectedly may cause lose of data." -Color Cyan
     Write-Color "`r`nYou are now ready to play", " PS-RPG", "." -Color Gray,Magenta,Gray
@@ -308,7 +309,7 @@ Function Game_Info {
             Write-Color "| The main PowerShell script            : ", "PS-RPG.ps1" -Color Gray,Cyan
             Write-Color "| ASCII art for death messages          : ", "ASCII.txt" -Color Gray,Cyan
             Write-Color "| A JSON file that stores all game info : ", "PS-RPG.json ", "e.g. Locations, Mobs, NPCs and Character Stats etc.          |" -Color Gray,Cyan,Gray
-            Write-Color "| `r`nPlayer input options appear in ","green ", "e.g. ", "Y/N/Q/I ", "would be ", "yes/no/quit/inventory", "." -Color Gray,Green,Gray,Green,Gray,Green,Gray
+            Write-Color "| `r`nPlayer input options appear in ","Green ", "e.g. ", "[Y/N/Q/I] ", "would be ", "yes/no/quit/inventory", "." -Color Gray,Green,Gray,Green,Gray,Green,Gray
             Write-Color "| Enter the single character then hit Enter to confirm the choice." -Color Gray
             Write-Color "| `r`nWARNING - Quitting the game unexpectedly may cause lose of data." -Color Cyan
             Write-Color "+--------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
@@ -537,18 +538,18 @@ Function Create_Character {
                     if ($Random_Character_Name_Count -eq 0) {
                         Write-Color "*All random names have been suggested*" -Color Red
                     }
-                    Write-Color "What will be your character name?" -Color DarkYellow
-                    Write-Color "If you cannot think of a name, try searching for one online." -Color DarkYellow
+                    Write-Color "What will be your character name?" -Color DarkGray
+                    Write-Color "If you cannot think of a name, try searching for one online or enter ","R ","for some random name suggestions." -Color DarkGray,Green,DarkGray
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,8;$Host.UI.Write("")
-                    Write-Color -NoNewLine "Enter your Characters Name, or enter @random for a random name (max 10 characters)" -Color DarkYellow
-                    $Character_Name_Valid = $false
+                    Write-Color -NoNewLine "Enter a name (max 10 characters) or ","R","andom ","[R]" -Color DarkYellow,Green,DarkYellow,Green
+                    $Character_Name_Valid = $false # set to false to prevent a character name of " " nothing after entering a name with more than 10 characters
                     $Character_Name = Read-Host " "
                     $Character_Name = $Character_Name.Trim()
                     if (-not($null -eq $Character_Name -or $Character_Name -eq " " -or $Character_Name -eq "")) {
                         $Character_Name_Valid = $true
                     }
                 } until ($($Character_Name | Measure-Object -Character).Characters -le 10)
-                if ($Character_Name -ieq '@random') {
+                if ($Character_Name -ieq 'r') {
                     $Random_Character_Name_Count = 0
                     [System.Collections.ArrayList]$Random_Character_Names = ('Igert','Cyne','Aened','Alchred','Altes','Reyny','Wine','Eonild','Conga','Burgiua','Wene','Belia','Ryellia','Ellet','Wyna','Kamin','Bori','Ukhlar','Bifur','Nainan','Akad','Sanzagh','Zuri','Dwoinarv','Azan','Ukras','Ilmin','Banain','Zaghim','Gwali','Zuri','Kada','Urul','Duri','Geda','Throdore','Galdore','Finrandan','Celodhil','Aldon','Endingond','Ebrir','Edhrorod','Findore','Elerwen','Enen','Anelyel','Arwerdas','Findalye','Minerde','Mithrielye','Ilarel','Neladrie','Nerwende')
                     do {
@@ -565,32 +566,32 @@ Function Create_Character {
                             }
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                             if ($Gandalf_Joke -ieq "Gandalf the Gray") {
-                                Write-Color "Oh wait. That name has more than 10 characters. You'll have to pick another name, sorry about that =|" -Color DarkYellow
-                                Write-Color "Where were we..." -Color DarkYellow
+                                Write-Color "Oh wait. That name has more than 10 characters. You'll have to pick another name, sorry about that =|" -Color DarkGray
+                                Write-Color "Where were we..." -Color DarkGray
                             }
                             if ($Character_Name_Random -ieq "n") {
                                 $Random_Character_Name_Count += 1
                                 switch ($Random_Character_Name_Count) {
-                                    1 { Write-Color "What about ", "$Random_Character_Name ", "for your Character's name?" -Color DarkYellow,Blue,DarkYellow}
-                                    2 { Write-Color "How about ", "$Random_Character_Name ", "for your Character's name instead?" -Color DarkYellow,Blue,DarkYellow}
-                                    3 { Write-Color "Okay, how about ", "$Random_Character_Name ", "then?" -Color DarkYellow,Blue,DarkYellow }
-                                    4 { Write-Color "Didn't like that one huh? What about ", "$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow }
-                                    5 { Write-Color "Didn't like that one either? ", "$Random_Character_Name ", "then?" -Color DarkYellow,Blue,DarkYellow }
-                                    6 { Write-Color "$Random_Character_Name", "?" -Color Blue,DarkYellow }
-                                    7 { Write-Color "$Random_Character_Name", "?" -Color Blue,DarkYellow }
-                                    8 { Write-Color "$Random_Character_Name", "?" -Color Blue,DarkYellow }
-                                    9 { Write-Color "You're getting picky now. Let's go with ","$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow }
-                                    10 { Write-Color "You're getting really picky now. Why don't you choose ","$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow }
-                                    11 { Write-Color "Or ","$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow }
-                                    12 { Write-Color "I'm running out of names now. ","$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow }
-                                    13 { Write-Color "If you don't pick this one, i'm choose for you. ","$Random_Character_Name", "." -Color DarkYellow,Blue,DarkYellow }
-                                    14 { Write-Color "WoW, you really didn't like THAT one??? ","$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow }
-                                    15 { Write-Color "Still deciding? ","$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow }
-                                    16 { Write-Color "Can't make up your mind can you? ","$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow }
-                                    17 { Write-Color "This is getting boring. ","$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow }
-                                    18 { Write-Color "*Yawn* ","$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow }
+                                    1 { Write-Color "What about ", "$Random_Character_Name ", "for your Character's name?" -Color DarkGray,Blue,DarkGray}
+                                    2 { Write-Color "How about ", "$Random_Character_Name ", "for your Character's name instead?" -Color DarkGray,Blue,DarkGray}
+                                    3 { Write-Color "Okay, how about ", "$Random_Character_Name ", "then?" -Color DarkGray,Blue,DarkGray }
+                                    4 { Write-Color "Didn't like that one huh? What about ", "$Random_Character_Name", "?" -Color DarkGray,Blue,DarkGray }
+                                    5 { Write-Color "Didn't like that one either? ", "$Random_Character_Name ", "then?" -Color DarkGray,Blue,DarkGray }
+                                    6 { Write-Color "$Random_Character_Name", "?" -Color Blue,DarkGray }
+                                    7 { Write-Color "$Random_Character_Name", "?" -Color Blue,DarkGray }
+                                    8 { Write-Color "$Random_Character_Name", "?" -Color Blue,DarkGray }
+                                    9 { Write-Color "You're getting picky now. Let's go with ","$Random_Character_Name", "?" -Color DarkGray,Blue,DarkGray }
+                                    10 { Write-Color "You're getting really picky now. Why don't you choose ","$Random_Character_Name", "?" -Color DarkGray,Blue,DarkGray }
+                                    11 { Write-Color "Or ","$Random_Character_Name", "?" -Color DarkGray,Blue,DarkGray }
+                                    12 { Write-Color "I'm running out of names now. ","$Random_Character_Name", "?" -Color DarkGray,Blue,DarkGray }
+                                    13 { Write-Color "If you don't pick this one, i'm choose for you. ","$Random_Character_Name", "." -Color DarkGray,Blue,DarkGray }
+                                    14 { Write-Color "WoW, you really didn't like THAT one??? ","$Random_Character_Name", "?" -Color DarkGray,Blue,DarkGray }
+                                    15 { Write-Color "Still deciding? ","$Random_Character_Name", "?" -Color DarkGray,Blue,DarkGray }
+                                    16 { Write-Color "Can't make up your mind can you? ","$Random_Character_Name", "?" -Color DarkGray,Blue,DarkGray }
+                                    17 { Write-Color "This is getting boring. ","$Random_Character_Name", "?" -Color DarkGray,Blue,DarkGray }
+                                    18 { Write-Color "*Yawn* ","$Random_Character_Name", "?" -Color DarkGray,Blue,DarkGray }
                                     19 {
-                                        Write-Color "Gandalf the Gray", "?" -Color Blue,DarkYellow
+                                        Write-Color "Gandalf the Gray", "?" -Color Blue,DarkGray
                                         $Random_Character_Name = "Gandalf the Gray"
                                     }
                                     20 {
@@ -599,21 +600,21 @@ Function Create_Character {
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,1;$Host.UI.Write("");" "*105
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,2;$Host.UI.Write("");" "*105
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
-                                            Write-Color "Sorry about the ","Gandalf ","joke, that wasn't very funny." -Color DarkYellow,Blue,DarkYellow
-                                            Write-Color "If you like, i'll let you have ","Gandalf",". ","How about that?" -Color DarkYellow,Blue,DarkYellow
+                                            Write-Color "Sorry about the ","Gandalf ","joke, that wasn't very funny." -Color DarkGray,Blue,DarkGray
+                                            Write-Color "If you like, i'll let you have ","Gandalf",". ","How about that?" -Color DarkGray,Blue,DarkGray
                                             $Random_Character_Name = "Gandalf"
                                             $Gandalf_Joke = "Gandalf"
                                         } else {
-                                            Write-Color "Here is another name... ","$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow
+                                            Write-Color "Here is another name... ","$Random_Character_Name", "?" -Color DarkGray,Blue,DarkGray
                                         }
                                     }
                                     Default {
-                                        Write-Color "$Random_Character_Name", "?" -Color Blue,DarkYellow
+                                        Write-Color "$Random_Character_Name", "?" -Color Blue,DarkGray
                                     }
                                 }
                                 $Random_Character_Names.Remove($Random_Character_Name)
                             } else {
-                                Write-Color "How about ", "$Random_Character_Name ", "for your Character's name? " -Color DarkYellow,Blue,DarkYellow
+                                Write-Color "How about ", "$Random_Character_Name ", "for your Character's name? " -Color DarkGray,Blue,DarkGray
                             }
                             $Character_Name = $Random_Character_Name
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,8;$Host.UI.Write("")
@@ -623,7 +624,7 @@ Function Create_Character {
                             $Character_Name_Random = Read-Host " "
                         } until ($Character_Name_Random -ieq "y" -or $Character_Name_Random -ieq "n")
                         if ($Character_Name_Random -ieq "y") {
-                            Write-Color -NoNewLine "You have chosen ", "$Character_Name ", "for your Character name, is this correct? ", "Y/N" -Color DarkYellow,Blue,DarkYellow,Green
+                            Write-Color -NoNewLine "You have chosen ", "$Character_Name ", "for your Character name, is this correct? ", "[Y/N]" -Color DarkYellow,Blue,DarkYellow,Green
                             $Character_Name_Random = Read-Host " "
                             if ($Character_Name_Random -ieq "y") {
                                 $Character_Name_Random_Confirm = $true
@@ -643,7 +644,7 @@ Function Create_Character {
             } until ($Character_Name_Valid -eq $true)
             if ($Character_Name_Random_Confirm -ieq $false) {
                 do {
-                    Write-Color -NoNewLine "You have chosen ", "$Character_Name ", "for your Character name, is this correct? ", "Y/N/Q" -Color DarkYellow,Blue,DarkYellow,Green
+                    Write-Color -NoNewLine "You have chosen ", "$Character_Name ", "for your Character name, is this correct? ", "[Y/N/Q]" -Color DarkYellow,Blue,DarkYellow,Green
                     $Character_Name_Confirm = Read-Host " "
                 } until ($Character_Name_Confirm -ieq "y" -or $Character_Name_Confirm -ieq "n" -or $Character_Name_Confirm -eq "q")
                 if ($Character_Name_Confirm -ieq "y") {
