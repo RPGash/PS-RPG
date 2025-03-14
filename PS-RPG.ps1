@@ -296,28 +296,37 @@ Function Game_Info {
         }
         if ($Game_Info_Page_Choice -ieq "1") {
             Clear-Host
-            Write-Color "+--------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-            Write-Color "| Page 1 of 1 - Info                                                                                                       |" -Color DarkGray
-            Write-Color "+--------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-            Write-Color "|                                                                                                                          |" -Color DarkGray
-            Write-Color "| `r`nWelcome to ", "PS-RPG", ", my 1st RPG text adventure written in PowerShell." -Color Gray,Magenta,Gray
-            Write-Color "| `r`nAs previously mentioned, the PSWriteColor PowerShell module written by Przemyslaw Klys" -Color Gray
-            Write-Color "| is required which if you are seeing this message then it has installed and imported successfully." -Color Gray
-            Write-Color "| `r`nAbsolutely ", "NO ", "info personal or otherwise is collected or sent anywhere or to anybody. " -Color Gray,Red,Gray
-            Write-Color "| `r`nAll the ", "PS-RPG ", "games files are stored your ", "$PSScriptRoot"," folder                                       |" -Color Gray,Red,Gray
-            Write-Color "| which is where you have run the game from. They include:" -Color Gray,Magenta,Gray,Cyan,Gray
-            Write-Color "| The main PowerShell script            : ", "PS-RPG.ps1" -Color Gray,Cyan
-            Write-Color "| ASCII art for death messages          : ", "ASCII.txt" -Color Gray,Cyan
-            Write-Color "| A JSON file that stores all game info : ", "PS-RPG.json ", "e.g. Locations, Mobs, NPCs and Character Stats etc.          |" -Color Gray,Cyan,Gray
-            Write-Color "| `r`nPlayer input options appear in ","Green ", "e.g. ", "[Y/N/Q/I] ", "would be ", "yes/no/quit/inventory", "." -Color Gray,Green,Gray,Green,Gray,Green,Gray
-            Write-Color "| Enter the single character then hit Enter to confirm the choice." -Color Gray
-            Write-Color "| `r`nWARNING - Quitting the game unexpectedly may cause lose of data." -Color Cyan
-            Write-Color "+--------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+            $PSScriptRoot_Padding = " "*(76 - ($PSScriptRoot | Measure-Object -Character).Characters)
+            Write-Color "+-------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+            Write-Color "| ","Page 1 of 3 - Info","                                                                                                            |" -Color DarkGray,White,DarkGray
+            Write-Color "+-------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+            Write-Color "|                                                                                                                               |" -Color DarkGray,White
+            Write-Color "|"," Welcome to ","PS-RPG",", my 1st RPG text adventure written in PowerShell.","                                                           |" -Color DarkGray,White,Magenta,White,DarkGray
+            Write-Color "|                                                                                                                               |" -Color DarkGray,White
+            Write-Color "| ","As previously mentioned, the PSWriteColor PowerShell module written by Przemyslaw Klys","                                        |" -Color DarkGray,White,DarkGray
+            Write-Color "| ","is required which if you are seeing this message then it has installed and imported successfully.","                             |" -Color DarkGray,White,DarkGray
+            Write-Color "|                                                                                                                               |" -Color DarkGray,White
+            Write-Color "| ","Absolutely ","NO ","info personal or otherwise is collected or sent anywhere or to anybody.","                                         |" -Color DarkGray,White,Red,White,DarkGray
+            Write-Color "|                                                                                                                               |" -Color DarkGray,White
+            Write-Color "| ","All the ","PS-RPG ","games files are stored your ","$PSScriptRoot"," folder","$PSScriptRoot_Padding|" -Color DarkGray,White,Magenta,White,Cyan,White,DarkGray
+            Write-Color "| ","which is where you have run the game from. They include:","                                                                      |" -Color DarkGray,White,DarkGray
+            Write-Color "| ","The main PowerShell script            : ","PS-RPG.ps1","                                                                            |" -Color DarkGray,White,Cyan,DarkGray
+            Write-Color "| ","ASCII art for death messages          : ","ASCII.txt","                                                                             |" -Color DarkGray,White,Cyan,DarkGray
+            Write-Color "| ","A JSON file that stores all game info : ","PS-RPG.json ","(e.g. Locations, Mobs, NPCs and Character Stats etc.)","                     |" -Color DarkGray,White,Cyan,White,DarkGray
+            Write-Color "|                                                                                                                               |" -Color DarkGray
+            Write-Color "| ","Player input options appear in ","Green ","e.g. ","[Y/N/Q/I] ","would be ","yes/no/quit/inventory", "                                            |" -Color DarkGray,White,Green,White,Green,White,Green,DarkGray
+            Write-Color "| ","Enter the single character then hit Enter to confirm the choice.","                                                              |" -Color DarkGray,White,DarkGray
+            Write-Color "|                                                                                                                               |" -Color DarkGray,White
+            Write-Color "|"," WARNING - Quitting the game unexpectedly may cause lose of data.","                                                              |" -Color DarkGray,Cyan,DarkGray
+            Write-Color "|                                                                                                                               |" -Color DarkGray,White
+            Write-Color "|"," NOTE:"," If you running this game from a location that has an online backup active e.g. Google Drive or OneDrive,","                |" -Color DarkGray,DarkYellow,White,DarkGray
+            Write-Color "|"," game saves will take longer due to the file being in use while syncing, so will appear to be slow when refreshing the screen. ","|" -Color DarkGray,White
+            Write-Color "+-------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
         }
         if ($Game_Info_Page_Choice -ieq "2") {
             Clear-Host
             Write-Color "+--------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-            Write-Color "| Page 2 of 3 - ","Stats","                                                                                                      |" -Color DarkGray,White,DarkYellow
+            Write-Color "| ","Page 2 of 3 - Stats","                                                                                                      |" -Color DarkGray,White,DarkGray
             Write-Color "+--------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
             Write-Color "|                                                                                                                          |" -Color DarkGray
             Write-Color "+--------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
@@ -325,7 +334,7 @@ Function Game_Info {
         if ($Game_Info_Page_Choice -ieq "3") {
             Clear-Host
             Write-Color "+--------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-            Write-Color "| Page 3 of 3 - ","?????","                                                                                                      |" -Color DarkGray,White,DarkYellow
+            Write-Color "| ","Page 3 of 3 - ?????","                                                                                                      |" -Color DarkGray,White,DarkGray
             Write-Color "+--------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
             Write-Color "|                                                                                                                          |" -Color DarkGray
             Write-Color "|                                                                                                                          |" -Color DarkGray
