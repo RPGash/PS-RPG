@@ -130,9 +130,7 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
     # game info
     #
     Write-Host -NoNewLine "`r`nPress any key to continue."
-    ######################################################################################################################
     $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-    ######################################################################################################################
     Clear-Host
     Write-Color "`r`nInfo" -Color Green
     Write-Color "----" -Color Green
@@ -182,7 +180,6 @@ if (Test-Path -Path .\PS-RPG.json) {
         Install_PSWriteColor
     }
 }
-
 
 #
 # import JSON game info
@@ -339,8 +336,6 @@ Function Game_Info {
     } until ($Game_Info_Page_Choice -ieq "q")
 }
 
-
-
 #
 # highlights health and or mana potion ID in inventory when available for use
 #
@@ -386,7 +381,6 @@ Function Inventory_Highlight {
         $Script:Selectable_Name_Highlight = "DarkGray"
     }
 }
-
 
 #
 # sets variables
@@ -514,7 +508,6 @@ Function Level_Up {
     } until ($XP_Difference -gt 0)
 }
 
-
 #
 # create character
 #
@@ -538,24 +531,28 @@ Function Create_Character {
             $Character_Name_Random_Confirm = $false
             do {
                 Clear-Host
+                if ($Random_Character_Name_Count -eq 0) {
+                    Write-Color "*All random names have been suggested*" -Color Red
+                }
                 Write-Color "What will be your character name?" -Color DarkYellow
                 Write-Color "If you cannot think of a name, try searching for one online." -Color DarkYellow
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,8;$Host.UI.Write("")
                 Write-Color -NoNewLine "Enter your Characters Name, or enter @random for a random name (max 10 characters)" -Color DarkYellow
-                ######################################################################################################################
                 $Character_Name = Read-Host " "
-                # $Character_Name = "Loop"
-                ######################################################################################################################
-                
                 $Character_Name = $Character_Name.Trim()
                 if (-not($null -eq $Character_Name -or $Character_Name -eq " " -or $Character_Name -eq "")) {
                     $Character_Name_Valid = $true
                 }
                 if ($Character_Name -ieq '@random') {
-                    # $Character_Name_Valid = $false
                     $Random_Character_Name_Count = 0
-                    [System.Collections.ArrayList]$Random_Character_Names = @('Igert','Cyne','Aened','Alchred','Altes','Reyny','Wine','Eonild','Conga','Burgiua','Wene','Belia','Ryellia','Ellet','Wyna','Kamin','Bori','Ukhlar','Bifur','Nainan','Akad','Sanzagh','Zuri','Dwoinarv','Azan','Ukras','Ilmin','Banain','Zaghim','Gwali','Zuri','Kada','Urul','Duri','Geda','Throdore','Galdore','Finrandan','Celodhil','Aldon','Endingond','Ebrir','Edhrorod','Findore','Elerwen','Enen','Anelyel','Arwerdas','Findalye','Minerde','Mithrielye','Ilarel','Neladrie','Nerwende')
+                    [System.Collections.ArrayList]$Random_Character_Names = ('Igert','Cyne','Aened','Alchred','Altes','Reyny','Wine','Eonild','Conga','Burgiua','Wene','Belia','Ryellia','Ellet','Wyna','Kamin','Bori','Ukhlar','Bifur','Nainan','Akad','Sanzagh','Zuri','Dwoinarv','Azan','Ukras','Ilmin','Banain','Zaghim','Gwali','Zuri','Kada','Urul','Duri','Geda','Throdore','Galdore','Finrandan','Celodhil','Aldon','Endingond','Ebrir','Edhrorod','Findore','Elerwen','Enen','Anelyel','Arwerdas','Findalye','Minerde','Mithrielye','Ilarel','Neladrie','Nerwende')
                     do {
+                        if ($Random_Character_Names.Count -eq 0) { # if all random names have been suggested, reset array and break out of loop to ask question again
+                            $Random_Character_Name_Count = 0
+                            [System.Collections.ArrayList]$Random_Character_Names = ('Igert','Cyne','Aened','Alchred','Altes','Reyny','Wine','Eonild','Conga','Burgiua','Wene','Belia','Ryellia','Ellet','Wyna','Kamin','Bori','Ukhlar','Bifur','Nainan','Akad','Sanzagh','Zuri','Dwoinarv','Azan','Ukras','Ilmin','Banain','Zaghim','Gwali','Zuri','Kada','Urul','Duri','Geda','Throdore','Galdore','Finrandan','Celodhil','Aldon','Endingond','Ebrir','Edhrorod','Findore','Elerwen','Enen','Anelyel','Arwerdas','Findalye','Minerde','Mithrielye','Ilarel','Neladrie','Nerwende')
+                            $Character_Name_Random_Confirm = $true
+                            Break
+                        }
                         $Random_Character_Name = Get-Random -Input $Random_Character_Names
                         do {
                             for ($Position = 0; $Position -lt 10; $Position++) {
@@ -565,12 +562,11 @@ Function Create_Character {
                             if ($Gandalf_Joke -ieq "Gandalf the Gray") {
                                 Write-Color "Oh wait. That name has more than 10 characters. You'll have to pick another name, sorry about that =|" -Color DarkYellow
                                 Write-Color "Where were we..." -Color DarkYellow
-                                # $Gandalf_Joke = ""
                             }
                             if ($Character_Name_Random -ieq "n") {
                                 $Random_Character_Name_Count += 1
                                 switch ($Random_Character_Name_Count) {
-                                    1 { Write-Color "What about ", "$Random_Character_Name ", "for your Character's name?" -Color DarkYellow,Blue,DarkYellow }
+                                    1 { Write-Color "What about ", "$Random_Character_Name ", "for your Character's name?" -Color DarkYellow,Blue,DarkYellow}
                                     2 { Write-Color "How about ", "$Random_Character_Name ", "for your Character's name instead?" -Color DarkYellow,Blue,DarkYellow}
                                     3 { Write-Color "Okay, how about ", "$Random_Character_Name ", "then?" -Color DarkYellow,Blue,DarkYellow }
                                     4 { Write-Color "Didn't like that one huh? What about ", "$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow }
@@ -606,13 +602,11 @@ Function Create_Character {
                                             Write-Color "Here is another name... ","$Random_Character_Name", "?" -Color DarkYellow,Blue,DarkYellow
                                         }
                                     }
-                                    21 {
+                                    Default {
                                         Write-Color "$Random_Character_Name", "?" -Color Blue,DarkYellow
                                     }
-                                    Default {
-                                        Write-Color "Default - $Random_Character_Name", "?" -Color Blue,DarkYellow
-                                    }
                                 }
+                                $Random_Character_Names.Remove($Random_Character_Name)
                             } else {
                                 Write-Color "How about ", "$Random_Character_Name ", "for your Character's name? " -Color DarkYellow,Blue,DarkYellow
                             }
@@ -645,11 +639,7 @@ Function Create_Character {
             if ($Character_Name_Random_Confirm -ieq $false) {
                 do {
                     Write-Color -NoNewLine "You have chosen ", "$Character_Name ", "for your Character name, is this correct? ", "Y/N/Q" -Color DarkYellow,Blue,DarkYellow,Green
-                    ######################################################################################################################
                     $Character_Name_Confirm = Read-Host " "
-                    # $Character_Name_Confirm = "y"
-                    ######################################################################################################################
-        
                 } until ($Character_Name_Confirm -ieq "y" -or $Character_Name_Confirm -ieq "n" -or $Character_Name_Confirm -eq "q")
                 if ($Character_Name_Confirm -ieq "y") {
                     $Character_Name_Confirm = $true
@@ -659,7 +649,6 @@ Function Create_Character {
             }
         } until ($Character_Name_Confirm -eq $true)
         $Import_JSON.Character.Name = $Character_Name
-    
         # character info Function while choosing details
         Function Class_Race_Info {
             Clear-Host
@@ -712,7 +701,6 @@ Function Create_Character {
             Write-Color " H","uman            |   +3   |   +3    |  +3  |   +3   |   +3   |    +3  |   +3  |    +3     |   +4   |   +4    |" -Color $ClassRaceInfoColours15,$ClassRaceInfoColours16
             Write-Output "`r"
         }
-    
         # character class choice
         do {
             do {
@@ -722,11 +710,7 @@ Function Create_Character {
                 Class_Race_Info
                 
                 Write-Color -NoNewLine "Choose your Characters Class ", "[M/R/C/W]" -Color DarkYellow,Green
-                ######################################################################################################################
                 $Character_Class = Read-Host " "
-                # $Character_Class = "r"
-                ######################################################################################################################
-    
             if ($Character_Class -ieq "q") {{Exit}}
             } until ($Character_Class -ieq "m" -or $Character_Class -ieq "r" -or $Character_Class -eq "c" -or $Character_Class -eq "w")
             switch ($Character_Class) {
@@ -737,11 +721,7 @@ Function Create_Character {
             }
             do {
                 Write-Color -NoNewLine "You have chosen a ", "$Character_Class ", "for your Character Class, is this correct? ", "[Y/N/Q]" -Color DarkYellow,Blue,DarkYellow,Green
-                ######################################################################################################################
                 $Character_Class_Confirm = Read-Host " "
-                # $Character_Class_Confirm = "y"
-                ######################################################################################################################
-    
             } until ($Character_Class_Confirm -ieq "y" -or $Character_Class_Confirm -ieq "n" -or $Character_Class_Confirm -eq "q")
             if ($Character_Class_Confirm -ieq "y") {
                 $Character_Class_Confirm = $true
@@ -750,7 +730,6 @@ Function Create_Character {
             }
         } until ($Character_Class_Confirm -eq $true)
         $Import_JSON.Character.Class = $Character_Class
-    
         # character race choice
         do {
             do {
@@ -760,11 +739,7 @@ Function Create_Character {
                 Class_Race_Info
                 
                 Write-Color -NoNewLine "Choose your Characters Race ", "[E/O/D/H]" -Color DarkYellow,Green
-                ######################################################################################################################
                 $Character_Race = Read-Host " "
-                # $Character_Race = "d"
-                ######################################################################################################################
-    
                 if ($Character_Race -ieq "q") {{Exit}}
             } until ($Character_Race -ieq "e" -or $Character_Race -ieq "o" -or $Character_Race -eq "d" -or $Character_Race -eq "h")
             switch ($Character_Race) {
@@ -775,11 +750,7 @@ Function Create_Character {
             }
             do {
                 Write-Color -NoNewLine "You have chosen $A_AN ", "$Character_Race ", "for your Character Race, is this correct? ", "[Y/N/Q]" -Color DarkYellow,Blue,DarkYellow,Green
-                ######################################################################################################################
                 $Character_Race_Confirm = Read-Host " "
-                # $Character_Race_Confirm = "y"
-                ######################################################################################################################
-    
             } until ($Character_Race_Confirm -ieq "y" -or $Character_Race_Confirm -ieq "n" -or $Character_Race_Confirm -eq "q")
             if ($Character_Race_Confirm -ieq "y") {
                 $Character_Race_Confirm = $true
@@ -788,7 +759,6 @@ Function Create_Character {
             }
         } until ($Character_Race_Confirm -eq $true)
         $Import_JSON.Character.Race = $Character_Race
-        
         # confirm all character choices
         Clear-Host
         Class_Race_Info
@@ -797,11 +767,7 @@ Function Create_Character {
         $Update_Character_JSON_Confirm = $false
         do {
             Write-Color -NoNewLine "Are all your Character details correct? ", "[Y/N/Q]" -Color DarkYellow,Green
-            ######################################################################################################################
             $Update_Character_JSON = Read-Host " "
-            # $Update_Character_JSON = "y"
-            ######################################################################################################################
-    
             $Update_Character_JSON = $Update_Character_JSON.Trim()
             if (-not($null -eq $Update_Character_JSON -or $Update_Character_JSON -eq " " -or $Update_Character_JSON -eq "")) {
                 $Update_Character_JSON_Valid = $true
@@ -895,17 +861,6 @@ Function Create_Character {
     Draw_Player_Window_and_Stats
 }
 
-
-
-
-
-# TEST
-######################################################################################################################
-# $Character_HealthCurrent       = 60
-# $Character_ManaCurrent         = 10
-######################################################################################################################
-
-
 #
 # draw mob stats
 #
@@ -951,8 +906,6 @@ Function Draw_Mob_Window_and_Stats {
     $host.UI.RawUI.ForegroundColor = "Gray" # set the foreground color back to original colour
 }
 
-
-
 #
 # draw info banner for different areas / places/ combat / info etc. max width 105 (left edge of screen to Inventory)
 #
@@ -963,8 +916,6 @@ Function Draw_Info_Banner {
     Write-Color "| ","$Info_Banner","$Info_Banner_Padding|" -Color DarkGray,White,DarkGray
     Write-Color "+-------------------------------------------------------------------------------------------------------+" -Color DarkGray
 }
-
-
 
 #
 # displays inventory in combat (top right)
@@ -1059,9 +1010,6 @@ Function Draw_Inventory {
     Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+" -Color DarkGray
 }
 
-#
-# displays inventory out of combat (below player stats window)
-#
 #
 # sets and asks if a potion should be used
 #
@@ -1236,8 +1184,6 @@ Function You_Died {
     Get-Content ..\RPG\ascii.txt
 }
 
-
-
 #
 # random mob from current Location with 10 percentage chance of rare mob
 #
@@ -1282,8 +1228,6 @@ Function Random_Mob {
     $Script:Selected_Mob_Healing        = $Selected_Mob.Healing
     $Script:Selected_Mob_Rare           = $Selected_Mob.Rare
 }
-
-
 
 #
 # fight a mob or run
@@ -1645,8 +1589,6 @@ Function Travel {
     Draw_Player_Window_and_Stats
 }
 
-
-
 #
 # draw Town map
 #
@@ -1675,8 +1617,6 @@ Function Draw_Town_Map {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("T") # Tavern
     $host.UI.RawUI.ForegroundColor = "Gray" # set the foreground color back to original colour
 }
-
-
 
 #
 # draw The Forest map
@@ -1707,8 +1647,6 @@ Function Draw_The_Forest_Map {
     $host.UI.RawUI.ForegroundColor = "Gray" # set the foreground color back to original colour
 }
 
-
-
 #
 # draw The River map
 #
@@ -1735,8 +1673,6 @@ Function Draw_The_River_Map {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,8;$Host.UI.Write("C") # Camp
     $host.UI.RawUI.ForegroundColor = "Gray" # set the foreground color back to original colour
 }
-
-
 
 #
 # visit a shop in whatever location you are in
@@ -2016,21 +1952,9 @@ Function Visit_A_Building {
     Draw_Player_Window_and_Stats
 }
 
-
-
-
 #
-# place Functions above here
+# PLACE FUNCTIONS ABOVE HERE
 #
-
-
-
-
-
-
-
-
-
 
 #
 # check for save data first
@@ -2086,8 +2010,6 @@ if ($Load_Save_Data_Choice -ieq "q" -or $Start_A_New_Game -ieq "q") {
     Write-Color -NoNewLine "`r`nQuitting ","PS-RPG","." -Color DarkYellow,Magenta,DarkYellow
     Exit
 }
-
-
 
 #
 # first thing after character creation / loading saved data
