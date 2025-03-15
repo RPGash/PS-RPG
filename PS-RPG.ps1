@@ -132,18 +132,18 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
     Clear-Host
     Write-Color "`r`nInfo" -Color Green
     Write-Color "----" -Color Green
-    Write-Color "`r`nWelcome to ", "PS-RPG", ", my 1st RPG text adventure written in PowerShell." -Color Gray,Magenta,Gray
-    Write-Color "`r`nAs previously mentioned, the PSWriteColor PowerShell module written by Przemyslaw Klys" -Color Gray
-    Write-Color "is required which if you are seeing this message then it has installed and imported successfully." -Color Gray
-    Write-Color "`r`nAbsolutely ", "NO ", "info personal or otherwise is collected or sent anywhere or to anybody. " -Color Gray,Red,Gray
-    Write-Color "`r`nAll the ", "PS-RPG ", "games files are stored your ", "$PSScriptRoot"," folder which is where you have run the game from. They include:" -Color Gray,Magenta,Gray,Cyan,Gray
-    Write-Color "The main PowerShell script            : ", "PS-RPG.ps1" -Color Gray,Cyan
-    Write-Color "ASCII art for death messages          : ", "ASCII.txt" -Color Gray,Cyan
-    Write-Color "A JSON file that stores all game info : ", "PS-RPG.json ", "(Locations, Mobs, NPCs and Character Stats etc.)" -Color Gray,Cyan,Gray
-    Write-Color "`r`nPlayer input options appear in ","Green ", "e.g. ", "[Y/N/Q/I] ", "would be ", "yes/no/quit/inventory", "." -Color Gray,Green,Gray,Green,Gray,Green,Gray
-    Write-Color "Enter the single character then hit Enter to confirm the choice." -Color Gray
+    Write-Color "`r`nWelcome to ", "PS-RPG", ", my 1st RPG text adventure written in PowerShell." -Color DarkGray,Magenta,DarkGray
+    Write-Color "`r`nAs previously mentioned, the PSWriteColor PowerShell module written by Przemyslaw Klys" -Color DarkGray
+    Write-Color "is required which if you are seeing this message then it has installed and imported successfully." -Color DarkGray
+    Write-Color "`r`nAbsolutely ", "NO ", "info personal or otherwise is collected or sent anywhere or to anybody. " -Color DarkGray,Red,DarkGray
+    Write-Color "`r`nAll the ", "PS-RPG ", "games files are stored your ", "$PSScriptRoot"," folder which is where you have run the game from. They include:" -Color DarkGray,Magenta,DarkGray,Cyan,DarkGray
+    Write-Color "The main PowerShell script            : ", "PS-RPG.ps1" -Color DarkGray,Cyan
+    Write-Color "ASCII art for death messages          : ", "ASCII.txt" -Color DarkGray,Cyan
+    Write-Color "A JSON file that stores all game info : ", "PS-RPG.json ", "(Locations, Mobs, NPCs and Character Stats etc.)" -Color DarkGray,Cyan,DarkGray
+    Write-Color "`r`nPlayer input options appear in ","Green ", "e.g. ", "[Y/N/Q/I] ", "would be ", "yes/no/quit/inventory", "." -Color DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray
+    Write-Color "Enter the single character then hit Enter to confirm the choice." -Color DarkGray
     Write-Color "`r`nWARNING - Quitting the game unexpectedly may cause lose of data." -Color Cyan
-    Write-Color "`r`nYou are now ready to play", " PS-RPG", "." -Color Gray,Magenta,Gray
+    Write-Color "`r`nYou are now ready to play", " PS-RPG", "." -Color DarkGray,Magenta,DarkGray
 
     do {
         do {
@@ -221,7 +221,7 @@ Function Set-JSON {
 # player window and stats
 #
 Function Draw_Player_Window_and_Stats {
-    $host.UI.RawUI.ForegroundColor = "DarkGray" # changes foreground color
+    $host.UI.RawUI.ForegroundColor = "DarkGray"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write( "+-----------------------------------------------------+")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,1;$Host.UI.Write( "|                                                     |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,2;$Host.UI.Write( "+-----------------------+-----------------------------+")
@@ -237,10 +237,10 @@ Function Draw_Player_Window_and_Stats {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,12;$Host.UI.Write("| XP TNL   :            | Healing   :                 |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,13;$Host.UI.Write("+-----------------------+-----------------------------+")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 9,3;$Host.UI.Write($PSRPG_Version)
-    $host.UI.RawUI.ForegroundColor = "Magenta" # changes foreground color
+    $host.UI.RawUI.ForegroundColor = "Magenta"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 2,3;$Host.UI.Write("PS-RPG")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 2,4;$Host.UI.Write("=====")
-    $host.UI.RawUI.ForegroundColor = "White" # changes foreground color
+    $host.UI.RawUI.ForegroundColor = "White"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 2,1;$Host.UI.Write("Player Info")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 13,5;$Host.UI.Write($Character_Name)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 13,5;$Host.UI.Write($Character_Name)
@@ -258,16 +258,16 @@ Function Draw_Player_Window_and_Stats {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,10;$Host.UI.Write($Character_Quickness)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,11;$Host.UI.Write($Character_Spells)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,12;$Host.UI.Write($Character_Healing)
-    $host.UI.RawUI.ForegroundColor = "Green" # changes foreground color
+    $host.UI.RawUI.ForegroundColor = "Green"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,3;$Host.UI.Write("$Character_HealthCurrent")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 45,3;$Host.UI.Write("$Character_HealthMax")
-    $host.UI.RawUI.ForegroundColor = "Yellow" # changes foreground color
+    $host.UI.RawUI.ForegroundColor = "Yellow"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,4;$Host.UI.Write("$Character_StaminaCurrent")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 45,4;$Host.UI.Write("$Character_StaminaMax")
-    $host.UI.RawUI.ForegroundColor = "Blue" # changes foreground color
+    $host.UI.RawUI.ForegroundColor = "Blue"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,5;$Host.UI.Write("$Character_ManaCurrent")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 45,5;$Host.UI.Write("$Character_ManaMax")
-    $host.UI.RawUI.ForegroundColor = "Gray" # set the foreground color back to original colour
+    $host.UI.RawUI.ForegroundColor = "DarkGray" # set the foreground color back to original colour
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,11;$Host.UI.Write("")
 }
 
@@ -486,15 +486,15 @@ Function Level_Up {
         $Spells_Bonus_On_Level_Up    += $Import_JSON.Level_Up_Bonus.Class.$Character_Class.Spells + $Import_JSON.Level_Up_Bonus.Race.$Character_Race.Spells
         $Healing_Bonus_On_Level_Up   += $Import_JSON.Level_Up_Bonus.Class.$Character_Class.Healing + $Import_JSON.Level_Up_Bonus.Race.$Character_Race.Healing
         
-        $host.UI.RawUI.ForegroundColor = "Cyan" # changes foreground color
+        $host.UI.RawUI.ForegroundColor = "Cyan"
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 34,1;$Host.UI.Write("(Class + Race Bonus)")
-        $host.UI.RawUI.ForegroundColor = "Green" # changes foreground color
+        $host.UI.RawUI.ForegroundColor = "Green"
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,3;$Host.UI.Write("(+$Health_Bonus_On_Level_Up)")
-        $host.UI.RawUI.ForegroundColor = "Yellow" # changes foreground color
+        $host.UI.RawUI.ForegroundColor = "Yellow"
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,4;$Host.UI.Write("(+$Stamina_Bonus_On_Level_Up)")
-        $host.UI.RawUI.ForegroundColor = "Blue" # changes foreground color
+        $host.UI.RawUI.ForegroundColor = "Blue"
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,5;$Host.UI.Write("(+$Mana_Bonus_On_Level_Up)")
-        $host.UI.RawUI.ForegroundColor = "White" # changes foreground color
+        $host.UI.RawUI.ForegroundColor = "White"
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,6;$Host.UI.Write("(+$Damage_Bonus_On_Level_Up)")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,7;$Host.UI.Write("(+$Attack_Bonus_On_Level_Up)")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,8;$Host.UI.Write("(+$Armour_Bonus_On_Level_Up)")
@@ -668,18 +668,18 @@ Function Create_Character {
         Function Class_Race_Info {
             Clear-Host
             if ($Character_Name) {
-                Write-Color "`r`nCharacter Name  : ", "$Character_Name" -Color Gray,Blue
+                Write-Color "`r`nCharacter Name  : ", "$Character_Name" -Color DarkGray,Blue
                 $ClassRaceInfoColours1 = $ClassRaceInfoColours3 = $ClassRaceInfoColours5 = $ClassRaceInfoColours7 = "Green"
-                $ClassRaceInfoColours2 = $ClassRaceInfoColours4 = $ClassRaceInfoColours6 = $ClassRaceInfoColours8 = $ClassRaceInfoColours9 = $ClassRaceInfoColours10 = $ClassRaceInfoColours11 = $ClassRaceInfoColours12 = $ClassRaceInfoColours13 = $ClassRaceInfoColours14 = $ClassRaceInfoColours15 = $ClassRaceInfoColours16 = "Gray"
+                $ClassRaceInfoColours2 = $ClassRaceInfoColours4 = $ClassRaceInfoColours6 = $ClassRaceInfoColours8 = $ClassRaceInfoColours9 = $ClassRaceInfoColours10 = $ClassRaceInfoColours11 = $ClassRaceInfoColours12 = $ClassRaceInfoColours13 = $ClassRaceInfoColours14 = $ClassRaceInfoColours15 = $ClassRaceInfoColours16 = "DarkGray"
             }
             if ($Character_Class) {
-                Write-Color "Character Class : ", "$Character_Class" -Color Gray,Blue
-                $ClassRaceInfoColours1 = $ClassRaceInfoColours3 = $ClassRaceInfoColours5 = $ClassRaceInfoColours7 = "Gray"
+                Write-Color "Character Class : ", "$Character_Class" -Color DarkGray,Blue
+                $ClassRaceInfoColours1 = $ClassRaceInfoColours3 = $ClassRaceInfoColours5 = $ClassRaceInfoColours7 = "DarkGray"
                 $ClassRaceInfoColours9 = $ClassRaceInfoColours11 = $ClassRaceInfoColours13 = $ClassRaceInfoColours15 = "Green"
             }
             if ($Character_Race) {
-                Write-Color "Character Race  : ", "$Character_Race" -Color Gray,Blue
-                $ClassRaceInfoColours1 = $ClassRaceInfoColours2 = $ClassRaceInfoColours3 = $ClassRaceInfoColours4 = $ClassRaceInfoColours5 = $ClassRaceInfoColours6 = $ClassRaceInfoColours7 = $ClassRaceInfoColours8 = $ClassRaceInfoColours9 = $ClassRaceInfoColours10 = $ClassRaceInfoColours11 = $ClassRaceInfoColours12 = $ClassRaceInfoColours13 = $ClassRaceInfoColours14 = $ClassRaceInfoColours15 = $ClassRaceInfoColours16 = "Gray"
+                Write-Color "Character Race  : ", "$Character_Race" -Color DarkGray,Blue
+                $ClassRaceInfoColours1 = $ClassRaceInfoColours2 = $ClassRaceInfoColours3 = $ClassRaceInfoColours4 = $ClassRaceInfoColours5 = $ClassRaceInfoColours6 = $ClassRaceInfoColours7 = $ClassRaceInfoColours8 = $ClassRaceInfoColours9 = $ClassRaceInfoColours10 = $ClassRaceInfoColours11 = $ClassRaceInfoColours12 = $ClassRaceInfoColours13 = $ClassRaceInfoColours14 = $ClassRaceInfoColours15 = $ClassRaceInfoColours16 = "DarkGray"
                 if ($Character_Class -eq "Mage") {$ClassRaceInfoColours1 = $ClassRaceInfoColours2 = "Green"}
                 if ($Character_Class -eq "Rogue") {$ClassRaceInfoColours3 = $ClassRaceInfoColours4 = "Green"}
                 if ($Character_Class -eq "Cleric") {$ClassRaceInfoColours5 = $ClassRaceInfoColours6 = "Green"}
@@ -690,26 +690,26 @@ Function Create_Character {
                 if ($Character_Race -eq "Human") {$ClassRaceInfoColours15 = $ClassRaceInfoColours16 = "Green"}
             }
             if (-not($Character_Race)){
-                Write-Color "`r`nChoose a Class and Race from the below tables." -Color Gray
-                Write-Color "Bonus values to Character stats are applied after each level up." -Color Gray
+                Write-Color "`r`nChoose a Class and Race from the below tables." -Color DarkGray
+                Write-Color "Bonus values to Character stats are applied after each level up." -Color DarkGray
             }
-            Write-Color " " -Color Gray
-            Write-Color " Class Base Stats | Health | Stamina | Mana | Armour | Damage | Attack | Dodge | Quickness | Spells | Healing |" -Color Gray
-            Write-Color "------------------+--------+---------+------+--------+--------+--------+-------+-----------+--------+---------+" -Color Gray
+            Write-Color " " -Color DarkGray
+            Write-Color " Class Base Stats | Health | Stamina | Mana | Armour | Damage | Attack | Dodge | Quickness | Spells | Healing |" -Color DarkGray
+            Write-Color "------------------+--------+---------+------+--------+--------+--------+-------+-----------+--------+---------+" -Color DarkGray
             Write-Color " M","age             |   50   |    40   |  80  |    4   |   10   |    4   |    1  |     4     |   10   |    6    |" -Color $ClassRaceInfoColours1,$ClassRaceInfoColours2
             Write-Color " R","ogue            |   60   |    80   |  30  |    6   |   10   |   10   |   10  |    10     |    1   |    4    |" -Color $ClassRaceInfoColours3,$ClassRaceInfoColours4
             Write-Color " C","leric           |   40   |    50   | 100  |    4   |    8   |    2   |    1  |     4     |   10   |   10    |" -Color $ClassRaceInfoColours5,$ClassRaceInfoColours6
             Write-Color " W","arrior          |  100   |   100   |  10  |   10   |    1   |    8   |    8  |     6     |    1   |    4    |" -Color $ClassRaceInfoColours7,$ClassRaceInfoColours8
             Write-Color ""
-            Write-Color " Class Bonus      | Health | Stamina | Mana | Armour | Damage | Attack | Dodge | Quickness | Spells | Healing |" -Color Gray
-            Write-Color "------------------+--------+---------+------+--------+--------+--------+-------+-----------+--------+---------+" -Color Gray
+            Write-Color " Class Bonus      | Health | Stamina | Mana | Armour | Damage | Attack | Dodge | Quickness | Spells | Healing |" -Color DarkGray
+            Write-Color "------------------+--------+---------+------+--------+--------+--------+-------+-----------+--------+---------+" -Color DarkGray
             Write-Color " M","age             |   +2   |   +1    |  +4  |   +2   |   +5   |    +4  |   +1  |    +1     |   +5   |   +3    |" -Color $ClassRaceInfoColours1,$ClassRaceInfoColours2
             Write-Color " R","ogue            |   +3   |   +3    |  +2  |   +3   |   +5   |    +5  |   +5  |    +5     |   +1   |   +3    |" -Color $ClassRaceInfoColours3,$ClassRaceInfoColours4
             Write-Color " C","leric           |   +1   |   +2    |  +5  |   +2   |   +4   |    +2  |   +1  |    +1     |   +5   |   +5    |" -Color $ClassRaceInfoColours5,$ClassRaceInfoColours6
             Write-Color " W","arrior          |   +5   |   +5    |  +1  |   +5   |   +1   |    +4  |   +4  |    +3     |   +1   |   +4    |" -Color $ClassRaceInfoColours7,$ClassRaceInfoColours8
             Write-Color ""
-            Write-Color " Race Bonus       | Health | Stamina | Mana | Armour | Damage | Attack | Dodge | Quickness | Spells | Healing |" -Color Gray
-            Write-Color "------------------+--------+---------+------+--------+--------+--------+-------+-----------+--------+---------+" -Color Gray
+            Write-Color " Race Bonus       | Health | Stamina | Mana | Armour | Damage | Attack | Dodge | Quickness | Spells | Healing |" -Color DarkGray
+            Write-Color "------------------+--------+---------+------+--------+--------+--------+-------+-----------+--------+---------+" -Color DarkGray
             Write-Color " E","lf              |   +2   |   +4    |  +3  |   +1   |   +4   |    +4  |   +5  |    +5     |   +4   |   +5    |" -Color $ClassRaceInfoColours9,$ClassRaceInfoColours10
             Write-Color " O","rc              |   +4   |   +4    |  +1  |   +4   |   +4   |    +5  |   +3  |    +1     |   +1   |   +1    |" -Color $ClassRaceInfoColours11,$ClassRaceInfoColours12
             Write-Color " D","warf            |   +5   |   +5    |  +1  |   +5   |   +5   |    +5  |   +1  |    +1     |   +1   |   +3    |" -Color $ClassRaceInfoColours13,$ClassRaceInfoColours14
@@ -880,7 +880,7 @@ Function Create_Character {
 # draw mob stats
 #
 Function Draw_Mob_Window_and_Stats {
-    $host.UI.RawUI.ForegroundColor = "DarkGray" # changes foreground color
+    $host.UI.RawUI.ForegroundColor = "DarkGray"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,0;$Host.UI.Write( "+-----------------------------------------------+")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,1;$Host.UI.Write( "|                                               |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,2;$Host.UI.Write( "+------------------------+----------------------+")
@@ -895,16 +895,16 @@ Function Draw_Mob_Window_and_Stats {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,11;$Host.UI.Write("| Spells    :            |                      |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,12;$Host.UI.Write("| Healing   :            |                      |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,13;$Host.UI.Write("+------------------------+----------------------+")
-    $host.UI.RawUI.ForegroundColor = "Green" # changes foreground color
+    $host.UI.RawUI.ForegroundColor = "Green"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,3;$Host.UI.Write($Selected_Mob_HealthCurrent)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 77,3;$Host.UI.Write($Selected_Mob_HealthMax)
-    $host.UI.RawUI.ForegroundColor = "Yellow" # changes foreground color
+    $host.UI.RawUI.ForegroundColor = "Yellow"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,4;$Host.UI.Write($Selected_Mob_StaminaCurrent)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 77,4;$Host.UI.Write($Selected_Mob_StaminaMax)
-    $host.UI.RawUI.ForegroundColor = "Blue" # changes foreground color
+    $host.UI.RawUI.ForegroundColor = "Blue"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,5;$Host.UI.Write($Selected_Mob_ManaCurrent)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 77,5;$Host.UI.Write($Selected_Mob_ManaMax)
-    $host.UI.RawUI.ForegroundColor = "White" # changes foreground color
+    $host.UI.RawUI.ForegroundColor = "White"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 58,1;$Host.UI.Write("Mob Info")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,6;$Host.UI.Write($Selected_Mob_Attack)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,7;$Host.UI.Write($Selected_Mob_Damage)
@@ -913,12 +913,12 @@ Function Draw_Mob_Window_and_Stats {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,10;$Host.UI.Write($Selected_Mob_Quickness)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,11;$Host.UI.Write($Selected_Mob_Spells)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 70,12;$Host.UI.Write($Selected_Mob_Healing)
-    $host.UI.RawUI.ForegroundColor = "Blue" # changes foreground color
+    $host.UI.RawUI.ForegroundColor = "Blue"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 91,3;$Host.UI.Write($Selected_Mob_Name)
-    $host.UI.RawUI.ForegroundColor = "White" # changes foreground color
+    $host.UI.RawUI.ForegroundColor = "White"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 91,4;$Host.UI.Write($Selected_Mob_Level)
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 91,6;$Host.UI.Write($Selected_Mob_Rare)
-    $host.UI.RawUI.ForegroundColor = "Gray" # set the foreground color back to original colour
+    $host.UI.RawUI.ForegroundColor = "DarkGray" # set the foreground color back to original colour
 }
 
 #
@@ -1066,7 +1066,7 @@ Function Inventory_Choice{
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     " "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                    Write-Color -NoNewLine "  You are low on ","Health", "." -Color Gray,Green,Gray
+                    Write-Color -NoNewLine "  You are low on ","Health", "." -Color DarkGray,Green,DarkGray
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
                     " "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -1077,7 +1077,7 @@ Function Inventory_Choice{
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     " "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                    Write-Color -NoNewLine "  You are low on ","Mana", "." -Color Gray,Blue,Gray
+                    Write-Color -NoNewLine "  You are low on ","Mana", "." -Color DarkGray,Blue,DarkGray
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
                     " "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -1088,7 +1088,7 @@ Function Inventory_Choice{
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     " "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                    Write-Color -NoNewLine "  You are low on ","Health ","and ","Mana", "." -Color Gray,Green,Gray,Blue,Gray
+                    Write-Color -NoNewLine "  You are low on ","Health ","and ","Mana", "." -Color DarkGray,Green,DarkGray,Blue,DarkGray
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
                     " "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -1141,12 +1141,12 @@ Function Inventory_Choice{
                     if ($Character_HealthMax - $Character_HealthCurrent -ge $Potion.Restores) {
                         # full potion Restores
                         $Script:Character_HealthCurrent = $Character_HealthCurrent + $Potion.Restores
-                        Write-Color -NoNewLine "  Your ","$($Potion.Name) ","restores ", "$($Potion.Restores) health","." -Color Gray,Green,Gray,Green,Gray
+                        Write-Color -NoNewLine "  Your ","$($Potion.Name) ","restores ", "$($Potion.Restores) health","." -Color DarkGray,Green,DarkGray,Green,DarkGray
                         # decrement potion by 1 (updates JSON after battle has finished)
                         $Potion.Quantity -= 1
                     } else {
                         # or if adding additional messages, say "restores 8 health" (remaining amount of health - not full potion Restores)
-                        Write-Color -NoNewLine "  Your ","$($Potion.Name) ","restores you to ", "maximum health","." -Color Gray,Green,Gray,Green,Gray
+                        Write-Color -NoNewLine "  Your ","$($Potion.Name) ","restores you to ", "maximum health","." -Color DarkGray,Green,DarkGray,Green,DarkGray
                         # not full potion Restores (or in other words, fill them up to max HP instead of over healing)
                         $Script:Character_HealthCurrent = $Character_HealthMax
                         # decrement potion by 1 (updates JSON after battle has finished)
@@ -1159,12 +1159,12 @@ Function Inventory_Choice{
                     if ($Character_ManaMax - $Character_ManaCurrent -ge $Potion.Restores) {
                         # full potion Restores
                         $Script:Character_ManaCurrent = $Character_ManaCurrent + $Potion.Restores
-                        Write-Color -NoNewLine "  Your ","$($Potion.Name) ","restores ", "$($Potion.Restores) mana","." -Color Gray,Blue,Gray,Blue,Gray
+                        Write-Color -NoNewLine "  Your ","$($Potion.Name) ","restores ", "$($Potion.Restores) mana","." -Color DarkGray,Blue,DarkGray,Blue,DarkGray
                         # decrement potion by 1 (updates JSON after battle has finished)
                         $Potion.Quantity -= 1
                     } else {
                         # or if adding additional messages, say "restores 8 mana" (remaining amount of mana - not full potion Restores)
-                        Write-Color -NoNewLine "  Your ","$($Potion.Name) ","restores you to ", "maximum mana","." -Color Gray,Blue,Gray,Blue,Gray
+                        Write-Color -NoNewLine "  Your ","$($Potion.Name) ","restores you to ", "maximum mana","." -Color DarkGray,Blue,DarkGray,Blue,DarkGray
                         # not full potion Restores (or in other words, fill them up to max HP instead of over healing)
                         $Script:Character_ManaCurrent = $Character_ManaMax
                         # decrement potion by 1 (updates JSON after battle has finished)
@@ -1259,7 +1259,7 @@ Function Fight_Or_Run {
         Draw_Mob_Window_and_Stats
         $Script:Info_Banner = "Combat"
         Draw_Info_Banner
-        Write-Color -NoNewLine "  You encounter a ","$($Selected_Mob.Name)" -Color Gray,Blue
+        Write-Color -NoNewLine "  You encounter a ","$($Selected_Mob.Name)" -Color DarkGray,Blue
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         Write-Color -NoNewLine "Do you ","F", "ight or ","E","scape? ", "[F/E]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
         $Fight_Or_Escape = Read-Host " "
@@ -1271,12 +1271,12 @@ Function Fight_Or_Run {
         Draw_Player_Window_and_Stats
         Draw_Mob_Window_and_Stats
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-        Write-Color "  You have chosen to fight the ", "$($Selected_Mob.Name)" -NoNewLine -Color Gray,Blue,Gray
+        Write-Color "  You have chosen to fight the ", "$($Selected_Mob.Name)" -NoNewLine -Color DarkGray,Blue,DarkGray
         if ($Character_Quickness -gt $Selected_Mob.Quickness) {
-            Write-Color " and your quickness allows you to take the first turn!" -Color Gray
+            Write-Color " and your quickness allows you to take the first turn!" -Color DarkGray
             $Player_Turn = $true
         } else {
-            Write-Color ", but the ","$($Selected_Mob.Name) ","strikes first." -Color Gray,Blue,Gray
+            Write-Color ", but the ","$($Selected_Mob.Name) ","strikes first." -Color DarkGray,Blue,DarkGray
             $Player_Turn = $false
         }
         do {
@@ -1346,7 +1346,7 @@ Function Fight_Or_Run {
                             " "*105
                         }
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                        Write-Color "  You successfully ",$Crit_Hit,"hit the ","$($Selected_Mob.Name)"," for ","$Character_Hit_Damage ","health." -Color Gray,Red,Gray,Blue,Gray,Red,Gray
+                        Write-Color "  You successfully ",$Crit_Hit,"hit the ","$($Selected_Mob.Name)"," for ","$Character_Hit_Damage ","health." -Color DarkGray,Red,DarkGray,Blue,DarkGray,Red,DarkGray
                     } else {
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                         " "*105
@@ -1355,7 +1355,7 @@ Function Fight_Or_Run {
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
                         " "*105
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                        Write-Color "  You miss the ","$($Selected_Mob.Name)","." -Color Gray,Blue,Gray
+                        Write-Color "  You miss the ","$($Selected_Mob.Name)","." -Color DarkGray,Blue,DarkGray
                     }
                 }
 
@@ -1390,7 +1390,7 @@ Function Fight_Or_Run {
                     }
                     
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
-                    Write-Color "  The ","$($Selected_Mob.Name) ",$Crit_Hit,"hits you for ","$Selected_Mob_Hit_Damage ","health." -Color Gray,Blue,Red,Gray,Red,Gray
+                    Write-Color "  The ","$($Selected_Mob.Name) ",$Crit_Hit,"hits you for ","$Selected_Mob_Hit_Damage ","health." -Color DarkGray,Blue,Red,DarkGray,Red,DarkGray
                     # adjust player health by damage amount
                     $Script:Character_HealthCurrent = $Character_HealthCurrent - $Selected_Mob_Hit_Damage
                     $Import_JSON.Character.Stats.HealthCurrent = $Character_HealthCurrent
@@ -1398,7 +1398,7 @@ Function Fight_Or_Run {
                     Draw_Player_Window_and_Stats
                 } else {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
-                    Write-Color "  The ","$($Selected_Mob.Name) ","misses you." -Color Gray,Blue,Gray
+                    Write-Color "  The ","$($Selected_Mob.Name) ","misses you." -Color DarkGray,Blue,DarkGray
                 }
                 $Player_Turn = $true
                 $Continue_Fight = $true
@@ -1414,7 +1414,7 @@ Function Fight_Or_Run {
             # if mob health is zero, display you killed mob message
             if ($Selected_Mob_HealthCurrent -eq 0) {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,20;$Host.UI.Write("")
-                Write-Color "  You killed the ","$($Selected_Mob.Name) ","and gained ","$($Selected_Mob.XP) XP","!" -Color Gray,Blue,Gray,Cyan,Gray
+                Write-Color "  You killed the ","$($Selected_Mob.Name) ","and gained ","$($Selected_Mob.XP) XP","!" -Color DarkGray,Blue,DarkGray,Cyan,DarkGray
                 # Write-Output "Total XP before : $($Import_JSON.Character.Total_XP)"
                 $Import_JSON.Character.Total_XP += $Selected_Mob.XP
                 $Total_XP = $Total_XP + $Selected_Mob.XP
@@ -1424,7 +1424,7 @@ Function Fight_Or_Run {
                 # loot chance
                 $Random_100 = Get-Random -Minimum 1 -Maximum 101
                 if ($Random_100 -le 20) { # no loot at all (20% chance)
-                    Write-Color "  The ", "$($Selected_Mob.Name) ", "did not drop any loot." -Color Gray,Blue,Gray
+                    Write-Color "  The ", "$($Selected_Mob.Name) ", "did not drop any loot." -Color DarkGray,Blue,DarkGray
                 } else { # possible loot (80% chance per item)
                     $Looted_Items = New-Object System.Collections.Generic.List[System.Object]
                     $Loot_Item_Names = $Selected_Mob.Loot.PSObject.Properties.Name
@@ -1450,11 +1450,11 @@ Function Fight_Or_Run {
                         }
                     }
                     if ($Looted_Items -gt 0) {
-                        Write-Color "  The ", "$($Selected_Mob.Name) ", "dropped the following items:" -Color Gray,Blue,Gray
-                        Write-Color "  $($Looted_Items)" -Color Gray,White
+                        Write-Color "  The ", "$($Selected_Mob.Name) ", "dropped the following items:" -Color DarkGray,Blue,DarkGray
+                        Write-Color "  $($Looted_Items)" -Color DarkGray,White
                         Draw_Inventory
                     } else {
-                        Write-Color "  The ", "$($Selected_Mob.Name) ", "did not drop any loot." -Color Gray,Blue,Gray
+                        Write-Color "  The ", "$($Selected_Mob.Name) ", "did not drop any loot." -Color DarkGray,Blue,DarkGray
                     }
                 }
 
@@ -1497,14 +1497,14 @@ Function Fight_Or_Run {
                     $Script:Info_Banner = "Combat"
                     Draw_Info_Banner
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                    Write-Color "  You escaped from the ","$($Selected_Mob.Name)","." -Color Gray,Blue,Gray
+                    Write-Color "  You escaped from the ","$($Selected_Mob.Name)","." -Color DarkGray,Blue,DarkGray
                 } else {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                     " "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
                     " "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                    Write-Color "  You failed to escape the ","$($Selected_Mob.Name)","!" -Color Gray,Blue,Gray
+                    Write-Color "  You failed to escape the ","$($Selected_Mob.Name)","!" -Color DarkGray,Blue,DarkGray
                     $Fight_Or_Escape = "" # reset so it does not exit the loop and stays in combat
                     $Player_Turn = $false # keeps it the mobs turn after failing to escape
                 }
@@ -1608,7 +1608,7 @@ Function Travel {
 # draw Town map
 #
 Function Draw_Town_Map {
-    $host.UI.RawUI.ForegroundColor = "DarkYellow" # changes foreground color
+    $host.UI.RawUI.ForegroundColor = "DarkYellow"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,0;$Host.UI.Write( "+-----------------------------------------------+")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,0;$Host.UI.Write( "+-----------------------------------------------+")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,1;$Host.UI.Write( "|                     Town        +-----------+ |")
@@ -1624,20 +1624,20 @@ Function Draw_Town_Map {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,11;$Host.UI.Write("|             |              |                  |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,12;$Host.UI.Write("|             +--------------+                  |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,13;$Host.UI.Write("+-----------------------------------------------+")
-    $host.UI.RawUI.ForegroundColor = "White" # changes foreground color
+    $host.UI.RawUI.ForegroundColor = "White"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town") # Town
-    $host.UI.RawUI.ForegroundColor = "Green" # changes foreground color
+    $host.UI.RawUI.ForegroundColor = "Green"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 96,2;$Host.UI.Write("A") # The Anvil & Blade
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("H") # Home
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("T") # Tavern
-    $host.UI.RawUI.ForegroundColor = "Gray" # set the foreground color back to original colour
+    $host.UI.RawUI.ForegroundColor = "DarkGray" # set the foreground color back to original colour
 }
 
 #
 # draw The Forest map
 #
 Function Draw_The_Forest_Map {
-    $host.UI.RawUI.ForegroundColor = "DarkYellow" # changes foreground color
+    $host.UI.RawUI.ForegroundColor = "DarkYellow"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,0;$Host.UI.Write( "+------------------------------------------------------------+")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,1;$Host.UI.Write( "|                     The Forest            +--------------+ |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,2;$Host.UI.Write( "|                                           |  Tree House  | |")
@@ -1655,18 +1655,18 @@ Function Draw_The_Forest_Map {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,14;$Host.UI.Write("|      |     |                                               |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,15;$Host.UI.Write("|      +-----+                                               |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,16;$Host.UI.Write("+------------------------------------------------------------+")
-    $host.UI.RawUI.ForegroundColor = "Green" # changes foreground color
+    $host.UI.RawUI.ForegroundColor = "Green"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 103,2;$Host.UI.Write("T") # Tree House
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 86,10;$Host.UI.Write("S") # Secret Location
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 65,13;$Host.UI.Write("H") # Hut
-    $host.UI.RawUI.ForegroundColor = "Gray" # set the foreground color back to original colour
+    $host.UI.RawUI.ForegroundColor = "DarkGray" # set the foreground color back to original colour
 }
 
 #
 # draw The River map
 #
 Function Draw_The_River_Map {
-    $host.UI.RawUI.ForegroundColor = "DarkYellow" # changes foreground color
+    $host.UI.RawUI.ForegroundColor = "DarkYellow"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,0;$Host.UI.Write( "+-------------------------------------------------------------------+")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,1;$Host.UI.Write( "|                     The River                                     |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,2;$Host.UI.Write( "|                                                                   |")
@@ -1684,9 +1684,9 @@ Function Draw_The_River_Map {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,14;$Host.UI.Write("|                                                                   |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,15;$Host.UI.Write("|                                                                   |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,16;$Host.UI.Write("+-------------------------------------------------------------------+")
-    $host.UI.RawUI.ForegroundColor = "Green" # changes foreground color
+    $host.UI.RawUI.ForegroundColor = "Green"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,8;$Host.UI.Write("C") # Camp
-    $host.UI.RawUI.ForegroundColor = "Gray" # set the foreground color back to original colour
+    $host.UI.RawUI.ForegroundColor = "DarkGray" # set the foreground color back to original colour
 }
 
 #
@@ -1695,9 +1695,7 @@ Function Draw_The_River_Map {
 Function Visit_A_Building {
     Clear-Host
     Draw_Player_Window_and_Stats
-    # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
-
-    # # find all linked locations that you can travel to (not including your current location)
+    # find all linked locations that you can travel to (not including your current location)
     $All_Buildings_In_Current_Location = $Import_JSON.Locations.$Current_Location.Buildings.PSObject.Properties.Name
     $All_Buildings_In_Current_Location_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
     $All_Buildings_In_Current_Location_List = New-Object System.Collections.Generic.List[System.Object]
@@ -1744,10 +1742,13 @@ Function Visit_A_Building {
                 " "*3000
                 # break
             }
-            h { # Home
+            #
+            # Home
+            #
+            h {
                 $host.UI.RawUI.ForegroundColor = "White"
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("Home")
-                $host.UI.RawUI.ForegroundColor = "DarkYellow" # changes foreground color
+                $host.UI.RawUI.ForegroundColor = "DarkYellow"
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
                 do {
                     $Script:Info_Banner = "Home"
@@ -1796,24 +1797,30 @@ Function Visit_A_Building {
                     }
                 } until ($Home_Choice -ieq "l")
             }
-            t { # Tavern
+            #
+            # Tavern
+            #
+            t {
+                # updates location text colour
                 $host.UI.RawUI.ForegroundColor = "White"
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("Tavern")
-                $host.UI.RawUI.ForegroundColor = "DarkYellow" # changes foreground color
+                $host.UI.RawUI.ForegroundColor = "DarkYellow"
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
-            }
-            a { # The Anvil & Blade
-                $Buying_and_Selling = $true
-                $host.UI.RawUI.ForegroundColor = "White"
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("The Anvil")
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 92,3;$Host.UI.Write("& Blade")
-                $host.UI.RawUI.ForegroundColor = "DarkYellow" # changes foreground color
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
                 $First_Time_Entered = $true
                 do {
-                    $Script:Info_Banner = "The Anvil & Blade"
+                    $Script:Info_Banner = "Tavern"
                     Draw_Info_Banner
-                    Draw_Inventory
                     do {
                         if ($First_Time_Entered -eq $false) {
                             for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
@@ -1822,38 +1829,50 @@ Function Visit_A_Building {
                             }
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                             if ($No_Items_To_Sell -eq $true) {
-                                Write-Color "  It doesn't look like you have any junk items you want to get rid off." -Color Gray
+                                Write-Color "  It doesn't look like you have any junk items you want to get rid off." -Color DarkGray
                             }
-                            Write-Color "  Anything else i can interest you in?" -Color Gray
+                            Write-Color "  Anything else i can interest you in?" -Color DarkGray
                         } else {
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                            Write-Color "  Greetings adventurer." -Color Gray
-                            Write-Color "  I buy and sell Weapons and Armour if you are interested." -Color Gray
+                            Write-Color "  Welcome adventurer, i'm ","$($Import_JSON.Locations.Town.Buildings.Tavern.Owner)"," the owner of this Tavern." -Color DarkGray,Blue,DarkGray
+                            Write-Color "  Would you like a ","D","rink? If not, maybe you can spare some time to look at the ","Q","uest board over there." -Color DarkGray,Green,DarkGray,Green,DarkGray
                         }
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                         " "*105
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                        Write-Color -NoNewLine "B","uy, ","S","ell, or ", "E","xit ","[B/S/E]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
-                        $Anvil_Choice = Read-Host " "
-                        $Anvil_Choice = $Anvil_Choice.Trim()
-                    } until ($Anvil_Choice -ieq "b" -or $Anvil_Choice -ieq "s" -or $Anvil_Choice -ieq "e")
+                        Write-Color -NoNewLine "D","rink, ","Q","uest board, or ", "E","xit ","[D/Q/E]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                        $Tavern_Choice = Read-Host " "
+                        $Tavern_Choice = $Tavern_Choice.Trim()
+                    } until ($Tavern_Choice -ieq "d" -or $Tavern_Choice -ieq "q" -or $Tavern_Choice -ieq "e")
                     
-                    # if ($Anvil_Choice -ieq "b") {
-                        
-                    # }
-                    if ($Anvil_Choice -ieq "s") {
+                    if ($Tavern_Choice -ieq "d") {
                         do {
-                            for ($Position = 17; $Position -lt 19; $Position++) { # clear some lines from previous widow
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
-                                " "*105
-                            }
+                            # for ($Position = 17; $Position -lt 19; $Position++) { # clear some lines from previous widow
+                            #     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
+                            #     " "*105
+                            # }
+                            # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                            Write-Color "  What do you want to get rid of?" -Color Gray
-                            Write-Color "`r`n  J","unk items" -Color Green,Gray
-                            Write-Color "  A","rmour" -Color Green,Gray
-                            Write-Color "  W","eapons" -Color Green,Gray
-                            Write-Color "  N","othing for now." -Color Green,Gray
-                            Write-Color "  E","xit The Anvil & Blade." -Color Green,Gray
+                            
+                            Write-Color "  Please choose from our selection of drinks from the menu." -Color DarkGray
+                            # $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.'ales'.'Hearty Hearth Ale'.bonus.HealthMax
+                            # $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.PSObject.Properties.Name
+                            $Tavern_Drinks = $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.PSObject.Properties.Name
+                            $Tavern_Drinks_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
+                            foreach ($Tavern_Drink in $Tavern_Drinks) {
+                                $Tavern_Drink
+                                $Tavern_Drink_First_Character = $Tavern_Drink.SubString(0,1)
+                                $Tavern_Drink_Other_Character = $Tavern_Drink.SubString(1)
+                                $Tavern_Drinks_Letters_Array.Add($Tavern_Drink_First_Character)
+                            }
+                            $Tavern_Drinks_Letters_Array = $Tavern_Drinks_Letters_Array -Join "/"
+                            $Tavern_Drinks_Letters_Array = $Tavern_Drinks_Letters_Array + "/E"
+                        
+                            Write-Color "`r`n  A","le" -Color Green,DarkGray
+                            Write-Color "  A","rmour" -Color Green,DarkGray
+                            Write-Color "  W","eapons" -Color Green,DarkGray
+                            Write-Color "  N","othing for now." -Color Green,DarkGray
+                            Write-Color "  E","xit The Anvil & Blade." -Color Green,DarkGray
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                             " "*105
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -1863,9 +1882,7 @@ Function Visit_A_Building {
                         } until ($Anvil_Sell_Choice -ieq "j" -or $Anvil_Sell_Choice -ieq "a" -or $Anvil_Sell_Choice -ieq "w" -or $Anvil_Sell_Choice -ieq "n" -or $Anvil_Sell_Choice -ieq "e")
                         if ($Anvil_Sell_Choice -ieq "j") {
                             $Anvil_Choice_Sell_Junk_Array = New-Object System.Collections.Generic.List[System.Object]
-                            # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
                             $Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name
-
                             $Script:Anvil_Choice_Sell_Junk_Quantity = 0 # reset variables so they don't increase next time
                             $Script:Anvil_Choice_Sell_Junk_GoldValue = 0 # reset variables so they don't increase next time
                             $Script:Selectable_ID_Search = "Junk"
@@ -1902,7 +1919,146 @@ Function Visit_A_Building {
                             Draw_Town_Map
                             Draw_Info_Banner
                             Draw_Inventory
-                            $host.UI.RawUI.ForegroundColor = "DarkYellow" # changes foreground color
+                            $host.UI.RawUI.ForegroundColor = "DarkYellow"
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 18,10;$Host.UI.Write("(+$($Script:Anvil_Choice_Sell_Junk_GoldValue))")
+                        }
+                        $Script:Selectable_ID_Search = "not_set"
+                        $First_Time_Entered = $false
+                        if ($Anvil_Sell_Choice -ieq "e") { # leaves The Anvil & Blade
+                            Break
+                        }
+                    }
+
+                    # if ($Tavern_Choice -ieq "q") {
+                        
+                    # }
+
+                    
+                } until ($Tavern_Choice -ieq "e")
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            }
+            #
+            # The Anvil & Blade
+            #
+            a {
+                # updates location text colour
+                $host.UI.RawUI.ForegroundColor = "White"
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("The Anvil")
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 92,3;$Host.UI.Write("& Blade")
+                $host.UI.RawUI.ForegroundColor = "DarkYellow"
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
+                $First_Time_Entered = $true
+                do {
+                    $Script:Info_Banner = "The Anvil & Blade"
+                    Draw_Info_Banner
+                    Draw_Inventory
+                    do {
+                        if ($First_Time_Entered -eq $false) {
+                            for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
+                                " "*105
+                            }
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                            if ($No_Items_To_Sell -eq $true) {
+                                Write-Color "  It doesn't look like you have any junk items you want to get rid off." -Color DarkGray
+                            }
+                            Write-Color "  Anything else i can interest you in?" -Color DarkGray
+                        } else {
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                            Write-Color "  Greetings adventurer." -Color DarkGray
+                            Write-Color "  I buy and sell Weapons and Armour if you are interested." -Color DarkGray
+                        }
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                        " "*105
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                        Write-Color -NoNewLine "B","uy, ","S","ell, or ", "E","xit ","[B/S/E]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                        $Anvil_Choice = Read-Host " "
+                        $Anvil_Choice = $Anvil_Choice.Trim()
+                    } until ($Anvil_Choice -ieq "b" -or $Anvil_Choice -ieq "s" -or $Anvil_Choice -ieq "e")
+                    
+                    # if ($Anvil_Choice -ieq "b") {
+                        
+                    # }
+                    if ($Anvil_Choice -ieq "s") {
+                        do {
+                            for ($Position = 17; $Position -lt 19; $Position++) { # clear some lines from previous widow
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
+                                " "*105
+                            }
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                            Write-Color "  What do you want to get rid of?" -Color DarkGray
+                            Write-Color "`r`n  J","unk items" -Color Green,DarkGray
+                            Write-Color "  A","rmour" -Color Green,DarkGray
+                            Write-Color "  W","eapons" -Color Green,DarkGray
+                            Write-Color "  N","othing for now." -Color Green,DarkGray
+                            Write-Color "  E","xit The Anvil & Blade." -Color Green,DarkGray
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                            " "*105
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                            Write-Color -NoNewLine "J","unk, ","A","rmour, ","W","eapons, or ", "E","xit ","[J/A/W/N]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                            $Anvil_Sell_Choice = Read-Host " "
+                            $Anvil_Sell_Choice = $Anvil_Sell_Choice.Trim()
+                        } until ($Anvil_Sell_Choice -ieq "j" -or $Anvil_Sell_Choice -ieq "a" -or $Anvil_Sell_Choice -ieq "w" -or $Anvil_Sell_Choice -ieq "n" -or $Anvil_Sell_Choice -ieq "e")
+                        if ($Anvil_Sell_Choice -ieq "j") {
+                            $Anvil_Choice_Sell_Junk_Array = New-Object System.Collections.Generic.List[System.Object]
+                            $Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name
+                            $Script:Anvil_Choice_Sell_Junk_Quantity = 0 # reset variables so they don't increase next time
+                            $Script:Anvil_Choice_Sell_Junk_GoldValue = 0 # reset variables so they don't increase next time
+                            $Script:Selectable_ID_Search = "Junk"
+                            Draw_Inventory
+                            if ($Anvil_Choice_Sell_Junk_Quantity -gt 0) {
+                                do {
+                                    for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
+                                        " "*105
+                                    }
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                    Write-Color "  You have ","$($Script:Anvil_Choice_Sell_Junk_Quantity) ","junk items." -Color DarkGray,DarkCyan,DarkGray
+                                    Write-Color "  I will give you ","$($Script:Anvil_Choice_Sell_Junk_GoldValue) ","gold for them." -Color DarkGray,DarkYellow,DarkGray
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                    " "*105
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                    Write-Color -NoNewLine "Do you agree? ","Y","es or ", "N","o ","[Y/N]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                                    $Anvil_Sell_Junk_Choice = Read-Host " "
+                                    $Anvil_Sell_Junk_Choice = $Anvil_Sell_Junk_Choice.Trim()
+                                } until ($Anvil_Sell_Junk_Choice -ieq "y" -or $Anvil_Sell_Junk_Choice -ieq "n")
+                            } else {
+                                $No_Items_To_Sell = $true
+                            }
+                        }
+                        if ($Anvil_Sell_Junk_Choice -ieq "y") { # sells all junk
+                            $Import_JSON.Character.Items.Gold = $Import_JSON.Character.Items.Gold + $Anvil_Choice_Sell_Junk_GoldValue
+                            foreach (${JunkItem} in ${Anvil_Choice_Sell_Junk_Array}) {
+                                $Import_JSON.Character.Items.Inventory.$JunkItem.Quantity = 0
+                            }
+                            Set-JSON
+                            Clear-Host
+                            Set_Variables
+                            Draw_Player_Window_and_Stats
+                            Draw_Town_Map
+                            Draw_Info_Banner
+                            Draw_Inventory
+                            $host.UI.RawUI.ForegroundColor = "DarkYellow"
                             $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 18,10;$Host.UI.Write("(+$($Script:Anvil_Choice_Sell_Junk_GoldValue))")
                         }
                         $Script:Selectable_ID_Search = "not_set"
@@ -1913,7 +2069,6 @@ Function Visit_A_Building {
                     }
                     
                 } until ($Anvil_Choice -ieq "e")
-                $Buying_and_Selling = $false
             }
             # Default {}
         }
