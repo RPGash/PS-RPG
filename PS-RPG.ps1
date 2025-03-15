@@ -31,6 +31,7 @@
 #       crit chance,
 #       CTRL+C warning and file syncing issue (e.g. Google Drive or OneDrive etc.)
 #   - consider changing mob crit rate/damage to from fixed 20%/20% to specific % for different mobs
+#   - change leaving Home from "Leave" to "Exit"? for consistency
 #
 #
 # - KNOWN ISSUES
@@ -1704,7 +1705,7 @@ Function Visit_A_Building {
         $All_Buildings_In_Current_Location_List.Add("`r`n ")
     }
     $All_Buildings_In_Current_Location_Letters_Array_String = $All_Buildings_In_Current_Location_Letters_Array -Join "/"
-    $All_Buildings_In_Current_Location_Letters_Array_String = $All_Buildings_In_Current_Location_Letters_Array_String + "/Q"
+    $All_Buildings_In_Current_Location_Letters_Array_String = $All_Buildings_In_Current_Location_Letters_Array_String + "/E"
 
     $Script:Info_Banner = "Visit"
     Draw_Info_Banner
@@ -1774,7 +1775,7 @@ Function Visit_A_Building {
                             $Fully_Healed = ", but it looks like you are already fully rested."
                         }
                         $Home_Choice_Letters_Array.Add("L")
-                        $Home_Choice_Array_String = $Home_Choice_Letters_Array -Join "/"
+                        $Home_Choice_Letters_Array_String = $Home_Choice_Letters_Array -Join "/"
                         Write-Color "  You can rest here and recover your ","health ","and ","mana","$($Fully_Healed)" -Color DarkGray,Green,DarkGray,Blue,DarkGray
                     }
                     do {
@@ -1782,9 +1783,9 @@ Function Visit_A_Building {
                         " "*105
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                         if ($Home_Choice_Letters_Array.Contains("R")) {
-                            Write-Color -NoNewLine "R","est or ","L","eave? ", "[$Home_Choice_Array_String]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                            Write-Color -NoNewLine "R","est or ","L","eave? ", "[$Home_Choice_Letters_Array_String]" -Color Green,DarkYellow,Green,DarkYellow,Green
                         } else {
-                            Write-Color -NoNewLine "L","eave ", "[$Home_Choice_Letters_Array]" -Color Green,DarkYellow,Green
+                            Write-Color -NoNewLine "L","eave ", "[$Home_Choice_Letters_Array_String]" -Color Green,DarkYellow,Green
                         }
                         $Home_Choice = Read-Host " "
                         $Home_Choice = $Home_Choice.Trim()
@@ -1846,91 +1847,67 @@ Function Visit_A_Building {
                     
                     if ($Tavern_Choice -ieq "d") {
                         do {
-                            # for ($Position = 17; $Position -lt 19; $Position++) { # clear some lines from previous widow
-                            #     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
-                            #     " "*105
-                            # }
-                            # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
+                            for ($Position = 17; $Position -lt 19; $Position++) { # clear some lines from previous widow
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
+                                " "*105
+                            }
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                            
                             Write-Color "  Please choose from our selection of drinks from the menu." -Color DarkGray
-                            # $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.'ales'.'Hearty Hearth Ale'.bonus.HealthMax
-                            # $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.PSObject.Properties.Name
+                            Write-Color "`r" -Color DarkGray
                             $Tavern_Drinks = $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.PSObject.Properties.Name
-                            $Tavern_Drinks_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
+                            $Tavern_Drinks_Category_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
                             foreach ($Tavern_Drink in $Tavern_Drinks) {
-                                $Tavern_Drink
                                 $Tavern_Drink_First_Character = $Tavern_Drink.SubString(0,1)
                                 $Tavern_Drink_Other_Character = $Tavern_Drink.SubString(1)
-                                $Tavern_Drinks_Letters_Array.Add($Tavern_Drink_First_Character)
+                                $Tavern_Drinks_Category_Letters_Array.Add($Tavern_Drink_First_Character)
+                                Write-Color "  $($Tavern_Drink_First_Character)","$($Tavern_Drink_Other_Character)" -Color Green,DarkGray
                             }
-                            $Tavern_Drinks_Letters_Array = $Tavern_Drinks_Letters_Array -Join "/"
-                            $Tavern_Drinks_Letters_Array = $Tavern_Drinks_Letters_Array + "/E"
-                        
-                            Write-Color "`r`n  A","le" -Color Green,DarkGray
-                            Write-Color "  A","rmour" -Color Green,DarkGray
-                            Write-Color "  W","eapons" -Color Green,DarkGray
-                            Write-Color "  N","othing for now." -Color Green,DarkGray
-                            Write-Color "  E","xit The Anvil & Blade." -Color Green,DarkGray
+                            $Tavern_Drinks_Category_Letters_Array_String = $Tavern_Drinks_Category_Letters_Array -Join "/" # cannot query input choice against an array that has been joined
+                            $Tavern_Drinks_Category_Letters_Array_String = $Tavern_Drinks_Category_Letters_Array_String + "/E"
+                            Add-Content -Path .\error_log.log -value "DrinkLettersArray: $Tavern_Drinks_Category_Letters_Array"
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                             " "*105
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                            Write-Color -NoNewLine "J","unk, ","A","rmour, ","W","eapons, or ", "E","xit ","[J/A/W/N]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                            Write-Color -NoNewLine "A","les, ","M","eads, ","S","pirits, ","N","on-Alcoholic, ","R","are, or ", "E","xit ","$Tavern_Drinks_Category_Letters_Array_String" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow
                             $Anvil_Sell_Choice = Read-Host " "
                             $Anvil_Sell_Choice = $Anvil_Sell_Choice.Trim()
-                        } until ($Anvil_Sell_Choice -in $Tavern_Drinks_Letters_Array)
-                        if ($Anvil_Sell_Choice -ieq "j") {
-                            $Anvil_Choice_Sell_Junk_Array = New-Object System.Collections.Generic.List[System.Object]
-                            $Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name
-                            $Script:Anvil_Choice_Sell_Junk_Quantity = 0 # reset variables so they don't increase next time
-                            $Script:Anvil_Choice_Sell_Junk_GoldValue = 0 # reset variables so they don't increase next time
-                            $Script:Selectable_ID_Search = "Junk"
-                            Draw_Inventory
-                            if ($Anvil_Choice_Sell_Junk_Quantity -gt 0) {
-                                do {
-                                    for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
-                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
-                                        " "*105
-                                    }
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                    Write-Color "  You have ","$($Script:Anvil_Choice_Sell_Junk_Quantity) ","junk items." -Color DarkGray,DarkCyan,DarkGray
-                                    Write-Color "  I will give you ","$($Script:Anvil_Choice_Sell_Junk_GoldValue) ","gold for them." -Color DarkGray,DarkYellow,DarkGray
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                    " "*105
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                    Write-Color -NoNewLine "Do you agree? ","Y","es or ", "N","o ","[Y/N]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
-                                    $Anvil_Sell_Junk_Choice = Read-Host " "
-                                    $Anvil_Sell_Junk_Choice = $Anvil_Sell_Junk_Choice.Trim()
-                                } until ($Anvil_Sell_Junk_Choice -ieq "y" -or $Anvil_Sell_Junk_Choice -ieq "n")
-                            } else {
-                                $No_Items_To_Sell = $true
-                            }
-                        }
-                        if ($Anvil_Sell_Junk_Choice -ieq "y") { # sells all junk
-                            $Import_JSON.Character.Items.Gold = $Import_JSON.Character.Items.Gold + $Anvil_Choice_Sell_Junk_GoldValue
-                            foreach (${JunkItem} in ${Anvil_Choice_Sell_Junk_Array}) {
-                                $Import_JSON.Character.Items.Inventory.$JunkItem.Quantity = 0
-                            }
-                            Set-JSON
-                            Clear-Host
-                            Set_Variables
-                            Draw_Player_Window_and_Stats
-                            Draw_Town_Map
-                            Draw_Info_Banner
-                            Draw_Inventory
-                            $host.UI.RawUI.ForegroundColor = "DarkYellow"
-                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 18,10;$Host.UI.Write("(+$($Script:Anvil_Choice_Sell_Junk_GoldValue))")
-                        }
-                        $Script:Selectable_ID_Search = "not_set"
-                        $First_Time_Entered = $false
+                        } until ($Anvil_Sell_Choice -ieq 'e' -or $Anvil_Sell_Choice -in $Tavern_Drinks_Category_Letters_Array)
+
+                        # $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.'ales'.'Hearty Hearth Ale'.bonus.HealthMax
+                        # $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.PSObject.Properties.Name
+
+                        # if ($Anvil_Sell_Choice -ieq "j") {
+                        #     $Anvil_Choice_Sell_Junk_Array = New-Object System.Collections.Generic.List[System.Object]
+                        #     $Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name
+                        #     $Script:Anvil_Choice_Sell_Junk_Quantity = 0 # reset variables so they don't increase next time
+                        #     $Script:Anvil_Choice_Sell_Junk_GoldValue = 0 # reset variables so they don't increase next time
+                        #     $Script:Selectable_ID_Search = "Junk"
+                        #     Draw_Inventory
+                        #     if ($Anvil_Choice_Sell_Junk_Quantity -gt 0) {
+                        #         do {
+                        #             for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                        #                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
+                        #                 " "*105
+                        #             }
+                        #             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                        #             Write-Color "  You have ","$($Script:Anvil_Choice_Sell_Junk_Quantity) ","junk items." -Color DarkGray,DarkCyan,DarkGray
+                        #             Write-Color "  I will give you ","$($Script:Anvil_Choice_Sell_Junk_GoldValue) ","gold for them." -Color DarkGray,DarkYellow,DarkGray
+                        #             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                        #             " "*105
+                        #             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                        #             Write-Color -NoNewLine "Do you agree? ","Y","es or ", "N","o ","[Y/N]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                        #             $Anvil_Sell_Junk_Choice = Read-Host " "
+                        #             $Anvil_Sell_Junk_Choice = $Anvil_Sell_Junk_Choice.Trim()
+                        #         } until ($Anvil_Sell_Junk_Choice -ieq "y" -or $Anvil_Sell_Junk_Choice -ieq "n")
+                        #     } else {
+                        #         $No_Items_To_Sell = $true
+                        #     }
+                        # }
                         if ($Anvil_Sell_Choice -ieq "e") { # leaves The Anvil & Blade
+                            Read-Host " "
                             Break
                         }
                     }
-
-                    # if ($Tavern_Choice -ieq "q") {
-                        
-                    # }
 
                     
                 } until ($Tavern_Choice -ieq "e")
