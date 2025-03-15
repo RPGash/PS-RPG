@@ -125,7 +125,194 @@
         },
         "Tavern": {
           "Tavern": "T",
-          "Owner": "Elara"
+          "Owner": "Elara",
+          "Drinks": {
+            "Ales": {
+              "Hearty Hearth Ale": {
+                "Name": "Hearty Hearth Ale",
+                "Description": "A dark, warming ale with notes of roasted barley and caramel, perfect for a cold night by the fire.",
+                "Bonus": {
+                  "HealthMax": 1.2
+                }
+              },
+              "Dwarf's Deep Stout": {
+                "Name": "Dwarf's Deep Stout",
+                "Description": "A strong, rich stout with a thick, creamy head, favoured by dwarves for its robust flavour and high alcohol content.",
+                "Bonus": {
+                  "HealthMax": 1.4
+                }
+              },
+              "Golden Gryphon Ale": {
+                "Name": "Golden Gryphon Ale",
+                "Description": "A light, refreshing ale with a golden hue and a subtle fruity aftertaste, brewed with sun-ripened hops.",
+                "Bonus": {
+                  "HealthMax": 1.6
+                }
+              },
+              "Forest Moon Brew": {
+                "Name": "Forest Moon Brew",
+                "Description": "A pale ale with herbal notes of wild thyme and rosemary, brewed with ingredients gathered under the light of the full moon.",
+                "Bonus": {
+                  "HealthMax": 1.8
+                }
+              },
+              "Stonebeard's Bitter": {
+                "Name": "Stonebeard's Bitter",
+                "Description": "A very strong and bitter beer, only for the most seasoned beer drinkers. It is said that only a dwarf with a stone beard can withstand its potency.",
+                "Bonus": {
+                  "HealthMax": 2
+                }
+              }
+            },
+            "Meads": {
+              "Elven Moonwine": {
+                "Name": "Elven Moonwine",
+                "Description": "A sweet, delicate wine made from rare, silver-skinned grapes that only grow under the light of the moon. Said to have subtle magical properties.",
+                "Bonus": {
+                  "Armour": 1.2
+                }
+              },
+              "Dragon's Breath Mead": {
+                "Name": "Dragon's Breath Mead",
+                "Description": "A potent, spiced mead with a warming kick, infused with cinnamon, cloves, and a hint of fiery peppers.",
+                "Bonus": {
+                  "Armour": 1.4
+                }
+              },
+              "Sunstone Wine": {
+                "Name": "Sunstone Wine",
+                "Description": "A golden wine with a rich, honeyed flavour, said to capture the warmth and vitality of the sun.",
+                "Bonus": {
+                  "Armour": 1.6
+                }
+              },
+              "Berry Bush Blush": {
+                "Name": "Berry Bush Blush",
+                "Description": "A sweet and slightly tart wine made from a blend of wild berries, giving it a vibrant blush color.",
+                "Bonus": {
+                  "Armour": 1.8
+                }
+              },
+              "Oakheart Mead": {
+                "Name": "Oakheart Mead",
+                "Description": "A strong and robust mead aged in oak barrels, giving it a deep, woody flavour and a smooth finish.",
+                "Bonus": {
+                  "Armour": 2
+                }
+              }
+            },
+            "Spirits": {
+              "Firewhiskey": {
+                "Name": "Firewhiskey",
+                "Description": "A strong, fiery spirit with a smoky flavour, often drunk by adventurers to warm their bones after a long journey.",
+                "Bonus": {
+                  "ManaMax": 1.2
+                }
+              },
+              "Shadowfell Rum": {
+                "Name": "Shadowfell Rum",
+                "Description": "A dark, mysterious rum with a smoky, spiced flavour, distilled from sugarcane grown in the shadow of haunted mountains.",
+                "Bonus": {
+                  "ManaMax": 1.4
+                }
+              },
+              "Glimmering Grog": {
+                "Name": "Glimmering Grog",
+                "Description": "A sweet, slightly sparkling liqueur made with enchanted fruits that shimmer with a faint, magical glow.",
+                "Bonus": {
+                  "ManaMax": 1.6
+                }
+              },
+              "Wyvern's Tonic": {
+                "Name": "Wyvern's Tonic",
+                "Description": "A potent herbal liquor with a bitter, medicinal taste, said to cure a variety of ailments and boost stamina.",
+                "Bonus": {
+                  "ManaMax": 1.8
+                }
+              },
+              "Chilled Vodka": {
+                "Name": "Chilled Vodka",
+                "Description": "An incredibly cold and strong vodka, distilled from glacial spring water and infused with frost-touched herbs.",
+                "Bonus": {
+                  "ManaMax": 2
+                }
+              }
+            },
+            "Non-Alcoholic": {
+              "Honeyed Lemon Elixir": {
+                "Name": "Honeyed Lemon Elixir",
+                "Description": "A sweet and refreshing drink made with fresh lemon juice, honey, and a hint of mint, perfect for a hot day.",
+                "Bonus": {
+                  "Dodge": 1.2
+                }
+              },
+              "Spiced Apple Cider": {
+                "Name": "Spiced Apple Cider",
+                "Description": "A warm, comforting drink made with freshly pressed apple cider, cinnamon, cloves, and nutmeg.",
+                "Bonus": {
+                  "Dodge": 1.4
+                }
+              },
+              "Berry Burst Juice": {
+                "Name": "Berry Burst Juice",
+                "Description": "A vibrant and refreshing juice made from a medley of wild berries, bursting with natural sweetness.",
+                "Bonus": {
+                  "Dodge": 1.6
+                }
+              },
+              "Travelers Tea": {
+                "Name": "Travelers Tea",
+                "Description": "A strong herbal tea brewed with a blend of invigorating herbs, designed to restore stamina and ward off fatigue.",
+                "Bonus": {
+                  "Dodge": 1.8
+                }
+              },
+              "Pure Water": {
+                "Name": "Pure Water",
+                "Description": "Pure, refreshing water drawn from a local spring, naturally filtered and chilled.",
+                "Bonus": {
+                  "Dodge": 2
+                }
+              }
+            },
+            "Special": {
+              "The Flaming Phoenix": {
+                "Name": "The Flaming Phoenix",
+                "Description": "A flaming cocktail with a complex, fruity flavour, featuring layers of different liqueurs and a flaming top.",
+                "Bonus": {
+                  "HealthMax": 3
+                }
+              },
+              "The Midnight Mirage": {
+                "Name": "The Midnight Mirage",
+                "Description": "A layered drink with a swirling, colourful appearance, created with magical ingredients that shift and change before your eyes.",
+                "Bonus": {
+                  "Attack": 3
+                }
+              },
+              "The Stone Golem": {
+                "Name": "The Stone Golem",
+                "Description": "A very thick and heavy drink made from a blend of strong liquors, cream, and crushed nuts, served in a stone mug.",
+                "Bonus": {
+                  "Dodge": 3
+                }
+              },
+              "The Wizards draught": {
+                "Name": "The Wizards draught",
+                "Description": "A drink that changes color as you sip it, brewed with rare magical herbs and a touch of arcane energy.",
+                "Bonus": {
+                  "ManaMax": 3
+                }
+              },
+              "The Bards blend": {
+                "Name": "The Bards blend",
+                "Description": "A sweet and aromatic drink said to inspire creativity, made with a blend of fruit juices, spices, and a hint of magical essence.",
+                "Bonus": {
+                  "Armour": 3
+                }
+              }
+            }
+          }
         },
         "The Anvil & Blade": {
           "The Anvil & Blade": "A",
@@ -296,26 +483,26 @@
     }
   },
   "Character": {
-    "Name": "Ash",
-    "Class": "Cleric",
+    "Name": "Igert",
+    "Class": "Mage",
     "Race": "Human",
     "Level": 12,
     "Total_XP": 4640,
     "XP_TNL": 576.0,
     "Stats": {
-      "HealthCurrent": 124,
-      "HealthMax": 1011,
-      "StaminaCurrent": 50,
-      "StaminaMax": 170,
-      "ManaCurrent": 308,
-      "ManaMax": 1023,
-      "Damage": 178,
-      "Attack": 130,
-      "Armour": 130,
-      "Dodge": 111,
-      "Quickness": 111,
-      "Spells": 226,
-      "Healing": 226
+      "HealthCurrent": 50,
+      "HealthMax": 50,
+      "StaminaCurrent": 40,
+      "StaminaMax": 40,
+      "ManaCurrent": 80,
+      "ManaMax": 80,
+      "Damage": 10,
+      "Attack": 4,
+      "Armour": 4,
+      "Dodge": 1,
+      "Quickness": 4,
+      "Spells": 10,
+      "Healing": 6
     },
     "Skills": {
       "Dodge": 0,
