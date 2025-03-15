@@ -139,7 +139,7 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
     Write-Color "The main PowerShell script            : ", "PS-RPG.ps1" -Color DarkGray,Cyan
     Write-Color "ASCII art for death messages          : ", "ASCII.txt" -Color DarkGray,Cyan
     Write-Color "A JSON file that stores all game info : ", "PS-RPG.json ", "(Locations, Mobs, NPCs and Character Stats etc.)" -Color DarkGray,Cyan,DarkGray
-    Write-Color "`r`nPlayer input options appear in ","Green ", "e.g. ", "[Y/N/Q/I] ", "would be ", "yes/no/quit/inventory", "." -Color DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray
+    Write-Color "`r`nPlayer input options appear in ","Green ", "e.g. ", "[Y/N/E/I] ", "would be ", "yes/no/exit/inventory", "." -Color DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray
     Write-Color "Enter the single character then hit Enter to confirm the choice." -Color DarkGray
     Write-Color "`r`nWARNING - Quitting the game unexpectedly may cause lose of data." -Color Cyan
     Write-Color "`r`nYou are now ready to play", " PS-RPG", "." -Color DarkGray,Magenta,DarkGray
@@ -147,12 +147,12 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
     do {
         do {
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
-            Write-Color -NoNewLine "`r`nNo save file found. Are you ready to start playing ", "PS-RPG", "?"," [Y/N/Q]" -Color DarkYellow,Magenta,DarkYellow,Green
+            Write-Color -NoNewLine "`r`nNo save file found. Are you ready to start playing ", "PS-RPG", "?"," [Y/N/E]" -Color DarkYellow,Magenta,DarkYellow,Green
             $Ready_To_Play_PSRPG = Read-Host " "
             $Ready_To_Play_PSRPG = $Ready_To_Play_PSRPG.Trim()
-        } until ($Ready_To_Play_PSRPG -ieq "y" -or $Ready_To_Play_PSRPG -ieq "n" -or $Ready_To_Play_PSRPG -ieq "q")
+        } until ($Ready_To_Play_PSRPG -ieq "y" -or $Ready_To_Play_PSRPG -ieq "n" -or $Ready_To_Play_PSRPG -ieq "e")
 
-        if ($Ready_To_Play_PSRPG -ieq "n" -or $Ready_To_Play_PSRPG -ieq "q") {
+        if ($Ready_To_Play_PSRPG -ieq "n" -or $Ready_To_Play_PSRPG -ieq "e") {
             do {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                 " "*105
@@ -162,7 +162,7 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
                 $Quit_Game = $Quit_Game.Trim()
             } until ($Quit_Game -ieq "y" -or $Quit_Game -ieq "n")
             if ($Quit_Game -ieq "y") {
-                Write-Color -NoNewLine "`r`nQuitting ","PS-RPG","." -Color DarkYellow,Magenta,DarkYellow
+                Write-Color -NoNewLine "`r`nExiting ","PS-RPG","." -Color DarkYellow,Magenta,DarkYellow
                 Exit
             }
         }
@@ -284,11 +284,11 @@ Function Game_Info {
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
             " "*105
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-            Write-Color -NoNewLine "`r`nSelect Page ","[1/2/3/Q]" -Color DarkYellow,Green
+            Write-Color -NoNewLine "`r`nSelect Page ","[1/2/3/E]" -Color DarkYellow,Green
             $Game_Info_Page_Choice = Read-Host " "
             $Game_Info_Page_Choice = $Game_Info_Page_Choice.Trim()
-        } until ($Game_Info_Page_Choice -ieq "1" -or $Game_Info_Page_Choice -ieq "2" -or $Game_Info_Page_Choice -ieq "3" -or $Game_Info_Page_Choice -ieq "q")
-        if ($Game_Info_Page_Choice -ieq "q") {
+        } until ($Game_Info_Page_Choice -ieq "1" -or $Game_Info_Page_Choice -ieq "2" -or $Game_Info_Page_Choice -ieq "3" -or $Game_Info_Page_Choice -ieq "e")
+        if ($Game_Info_Page_Choice -ieq "e") {
             Clear-Host
             Draw_Player_Window_and_Stats
             Break
@@ -313,7 +313,7 @@ Function Game_Info {
             Write-Color "| ","ASCII art for death messages          : ","ASCII.txt","                                                                             |" -Color DarkGray,White,Cyan,DarkGray
             Write-Color "| ","A JSON file that stores all game info : ","PS-RPG.json ","(e.g. Locations, Mobs, NPCs and Character Stats etc.)","                     |" -Color DarkGray,White,Cyan,White,DarkGray
             Write-Color "|                                                                                                                               |" -Color DarkGray
-            Write-Color "| ","Player input options appear in ","Green ","e.g. ","[Y/N/Q/I] ","would be ","yes/no/quit/inventory", "                                            |" -Color DarkGray,White,Green,White,Green,White,Green,DarkGray
+            Write-Color "| ","Player input options appear in ","Green ","e.g. ","[Y/N/E/I] ","would be ","yes/no/exit/inventory", "                                            |" -Color DarkGray,White,Green,White,Green,White,Green,DarkGray
             Write-Color "| ","Enter the single character then hit Enter to confirm the choice.","                                                              |" -Color DarkGray,White,DarkGray
             Write-Color "|                                                                                                                               |" -Color DarkGray,White
             Write-Color "|"," WARNING - Quitting the game unexpectedly may cause lose of data.","                                                              |" -Color DarkGray,Cyan,DarkGray
@@ -339,7 +339,7 @@ Function Game_Info {
             Write-Color "|                                                                                                                          |" -Color DarkGray
             Write-Color "+--------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
         }
-    } until ($Game_Info_Page_Choice -ieq "q")
+    } until ($Game_Info_Page_Choice -ieq "e")
 }
 
 #
@@ -652,13 +652,13 @@ Function Create_Character {
             } until ($Character_Name_Valid -eq $true)
             if ($Character_Name_Random_Confirm -ieq $false) {
                 do {
-                    Write-Color -NoNewLine "You have chosen ", "$Character_Name ", "for your Character name, is this correct? ", "[Y/N/Q]" -Color DarkYellow,Blue,DarkYellow,Green
+                    Write-Color -NoNewLine "You have chosen ", "$Character_Name ", "for your Character name, is this correct? ", "[Y/N/E]" -Color DarkYellow,Blue,DarkYellow,Green
                     $Character_Name_Confirm = Read-Host " "
-                } until ($Character_Name_Confirm -ieq "y" -or $Character_Name_Confirm -ieq "n" -or $Character_Name_Confirm -eq "q")
+                } until ($Character_Name_Confirm -ieq "y" -or $Character_Name_Confirm -ieq "n" -or $Character_Name_Confirm -eq "e")
                 if ($Character_Name_Confirm -ieq "y") {
                     $Character_Name_Confirm = $true
                 } else {
-                    if ($Character_Name_Confirm -ieq "q") {Exit}
+                    if ($Character_Name_Confirm -ieq "e") {Exit}
                 }
             }
         } until ($Character_Name_Confirm -eq $true)
@@ -725,7 +725,7 @@ Function Create_Character {
                 
                 Write-Color -NoNewLine "Choose your Characters Class ", "[M/R/C/W]" -Color DarkYellow,Green
                 $Character_Class = Read-Host " "
-            if ($Character_Class -ieq "q") {{Exit}}
+            if ($Character_Class -ieq "e") {{Exit}}
             } until ($Character_Class -ieq "m" -or $Character_Class -ieq "r" -or $Character_Class -eq "c" -or $Character_Class -eq "w")
             switch ($Character_Class) {
                 m { $Character_Class = "Mage" }
@@ -734,13 +734,13 @@ Function Create_Character {
                 w { $Character_Class = "Warrior" }
             }
             do {
-                Write-Color -NoNewLine "You have chosen a ", "$Character_Class ", "for your Character Class, is this correct? ", "[Y/N/Q]" -Color DarkYellow,Blue,DarkYellow,Green
+                Write-Color -NoNewLine "You have chosen a ", "$Character_Class ", "for your Character Class, is this correct? ", "[Y/N/E]" -Color DarkYellow,Blue,DarkYellow,Green
                 $Character_Class_Confirm = Read-Host " "
-            } until ($Character_Class_Confirm -ieq "y" -or $Character_Class_Confirm -ieq "n" -or $Character_Class_Confirm -eq "q")
+            } until ($Character_Class_Confirm -ieq "y" -or $Character_Class_Confirm -ieq "n" -or $Character_Class_Confirm -eq "e")
             if ($Character_Class_Confirm -ieq "y") {
                 $Character_Class_Confirm = $true
             } else {
-                if ($Character_Class_Confirm -ieq "q") {Exit}
+                if ($Character_Class_Confirm -ieq "e") {Exit}
             }
         } until ($Character_Class_Confirm -eq $true)
         $Import_JSON.Character.Class = $Character_Class
@@ -754,7 +754,7 @@ Function Create_Character {
                 
                 Write-Color -NoNewLine "Choose your Characters Race ", "[E/O/D/H]" -Color DarkYellow,Green
                 $Character_Race = Read-Host " "
-                if ($Character_Race -ieq "q") {{Exit}}
+                if ($Character_Race -ieq "e") {{Exit}}
             } until ($Character_Race -ieq "e" -or $Character_Race -ieq "o" -or $Character_Race -eq "d" -or $Character_Race -eq "h")
             switch ($Character_Race) {
                 e { $Character_Race = "Elf";$A_AN = "an" }
@@ -763,13 +763,13 @@ Function Create_Character {
                 h { $Character_Race = "Human";$A_AN = "a" }
             }
             do {
-                Write-Color -NoNewLine "You have chosen $A_AN ", "$Character_Race ", "for your Character Race, is this correct? ", "[Y/N/Q]" -Color DarkYellow,Blue,DarkYellow,Green
+                Write-Color -NoNewLine "You have chosen $A_AN ", "$Character_Race ", "for your Character Race, is this correct? ", "[Y/N/E]" -Color DarkYellow,Blue,DarkYellow,Green
                 $Character_Race_Confirm = Read-Host " "
-            } until ($Character_Race_Confirm -ieq "y" -or $Character_Race_Confirm -ieq "n" -or $Character_Race_Confirm -eq "q")
+            } until ($Character_Race_Confirm -ieq "y" -or $Character_Race_Confirm -ieq "n" -or $Character_Race_Confirm -eq "e")
             if ($Character_Race_Confirm -ieq "y") {
                 $Character_Race_Confirm = $true
             } else {
-                if ($Character_Race_Confirm -ieq "q") {Exit}
+                if ($Character_Race_Confirm -ieq "e") {Exit}
             }
         } until ($Character_Race_Confirm -eq $true)
         $Import_JSON.Character.Race = $Character_Race
@@ -780,7 +780,7 @@ Function Create_Character {
         $Update_Character_JSON_Valid = $false
         $Update_Character_JSON_Confirm = $false
         do {
-            Write-Color -NoNewLine "Are all your Character details correct? ", "[Y/N/Q]" -Color DarkYellow,Green
+            Write-Color -NoNewLine "Are all your Character details correct? ", "[Y/N/E]" -Color DarkYellow,Green
             $Update_Character_JSON = Read-Host " "
             $Update_Character_JSON = $Update_Character_JSON.Trim()
             if (-not($null -eq $Update_Character_JSON -or $Update_Character_JSON -eq " " -or $Update_Character_JSON -eq "")) {
@@ -790,7 +790,7 @@ Function Create_Character {
         if ($Update_Character_JSON -ieq "y") {
             $Update_Character_JSON_Confirm = $true
         } else {
-            if ($Update_Character_JSON -ieq "q") {Exit}
+            if ($Update_Character_JSON -ieq "e") {Exit}
         }
     } until ($Update_Character_JSON_Confirm -eq $true)
     Set-JSON
@@ -1723,7 +1723,7 @@ Function Visit_A_Building {
         Write-Color -NoNewLine "Which building do you want to visit? ", "[$All_Buildings_In_Current_Location_Letters_Array_String]" -Color DarkYellow,Green
         $Building_Choice = Read-Host " "
         $Building_Choice = $Building_Choice.Trim()
-    } until ($Building_Choice -ieq "q" -or $Building_Choice -in $All_Buildings_In_Current_Location_Letters_Array)
+    } until ($Building_Choice -ieq "e" -or $Building_Choice -in $All_Buildings_In_Current_Location_Letters_Array)
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
     " "*3000
     # set building name single characters to DarkYellow as they are no longer valid locations to visit
@@ -1736,7 +1736,7 @@ Function Visit_A_Building {
     # switch choice for Town
     if ($Current_Location -eq "Town") {
         switch ($Building_Choice) {
-            q {
+            e {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
                 " "*3000
                 # break
@@ -1878,7 +1878,7 @@ Function Visit_A_Building {
                             Write-Color -NoNewLine "J","unk, ","A","rmour, ","W","eapons, or ", "E","xit ","[J/A/W/N]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
                             $Anvil_Sell_Choice = Read-Host " "
                             $Anvil_Sell_Choice = $Anvil_Sell_Choice.Trim()
-                        } until ($Anvil_Sell_Choice -ieq "j" -or $Anvil_Sell_Choice -ieq "a" -or $Anvil_Sell_Choice -ieq "w" -or $Anvil_Sell_Choice -ieq "n" -or $Anvil_Sell_Choice -ieq "e")
+                        } until ($Anvil_Sell_Choice -in $Tavern_Drinks_Letters_Array)
                         if ($Anvil_Sell_Choice -ieq "j") {
                             $Anvil_Choice_Sell_Junk_Array = New-Object System.Collections.Generic.List[System.Object]
                             $Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name
@@ -2076,7 +2076,7 @@ Function Visit_A_Building {
     # switch choice for The Forest
     if ($Current_Location -eq "The Forest") {
         switch ($Building_Choice) {
-            q {
+            e {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
                 " "*3000
             }
@@ -2099,7 +2099,7 @@ Function Visit_A_Building {
     # switch choice for The River
     if ($Current_Location -eq "The River") {
         switch ($Building_Choice) {
-            q {
+            e {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
                 " "*3000
                 # break
@@ -2142,12 +2142,12 @@ if (Test-Path -Path .\PS-RPG.json) {
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
             " "*105
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
-            Write-Color -NoNewLine "`r`nPS-RPG.json ","save data found. Load saved data?"," [Y/N/Q]" -Color Magenta,DarkYellow,Green
+            Write-Color -NoNewLine "`r`nPS-RPG.json ","save data found. Load saved data?"," [Y/N/E]" -Color Magenta,DarkYellow,Green
             $Load_Save_Data_Choice = Read-Host " "
             $Load_Save_Data_Choice = $Load_Save_Data_Choice.Trim()
-        } until ($Load_Save_Data_Choice -ieq "y" -or $Load_Save_Data_Choice -ieq "n" -or $Load_Save_Data_Choice -ieq "q")
-        if ($Load_Save_Data_Choice -ieq "q") {
-            Write-Color -NoNewLine "`r`nQuitting ","PS-RPG","." -Color DarkYellow,Magenta,DarkYellow
+        } until ($Load_Save_Data_Choice -ieq "y" -or $Load_Save_Data_Choice -ieq "n" -or $Load_Save_Data_Choice -ieq "e")
+        if ($Load_Save_Data_Choice -ieq "e") {
+            Write-Color -NoNewLine "`r`nExiting ","PS-RPG","." -Color DarkYellow,Magenta,DarkYellow
             Exit
         }
         if ($Load_Save_Data_Choice -ieq "y") {
@@ -2161,21 +2161,21 @@ if (Test-Path -Path .\PS-RPG.json) {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                 " "*105
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
-                Write-Color -NoNewLine "`r`nStart a new game?"," [Y/N/Q]" -Color Magenta,Green
+                Write-Color -NoNewLine "`r`nStart a new game?"," [Y/N/E]" -Color Magenta,Green
                 $Start_A_New_Game = Read-Host " "
                 $Start_A_New_Game = $Start_A_New_Game.Trim()
-            } until ($Start_A_New_Game -ieq "y" -or $Start_A_New_Game -ieq "n" -or $Start_A_New_Game -ieq "q")
+            } until ($Start_A_New_Game -ieq "y" -or $Start_A_New_Game -ieq "n" -or $Start_A_New_Game -ieq "e")
             if ($Start_A_New_Game -ieq "y") {
                 # new game
                 Create_Character
             }
         }
-    } until ($Load_Save_Data_Choice -ieq "y" -or $Start_A_New_Game -ieq "y" -or $Start_A_New_Game -ieq "q")
+    } until ($Load_Save_Data_Choice -ieq "y" -or $Start_A_New_Game -ieq "y" -or $Start_A_New_Game -ieq "e")
 } else {
     # no JSON file found
     Create_Character
 }
-if ($Load_Save_Data_Choice -ieq "q" -or $Start_A_New_Game -ieq "q") {
+if ($Load_Save_Data_Choice -ieq "e" -or $Start_A_New_Game -ieq "e") {
     Write-Color -NoNewLine "`r`nQuitting ","PS-RPG","." -Color DarkYellow,Magenta,DarkYellow
     Exit
 }
