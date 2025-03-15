@@ -1541,7 +1541,7 @@ Function Travel {
         }
     }
     $All_Linked_Locations_Letters_Array = $All_Linked_Locations_Letters_Array -Join "/"
-    $All_Linked_Locations_Letters_Array = $All_Linked_Locations_Letters_Array + "/Q"
+    $All_Linked_Locations_Letters_Array = $All_Linked_Locations_Letters_Array + "/E"
     
     $Script:Info_Banner = "Travel"
     Draw_Info_Banner
@@ -1566,10 +1566,10 @@ Function Travel {
         Write-Color -NoNewLine "Where do you want to travel to? ", "[$All_Linked_Locations_Letters_Array]" -Color DarkYellow,Green
         $Travel_Choice = Read-Host " "
         $Travel_Choice = $Travel_Choice.Trim()
-    } until ($Travel_Choice -ieq "q" -or $All_Linked_Locations_Letters_Array -match $Travel_Choice)
+    } until ($All_Linked_Locations_Letters_Array -match $Travel_Choice)
     
     switch ($Travel_Choice) {
-        q {
+        e {
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
             " "*3000
             break
