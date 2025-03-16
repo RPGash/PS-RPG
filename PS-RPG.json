@@ -93,7 +93,7 @@
           "Attack": 5,
           "Damage": 5,
           "Armour": 10,
-          "Dodge": 5,
+          "Dodge": 50,
           "Quickness": 5,
           "Spells": 50,
           "Healing": 50,
@@ -202,8 +202,8 @@
               }
             },
             "Spirits": {
-              "Firewhiskey": {
-                "Name": "Firewhiskey",
+              "Fire Whiskey": {
+                "Name": "Fire Whiskey",
                 "Description": "A strong, fiery spirit with a smoky flavour, often drunk by adventurers to warm their bones after a long journey.",
                 "Bonus": {
                   "ManaMax": 1.2
@@ -487,20 +487,20 @@
     "Class": "Mage",
     "Race": "Human",
     "Level": 12,
-    "Total_XP": 4640,
-    "XP_TNL": 576.0,
+    "Total_XP": 4800,
+    "XP_TNL": 416.0,
     "Stats": {
-      "HealthCurrent": 50,
+      "HealthCurrent": 999.0,
       "HealthMax": 50,
       "StaminaCurrent": 40,
       "StaminaMax": 40,
       "ManaCurrent": 80,
       "ManaMax": 80,
-      "Damage": 10,
-      "Attack": 4,
+      "Damage": 50,
+      "Attack": 45,
       "Armour": 4,
       "Dodge": 1,
-      "Quickness": 4,
+      "Quickness": 45,
       "Spells": 10,
       "Healing": 6
     },
@@ -513,7 +513,7 @@
       }
     },
     "Items": {
-      "Gold": 853519.0,
+      "Gold": 853536.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
@@ -689,7 +689,7 @@
         },
         "Random Loot #2": {
           "Name": "Random Loot #2",
-          "Quantity": 24,
+          "Quantity": 25,
           "Info": "?????",
           "GoldValue": 3,
           "IsJunk": false,
@@ -713,7 +713,7 @@
         },
         "Random Loot #5": {
           "Name": "Random Loot #5",
-          "Quantity": 7,
+          "Quantity": 8,
           "Info": "?????",
           "GoldValue": 3,
           "IsJunk": false,

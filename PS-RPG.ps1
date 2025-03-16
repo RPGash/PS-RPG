@@ -32,7 +32,8 @@
 #       CTRL+C warning and file syncing issue (e.g. Google Drive or OneDrive etc.)
 #   - consider changing mob crit rate/damage to from fixed 20%/20% to specific % for different mobs
 #   - change leaving Home from "Leave" to "Exit"? for consistency
-#
+#   - check the following is still used or can be removed/edited
+#       New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
 #
 # - KNOWN ISSUES
 #   - if no JSON file is found, then you start a new game but quit before completing character creation, the game finds an "empty" game file and loads with no character data - FIX is to start a new game? or check for an "empty" file and delete?
@@ -155,8 +156,7 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
 
         if ($Ready_To_Play_PSRPG -ieq "n" -or $Ready_To_Play_PSRPG -ieq "e") {
             do {
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                " "*105
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
                 Write-Color -NoNewLine "`r`nDo you want to quit ", "PS-RPG", "?"," [Y/N]" -Color DarkYellow,Magenta,DarkYellow,Green
                 $Quit_Game = Read-Host " "
@@ -282,8 +282,7 @@ Function Game_Info {
     Write-Color "+--------------------------------------------------------+" -Color DarkGray
     do {
         do {
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-            " "*105
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
             Write-Color -NoNewLine "`r`nSelect Page ","[1/2/3/E]" -Color DarkYellow,Green
             $Game_Info_Page_Choice = Read-Host " "
@@ -459,8 +458,7 @@ Function Level_Up {
                 $Import_JSON.Character.Stats.$Race_Stat = $(Get-Variable -Name character_$Race_Stat).value
             }
         }
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 13,12;$Host.UI.Write("")
-        " "*6 # clears the TNL value because it shows a negative value while updating
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 13,12;$Host.UI.Write("");" "*6 # clears the TNL value because it shows a negative value while updating
 
         Set-JSON
         Import-JSON
@@ -1060,37 +1058,30 @@ Function Inventory_Choice{
             do {
                 $Script:Info_Banner = "Inventory"
                 Draw_Info_Banner
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                " "*105
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                 if ($Enough_Health_Potions -eq "yes" -and $Enough_Mana_Potions -eq "no") {
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                    " "*105
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("");" "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     Write-Color -NoNewLine "  You are low on ","Health", "." -Color DarkGray,Green,DarkGray
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
-                    " "*105
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("");" "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                     Write-Color -NoNewLine "Use a potion? ", "[Y/N]" -Color DarkYellow,Green
                     $Potion_Choice = "Health"
                     $Script:Selectable_ID_Search = "Health"
                 } elseif ($Enough_Mana_Potions -eq "yes" -and $Enough_Health_Potions -eq "no") {
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                    " "*105
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("");" "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     Write-Color -NoNewLine "  You are low on ","Mana", "." -Color DarkGray,Blue,DarkGray
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
-                    " "*105
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("");" "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                     Write-Color -NoNewLine "Use a potion? ", "[Y/N]" -Color DarkYellow,Green
                     $Potion_Choice = "Mana"
                     $Script:Selectable_ID_Search = "Mana"
                 } else {
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                    " "*105
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("");" "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     Write-Color -NoNewLine "  You are low on ","Health ","and ","Mana", "." -Color DarkGray,Green,DarkGray,Blue,DarkGray
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
-                    " "*105
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("");" "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                     Write-Color -NoNewLine "Use a potion? ", "[Y/N]" -Color DarkYellow,Green
                     $Potion_Choice = "Health or Mana"
@@ -1105,8 +1096,7 @@ Function Inventory_Choice{
             if ($Use_A_Potion -ieq "y") {
                 do {
                     Draw_Inventory
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                    " "*105
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                     $Potion_IDs_Array_String = "0"
                     $Potion_IDs_Array_String = $Potion_IDs_Array -join "/"
@@ -1183,8 +1173,7 @@ Function Inventory_Choice{
                 } else {
                     Draw_Inventory
                 }
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
-                " "*105
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("");" "*105
                 Set-JSON
             }
         }
@@ -1287,8 +1276,7 @@ Function Fight_Or_Run {
                 # ask if the action should be attack, spell or item
                 do {
                     # clear health/mana restored message or it stays on screen until end of battle
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                    " "*105
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                     Write-Color -NoNewLine "A","ttack, cast a ","S","pell or use an ", "I", "tem?"," [A/S/I]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
                     $Fight_Choice = Read-Host " "
@@ -1333,27 +1321,19 @@ Function Fight_Or_Run {
                         }
                         Draw_Mob_Window_and_Stats
                         if ($First_Turn -eq $true) {
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                            " "*105
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
-                            " "*105
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("");" "*105
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("");" "*105
                         } else {
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                            " "*105
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                            " "*105
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
-                            " "*105
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("");" "*105
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("");" "*105
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("");" "*105
                         }
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                         Write-Color "  You successfully ",$Crit_Hit,"hit the ","$($Selected_Mob.Name)"," for ","$Character_Hit_Damage ","health." -Color DarkGray,Red,DarkGray,Blue,DarkGray,Red,DarkGray
                     } else {
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                        " "*105
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                        " "*105
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
-                        " "*105
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("");" "*105
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("");" "*105
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("");" "*105
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                         Write-Color "  You miss the ","$($Selected_Mob.Name)","." -Color DarkGray,Blue,DarkGray
                     }
@@ -1476,15 +1456,13 @@ Function Fight_Or_Run {
             # ask continue fight question after mobs turn
             if ($Continue_Fight -eq $true) {
                 do {
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                    " "*105
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                     Write-Color -NoNewLine "Continue to ","F", "ight or try and ","E","scape? ", "[F/E]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
                     $Fight_Or_Escape = Read-Host " "
                     $Fight_Or_Escape = $Fight_Or_Escape.Trim()
                 } until ($Fight_Or_Escape -ieq "f" -or $Fight_Or_Escape -ieq "e")
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,26;$Host.UI.Write("")
-                " "*105
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,26;$Host.UI.Write("");" "*105
             }
 
             # try to escape (during combat)
@@ -1499,10 +1477,8 @@ Function Fight_Or_Run {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     Write-Color "  You escaped from the ","$($Selected_Mob.Name)","." -Color DarkGray,Blue,DarkGray
                 } else {
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                    " "*105
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
-                    " "*105
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("");" "*105
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("");" "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     Write-Color "  You failed to escape the ","$($Selected_Mob.Name)","!" -Color DarkGray,Blue,DarkGray
                     $Fight_Or_Escape = "" # reset so it does not exit the loop and stays in combat
@@ -1560,8 +1536,7 @@ Function Travel {
     Write-Color " (_/____________________________________________________/" -Color DarkYellow
 
     do {
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-        " "*105
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         Write-Color -NoNewLine "Where do you want to travel to? ", "[$All_Linked_Locations_Letters_Array]" -Color DarkYellow,Green
         $Travel_Choice = Read-Host " "
@@ -1570,31 +1545,27 @@ Function Travel {
     
     switch ($Travel_Choice) {
         e {
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-            " "*3000
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
             break
         }
         t {
             $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
             $Script:Current_Location = "Town"
             $Import_JSON.Locations.Town.CurrentLocation = $true
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-            " "*3000
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
             Set-JSON
         }
         f {
             $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
             $Script:Current_Location = "The Forest"
             $Import_JSON.Locations."The Forest".CurrentLocation = $true
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-            " "*3000
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
         }
         r {
             $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
             $Script:Current_Location = "The River"
             $Import_JSON.Locations."The River".CurrentLocation = $true
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-            " "*3000
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
         }
         Default {
         }
@@ -1718,15 +1689,13 @@ Function Visit_A_Building {
     if ($Current_Location -eq "The River") { Draw_The_River_Map }
 
     do {
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-        " "*105
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         Write-Color -NoNewLine "Which building do you want to visit? ", "[$All_Buildings_In_Current_Location_Letters_Array_String]" -Color DarkYellow,Green
         $Building_Choice = Read-Host " "
         $Building_Choice = $Building_Choice.Trim()
     } until ($Building_Choice -ieq "e" -or $Building_Choice -in $All_Buildings_In_Current_Location_Letters_Array)
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-    " "*3000
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
     # set building name single characters to DarkYellow as they are no longer valid locations to visit
     $host.UI.RawUI.ForegroundColor = "DarkYellow"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 96,2;$Host.UI.Write("A") # The Anvil & Blade
@@ -1738,8 +1707,7 @@ Function Visit_A_Building {
     if ($Current_Location -eq "Town") {
         switch ($Building_Choice) {
             e {
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                " "*3000
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
                 # break
             }
             #
@@ -1758,10 +1726,8 @@ Function Visit_A_Building {
                         Set-JSON
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                         Draw_Player_Window_and_Stats
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                        " "*105
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                        " "*105
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("");" "*105
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("");" "*105
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                         Write-Color "  You are now fully rested. There is nothing else to do but leave." -Color DarkGray
                         $Home_Choice_Letters_Array.Add("L") # array now only contains L
@@ -1779,8 +1745,7 @@ Function Visit_A_Building {
                         Write-Color "  You can rest here and recover your ","health ","and ","mana","$($Fully_Healed)" -Color DarkGray,Green,DarkGray,Blue,DarkGray
                     }
                     do {
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                        " "*105
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                         if ($Home_Choice_Letters_Array.Contains("R")) {
                             Write-Color -NoNewLine "R","est or ","L","eave? ", "[$Home_Choice_Letters_Array_String]" -Color Green,DarkYellow,Green,DarkYellow,Green
@@ -1824,13 +1789,18 @@ Function Visit_A_Building {
                     do {
                         if ($First_Time_Entered_Tavern -eq $false) {
                             for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
-                                " "*105
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                             }
                             if ($First_Time_Entered_Drinks -eq $false) {
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                 Write-Color "  $($Import_JSON.Locations.Town.Buildings.Tavern.Owner) ","hands you a $Tavern_Drink." -Color Blue,DarkGray
                                 Write-Color "  You feel strange. You temporarily have the following buffs." -Color DarkGray
+
+                                #
+                                # what buffs were applied here...
+                                # change drink to be white text
+                                # change the work buffs to be Cyan
+
 
                             }
                         } else {
@@ -1838,8 +1808,7 @@ Function Visit_A_Building {
                             Write-Color "  Welcome adventurer, i'm ","$($Import_JSON.Locations.Town.Buildings.Tavern.Owner)"," the owner of this Tavern." -Color DarkGray,Blue,DarkGray
                             Write-Color "  Would you like a ","D","rink? If not, maybe you can spare some time to look at the ","Q","uest board over there." -Color DarkGray,Green,DarkGray,Green,DarkGray
                         }
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                        " "*105
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                         Write-Color -NoNewLine "D","rink, ","Q","uest board, or ", "E","xit ","[D/Q/E]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
                         $Tavern_Choice = Read-Host " "
@@ -1852,8 +1821,7 @@ Function Visit_A_Building {
                         # do {
                             do {
                                 for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
-                                    " "*105
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                 }
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                 Write-Color "  Please choose from our selection of drinks from the menu." -Color DarkGray
@@ -1868,8 +1836,7 @@ Function Visit_A_Building {
                                 }
                                 $Tavern_Drinks_Category_Letters_Array_String = $Tavern_Drinks_Category_Letters_Array -Join "/" # cannot query input choice against an array that has been joined
                                 $Tavern_Drinks_Category_Letters_Array_String = $Tavern_Drinks_Category_Letters_Array_String + "/E"
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                " "*105
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                                 Write-Color -NoNewLine "A","les, ","M","eads, ","S","pirits, ","N","on-Alcoholic, ","R","are, or ", "E","xit ","$Tavern_Drinks_Category_Letters_Array_String" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow
                                 $Tavern_Drinks_Choice = Read-Host " "
@@ -1879,8 +1846,7 @@ Function Visit_A_Building {
                             switch ($Tavern_Drinks_Choice) {
                                 $Tavern_Drinks_Choice {
                                     for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
-                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
-                                        " "*105
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                     }
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                     foreach ($Tavern_Drinks_Category in $Tavern_Drinks_Categorys) {
@@ -1969,8 +1935,7 @@ Function Visit_A_Building {
                     do {
                         if ($First_Time_Entered_Anvil -eq $false) {
                             for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
-                                " "*105
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                             }
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                             if ($No_Items_To_Sell -eq $true) {
@@ -1982,8 +1947,7 @@ Function Visit_A_Building {
                             Write-Color "  Greetings adventurer." -Color DarkGray
                             Write-Color "  I buy and sell Weapons and Armour if you are interested." -Color DarkGray
                         }
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                        " "*105
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                         Write-Color -NoNewLine "B","uy, ","S","ell, or ", "E","xit ","[B/S/E]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
                         $Anvil_Choice = Read-Host " "
@@ -1996,8 +1960,7 @@ Function Visit_A_Building {
                     if ($Anvil_Choice -ieq "s") {
                         do {
                             for ($Position = 17; $Position -lt 19; $Position++) { # clear some lines from previous widow
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
-                                " "*105
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                             }
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                             Write-Color "  What do you want to get rid of?" -Color DarkGray
@@ -2006,8 +1969,7 @@ Function Visit_A_Building {
                             Write-Color "  W","eapons" -Color Green,DarkGray
                             Write-Color "  N","othing for now." -Color Green,DarkGray
                             Write-Color "  E","xit The Anvil & Blade." -Color Green,DarkGray
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                            " "*105
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                             Write-Color -NoNewLine "J","unk, ","A","rmour, ","W","eapons, or ", "E","xit ","[J/A/W/N]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
                             $Anvil_Sell_Choice = Read-Host " "
@@ -2023,14 +1985,12 @@ Function Visit_A_Building {
                             if ($Anvil_Choice_Sell_Junk_Quantity -gt 0) {
                                 do {
                                     for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
-                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("")
-                                        " "*105
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                     }
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                     Write-Color "  You have ","$($Script:Anvil_Choice_Sell_Junk_Quantity) ","junk items." -Color DarkGray,DarkCyan,DarkGray
                                     Write-Color "  I will give you ","$($Script:Anvil_Choice_Sell_Junk_GoldValue) ","gold for them." -Color DarkGray,DarkYellow,DarkGray
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                    " "*105
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                                     Write-Color -NoNewLine "Do you agree? ","Y","es or ", "N","o ","[Y/N]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
                                     $Anvil_Sell_Junk_Choice = Read-Host " "
@@ -2072,20 +2032,16 @@ Function Visit_A_Building {
     if ($Current_Location -eq "The Forest") {
         switch ($Building_Choice) {
             e {
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                " "*3000
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
             }
             h { # Hut
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                " "*3000
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
             }
             t { # Tree House
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                " "*3000
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
             }
             s { # Secret Location
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                " "*3000
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
             }
             # Default {}
         }
@@ -2095,13 +2051,11 @@ Function Visit_A_Building {
     if ($Current_Location -eq "The River") {
         switch ($Building_Choice) {
             e {
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                " "*3000
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
                 # break
             }
             c { # Camp
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("")
-                " "*3000
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
                 # break
             }
             # Default {
@@ -2132,10 +2086,8 @@ if (Test-Path -Path .\PS-RPG.json) {
         Draw_Player_Window_and_Stats
         Draw_Inventory
         do {
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
-            " "*105
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-            " "*105
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("");" "*105
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
             Write-Color -NoNewLine "`r`nPS-RPG.json ","save data found. Load saved data?"," [Y/N/E]" -Color Magenta,DarkYellow,Green
             $Load_Save_Data_Choice = Read-Host " "
@@ -2153,8 +2105,7 @@ if (Test-Path -Path .\PS-RPG.json) {
         }
         if ($Load_Save_Data_Choice -ieq "n") {
             do {
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                " "*105
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
                 Write-Color -NoNewLine "`r`nStart a new game?"," [Y/N/E]" -Color Magenta,Green
                 $Start_A_New_Game = Read-Host " "
@@ -2181,8 +2132,7 @@ if ($Load_Save_Data_Choice -ieq "e" -or $Start_A_New_Game -ieq "e") {
 # main loop
 do {
     do {
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-        " "*105
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         Write-Color -NoNewLine "H", "unt, ","T","ravel, ","V","isit a building, or look at your ","I","nventory? ", "[H/T/V/I]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
         $Hunt_Or_Inventory = Read-Host " "
