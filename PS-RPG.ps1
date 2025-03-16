@@ -24,7 +24,7 @@
 #       if 50% or above = "you are not at max health" (maybe?)
 #   - different message types
 #       you hit/strike/bash/wack at mob
-#       heals? kills? etc.
+#       heals? kills? buffs etc.
 #   - [ongoing] an info page available after starting the game
 #       game info, PSWriteColour module, GitHub, website, uninstall module,
 #       damage calculation = damage * (damage / (damage + armour)),
@@ -1898,24 +1898,57 @@ Function Visit_A_Building {
                                     $Tavern_Drink_Bonus_Name {
                                         $Tavern_Drink_Bonus_Amount = ($Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.Bonus).$Tavern_Drink_Bonus_Name
                                         $Character_Prefix = "Character_"
+                                        $Bonus_Stat_Before = (Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value
+                                        Add-Content -Path .\error_log.log -value "b: $Bonus_Stat_Before"
                                         # sets current Character_ variable (Armour, HealthMax etc.) to it's current value multiplied by the drink bonus
                                         New-Variable -Name "$($Character_Prefix)$Tavern_Drink_Bonus_Name" -Value ([Math]::Round((Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value * $Tavern_Drink_Bonus_Amount)) -Force
+                                        $Bonus_Stat_After = (Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value
+                                        Add-Content -Path .\error_log.log -value "a: $Bonus_Stat_After"
+                                        $Bonus_Stat_Difference = $Bonus_Stat_After - $Bonus_Stat_Before
+                                        Add-Content -Path .\error_log.log -value "diff: $Bonus_Stat_Difference"
                                         # Add-Content -Path .\error_log.log -value "Amour: $($Character_Armour)"
                                         # Add-Content -Path .\error_log.log -value "Attack: $($Character_Attack)"
                                         # Add-Content -Path .\error_log.log -value "Dodge: $($Character_Dodge)"
                                         # Add-Content -Path .\error_log.log -value "HealthMax: $($Character_HealthMax)"
                                         # Add-Content -Path .\error_log.log -value "ManaMax: $($Character_ManaMax)"
+                                        Draw_Player_Window_and_Stats
+                                        switch ($Tavern_Drink_Bonus_Name) {
+                                            HealthMax {
+                                                $host.UI.RawUI.ForegroundColor = "Green"
+                                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,3;$Host.UI.Write("(+$Bonus_Stat_Difference)")
+                                            }
+                                            ManaMax {
+                                                $host.UI.RawUI.ForegroundColor = "Blue"
+                                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,5;$Host.UI.Write("(+$Bonus_Stat_Difference)")
+                                            }
+                                            Attack {
+                                                $host.UI.RawUI.ForegroundColor = "White"
+                                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,7;$Host.UI.Write("(+$Bonus_Stat_Difference)")
+                                            }
+                                            Armour {
+                                                $host.UI.RawUI.ForegroundColor = "White"
+                                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,8;$Host.UI.Write("(+$Bonus_Stat_Difference)")
+                                            }
+                                            Dodge {
+                                                $host.UI.RawUI.ForegroundColor = "White"
+                                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,9;$Host.UI.Write("(+$Bonus_Stat_Difference)")
+                                            }
+                                            Default {}
+                                        }
+                                        $host.UI.RawUI.ForegroundColor = "Cyan"
+                                        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 42,1;$Host.UI.Write("(Buff Bonus)")
+                                
                                     }
                                     Default {}
                                 }
-                                Draw_Player_Window_and_Stats
                             }
                             e {
                                 Continue # or exit?
                             }
                             Default {}
                         }
-                        Read-Host "outside attack"
+                        # $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,22;$Host.UI.Write("")
+                        # Read-Host "outside attack"
 
                         # if ($Tavern_Drinks_Choice -ieq "j") {
                             #     $Anvil_Choice_Sell_Junk_Array = New-Object System.Collections.Generic.List[System.Object]
