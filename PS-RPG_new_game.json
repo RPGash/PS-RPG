@@ -128,7 +128,7 @@
           "Owner": "Elara",
           "Drinks": {
             "Ales": {
-            "Hearty Hearth Ale" : {
+              "Hearty Hearth Ale": {
                 "Name": "Hearty Hearth Ale",
                 "Description": "A dark, warming ale with notes of roasted barley and caramel, perfect for a cold night by the fire.",
                 "Bonus": {
@@ -275,7 +275,7 @@
                 }
               }
             },
-            "Special": {
+            "Rare": {
               "The Flaming Phoenix": {
                 "Name": "The Flaming Phoenix",
                 "Description": "A flaming cocktail with a complex, fruity flavour, featuring layers of different liqueurs and a flaming top.",
