@@ -495,8 +495,8 @@ Function Level_Up {
         $host.UI.RawUI.ForegroundColor = "Blue"
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,5;$Host.UI.Write("(+$Mana_Bonus_On_Level_Up)")
         $host.UI.RawUI.ForegroundColor = "White"
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,6;$Host.UI.Write("(+$Damage_Bonus_On_Level_Up)")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,7;$Host.UI.Write("(+$Attack_Bonus_On_Level_Up)")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,6;$Host.UI.Write("(+$Attack_Bonus_On_Level_Up)")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,7;$Host.UI.Write("(+$Damage_Bonus_On_Level_Up)")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,8;$Host.UI.Write("(+$Armour_Bonus_On_Level_Up)")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,9;$Host.UI.Write("(+$Dodge_Bonus_On_Level_Up)")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,10;$Host.UI.Write("(+$Quickness_Bonus_On_Level_Up)")
@@ -1923,7 +1923,7 @@ Function Visit_A_Building {
                                             }
                                             Attack {
                                                 $host.UI.RawUI.ForegroundColor = "White"
-                                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,7;$Host.UI.Write("(+$Bonus_Stat_Difference)")
+                                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,6;$Host.UI.Write("(+$Bonus_Stat_Difference)")
                                             }
                                             Armour {
                                                 $host.UI.RawUI.ForegroundColor = "White"
