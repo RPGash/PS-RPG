@@ -3,7 +3,8 @@
 #
 # - BUGS
 #   - "Sort-Object Name" not working when displaying inventory Items
-#     (items are not collected then displayed, but instead written out one by one)
+#       (items are not collected then displayed, but instead written out one by one)
+#   - buffs are not applying when leaving the Tavern
 #   
 #   
 # - TEST
@@ -1863,18 +1864,31 @@ Function Visit_A_Building {
                                             $Tavern_Drink_Bonus_Amount = ($Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.Bonus).$Tavern_Drink_Bonus_Name
                                             $Character_Prefix = "Character_"
                                             $Bonus_Stat_Before = (Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value
-                                            Add-Content -Path .\error_log.log -value "b: $Bonus_Stat_Before"
+                                            # Add-Content -Path .\error_log.log -value "b: $Bonus_Stat_Before"
                                             # sets current Character_ variable (Armour, HealthMax etc.) to it's current value multiplied by the drink bonus
-                                            New-Variable -Name "$($Character_Prefix)$Tavern_Drink_Bonus_Name" -Value ([Math]::Round((Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value * $Tavern_Drink_Bonus_Amount)) -Force
+                                            $UnBuffed = "UnBuffed"
+                                            # Set-Variable -Name "$($Character_Prefix)$Tavern_Drink_Bonus_Name$UnBuffed" -Value (Get-Variable -name "$($Character_Prefix)$Tavern_Drink_Bonus_Name").value
+                                            
+                                            # sets the JSON character stat e.g. HealthMaxUnBuffed to the current HealthMax value so the current HealthMax value becomes the buffed value which then can be reverted when the buff drops
+                                            $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name$UnBuffed" = (Get-Variable -name "$($Character_Prefix)$Tavern_Drink_Bonus_Name").value
+                                            
+                                            
+                                            # sets e.g. the $Character_HealthMaxUnBuffed variable to what was in $Character_HealthMax so it can be retrieved when buff is lost
+                                            Set-Variable -Name "$($Character_Prefix)$Tavern_Drink_Bonus_Name" -Value ([Math]::Round((Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value * $Tavern_Drink_Bonus_Amount)) -Force
                                             $Bonus_Stat_After = (Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value
-                                            Add-Content -Path .\error_log.log -value "a: $Bonus_Stat_After"
+                                            # Add-Content -Path .\error_log.log -value "a: $Bonus_Stat_After"
                                             $Bonus_Stat_Difference = $Bonus_Stat_After - $Bonus_Stat_Before
-                                            Add-Content -Path .\error_log.log -value "diff: $Bonus_Stat_Difference"
+                                            
+                                            # sets the JSON character stat e.g. HealthMaxUnBuffed to the current HealthMax value so the current HealthMax value becomes the buffed value which then can be reverted when the buff drops
+                                            $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name" += $Bonus_Stat_Difference
+                                            # Add-Content -Path .\error_log.log -value "diff: $Bonus_Stat_Difference"
                                             # Add-Content -Path .\error_log.log -value "Amour: $($Character_Armour)"
                                             # Add-Content -Path .\error_log.log -value "Attack: $($Character_Attack)"
                                             # Add-Content -Path .\error_log.log -value "Dodge: $($Character_Dodge)"
                                             # Add-Content -Path .\error_log.log -value "HealthMax: $($Character_HealthMax)"
                                             # Add-Content -Path .\error_log.log -value "ManaMax: $($Character_ManaMax)"
+                                            Set-JSON
+                                            Set_Variables
                                             Draw_Player_Window_and_Stats
                                             switch ($Tavern_Drink_Bonus_Name) {
                                                 HealthMax {
