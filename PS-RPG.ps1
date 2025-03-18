@@ -4,7 +4,7 @@
 # - BUGS
 #   - "Sort-Object Name" not working when displaying inventory Items
 #       (items are not collected then displayed, but instead written out one by one)
-#   - buffs are not applying when leaving the Tavern
+#   - buffs currently last forever
 #   
 #   
 # - TEST
@@ -692,7 +692,7 @@ Function Create_Character {
                 Write-Color "`r`nChoose a Class and Race from the below tables." -Color DarkGray
                 Write-Color "Bonus values to Character stats are applied after each level up." -Color DarkGray
             }
-            Write-Color " " -Color DarkGray
+            Write-Color ""
             Write-Color " Class Base Stats | Health | Stamina | Mana | Armour | Damage | Attack | Dodge | Quickness | Spells | Healing |" -Color DarkGray
             Write-Color "------------------+--------+---------+------+--------+--------+--------+-------+-----------+--------+---------+" -Color DarkGray
             Write-Color " M","age             |   50   |    40   |  80  |    4   |   10   |    4   |    1  |     4     |   10   |    6    |" -Color $ClassRaceInfoColours1,$ClassRaceInfoColours2
@@ -1794,15 +1794,17 @@ Function Visit_A_Building {
                             }
                             if ($First_Time_Entered_Drinks -eq $false) {
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                Write-Color "  $($Import_JSON.Locations.Town.Buildings.Tavern.Owner) ","hands you a $Tavern_Drink." -Color Blue,DarkGray
+                                Write-Color "  $($Import_JSON.Locations.Town.Buildings.Tavern.Owner) ","hands you a ","$Tavern_Drink","." -Color Blue,DarkGray,White,DarkGray
                                 Write-Color "  You feel strange. You temporarily have the following buffs." -Color DarkGray
-
-                                #
-                                # what buffs were applied here...
-                                # change drink to be white text
-                                # change the work buffs to be Cyan
-
-
+                                Write-Color ""
+                                if ($Tavern_Drink_Bonus_Name -ieq 'HealthMax') {
+                                    $Buff_Bonus_Colour = "Green"
+                                } elseif ($Tavern_Drink_Bonus_Name -ieq 'ManaMax') {
+                                    $Buff_Bonus_Colour = "Blue"
+                                } else {
+                                    $Buff_Bonus_Colour = "White"
+                                }
+                                Write-Color "  Buff Bonus ","+$($Bonus_Stat_Difference) $($Tavern_Drink_Bonus_Name)" -Color DarkGray,$Buff_Bonus_Colour
                             }
                         } else {
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
@@ -1863,30 +1865,21 @@ Function Visit_A_Building {
                                         $Tavern_Drink_Bonus_Name {
                                             $Tavern_Drink_Bonus_Amount = ($Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.Bonus).$Tavern_Drink_Bonus_Name
                                             $Character_Prefix = "Character_"
+
+                                            # gets current character stat bonus value (so difference can be calculated below)
                                             $Bonus_Stat_Before = (Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value
-                                            # Add-Content -Path .\error_log.log -value "b: $Bonus_Stat_Before"
-                                            # sets current Character_ variable (Armour, HealthMax etc.) to it's current value multiplied by the drink bonus
                                             $UnBuffed = "UnBuffed"
                                             # Set-Variable -Name "$($Character_Prefix)$Tavern_Drink_Bonus_Name$UnBuffed" -Value (Get-Variable -name "$($Character_Prefix)$Tavern_Drink_Bonus_Name").value
-                                            
                                             # sets the JSON character stat e.g. HealthMaxUnBuffed to the current HealthMax value so the current HealthMax value becomes the buffed value which then can be reverted when the buff drops
                                             $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name$UnBuffed" = (Get-Variable -name "$($Character_Prefix)$Tavern_Drink_Bonus_Name").value
-                                            
-                                            
                                             # sets e.g. the $Character_HealthMaxUnBuffed variable to what was in $Character_HealthMax so it can be retrieved when buff is lost
                                             Set-Variable -Name "$($Character_Prefix)$Tavern_Drink_Bonus_Name" -Value ([Math]::Round((Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value * $Tavern_Drink_Bonus_Amount)) -Force
+                                            # gets the current buffed character stat so the difference can be displayed in Player Stats window
                                             $Bonus_Stat_After = (Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value
-                                            # Add-Content -Path .\error_log.log -value "a: $Bonus_Stat_After"
                                             $Bonus_Stat_Difference = $Bonus_Stat_After - $Bonus_Stat_Before
-                                            
-                                            # sets the JSON character stat e.g. HealthMaxUnBuffed to the current HealthMax value so the current HealthMax value becomes the buffed value which then can be reverted when the buff drops
+                                            # sets the JSON character stat e.g. HealthMax to the current HealthMax value plus the difference (the bonus)
                                             $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name" += $Bonus_Stat_Difference
-                                            # Add-Content -Path .\error_log.log -value "diff: $Bonus_Stat_Difference"
-                                            # Add-Content -Path .\error_log.log -value "Amour: $($Character_Armour)"
-                                            # Add-Content -Path .\error_log.log -value "Attack: $($Character_Attack)"
-                                            # Add-Content -Path .\error_log.log -value "Dodge: $($Character_Dodge)"
-                                            # Add-Content -Path .\error_log.log -value "HealthMax: $($Character_HealthMax)"
-                                            # Add-Content -Path .\error_log.log -value "ManaMax: $($Character_ManaMax)"
+                                            
                                             Set-JSON
                                             Set_Variables
                                             Draw_Player_Window_and_Stats
