@@ -1400,6 +1400,7 @@ Function Fight_Or_Run {
             if ($Character_HealthCurrent -le 0) {
                 # reset buffs
                 $Import_JSON.Character.BuffMobKillDuration = 0
+                $Import_JSON.Character.DrinksPurchased = 0
                 $Import_JSON.Character.BuffsDropped = $true
                 Set-JSON
                 You_Died
@@ -1508,6 +1509,7 @@ Function Fight_Or_Run {
             Set-JSON
         }
         if ($Import_JSON.Character.BuffMobKillDuration -eq 0 -and $Import_JSON.Character.BuffsDropped -eq $false) {
+            $Import_JSON.Character.DrinksPurchased = 0
             $Import_JSON.Character.BuffsDropped = $true
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,34;$Host.UI.Write("")
             Write-Color "  Your buffs drop." -Color Cyan
@@ -1807,11 +1809,27 @@ Function Visit_A_Building {
                     $Script:Info_Banner = "Tavern"
                     Draw_Info_Banner
                     do {
+                        if ($First_Time_Entered_Tavern -eq $true) {
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                            Write-Color "  Welcome adventurer, i'm ","$($Import_JSON.Locations.Town.Buildings.Tavern.Owner)"," the owner of this Tavern." -Color DarkGray,Blue,DarkGray
+                            Write-Color "  Would you like a ","D","rink? If not, maybe you can spare some time to look at the ","Q","uest board over there." -Color DarkGray,Green,DarkGray,Green,DarkGray
+                        }
                         if ($First_Time_Entered_Tavern -eq $false) {
                             for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                             }
-                            if ($First_Time_Entered_Drinks -eq $false) {
+                            if ($Import_JSON.Character.DrinksPurchased -eq 2) {
+                                for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                }
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                Write-Color "  $($Import_JSON.Locations.Town.Buildings.Tavern.Owner) ","says you've had too many and refuses to serve you until you sober up." -Color Blue,DarkGray
+                            }
+                            if ($Import_JSON.Character.DrinksPurchased -lt 2 -and $Drink_Purchased -eq $false) {
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                Write-Color "  Don't forget to check out the ","Q","uest board." -Color DarkGray,Green,DarkGray
+                            }
+                            if ($Drink_Purchased -eq $true) {
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                 Write-Color "  $($Import_JSON.Locations.Town.Buildings.Tavern.Owner) ","hands you a ","$Tavern_Drink","." -Color Blue,DarkGray,White,DarkGray
                                 Write-Color "  You feel strange. You temporarily have the following buffs." -Color DarkGray
@@ -1824,11 +1842,8 @@ Function Visit_A_Building {
                                     $Buff_Bonus_Colour = "White"
                                 }
                                 Write-Color "  Buff Bonus ","+$($Bonus_Stat_Difference) $($Tavern_Drink_Bonus_Name)" -Color DarkGray,$Buff_Bonus_Colour
+                                $Drink_Purchased = $false
                             }
-                        } else {
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                            Write-Color "  Welcome adventurer, i'm ","$($Import_JSON.Locations.Town.Buildings.Tavern.Owner)"," the owner of this Tavern." -Color DarkGray,Blue,DarkGray
-                            Write-Color "  Would you like a ","D","rink? If not, maybe you can spare some time to look at the ","Q","uest board over there." -Color DarkGray,Green,DarkGray,Green,DarkGray
                         }
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -1839,7 +1854,6 @@ Function Visit_A_Building {
                     
                     # drinks menu
                     if ($Tavern_Choice -ieq "d") {
-                        $First_Time_Entered_Drinks = $true
                         # do {
                             do {
                                 for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
@@ -1866,79 +1880,86 @@ Function Visit_A_Building {
                             } until ($Tavern_Drinks_Choice -ieq 'e' -or $Tavern_Drinks_Choice -in $Tavern_Drinks_Category_Letters_Array)
                             # drinks menu switch
                             switch ($Tavern_Drinks_Choice) {
-                                $Tavern_Drinks_Choice {
-                                    for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
-                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                                    }
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                    foreach ($Tavern_Drinks_Category in $Tavern_Drinks_Categorys) {
-                                        if ($Tavern_Drinks_Category.SubString(0,1) -eq $Tavern_Drinks_Choice) {
-                                            $Tavern_Drinks_Category = $Tavern_Drinks_Category
-                                            Break
-                                        }
-                                    }
-                                    $Tavern_Drinks = $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.PSObject.Properties.Name
-                                    $Tavern_Drink = Get-Random -Input $Tavern_Drinks
-                                    $Tavern_Drink_Bonus_Name = $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.Bonus.PSObject.Properties.Name
-                                    # update JSON BuffMobKillDuration based on drink category
-                                    $Import_JSON.Character.BuffMobKillDuration = $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.BuffMobKillDuration
-                                    $Import_JSON.Character.BuffsDropped = $false
-                                    switch ($Tavern_Drink_Bonus_Name) {
-                                        $Tavern_Drink_Bonus_Name {
-                                            $Tavern_Drink_Bonus_Amount = ($Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.Bonus).$Tavern_Drink_Bonus_Name
-                                            $Character_Prefix = "Character_"
-                                            # gets current character stat bonus value (so difference can be calculated below)
-                                            $Bonus_Stat_Before = (Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value
-                                            $Script:UnBuffed = "UnBuffed"
-                                            # Set-Variable -Name "$($Character_Prefix)$Tavern_Drink_Bonus_Name$UnBuffed" -Value (Get-Variable -name "$($Character_Prefix)$Tavern_Drink_Bonus_Name").value
-                                            # sets the JSON character stat e.g. HealthMaxUnBuffed to the current HealthMax value so the current HealthMax value becomes the buffed value which then can be reverted when the buff drops
-                                            $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name$UnBuffed" = (Get-Variable -name "$($Character_Prefix)$Tavern_Drink_Bonus_Name").value
-                                            # sets e.g. the $Character_HealthMaxUnBuffed variable to what was in $Character_HealthMax so it can be retrieved when buff is lost
-                                            Set-Variable -Name "$($Character_Prefix)$Tavern_Drink_Bonus_Name" -Value ([Math]::Round((Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value * $Tavern_Drink_Bonus_Amount)) -Force
-                                            $Script:Tavern_Drink_Bonus_Name2 = $Tavern_Drink_Bonus_Name
-                                            # gets the current buffed character stat so the difference can be displayed in Player Stats window
-                                            $Bonus_Stat_After = (Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value
-                                            $Bonus_Stat_Difference = $Bonus_Stat_After - $Bonus_Stat_Before
-                                            # sets the JSON character stat e.g. HealthMax to the current HealthMax value plus the difference (the bonus)
-                                            $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name" += $Bonus_Stat_Difference
-                                            Set-JSON
-                                            Set_Variables
-                                            Draw_Player_Window_and_Stats
-                                            switch ($Tavern_Drink_Bonus_Name) {
-                                                HealthMax {
-                                                    $host.UI.RawUI.ForegroundColor = "Green"
-                                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,3;$Host.UI.Write("(+$Bonus_Stat_Difference)")
-                                                }
-                                                ManaMax {
-                                                    $host.UI.RawUI.ForegroundColor = "Blue"
-                                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,5;$Host.UI.Write("(+$Bonus_Stat_Difference)")
-                                                }
-                                                Attack {
-                                                    $host.UI.RawUI.ForegroundColor = "White"
-                                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,6;$Host.UI.Write("(+$Bonus_Stat_Difference)")
-                                                }
-                                                Armour {
-                                                    $host.UI.RawUI.ForegroundColor = "White"
-                                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,8;$Host.UI.Write("(+$Bonus_Stat_Difference)")
-                                                }
-                                                Dodge {
-                                                    $host.UI.RawUI.ForegroundColor = "White"
-                                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,9;$Host.UI.Write("(+$Bonus_Stat_Difference)")
-                                                }
-                                                Default {}
-                                            }
-                                            $host.UI.RawUI.ForegroundColor = "Cyan"
-                                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 42,1;$Host.UI.Write("(Buff Bonus)")
-                                        }
-                                        Default {}
-                                    }
-                                }
                                 e {
-                                    Continue # or exit?
+                                    $Drink_Purchased = $false
+                                    Break # or exit?
+                                }
+                                $Tavern_Drinks_Choice {
+                                    if ($Import_JSON.Character.DrinksPurchased -lt 2) {
+                                        $Drink_Purchased = $true
+                                        $Import_JSON.Character.DrinksPurchased += 1
+                                        for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                        }
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                        foreach ($Tavern_Drinks_Category in $Tavern_Drinks_Categorys) {
+                                            if ($Tavern_Drinks_Category.SubString(0,1) -eq $Tavern_Drinks_Choice) {
+                                                $Tavern_Drinks_Category = $Tavern_Drinks_Category
+                                                Break
+                                            }
+                                        }
+                                        $Tavern_Drinks = $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.PSObject.Properties.Name
+                                        $Tavern_Drink = Get-Random -Input $Tavern_Drinks
+                                        $Tavern_Drink_Bonus_Name = $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.Bonus.PSObject.Properties.Name
+                                        # update JSON BuffMobKillDuration based on drink category
+                                        $Import_JSON.Character.BuffMobKillDuration = $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.BuffMobKillDuration
+                                        $Import_JSON.Character.BuffsDropped = $false
+                                        switch ($Tavern_Drink_Bonus_Name) {
+                                            $Tavern_Drink_Bonus_Name {
+                                                $Tavern_Drink_Bonus_Amount = ($Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.Bonus).$Tavern_Drink_Bonus_Name
+                                                $Character_Prefix = "Character_"
+                                                # gets current character stat bonus value (so difference can be calculated below)
+                                                $Bonus_Stat_Before = (Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value
+                                                $Script:UnBuffed = "UnBuffed"
+                                                # Set-Variable -Name "$($Character_Prefix)$Tavern_Drink_Bonus_Name$UnBuffed" -Value (Get-Variable -name "$($Character_Prefix)$Tavern_Drink_Bonus_Name").value
+                                                # sets the JSON character stat e.g. HealthMaxUnBuffed to the current HealthMax value so the current HealthMax value becomes the buffed value which then can be reverted when the buff drops
+                                                # but only if the UnBuffed stat is zero. otherwise if you get a buff, kill something, then get a second buff, the UnBuffed value gets added to again which was not the origianl stat value (e.g. a free perminant stat boost)
+                                                if ($Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name$UnBuffed" -eq '0') {
+                                                    $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name$UnBuffed" = (Get-Variable -name "$($Character_Prefix)$Tavern_Drink_Bonus_Name").value
+                                                }
+                                                # sets e.g. the $Character_HealthMaxUnBuffed variable to what was in $Character_HealthMax so it can be retrieved when buff is lost
+                                                Set-Variable -Name "$($Character_Prefix)$Tavern_Drink_Bonus_Name" -Value ([Math]::Round((Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value * $Tavern_Drink_Bonus_Amount)) -Force
+                                                $Script:Tavern_Drink_Bonus_Name2 = $Tavern_Drink_Bonus_Name
+                                                # gets the current buffed character stat so the difference can be displayed in Player Stats window
+                                                $Bonus_Stat_After = (Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value
+                                                $Bonus_Stat_Difference = $Bonus_Stat_After - $Bonus_Stat_Before
+                                                # sets the JSON character stat e.g. HealthMax to the current HealthMax value plus the difference (the bonus)
+                                                $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name" += $Bonus_Stat_Difference
+                                                Set-JSON
+                                                Set_Variables
+                                                Draw_Player_Window_and_Stats
+                                                switch ($Tavern_Drink_Bonus_Name) {
+                                                    HealthMax {
+                                                        $host.UI.RawUI.ForegroundColor = "Green"
+                                                        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,3;$Host.UI.Write("(+$Bonus_Stat_Difference)")
+                                                    }
+                                                    ManaMax {
+                                                        $host.UI.RawUI.ForegroundColor = "Blue"
+                                                        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,5;$Host.UI.Write("(+$Bonus_Stat_Difference)")
+                                                    }
+                                                    Attack {
+                                                        $host.UI.RawUI.ForegroundColor = "White"
+                                                        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,6;$Host.UI.Write("(+$Bonus_Stat_Difference)")
+                                                    }
+                                                    Armour {
+                                                        $host.UI.RawUI.ForegroundColor = "White"
+                                                        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,8;$Host.UI.Write("(+$Bonus_Stat_Difference)")
+                                                    }
+                                                    Dodge {
+                                                        $host.UI.RawUI.ForegroundColor = "White"
+                                                        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,9;$Host.UI.Write("(+$Bonus_Stat_Difference)")
+                                                    }
+                                                    Default {}
+                                                }
+                                                $host.UI.RawUI.ForegroundColor = "Cyan"
+                                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 42,1;$Host.UI.Write("(Buff Bonus)")
+                                            }
+                                            Default {}
+                                        }
+                                    }
                                 }
                                 Default {}
                             }
-                            $First_Time_Entered_Drinks = $false
                         # } until ($Tavern_Drinks_Choice -ieq 'e')
                     }
                     $First_Time_Entered_Tavern = $false

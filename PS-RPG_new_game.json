@@ -512,8 +512,8 @@
     "Class": "Mage",
     "Race": "Human",
     "Level": 1,
-    "Total_XP": 16800,
-    "XP_TNL": 994360.0,
+    "Total_XP": 20400,
+    "XP_TNL": 990760.0,
     "Stats": {
       "HealthCurrent": 100.0,
       "HealthMax": 100.0,
@@ -524,18 +524,19 @@
       "ManaMax": 100.0,
       "ManaMaxUnBuffed": 0.0,
       "Damage": 42,
-      "Attack": 38.0,
-      "AttackUnBuffed": 0,
+      "Attack": 114.0,
+      "AttackUnBuffed": 38.0,
       "Armour": 62.0,
       "ArmourUnBuffed": 0.0,
-      "Dodge": 36.0,
-      "DodgeUnBuffed": 0.0,
+      "Dodge": 972.0,
+      "DodgeUnBuffed": 324.0,
       "Quickness": 26,
       "Spells": 55,
       "Healing": 41
     },
     "BuffMobKillDuration": 0,
     "BuffsDropped": true,
+    "DrinksPurchased": 0,
     "Skills": {
       "Dodge": 0,
       "Attack": 0,
@@ -545,7 +546,7 @@
       }
     },
     "Items": {
-      "Gold": 853890.0,
+      "Gold": 853944.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
@@ -609,7 +610,7 @@
         },
         "Chicken Feathers": {
           "Name": "Chicken Feathers",
-          "Quantity": 8,
+          "Quantity": 13,
           "Info": "Junk",
           "GoldValue": 1,
           "IsJunk": true,
@@ -617,7 +618,7 @@
         },
         "Rook Feathers": {
           "Name": "Rook Feathers",
-          "Quantity": 17,
+          "Quantity": 19,
           "Info": "Junk",
           "GoldValue": 2,
           "IsJunk": true,
@@ -625,7 +626,7 @@
         },
         "Rook Claws": {
           "Name": "Rook Claws",
-          "Quantity": 17,
+          "Quantity": 22,
           "Info": "Junk",
           "GoldValue": 2,
           "IsJunk": true,
@@ -633,7 +634,7 @@
         },
         "Rat Tails": {
           "Name": "Rat Tails",
-          "Quantity": 15,
+          "Quantity": 16,
           "Info": "Junk",
           "GoldValue": 3,
           "IsJunk": true,
@@ -641,7 +642,7 @@
         },
         "Rat Guts": {
           "Name": "Rat Guts",
-          "Quantity": 12,
+          "Quantity": 15,
           "Info": "Junk",
           "GoldValue": 3,
           "IsJunk": true,
@@ -713,7 +714,7 @@
         },
         "Random Loot #1": {
           "Name": "Random Loot #1",
-          "Quantity": 45,
+          "Quantity": 62,
           "Info": "Junk",
           "GoldValue": 5,
           "IsJunk": true,
@@ -721,7 +722,7 @@
         },
         "Random Loot #2": {
           "Name": "Random Loot #2",
-          "Quantity": 67,
+          "Quantity": 74,
           "Info": "?????",
           "GoldValue": 3,
           "IsJunk": false,
@@ -729,7 +730,7 @@
         },
         "Random Loot #3": {
           "Name": "Random Loot #3",
-          "Quantity": 47,
+          "Quantity": 57,
           "Info": "Junk",
           "GoldValue": 4,
           "IsJunk": true,
@@ -737,7 +738,7 @@
         },
         "Random Loot #4": {
           "Name": "Random Loot #4",
-          "Quantity": 26,
+          "Quantity": 35,
           "Info": "Junk",
           "GoldValue": 3,
           "IsJunk": true,
@@ -745,7 +746,7 @@
         },
         "Random Loot #5": {
           "Name": "Random Loot #5",
-          "Quantity": 27,
+          "Quantity": 31,
           "Info": "?????",
           "GoldValue": 3,
           "IsJunk": false,
