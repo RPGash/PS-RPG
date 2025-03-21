@@ -512,17 +512,17 @@
     "Class": "Mage",
     "Race": "Human",
     "Level": 1,
-    "Total_XP": 20400,
-    "XP_TNL": 990760.0,
+    "Total_XP": 20800,
+    "XP_TNL": 990360.0,
     "Stats": {
       "HealthCurrent": 100.0,
-      "HealthMax": 100.0,
-      "HealthMaxUnBuffed": 0,
+      "HealthMax": 120.0,
+      "HealthMaxUnBuffed": 100.0,
       "StaminaCurrent": 50,
       "StaminaMax": 50,
       "ManaCurrent": 100,
       "ManaMax": 100.0,
-      "ManaMaxUnBuffed": 0.0,
+      "ManaMaxUnBuffed": 0,
       "Damage": 42,
       "Attack": 114.0,
       "AttackUnBuffed": 38.0,
@@ -546,7 +546,7 @@
       }
     },
     "Items": {
-      "Gold": 853944.0,
+      "Gold": 853946.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
@@ -610,7 +610,7 @@
         },
         "Chicken Feathers": {
           "Name": "Chicken Feathers",
-          "Quantity": 13,
+          "Quantity": 14,
           "Info": "Junk",
           "GoldValue": 1,
           "IsJunk": true,
@@ -714,7 +714,7 @@
         },
         "Random Loot #1": {
           "Name": "Random Loot #1",
-          "Quantity": 62,
+          "Quantity": 64,
           "Info": "Junk",
           "GoldValue": 5,
           "IsJunk": true,
@@ -722,7 +722,7 @@
         },
         "Random Loot #2": {
           "Name": "Random Loot #2",
-          "Quantity": 74,
+          "Quantity": 75,
           "Info": "?????",
           "GoldValue": 3,
           "IsJunk": false,
@@ -730,7 +730,7 @@
         },
         "Random Loot #3": {
           "Name": "Random Loot #3",
-          "Quantity": 57,
+          "Quantity": 59,
           "Info": "Junk",
           "GoldValue": 4,
           "IsJunk": true,
@@ -738,7 +738,7 @@
         },
         "Random Loot #4": {
           "Name": "Random Loot #4",
-          "Quantity": 35,
+          "Quantity": 36,
           "Info": "Junk",
           "GoldValue": 3,
           "IsJunk": true,

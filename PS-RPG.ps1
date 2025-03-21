@@ -4,9 +4,8 @@
 # - BUGS
 #   - "Sort-Object Name" not working when displaying inventory Items
 #       (items are not collected then displayed, but instead written out one by one)
-#   - buffs currently last forever
-#       Write-Color " Your buffs drop." -Color DarkGray
-#       buffs need to drop after a kill
+#   - when buffs drop, if two drinks from different categories have been purchased,
+#       only one gets reset
 #   
 #   
 # - TEST
