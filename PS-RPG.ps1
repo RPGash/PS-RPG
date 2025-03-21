@@ -5,6 +5,8 @@
 #   - "Sort-Object Name" not working when displaying inventory Items
 #       (items are not collected then displayed, but instead written out one by one)
 #   - buffs currently last forever
+#       Write-Color " Your buffs drop." -Color DarkGray
+#       buffs need to drop after a kill
 #   
 #   
 # - TEST
@@ -12,6 +14,8 @@
 #   
 #   
 # - NEXT
+#   - at line ~1888 "Set-Variable -Name "$($Character_Prefix)$Tavern_Drink_Bonus_Name" -Value"
+#       why update variable? update JSON instead?
 #   - buy items in The Anvil & Blade shop
 #   - add spells
 #   - add item equipment drops from mob loot
@@ -41,6 +45,12 @@
 #   - On the Travel page, the available locations to travel to does not show the single character highlighted in Green as the choice for that location. e.g. if "Town" is listed, the letter "T" is not Green. All location names are White, but the question does show the correct highlighted characters for hat area.
 #
 
+Trap {
+    $Time = Get-Date -Format "HH:mm:ss"
+    Add-Content -Path .\error_log.log -value "-Trap Error $Time ----------------------------------"
+    Add-Content -Path .\error_log.log -value "$PSItem"
+    Add-Content -Path .\error_log.log -value "------------------------------------------------------"
+}
 
 Clear-Host
 $PSRPG_Version = "v0.1-alpha"
@@ -202,7 +212,7 @@ Function Set-JSON {
         try {
             ($Script:Import_JSON | ConvertTo-Json -depth 32) | Set-Content ".\PS-RPG.json" -ErrorAction Stop
             # If successful, Break out of the loop
-            Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error_log.log" -value "Success attempt #$($retry)"
+            # Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error_log.log" -value "Success attempt #$($retry)"
             Break
         } catch {
             Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error_log.log" -value "Error attempt #$($retry) $($_.Exception.Message)"
@@ -1256,6 +1266,7 @@ Function Fight_Or_Run {
         $Fight_Or_Escape = $Fight_Or_Escape.Trim()
     } until ($Fight_Or_Escape -ieq "f" -or $Fight_Or_Escape -ieq "e")
     if ($Fight_Or_Escape -ieq "f") {
+
         $In_Combat = $true
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
         Draw_Player_Window_and_Stats
@@ -1272,7 +1283,7 @@ Function Fight_Or_Run {
         do {
             $Script:Info_Banner = "Combat"
             Draw_Info_Banner
-        if ($Player_Turn -eq $true) {
+            if ($Player_Turn -eq $true) {
                 $Continue_Fight = $false
                 # ask if the action should be attack, spell or item
                 do {
@@ -1387,6 +1398,10 @@ Function Fight_Or_Run {
 
             # if character health is zero, display death message
             if ($Character_HealthCurrent -le 0) {
+                # reset buffs
+                $Import_JSON.Character.BuffMobKillDuration = 0
+                $Import_JSON.Character.BuffsDropped = $true
+                Set-JSON
                 You_Died
                 Read-Host
                 exit
@@ -1488,6 +1503,21 @@ Function Fight_Or_Run {
             }
             $First_Turn = $false
         } until ($Fight_Or_Escape -ieq "e")
+        if ($Import_JSON.Character.BuffMobKillDuration -gt 0) {
+            $Import_JSON.Character.BuffMobKillDuration -= 1
+            Set-JSON
+        }
+        if ($Import_JSON.Character.BuffMobKillDuration -eq 0 -and $Import_JSON.Character.BuffsDropped -eq $false) {
+            $Import_JSON.Character.BuffsDropped = $true
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,34;$Host.UI.Write("")
+            Write-Color "  Your buffs drop." -Color Cyan
+            # update player stat back to original (pre-buffed)
+            $Import_JSON.Character.Stats.$Tavern_Drink_Bonus_Name2 = $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name2$UnBuffed"
+            # update unbuffed stat back to zero
+            $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name2$UnBuffed" = 0
+            Set_Variables
+            Draw_Player_Window_and_Stats
+        }
     } elseif ($Fight_Or_Escape -ieq "e") {
         # Escape before combat starts
         Clear-Host
@@ -1772,17 +1802,6 @@ Function Visit_A_Building {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("Tavern")
                 $host.UI.RawUI.ForegroundColor = "DarkYellow"
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
                 $First_Time_Entered_Tavern = $true
                 do {
                     $Script:Info_Banner = "Tavern"
@@ -1861,25 +1880,27 @@ Function Visit_A_Building {
                                     $Tavern_Drinks = $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.PSObject.Properties.Name
                                     $Tavern_Drink = Get-Random -Input $Tavern_Drinks
                                     $Tavern_Drink_Bonus_Name = $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.Bonus.PSObject.Properties.Name
+                                    # update JSON BuffMobKillDuration based on drink category
+                                    $Import_JSON.Character.BuffMobKillDuration = $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.BuffMobKillDuration
+                                    $Import_JSON.Character.BuffsDropped = $false
                                     switch ($Tavern_Drink_Bonus_Name) {
                                         $Tavern_Drink_Bonus_Name {
                                             $Tavern_Drink_Bonus_Amount = ($Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.Bonus).$Tavern_Drink_Bonus_Name
                                             $Character_Prefix = "Character_"
-
                                             # gets current character stat bonus value (so difference can be calculated below)
                                             $Bonus_Stat_Before = (Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value
-                                            $UnBuffed = "UnBuffed"
+                                            $Script:UnBuffed = "UnBuffed"
                                             # Set-Variable -Name "$($Character_Prefix)$Tavern_Drink_Bonus_Name$UnBuffed" -Value (Get-Variable -name "$($Character_Prefix)$Tavern_Drink_Bonus_Name").value
                                             # sets the JSON character stat e.g. HealthMaxUnBuffed to the current HealthMax value so the current HealthMax value becomes the buffed value which then can be reverted when the buff drops
                                             $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name$UnBuffed" = (Get-Variable -name "$($Character_Prefix)$Tavern_Drink_Bonus_Name").value
                                             # sets e.g. the $Character_HealthMaxUnBuffed variable to what was in $Character_HealthMax so it can be retrieved when buff is lost
                                             Set-Variable -Name "$($Character_Prefix)$Tavern_Drink_Bonus_Name" -Value ([Math]::Round((Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value * $Tavern_Drink_Bonus_Amount)) -Force
+                                            $Script:Tavern_Drink_Bonus_Name2 = $Tavern_Drink_Bonus_Name
                                             # gets the current buffed character stat so the difference can be displayed in Player Stats window
                                             $Bonus_Stat_After = (Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value
                                             $Bonus_Stat_Difference = $Bonus_Stat_After - $Bonus_Stat_Before
                                             # sets the JSON character stat e.g. HealthMax to the current HealthMax value plus the difference (the bonus)
                                             $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name" += $Bonus_Stat_Difference
-                                            
                                             Set-JSON
                                             Set_Variables
                                             Draw_Player_Window_and_Stats
@@ -1908,7 +1929,6 @@ Function Visit_A_Building {
                                             }
                                             $host.UI.RawUI.ForegroundColor = "Cyan"
                                             $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 42,1;$Host.UI.Write("(Buff Bonus)")
-                                    
                                         }
                                         Default {}
                                     }
@@ -2139,6 +2159,7 @@ if ($Load_Save_Data_Choice -ieq "e" -or $Start_A_New_Game -ieq "e") {
 # main loop
 do {
     do {
+        Set-JSON # save JSON
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         Write-Color -NoNewLine "H", "unt, ","T","ravel, ","V","isit a building, or look at your ","I","nventory? ", "[H/T/V/I]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
@@ -2150,25 +2171,20 @@ do {
             Set-JSON # save JSON
             Random_Mob
             Fight_Or_Run
-            # Break
         }
         t {
             Travel
-            # Break
         }
         v {
             Visit_A_Building
-            # Break
         }
         i {
             Clear-Host
             Draw_Player_Window_and_Stats
             Inventory_Choice
-            # Break
         }
         info {
             Game_Info
-            # Break
         }
         # Default {}
     }

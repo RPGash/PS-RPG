@@ -9,7 +9,7 @@
         {
           "Name": "Chicken",
           "Level": 1,
-          "Health": 500,
+          "Health": 10,
           "Stamina": 50,
           "Mana": 50,
           "Attack": 5,
@@ -41,7 +41,7 @@
           "Attack": 5,
           "Damage": 5,
           "Armour": 10,
-          "Dodge": 20,
+          "Dodge": 5,
           "Quickness": 5,
           "Spells": 50,
           "Healing": 50,
@@ -87,13 +87,13 @@
         {
           "Name": "Rat",
           "Level": 2,
-          "Health": 40,
+          "Health": 20,
           "Stamina": 50,
           "Mana": 50,
           "Attack": 5,
           "Damage": 5,
           "Armour": 10,
-          "Dodge": 5,
+          "Dodge": 10,
           "Quickness": 5,
           "Spells": 50,
           "Healing": 50,
@@ -131,6 +131,7 @@
               "Hearty Hearth Ale": {
                 "Name": "Hearty Hearth Ale",
                 "Description": "A dark, warming ale with notes of roasted barley and caramel, perfect for a cold night by the fire.",
+                "BuffMobKillDuration": 2,
                 "Bonus": {
                   "HealthMax": 1.2
                 }
@@ -138,6 +139,7 @@
               "Dwarf's Deep Stout": {
                 "Name": "Dwarf's Deep Stout",
                 "Description": "A strong, rich stout with a thick, creamy head, favoured by dwarves for its robust flavour and high alcohol content.",
+                "BuffMobKillDuration": 2,
                 "Bonus": {
                   "HealthMax": 1.4
                 }
@@ -145,6 +147,7 @@
               "Golden Gryphon Ale": {
                 "Name": "Golden Gryphon Ale",
                 "Description": "A light, refreshing ale with a golden hue and a subtle fruity aftertaste, brewed with sun-ripened hops.",
+                "BuffMobKillDuration": 2,
                 "Bonus": {
                   "HealthMax": 1.6
                 }
@@ -152,6 +155,7 @@
               "Forest Moon Brew": {
                 "Name": "Forest Moon Brew",
                 "Description": "A pale ale with herbal notes of wild thyme and rosemary, brewed with ingredients gathered under the light of the full moon.",
+                "BuffMobKillDuration": 2,
                 "Bonus": {
                   "HealthMax": 1.8
                 }
@@ -159,6 +163,7 @@
               "Stonebeard's Bitter": {
                 "Name": "Stonebeard's Bitter",
                 "Description": "A very strong and bitter beer, only for the most seasoned beer drinkers. It is said that only a dwarf with a stone beard can withstand its potency.",
+                "BuffMobKillDuration": 2,
                 "Bonus": {
                   "HealthMax": 2
                 }
@@ -168,6 +173,7 @@
               "Elven Moonwine": {
                 "Name": "Elven Moonwine",
                 "Description": "A sweet, delicate wine made from rare, silver-skinned grapes that only grow under the light of the moon. Said to have subtle magical properties.",
+                "BuffMobKillDuration": 2,
                 "Bonus": {
                   "Armour": 1.2
                 }
@@ -175,6 +181,7 @@
               "Dragon's Breath Mead": {
                 "Name": "Dragon's Breath Mead",
                 "Description": "A potent, spiced mead with a warming kick, infused with cinnamon, cloves, and a hint of fiery peppers.",
+                "BuffMobKillDuration": 2,
                 "Bonus": {
                   "Armour": 1.4
                 }
@@ -182,6 +189,7 @@
               "Sunstone Wine": {
                 "Name": "Sunstone Wine",
                 "Description": "A golden wine with a rich, honeyed flavour, said to capture the warmth and vitality of the sun.",
+                "BuffMobKillDuration": 2,
                 "Bonus": {
                   "Armour": 1.6
                 }
@@ -189,6 +197,7 @@
               "Berry Bush Blush": {
                 "Name": "Berry Bush Blush",
                 "Description": "A sweet and slightly tart wine made from a blend of wild berries, giving it a vibrant blush color.",
+                "BuffMobKillDuration": 2,
                 "Bonus": {
                   "Armour": 1.8
                 }
@@ -196,15 +205,17 @@
               "Oakheart Mead": {
                 "Name": "Oakheart Mead",
                 "Description": "A strong and robust mead aged in oak barrels, giving it a deep, woody flavour and a smooth finish.",
+                "BuffMobKillDuration": 2,
                 "Bonus": {
                   "Armour": 2
                 }
               }
             },
             "Spirits": {
-              "Firewhiskey": {
-                "Name": "Firewhiskey",
+              "Fire Whiskey": {
+                "Name": "Fire Whiskey",
                 "Description": "A strong, fiery spirit with a smoky flavour, often drunk by adventurers to warm their bones after a long journey.",
+                "BuffMobKillDuration": 2,
                 "Bonus": {
                   "ManaMax": 1.2
                 }
@@ -212,6 +223,7 @@
               "Shadowfell Rum": {
                 "Name": "Shadowfell Rum",
                 "Description": "A dark, mysterious rum with a smoky, spiced flavour, distilled from sugarcane grown in the shadow of haunted mountains.",
+                "BuffMobKillDuration": 2,
                 "Bonus": {
                   "ManaMax": 1.4
                 }
@@ -219,6 +231,7 @@
               "Glimmering Grog": {
                 "Name": "Glimmering Grog",
                 "Description": "A sweet, slightly sparkling liqueur made with enchanted fruits that shimmer with a faint, magical glow.",
+                "BuffMobKillDuration": 2,
                 "Bonus": {
                   "ManaMax": 1.6
                 }
@@ -226,6 +239,7 @@
               "Wyvern's Tonic": {
                 "Name": "Wyvern's Tonic",
                 "Description": "A potent herbal liquor with a bitter, medicinal taste, said to cure a variety of ailments and boost stamina.",
+                "BuffMobKillDuration": 2,
                 "Bonus": {
                   "ManaMax": 1.8
                 }
@@ -233,6 +247,7 @@
               "Chilled Vodka": {
                 "Name": "Chilled Vodka",
                 "Description": "An incredibly cold and strong vodka, distilled from glacial spring water and infused with frost-touched herbs.",
+                "BuffMobKillDuration": 2,
                 "Bonus": {
                   "ManaMax": 2
                 }
@@ -242,6 +257,7 @@
               "Honeyed Lemon Elixir": {
                 "Name": "Honeyed Lemon Elixir",
                 "Description": "A sweet and refreshing drink made with fresh lemon juice, honey, and a hint of mint, perfect for a hot day.",
+                "BuffMobKillDuration": 2,
                 "Bonus": {
                   "Dodge": 1.2
                 }
@@ -249,6 +265,7 @@
               "Spiced Apple Cider": {
                 "Name": "Spiced Apple Cider",
                 "Description": "A warm, comforting drink made with freshly pressed apple cider, cinnamon, cloves, and nutmeg.",
+                "BuffMobKillDuration": 2,
                 "Bonus": {
                   "Dodge": 1.4
                 }
@@ -256,6 +273,7 @@
               "Berry Burst Juice": {
                 "Name": "Berry Burst Juice",
                 "Description": "A vibrant and refreshing juice made from a medley of wild berries, bursting with natural sweetness.",
+                "BuffMobKillDuration": 2,
                 "Bonus": {
                   "Dodge": 1.6
                 }
@@ -263,6 +281,7 @@
               "Travelers Tea": {
                 "Name": "Travelers Tea",
                 "Description": "A strong herbal tea brewed with a blend of invigorating herbs, designed to restore stamina and ward off fatigue.",
+                "BuffMobKillDuration": 2,
                 "Bonus": {
                   "Dodge": 1.8
                 }
@@ -270,6 +289,7 @@
               "Pure Water": {
                 "Name": "Pure Water",
                 "Description": "Pure, refreshing water drawn from a local spring, naturally filtered and chilled.",
+                "BuffMobKillDuration": 2,
                 "Bonus": {
                   "Dodge": 2
                 }
@@ -279,6 +299,7 @@
               "The Flaming Phoenix": {
                 "Name": "The Flaming Phoenix",
                 "Description": "A flaming cocktail with a complex, fruity flavour, featuring layers of different liqueurs and a flaming top.",
+                "BuffMobKillDuration": 4,
                 "Bonus": {
                   "HealthMax": 3
                 }
@@ -286,6 +307,7 @@
               "The Midnight Mirage": {
                 "Name": "The Midnight Mirage",
                 "Description": "A layered drink with a swirling, colourful appearance, created with magical ingredients that shift and change before your eyes.",
+                "BuffMobKillDuration": 4,
                 "Bonus": {
                   "Attack": 3
                 }
@@ -293,6 +315,7 @@
               "The Stone Golem": {
                 "Name": "The Stone Golem",
                 "Description": "A very thick and heavy drink made from a blend of strong liquors, cream, and crushed nuts, served in a stone mug.",
+                "BuffMobKillDuration": 4,
                 "Bonus": {
                   "Dodge": 3
                 }
@@ -300,6 +323,7 @@
               "The Wizards draught": {
                 "Name": "The Wizards draught",
                 "Description": "A drink that changes color as you sip it, brewed with rare magical herbs and a touch of arcane energy.",
+                "BuffMobKillDuration": 4,
                 "Bonus": {
                   "ManaMax": 3
                 }
@@ -307,6 +331,7 @@
               "The Bards blend": {
                 "Name": "The Bards blend",
                 "Description": "A sweet and aromatic drink said to inspire creativity, made with a blend of fruit juices, spices, and a hint of magical essence.",
+                "BuffMobKillDuration": 4,
                 "Bonus": {
                   "Armour": 3
                 }
@@ -486,24 +511,31 @@
     "Name": "Igert",
     "Class": "Mage",
     "Race": "Human",
-    "Level": 12,
-    "Total_XP": 4640,
-    "XP_TNL": 576.0,
+    "Level": 1,
+    "Total_XP": 16800,
+    "XP_TNL": 994360.0,
     "Stats": {
-      "HealthCurrent": 50,
-      "HealthMax": 50,
-      "StaminaCurrent": 40,
-      "StaminaMax": 40,
-      "ManaCurrent": 80,
-      "ManaMax": 80,
-      "Damage": 10,
-      "Attack": 4,
-      "Armour": 4,
-      "Dodge": 1,
-      "Quickness": 4,
-      "Spells": 10,
-      "Healing": 6
+      "HealthCurrent": 100.0,
+      "HealthMax": 100.0,
+      "HealthMaxUnBuffed": 0,
+      "StaminaCurrent": 50,
+      "StaminaMax": 50,
+      "ManaCurrent": 100,
+      "ManaMax": 100.0,
+      "ManaMaxUnBuffed": 0.0,
+      "Damage": 42,
+      "Attack": 38.0,
+      "AttackUnBuffed": 0,
+      "Armour": 62.0,
+      "ArmourUnBuffed": 0.0,
+      "Dodge": 36.0,
+      "DodgeUnBuffed": 0.0,
+      "Quickness": 26,
+      "Spells": 55,
+      "Healing": 41
     },
+    "BuffMobKillDuration": 0,
+    "BuffsDropped": true,
     "Skills": {
       "Dodge": 0,
       "Attack": 0,
@@ -513,11 +545,11 @@
       }
     },
     "Items": {
-      "Gold": 853519.0,
+      "Gold": 853890.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
-          "Quantity": 97,
+          "Quantity": 93,
           "Restores": 30,
           "GoldValue": 50,
           "IsJunk": false,
@@ -544,7 +576,7 @@
         },
         "Lesser Mana Potion": {
           "Name": "Lesser Mana Potion",
-          "Quantity": 84,
+          "Quantity": 83,
           "Restores": 10,
           "Info": "Capacity 10",
           "GoldValue": 20,
@@ -577,7 +609,7 @@
         },
         "Chicken Feathers": {
           "Name": "Chicken Feathers",
-          "Quantity": 0,
+          "Quantity": 8,
           "Info": "Junk",
           "GoldValue": 1,
           "IsJunk": true,
@@ -585,7 +617,7 @@
         },
         "Rook Feathers": {
           "Name": "Rook Feathers",
-          "Quantity": 0,
+          "Quantity": 17,
           "Info": "Junk",
           "GoldValue": 2,
           "IsJunk": true,
@@ -593,7 +625,7 @@
         },
         "Rook Claws": {
           "Name": "Rook Claws",
-          "Quantity": 0,
+          "Quantity": 17,
           "Info": "Junk",
           "GoldValue": 2,
           "IsJunk": true,
@@ -601,7 +633,7 @@
         },
         "Rat Tails": {
           "Name": "Rat Tails",
-          "Quantity": 0,
+          "Quantity": 15,
           "Info": "Junk",
           "GoldValue": 3,
           "IsJunk": true,
@@ -609,7 +641,7 @@
         },
         "Rat Guts": {
           "Name": "Rat Guts",
-          "Quantity": 0,
+          "Quantity": 12,
           "Info": "Junk",
           "GoldValue": 3,
           "IsJunk": true,
@@ -681,7 +713,7 @@
         },
         "Random Loot #1": {
           "Name": "Random Loot #1",
-          "Quantity": 0,
+          "Quantity": 45,
           "Info": "Junk",
           "GoldValue": 5,
           "IsJunk": true,
@@ -689,7 +721,7 @@
         },
         "Random Loot #2": {
           "Name": "Random Loot #2",
-          "Quantity": 24,
+          "Quantity": 67,
           "Info": "?????",
           "GoldValue": 3,
           "IsJunk": false,
@@ -697,7 +729,7 @@
         },
         "Random Loot #3": {
           "Name": "Random Loot #3",
-          "Quantity": 0,
+          "Quantity": 47,
           "Info": "Junk",
           "GoldValue": 4,
           "IsJunk": true,
@@ -705,7 +737,7 @@
         },
         "Random Loot #4": {
           "Name": "Random Loot #4",
-          "Quantity": 0,
+          "Quantity": 26,
           "Info": "Junk",
           "GoldValue": 3,
           "IsJunk": true,
@@ -713,7 +745,7 @@
         },
         "Random Loot #5": {
           "Name": "Random Loot #5",
-          "Quantity": 7,
+          "Quantity": 27,
           "Info": "?????",
           "GoldValue": 3,
           "IsJunk": false,
