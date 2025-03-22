@@ -11,8 +11,6 @@
 #   
 #   
 # - NEXT
-#   - at line ~1888 "Set-Variable -Name "$($Character_Prefix)$Tavern_Drink_Bonus_Name" -Value"
-#       why update variable? update JSON instead?
 #   - buy items in The Anvil & Blade shop
 #   - add spells
 #   - add item equipment drops from mob loot
@@ -1509,19 +1507,20 @@ Function Fight_Or_Run {
         if ($Import_JSON.Character.Buffs.Duration -eq 0 -and $Import_JSON.Character.Buffs.Dropped -eq $false) {
             $Import_JSON.Character.Buffs.DrinksPurchased   = 0
             $Import_JSON.Character.Buffs.Dropped           = $true
-            # blank set all stats back to original value and set all UnBuffed values back to zero
-            $Import_JSON.Character.Stats.HealthMax         = $Import_JSON.Character.Stats.HealthMaxUnBuffed
-            $Import_JSON.Character.Stats.ManaMax           = $Import_JSON.Character.Stats.ManaMaxUnBuffed
-            $Import_JSON.Character.Stats.Attack            = $Import_JSON.Character.Stats.AttackUnBuffed
-            $Import_JSON.Character.Stats.Armour            = $Import_JSON.Character.Stats.ArmourUnBuffed
-            $Import_JSON.Character.Stats.Dodge             = $Import_JSON.Character.Stats.DodgeUnBuffed
-            $Import_JSON.Character.Stats.HealthMaxUnBuffed = 0
-            $Import_JSON.Character.Stats.ManaMaxUnBuffed   = 0
-            $Import_JSON.Character.Stats.AttackUnBuffed    = 0
-            $Import_JSON.Character.Stats.ArmourUnBuffed    = 0
-            $Import_JSON.Character.Stats.DodgeUnBuffed     = 0
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,34;$Host.UI.Write("")
-            Write-Color "  Your buffs drop." -Color Cyan
+            # blank set all stats back to original value (if buffed) and set all UnBuffed values back to zero
+            $All_Player_Stats_Names = $Import_JSON.Character.Stats.PSObject.Properties.Name
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,33;$Host.UI.Write("")
+            foreach ($All_Player_Stats_Name in $All_Player_Stats_Names) {
+                if ($All_Player_Stats_Name -like "*UnBuffed*") {
+                    $Player_UnBuffed_Stat_Name = $All_Player_Stats_Name
+                    if ($Import_JSON.Character.Stats.$Player_UnBuffed_Stat_Name -gt 0) {
+                        $Player_Stat = $Player_UnBuffed_Stat_Name.Substring(0,$Player_UnBuffed_Stat_Name.Length-8)
+                        $Import_JSON.Character.Stats.$Player_Stat = $Import_JSON.Character.Stats.$Player_UnBuffed_Stat_Name
+                        $Import_JSON.Character.Stats.$Player_UnBuffed_Stat_Name = 0
+                        Write-Color "  Your $Player_Stat buff drop." -Color Cyan
+                    }
+                }
+            }
             # update player stat back to original (pre-buffed)
             # $Import_JSON.Character.Stats.$Tavern_Drink_Bonus_Name = $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name$UnBuffed"
             # update unbuffed stat back to zero
