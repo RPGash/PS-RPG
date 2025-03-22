@@ -42,7 +42,8 @@
 # - KNOWN ISSUES
 #   - if no JSON file is found, then you start a new game but quit before completing character creation, the game finds an "empty" game file and loads with no character data - FIX is to start a new game? or check for an "empty" file and delete?
 #   - On the Travel page, the available locations to travel to does not show the single character highlighted in Green as the choice for that location. e.g. if "Town" is listed, the letter "T" is not Green. All location names are White, but the question does show the correct highlighted characters for hat area.
-#
+#   - if a player purchases one drink and gains its buff, kills mobs until one buff left (not necessarily one but the closer to zero the better the exploit), they can go buy another buff and it will extend the original buff for another full duration rather than the first buff expiring after one more fight. both buffs last the full duration. in other words getting a "free" buff.
+#   
 
 Trap {
     $Time = Get-Date -Format "HH:mm:ss"
@@ -1398,9 +1399,9 @@ Function Fight_Or_Run {
             # if character health is zero, display death message
             if ($Character_HealthCurrent -le 0) {
                 # reset buffs
-                $Import_JSON.Character.BuffMobKillDuration = 0
-                $Import_JSON.Character.DrinksPurchased = 0
-                $Import_JSON.Character.BuffsDropped = $true
+                $Import_JSON.Character.Buffs.Duration = 0
+                $Import_JSON.Character.Buffs.Dropped = $true
+                $Import_JSON.Character.Buffs.DrinksPurchased = 0
                 Set-JSON
                 You_Died
                 Read-Host
@@ -1503,19 +1504,30 @@ Function Fight_Or_Run {
             }
             $First_Turn = $false
         } until ($Fight_Or_Escape -ieq "e")
-        if ($Import_JSON.Character.BuffMobKillDuration -gt 0) {
-            $Import_JSON.Character.BuffMobKillDuration -= 1
+        if ($Import_JSON.Character.Buffs.Duration -gt 0) {
+            $Import_JSON.Character.Buffs.Duration -= 1
             Set-JSON
         }
-        if ($Import_JSON.Character.BuffMobKillDuration -eq 0 -and $Import_JSON.Character.BuffsDropped -eq $false) {
-            $Import_JSON.Character.DrinksPurchased = 0
-            $Import_JSON.Character.BuffsDropped = $true
+        if ($Import_JSON.Character.Buffs.Duration -eq 0 -and $Import_JSON.Character.Buffs.Dropped -eq $false) {
+            $Import_JSON.Character.Buffs.DrinksPurchased   = 0
+            $Import_JSON.Character.Buffs.Dropped           = $true
+            # blank set all stats back to original value and set all UnBuffed values back to zero
+            $Import_JSON.Character.Stats.HealthMax         = $Import_JSON.Character.Stats.HealthMaxUnBuffed
+            $Import_JSON.Character.Stats.ManaMax           = $Import_JSON.Character.Stats.ManaMaxUnBuffed
+            $Import_JSON.Character.Stats.Attack            = $Import_JSON.Character.Stats.AttackUnBuffed
+            $Import_JSON.Character.Stats.Armour            = $Import_JSON.Character.Stats.ArmourUnBuffed
+            $Import_JSON.Character.Stats.Dodge             = $Import_JSON.Character.Stats.DodgeUnBuffed
+            $Import_JSON.Character.Stats.HealthMaxUnBuffed = 0
+            $Import_JSON.Character.Stats.ManaMaxUnBuffed   = 0
+            $Import_JSON.Character.Stats.AttackUnBuffed    = 0
+            $Import_JSON.Character.Stats.ArmourUnBuffed    = 0
+            $Import_JSON.Character.Stats.DodgeUnBuffed     = 0
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,34;$Host.UI.Write("")
             Write-Color "  Your buffs drop." -Color Cyan
             # update player stat back to original (pre-buffed)
-            $Import_JSON.Character.Stats.$Tavern_Drink_Bonus_Name2 = $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name2$UnBuffed"
+            # $Import_JSON.Character.Stats.$Tavern_Drink_Bonus_Name = $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name$UnBuffed"
             # update unbuffed stat back to zero
-            $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name2$UnBuffed" = 0
+            # $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name$UnBuffed" = 0
             Set_Variables
             Draw_Player_Window_and_Stats
         }
@@ -1817,14 +1829,14 @@ Function Visit_A_Building {
                             for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                             }
-                            if ($Import_JSON.Character.DrinksPurchased -eq 2) {
+                            if ($Import_JSON.Character.Buffs.DrinksPurchased -eq 2) {
                                 for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                 }
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                 Write-Color "  $($Import_JSON.Locations.Town.Buildings.Tavern.Owner) ","says you've had too many and refuses to serve you until you sober up." -Color Blue,DarkGray
                             }
-                            if ($Import_JSON.Character.DrinksPurchased -lt 2 -and $Drink_Purchased -eq $false) {
+                            if ($Import_JSON.Character.Buffs.DrinksPurchased -lt 2 -and $Drink_Purchased -eq $false) {
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                 Write-Color "  Don't forget to check out the ","Q","uest board." -Color DarkGray,Green,DarkGray
                             }
@@ -1884,9 +1896,9 @@ Function Visit_A_Building {
                                     Break # or exit?
                                 }
                                 $Tavern_Drinks_Choice {
-                                    if ($Import_JSON.Character.DrinksPurchased -lt 2) {
+                                    if ($Import_JSON.Character.Buffs.DrinksPurchased -lt 2) {
                                         $Drink_Purchased = $true
-                                        $Import_JSON.Character.DrinksPurchased += 1
+                                        $Import_JSON.Character.Buffs.DrinksPurchased += 1
                                         for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                         }
@@ -1899,10 +1911,10 @@ Function Visit_A_Building {
                                         }
                                         $Tavern_Drinks = $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.PSObject.Properties.Name
                                         $Tavern_Drink = Get-Random -Input $Tavern_Drinks
-                                        $Tavern_Drink_Bonus_Name = $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.Bonus.PSObject.Properties.Name
-                                        # update JSON BuffMobKillDuration based on drink category
-                                        $Import_JSON.Character.BuffMobKillDuration = $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.BuffMobKillDuration
-                                        $Import_JSON.Character.BuffsDropped = $false
+                                        $Script:Tavern_Drink_Bonus_Name = $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.Bonus.PSObject.Properties.Name
+                                        # update JSON Buffs.Duration based on drink category
+                                        $Import_JSON.Character.Buffs.Duration = $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.BuffDuration
+                                        $Import_JSON.Character.Buffs.Dropped = $false
                                         switch ($Tavern_Drink_Bonus_Name) {
                                             $Tavern_Drink_Bonus_Name {
                                                 $Tavern_Drink_Bonus_Amount = ($Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.Bonus).$Tavern_Drink_Bonus_Name
@@ -1918,7 +1930,6 @@ Function Visit_A_Building {
                                                 }
                                                 # sets e.g. the $Character_HealthMaxUnBuffed variable to what was in $Character_HealthMax so it can be retrieved when buff is lost
                                                 Set-Variable -Name "$($Character_Prefix)$Tavern_Drink_Bonus_Name" -Value ([Math]::Round((Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value * $Tavern_Drink_Bonus_Amount)) -Force
-                                                $Script:Tavern_Drink_Bonus_Name2 = $Tavern_Drink_Bonus_Name
                                                 # gets the current buffed character stat so the difference can be displayed in Player Stats window
                                                 $Bonus_Stat_After = (Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value
                                                 $Bonus_Stat_Difference = $Bonus_Stat_After - $Bonus_Stat_Before
