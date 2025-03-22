@@ -4,8 +4,6 @@
 # - BUGS
 #   - "Sort-Object Name" not working when displaying inventory Items
 #       (items are not collected then displayed, but instead written out one by one)
-#   - when buffs drop, if two drinks from different categories have been purchased,
-#       only one gets reset
 #   
 #   
 # - TEST
