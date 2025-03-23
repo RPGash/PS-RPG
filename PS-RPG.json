@@ -120,11 +120,11 @@
       ],
       "Buildings": {
         "Home": {
-          "Home": "H",
+          "BuildingLetter": "H",
           "Owner": "PLAYER NAME"
         },
         "Tavern": {
-          "Tavern": "T",
+          "BuildingLetter": "T",
           "Owner": "Elara",
           "Drinks": {
             "Ales": {
@@ -337,10 +337,40 @@
                 }
               }
             }
+          },
+          "Quests": {
+            "Rat infestation": {
+              "Name": "Rat infestation",
+              "QuestLetter": "R",
+              "Description": "kill stuff",
+              "Reward": 10,
+              "Kills": 2,
+              "Killed": 0,
+              "LevelRange": "1-5",
+              "Available": true,
+              "InProgress": false,
+              "Completed": false,
+              "Repeatable": true,
+              "Status": "Available"
+            },
+            "Sick Elder": {
+              "Name": "Sick Elder",
+              "QuestLetter": "S",
+              "Description": "Find a Healing Potion.",
+              "Reward": 10,
+              "Kills": 0,
+              "Killed": 0,
+              "LevelRange": "1-5",
+              "Available": false,
+              "InProgress": false,
+              "Completed": false,
+              "Repeatable": false,
+              "Status": "InActive"
+            }
           }
         },
         "The Anvil & Blade": {
-          "The Anvil & Blade": "A",
+          "BuildingLetter": "A",
           "Owner": "Draven",
           "Visited": 0
         }
@@ -404,15 +434,15 @@
       ],
       "Buildings": {
         "Hut": {
-          "Hut": "H",
+          "BuildingLetter": "H",
           "Owner": "Hut Owner?????"
         },
         "Tree House": {
-          "Tree House": "T",
+          "BuildingLetter": "T",
           "Owner": "Tree House Owner???"
         },
         "Secret Location": {
-          "Secret Location": "S",
+          "BuildingLetter": "S",
           "Owner": "Unknown"
         }
       }
@@ -501,7 +531,7 @@
       ],
       "Buildings": {
         "Camp": {
-          "Camp": "C",
+          "BuildingLetter": "C",
           "Owner": "Camp Owner???"
         }
       }
@@ -516,8 +546,8 @@
     "XP_TNL": 986640.0,
     "Stats": {
       "HealthCurrent": 98.0,
-      "HealthMax": 100.0,
-      "HealthMaxUnBuffed": 0,
+      "HealthMax": 400.0,
+      "HealthMaxUnBuffed": 100.0,
       "StaminaCurrent": 50,
       "StaminaMax": 50,
       "ManaCurrent": 100,
@@ -535,9 +565,9 @@
       "Healing": 41
     },
     "Buffs": {
-      "Duration": 0,
-      "Dropped": true,
-      "DrinksPurchased": 0
+      "Duration": 2,
+      "Dropped": false,
+      "DrinksPurchased": 2
     },
     "Skills": {
       "Dodge": 0,
