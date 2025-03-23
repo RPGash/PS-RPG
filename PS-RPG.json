@@ -361,7 +361,7 @@
               "Kills": 0,
               "Killed": 0,
               "LevelRange": "1-5",
-              "Available": false,
+              "Available": true,
               "InProgress": false,
               "Completed": false,
               "Repeatable": false,
@@ -546,7 +546,7 @@
     "XP_TNL": 986640.0,
     "Stats": {
       "HealthCurrent": 98.0,
-      "HealthMax": 400.0,
+      "HealthMax": 5018.0,
       "HealthMaxUnBuffed": 100.0,
       "StaminaCurrent": 50,
       "StaminaMax": 50,
