@@ -348,7 +348,7 @@
               "Killed": 0,
               "LevelRange": "1-5",
               "Available": true,
-              "InProgress": false,
+              "InProgress": true,
               "Completed": false,
               "Repeatable": true,
               "Status": "Available"
@@ -361,11 +361,11 @@
               "Kills": 0,
               "Killed": 0,
               "LevelRange": "1-5",
-              "Available": true,
-              "InProgress": false,
+              "Available": false,
+              "InProgress": true,
               "Completed": false,
               "Repeatable": false,
-              "Status": "InActive"
+              "Status": "In Progress"
             }
           }
         },

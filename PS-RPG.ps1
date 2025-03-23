@@ -1818,6 +1818,7 @@ Function Visit_A_Building {
                 $Exit_Drinks_Menu = $false
                 $Exit_Quest_Board = $false
                 $Drink_Purchased = $false
+                $Quest_Accepted = $false
                 do {
                     $Script:Info_Banner = "Tavern"
                     Draw_Info_Banner
@@ -1856,15 +1857,31 @@ Function Visit_A_Building {
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                 Write-Color "  $($Import_JSON.Locations.Town.Buildings.Tavern.Owner) ","says you've had too many and refuses to serve you until you sober up." -Color Blue,DarkGray
                             }
-                            if ($Exit_Quest_Board -eq $true -and $Import_JSON.Character.Buffs.DrinksPurchased -lt 2) {
+                            if ($Quest_Accepted -eq $true) {
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                }
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                Write-Color "  $($Import_JSON.Locations.Town.Buildings.Tavern.Owner) ","thanks you for accepting the ","$($Quest_Name.Name)"," quest" -Color Blue,DarkGray,White,DarkGray
+                                Write-Color "  and tells you she will let the person know you've accepted it." -Color DarkGray
+                                Write-Color "  Don't forget, you can view quests you've accepted by choosing '","Q","' here or in most other menus." -Color DarkGray,Green,DarkGray
+                                Write-Color ""
+                                $Quest_Name = $($Quest_Name.Name)
+                                $Import_JSON.Locations.Town.Buildings.Tavern.Quests.$Quest_Name.Available = $false
+                                $Import_JSON.Locations.Town.Buildings.Tavern.Quests.$Quest_Name.InProgress = $true
+                                $Import_JSON.Locations.Town.Buildings.Tavern.Quests.$Quest_Name.Status = "In Progress"
+                                Set-JSON
+                            }
+                            if ($Exit_Quest_Board -eq $true -and $Import_JSON.Character.Buffs.DrinksPurchased -lt 2) {
+                                # $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                 if ($Drink_Purchased -eq $true) {
                                     Write-Color "  Maybe another ","D","rink before you leave?" -Color DarkGray,Green,DarkGray
                                 }
                                 Write-Color "  Maybe you'd like a ","D","rink before you leave?" -Color DarkGray,Green,DarkGray
                             }
                             if ($Exit_Quest_Board -eq $true -and $Import_JSON.Character.Buffs.DrinksPurchased -eq 2) {
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                # $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                 Write-Color "  Stay safe out there, $($Character_Name)" -Color DarkGray,Green,DarkGray
                             }
                         }
@@ -1899,7 +1916,7 @@ Function Visit_A_Building {
                             Write-Color -NoNewLine "A","les, ","M","eads, ","S","pirits, ","N","on-Alcoholic, ","R","are, or ", "E","xit ","$Tavern_Drinks_Category_Letters_Array_String" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow
                             $Tavern_Drinks_Choice = Read-Host " "
                             $Tavern_Drinks_Choice = $Tavern_Drinks_Choice.Trim()
-                        } until ($Tavern_Drinks_Choice -ieq 'e' -or $Tavern_Drinks_Choice -in $Tavern_Drinks_Category_Letters_Array)
+                        } until ($Tavern_Drinks_Choice -ieq "e" -or $Tavern_Drinks_Choice -in $Tavern_Drinks_Category_Letters_Array)
                         # drinks menu switch
                         switch ($Tavern_Drinks_Choice) {
                             e {
@@ -2009,19 +2026,17 @@ Function Visit_A_Building {
                             Write-Color "  $Player_Walking_to_Quest_Board" -Color DarkGray
                             Write-Color "  The following quests are available." -Color DarkGray
                             Write-Color "`r" -Color DarkGray
-
                             $Available_Quest_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
                             $Quest_Names = $Import_JSON.Locations.Town.Buildings.Tavern.Quests.PSObject.Properties.Name
                             foreach ($Quest_Name in $Quest_Names) {
                                 $Quest_Name = $Import_JSON.Locations.Town.Buildings.Tavern.Quests.$Quest_Name
-                                if ($Quest_Name.Available -eq $true) {
+                                if ($Quest_Name.Available -eq $true -or $Quest_Name.Status -eq "In Progress") {
                                     Write-Color "  $($Quest_Name.QuestLetter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status)" -Color Green,DarkGray,DarkYellow
                                     $Available_Quest_Letters_Array.Add($Quest_Name.QuestLetter)
                                 }
                             }
                             $Available_Quest_Letters_Array_String = $Available_Quest_Letters_Array -Join "/"
                             $Available_Quest_Letters_Array_String = $Available_Quest_Letters_Array_String + "/E"
-
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                             Write-Color -NoNewLine "View details about a quest, or ","E","xit ","[$Available_Quest_Letters_Array_String]" -Color DarkYellow,Green,DarkYellow,Green
@@ -2037,7 +2052,6 @@ Function Visit_A_Building {
                                 foreach ($Quest_Name in $Quest_Names) {
                                     $Quest_Name = $Import_JSON.Locations.Town.Buildings.Tavern.Quests.$Quest_Name
                                     if ($Quest_Name.QuestLetter -ieq $Tavern_Quest_Choice) {
-                                        
                                         Break
                                     }
                                 }
@@ -2046,10 +2060,20 @@ Function Visit_A_Building {
                                 Write-Color "  Reward      : ","$($Quest_Name.Reward)"," Gold" -Color DarkGray,White,DarkYellow
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                Write-Color -NoNewLine "A","ccept quest or ", "E","xit" -Color Green,DarkYellow,Green,DarkYellow
-                                $Tavern_Drinks_Choice = Read-Host " "
-                                $Tavern_Drinks_Choice = $Tavern_Drinks_Choice.Trim()
-                            } until ($Tavern_Drinks_Choice -ieq 'e' -or $Tavern_Drinks_Choice -in $Tavern_Drinks_Category_Letters_Array)
+                                $Tavern_Accept_Quest_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
+                                if ($Quest_Name.Status -ieq "In Progress") {
+                                    Write-Color -NoNewLine "E","xit ","[E]" -Color Green,DarkYellow,Green
+                                    $Tavern_Accept_Quest_Choice_Array = "E"
+                                } else {
+                                    Write-Color -NoNewLine "A","ccept quest or ", "E","xit ","[A/E]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                                    $Tavern_Accept_Quest_Choice_Array = "A","E"
+                                }
+                                $Tavern_Accept_Quest_Choice = Read-Host " "
+                                $Tavern_Accept_Quest_Choice = $Tavern_Accept_Quest_Choice.Trim()
+                            } until ($Tavern_Accept_Quest_Choice -in $Tavern_Accept_Quest_Choice_Array)
+                            if ($Tavern_Accept_Quest_Choice -ieq "a") {
+                                $Quest_Accepted = $true
+                            }
                         }
                         $Exit_Quest_Board = $true
                         $Exit_Drinks_Menu = $false
