@@ -337,36 +337,6 @@
                 }
               }
             }
-          },
-          "Quests": {
-            "Rat infestation": {
-              "Name": "Rat infestation",
-              "QuestLetter": "R",
-              "Description": "kill stuff",
-              "Reward": 10,
-              "Kills": 2,
-              "Killed": 0,
-              "LevelRange": "1-5",
-              "Available": true,
-              "InProgress": true,
-              "Completed": false,
-              "Repeatable": true,
-              "Status": "Available"
-            },
-            "Sick Elder": {
-              "Name": "Sick Elder",
-              "QuestLetter": "S",
-              "Description": "Find a Healing Potion.",
-              "Reward": 10,
-              "Kills": 0,
-              "Killed": 0,
-              "LevelRange": "1-5",
-              "Available": false,
-              "InProgress": true,
-              "Completed": false,
-              "Repeatable": false,
-              "Status": "In Progress"
-            }
           }
         },
         "The Anvil & Blade": {
@@ -887,6 +857,36 @@
         "Spells": 4,
         "Healing": 4
       }
+    }
+  },
+  "Quests": {
+    "Rat infestation": {
+      "Name": "Rat infestation",
+      "QuestLetter": "R",
+      "Description": "kill stuff",
+      "Reward": 10,
+      "Kills": 2,
+      "Killed": 0,
+      "LevelRange": "1-5",
+      "Available": false,
+      "InProgress": true,
+      "Completed": false,
+      "Repeatable": true,
+      "Status": "In Progress"
+    },
+    "Sick Elder": {
+      "Name": "Sick Elder",
+      "QuestLetter": "S",
+      "Description": "Find a Healing Potion.",
+      "Reward": 10,
+      "Kills": 0,
+      "Killed": 0,
+      "LevelRange": "1-5",
+      "Available": false,
+      "InProgress": true,
+      "Completed": false,
+      "Repeatable": false,
+      "Status": "Progress"
     }
   }
 }
