@@ -940,7 +940,7 @@ Function Draw_Info_Banner {
 }
 
 #
-# displays inventory in combat (top right)
+# displays inventory (top right)
 #
 Function Draw_Inventory {
     $Inventory_Items_Name_Array = New-Object System.Collections.Generic.List[System.Object]
@@ -996,7 +996,6 @@ Function Draw_Inventory {
             } else {
                 $Quantity_Left_Padding = " " # more than 9 quantity (2 digits so needs 1 padding)
             }
-
             if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters -le '5') {
                 $Gold_Value_Right_Padding = " "*(6 - ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters)
                 if ($Inventory_Items_Gold_Value_Array_Max_Length -gt 5 ) {
@@ -1706,7 +1705,7 @@ Function Draw_The_River_Map {
 #
 # visit a shop in whatever location you are in
 #
-Function Visit_A_Building {
+Function Visit_a_Building {
     Clear-Host
     Draw_Player_Window_and_Stats
     # find all linked locations that you can travel to (not including your current location)
@@ -1720,17 +1719,14 @@ Function Visit_A_Building {
     }
     $All_Buildings_Letters_Array_String = $All_Building_Letters_Array -Join "/"
     $All_Buildings_Letters_Array_String = $All_Buildings_Letters_Array_String + "/E"
-
     $Script:Info_Banner = "Visit"
     Draw_Info_Banner
     Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
     Write-Color "`r`n  You can visit the following buildings:" -Color DarkGray
     Write-Color "  $All_Buildings_In_Current_Location_List" -Color White
-
     if ($Current_Location -eq "Town") { Draw_Town_Map }
     if ($Current_Location -eq "The Forest") { Draw_The_Forest_Map }
     if ($Current_Location -eq "The River") { Draw_The_River_Map }
-
     do {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -1745,7 +1741,6 @@ Function Visit_A_Building {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("H") # Home
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("T") # Tavern
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-
     # switch choice for Town
     if ($Current_Location -eq "Town") {
         switch ($Building_Choice) {
@@ -1868,9 +1863,9 @@ Function Visit_A_Building {
                                 Write-Color "  Don't forget, you can view quests you've accepted by choosing '","Q","' here or in most other menus." -Color DarkGray,Green,DarkGray
                                 Write-Color ""
                                 $Quest_Name = $($Quest_Name.Name)
-                                $Import_JSON.Locations.Town.Buildings.Tavern.Quests.$Quest_Name.Available = $false
-                                $Import_JSON.Locations.Town.Buildings.Tavern.Quests.$Quest_Name.InProgress = $true
-                                $Import_JSON.Locations.Town.Buildings.Tavern.Quests.$Quest_Name.Status = "In Progress"
+                                $Import_JSON.Quests.$Quest_Name.Available = $false
+                                $Import_JSON.Quests.$Quest_Name.InProgress = $true
+                                $Import_JSON.Quests.$Quest_Name.Status = "In Progress"
                                 Set-JSON
                             }
                             if ($Exit_Quest_Board -eq $true -and $Import_JSON.Character.Buffs.DrinksPurchased -lt 2) {
@@ -2027,9 +2022,9 @@ Function Visit_A_Building {
                             Write-Color "  The following quests are available." -Color DarkGray
                             Write-Color "`r" -Color DarkGray
                             $Available_Quest_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
-                            $Quest_Names = $Import_JSON.Locations.Town.Buildings.Tavern.Quests.PSObject.Properties.Name
+                            $Quest_Names = $Import_JSON.Quests.PSObject.Properties.Name
                             foreach ($Quest_Name in $Quest_Names) {
-                                $Quest_Name = $Import_JSON.Locations.Town.Buildings.Tavern.Quests.$Quest_Name
+                                $Quest_Name = $Import_JSON.Quests.$Quest_Name
                                 if ($Quest_Name.Available -eq $true -or $Quest_Name.Status -eq "In Progress") {
                                     Write-Color "  $($Quest_Name.QuestLetter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status)" -Color Green,DarkGray,DarkYellow
                                     $Available_Quest_Letters_Array.Add($Quest_Name.QuestLetter)
@@ -2050,7 +2045,7 @@ Function Visit_A_Building {
                                 }
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                 foreach ($Quest_Name in $Quest_Names) {
-                                    $Quest_Name = $Import_JSON.Locations.Town.Buildings.Tavern.Quests.$Quest_Name
+                                    $Quest_Name = $Import_JSON.Quests.$Quest_Name
                                     if ($Quest_Name.QuestLetter -ieq $Tavern_Quest_Choice) {
                                         Break
                                     }
@@ -2191,7 +2186,6 @@ Function Visit_A_Building {
             # Default {}
         }
     }
-
     # switch choice for The Forest
     if ($Current_Location -eq "The Forest") {
         switch ($Building_Choice) {
@@ -2210,7 +2204,6 @@ Function Visit_A_Building {
             # Default {}
         }
     }
-
     # switch choice for The River
     if ($Current_Location -eq "The River") {
         switch ($Building_Choice) {
@@ -2226,13 +2219,68 @@ Function Visit_A_Building {
             # }
         }
     }
-
     # below is run if Q quit is chosen in any location
     Set-JSON
     Clear-Host
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
     Draw_Player_Window_and_Stats
 }
+
+#
+# draw quest log
+#
+Function Draw_Quest_Log {
+    $Script:Info_Banner = "Quest Log"
+    Draw_Info_Banner
+    
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,0;$Host.UI.Write("")
+    Write-Color "+-----------------------------------------------+" -Color DarkGray
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,1;$Host.UI.Write("")
+    Write-Color "| ","Quest Log","                                     |" -Color DarkGray,White,DarkGray
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,2;$Host.UI.Write("")
+    Write-Color "+-----------------------------------------------+" -Color DarkGray
+    $Position = 2
+    
+    $Available_Quest_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
+    $Quest_Names = $Import_JSON.Quests.PSObject.Properties.Name
+    $Quest_In_Progress_Count = 0
+    foreach ($Quest_Name in $Quest_Names) {
+        $Quest_Name = $Import_JSON.Quests.$Quest_Name
+        if ($Quest_Name.Available -eq $true -or $Quest_Name.Status -eq "In Progress") {
+            $Quest_In_Progress_Count += 1
+            $Position += 1
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,$Position;$Host.UI.Write("")
+            Write-Color "| ","$($Quest_Name.QuestLetter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status) ","|" -Color DarkGray,Green,DarkGray,DarkYellow,DarkGray
+            $Available_Quest_Letters_Array.Add($Quest_Name.QuestLetter)
+        }
+    }
+    $In_Progress_Quest_Letters_Array_String = $Available_Quest_Letters_Array -Join "/"
+    $In_Progress_Quest_Letters_Array_String = $In_Progress_Quest_Letters_Array_String + "/E"
+    $Quest_Log_Extra_Blank_Lines = 10 - $Quest_In_Progress_Count
+    for ($i = 0; $i -lt $Quest_Log_Extra_Blank_Lines; $i++) {
+        $Position += 1
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,$Position;$Host.UI.Write("")
+        Write-Color "|                                               |" -Color DarkGray
+    }
+
+
+    $Position += 1
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,$Position;$Host.UI.Write("")
+    Write-Color "+-----------------------------------------------+" -Color DarkGray
+
+    do {
+        Set-JSON # save JSON
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+        Write-Color -NoNewLine "Select a Quest for more info ", "[$In_Progress_Quest_Letters_Array_String]" -Color DarkYellow,Green
+        $Quest_Log_Choice = Read-Host " "
+        $Quest_Log_Choice = $Quest_Log_Choice.Trim()
+    } until ($Quest_Log_Choice -in $Available_Quest_Letters_Array)
+
+}
+
+
+
 
 #
 # PLACE FUNCTIONS ABOVE HERE
@@ -2299,10 +2347,10 @@ do {
         Set-JSON # save JSON
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-        Write-Color -NoNewLine "H", "unt, ","T","ravel, ","V","isit a building, or look at your ","I","nventory? ", "[H/T/V/I]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+        Write-Color -NoNewLine "H", "unt, ","T","ravel, ","V","isit a building, ","Q","uest log, or look at your ","I","nventory? ", "[H/T/V/Q/I]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
         $Hunt_Or_Inventory = Read-Host " "
         $Hunt_Or_Inventory = $Hunt_Or_Inventory.Trim()
-    } until ($Hunt_Or_Inventory -ieq "h" -or $Hunt_Or_Inventory -ieq "t" -or $Hunt_Or_Inventory -ieq "v" -or $Hunt_Or_Inventory -ieq "i" -or $Hunt_Or_Inventory -ieq "info")
+    } until ($Hunt_Or_Inventory -ieq "h" -or $Hunt_Or_Inventory -ieq "t" -or $Hunt_Or_Inventory -ieq "v" -or $Hunt_Or_Inventory -ieq "q" -or $Hunt_Or_Inventory -ieq "i" -or $Hunt_Or_Inventory -ieq "info")
     switch ($Hunt_Or_Inventory) {
         h {
             Set-JSON # save JSON
@@ -2313,7 +2361,11 @@ do {
             Travel
         }
         v {
-            Visit_A_Building
+            Visit_a_Building
+        }
+        q {
+            Draw_Quest_Log
+
         }
         i {
             Clear-Host
