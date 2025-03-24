@@ -198,7 +198,7 @@ Function Import-JSON {
 #
 # save data back to JSON file
 #
-Function Set-JSON {
+Function Save-JSON {
     if (-not(Test-Path -Path "$ENV:userprofile\My Drive\PS-RPG\error_log.log")) {
         New-Item -Path "$ENV:userprofile\My Drive\PS-RPG\error_log.log" -ItemType File -Force | Out-Null
     }
@@ -469,7 +469,7 @@ Function Level_Up {
         }
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 13,12;$Host.UI.Write("");" "*6 # clears the TNL value because it shows a negative value while updating
 
-        Set-JSON
+        Save-JSON
         Import-JSON
         Set_Variables
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
@@ -801,7 +801,7 @@ Function Create_Character {
             if ($Update_Character_JSON -ieq "e") {Exit}
         }
     } until ($Update_Character_JSON_Confirm -eq $true)
-    Set-JSON
+    Save-JSON
 
     # TEMP FO TESTING
     # set JSON character stats and items
@@ -876,7 +876,7 @@ Function Create_Character {
         $Import_JSON.Character.Stats.Spells         = 1
         $Import_JSON.Character.Stats.Healing        = 4
     }
-    Set-JSON # save JSON
+    Save-JSON
     Import-JSON
     Set_Variables
     Clear-Host
@@ -1170,7 +1170,7 @@ Function Inventory_Choice{
                     }
                     $Import_JSON.Character.Stats.ManaCurrent = $Character_ManaCurrent
                 }
-                Set-JSON
+                Save-JSON
                 Import-JSON
                 Set_Variables
                 Draw_Player_Window_and_Stats # redraws play stats to update health or mana values
@@ -1182,7 +1182,7 @@ Function Inventory_Choice{
                     Draw_Inventory
                 }
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("");" "*105
-                Set-JSON
+                Save-JSON
             }
         }
     }
@@ -1399,7 +1399,7 @@ Function Fight_Or_Run {
                 $Import_JSON.Character.Buffs.Duration = 0
                 $Import_JSON.Character.Buffs.Dropped = $true
                 $Import_JSON.Character.Buffs.DrinksPurchased = 0
-                Set-JSON
+                Save-JSON
                 You_Died
                 Read-Host
                 exit
@@ -1439,7 +1439,7 @@ Function Fight_Or_Run {
                                 $Looted_Items.Add("1x $($Loot_Item)")
                                 # update non-gold items in inventory
                                 $Script:Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity = ($Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity += 1)
-                                Set-JSON
+                                Save-JSON
                             }
                         }
                     }
@@ -1459,7 +1459,7 @@ Function Fight_Or_Run {
                 if ($XP_TNL -le 0) {
                     Level_Up
                 }
-                Set-JSON
+                Save-JSON
                 Import-JSON
                 Set_Variables
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
@@ -1503,7 +1503,7 @@ Function Fight_Or_Run {
         } until ($Fight_Or_Escape -ieq "e")
         if ($Import_JSON.Character.Buffs.Duration -gt 0) {
             $Import_JSON.Character.Buffs.Duration -= 1
-            Set-JSON
+            Save-JSON
         }
         if ($Import_JSON.Character.Buffs.Duration -eq 0 -and $Import_JSON.Character.Buffs.Dropped -eq $false) {
             $Import_JSON.Character.Buffs.DrinksPurchased   = 0
@@ -1595,7 +1595,7 @@ Function Travel {
             $Script:Current_Location = "Town"
             $Import_JSON.Locations.Town.CurrentLocation = $true
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
-            Set-JSON
+            Save-JSON
         }
         f {
             $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
@@ -1612,7 +1612,7 @@ Function Travel {
         Default {
         }
     }
-    Set-JSON
+    Save-JSON
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
     Draw_Player_Window_and_Stats
 }
@@ -1761,7 +1761,7 @@ Function Visit_a_Building {
                     Draw_Info_Banner
                     $Home_Choice_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
                     if ($Home_Choice -ieq "r" ) { # rested (from choice below), so display fully rested message instead
-                        Set-JSON
+                        Save-JSON
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                         Draw_Player_Window_and_Stats
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("");" "*105
@@ -1866,7 +1866,7 @@ Function Visit_a_Building {
                                 $Import_JSON.Quests.$Quest_Name.Available = $false
                                 $Import_JSON.Quests.$Quest_Name.InProgress = $true
                                 $Import_JSON.Quests.$Quest_Name.Status = "In Progress"
-                                Set-JSON
+                                Save-JSON
                             }
                             if ($Exit_Quest_Board -eq $true -and $Import_JSON.Character.Buffs.DrinksPurchased -lt 2) {
                                 # $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
@@ -1958,7 +1958,7 @@ Function Visit_a_Building {
                                             $Bonus_Stat_Difference = $Bonus_Stat_After - $Bonus_Stat_Before
                                             # sets the JSON character stat e.g. HealthMax to the current HealthMax value plus the difference (the bonus)
                                             $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name" += $Bonus_Stat_Difference
-                                            Set-JSON
+                                            Save-JSON
                                             Set_Variables
                                             Draw_Player_Window_and_Stats
                                             switch ($Tavern_Drink_Bonus_Name) {
@@ -2164,7 +2164,7 @@ Function Visit_a_Building {
                             foreach (${JunkItem} in ${Anvil_Choice_Sell_Junk_Array}) {
                                 $Import_JSON.Character.Items.Inventory.$JunkItem.Quantity = 0
                             }
-                            Set-JSON
+                            Save-JSON
                             Clear-Host
                             Set_Variables
                             Draw_Player_Window_and_Stats
@@ -2220,7 +2220,7 @@ Function Visit_a_Building {
         }
     }
     # below is run if Q quit is chosen in any location
-    Set-JSON
+    Save-JSON
     Clear-Host
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
     Draw_Player_Window_and_Stats
@@ -2240,7 +2240,6 @@ Function Draw_Quest_Log {
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,2;$Host.UI.Write("")
     Write-Color "+-----------------------------------------------+" -Color DarkGray
     $Position = 2
-    
     $Available_Quest_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
     $Quest_Names = $Import_JSON.Quests.PSObject.Properties.Name
     $Quest_In_Progress_Count = 0
@@ -2262,21 +2261,24 @@ Function Draw_Quest_Log {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,$Position;$Host.UI.Write("")
         Write-Color "|                                               |" -Color DarkGray
     }
-
-
     $Position += 1
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,$Position;$Host.UI.Write("")
     Write-Color "+-----------------------------------------------+" -Color DarkGray
-
     do {
-        Set-JSON # save JSON
+        Save-JSON
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         Write-Color -NoNewLine "Select a Quest for more info ", "[$In_Progress_Quest_Letters_Array_String]" -Color DarkYellow,Green
         $Quest_Log_Choice = Read-Host " "
         $Quest_Log_Choice = $Quest_Log_Choice.Trim()
-    } until ($Quest_Log_Choice -in $Available_Quest_Letters_Array)
-
+    } until ($Quest_Log_Choice -eq "e" -or $Quest_Log_Choice -in $Available_Quest_Letters_Array)
+    switch ($Quest_Log_Choice) {
+        $Quest_Log_Choice {
+            
+            break
+        }
+        Default {}
+    }
 }
 
 
@@ -2344,7 +2346,7 @@ if ($Load_Save_Data_Choice -ieq "e" -or $Start_A_New_Game -ieq "e") {
 # main loop
 do {
     do {
-        Set-JSON # save JSON
+        Save-JSON
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         Write-Color -NoNewLine "H", "unt, ","T","ravel, ","V","isit a building, ","Q","uest log, or look at your ","I","nventory? ", "[H/T/V/Q/I]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
@@ -2353,7 +2355,7 @@ do {
     } until ($Hunt_Or_Inventory -ieq "h" -or $Hunt_Or_Inventory -ieq "t" -or $Hunt_Or_Inventory -ieq "v" -or $Hunt_Or_Inventory -ieq "q" -or $Hunt_Or_Inventory -ieq "i" -or $Hunt_Or_Inventory -ieq "info")
     switch ($Hunt_Or_Inventory) {
         h {
-            Set-JSON # save JSON
+            Save-JSON
             Random_Mob
             Fight_Or_Run
         }
@@ -2365,7 +2367,8 @@ do {
         }
         q {
             Draw_Quest_Log
-
+            Clear-Host
+            Draw_Player_Window_and_Stats
         }
         i {
             Clear-Host
