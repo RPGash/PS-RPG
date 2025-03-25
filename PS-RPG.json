@@ -521,8 +521,8 @@
       "StaminaCurrent": 50,
       "StaminaMax": 74,
       "ManaCurrent": 100,
-      "ManaMax": 142,
-      "ManaMaxUnBuffed": 0,
+      "ManaMax": 199.0,
+      "ManaMaxUnBuffed": 142,
       "Damage": 68,
       "Attack": 62,
       "AttackUnBuffed": 0,
@@ -535,9 +535,9 @@
       "Healing": 83
     },
     "Buffs": {
-      "Duration": 0,
-      "Dropped": true,
-      "DrinksPurchased": 0
+      "Duration": 2,
+      "Dropped": false,
+      "DrinksPurchased": 1
     },
     "Skills": {
       "Dodge": 0,
@@ -872,11 +872,11 @@
       "Progress": 0,
       "ProgressMax": 2,
       "LevelRange": "1-5",
-      "Available": false,
-      "InProgress": true,
+      "Available": true,
+      "InProgress": false,
       "Completed": false,
       "Repeatable": true,
-      "Status": "In Progress"
+      "Status": "available"
     },
     "Sick Elder": {
       "Name": "Sick Elder",

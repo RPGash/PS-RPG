@@ -1851,24 +1851,8 @@ Function Visit_a_Building {
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                 Write-Color "  $($Import_JSON.Locations.Town.Buildings.Tavern.Owner) ","says you've had too many and refuses to serve you until you sober up." -Color Blue,DarkGray
                             }
-                            if ($Quest_Accepted -eq $true) {
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                                }
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                Write-Color "  $($Import_JSON.Locations.Town.Buildings.Tavern.Owner) ","thanks you for accepting the ","$($Quest_Name.Name)"," quest" -Color Blue,DarkGray,White,DarkGray
-                                Write-Color "  and tells you she will let the person know you've accepted it." -Color DarkGray
-                                Write-Color "  Don't forget, you can view quests you've accepted by choosing '","Q","' here or in most other menus." -Color DarkGray,Green,DarkGray
-                                Write-Color ""
-                                $Quest_Name = $($Quest_Name.Name)
-                                $Import_JSON.Quests.$Quest_Name.Available = $false
-                                $Import_JSON.Quests.$Quest_Name.InProgress = $true
-                                $Import_JSON.Quests.$Quest_Name.Status = "In Progress"
-                                Save-JSON
-                            }
                             if ($Exit_Quest_Board -eq $true -and $Import_JSON.Character.Buffs.DrinksPurchased -lt 2) {
-                                # $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                 if ($Drink_Purchased -eq $true) {
                                     Write-Color "  Maybe another ","D","rink before you leave?" -Color DarkGray,Green,DarkGray
                                 }
@@ -1997,6 +1981,7 @@ Function Visit_a_Building {
                     }
                     # quest board
                     if ($Tavern_Choice -ieq "q") {
+                        $First_Time_Looking_at_Quest_Board = $true
                         do {
                             $Script:Info_Banner = "Quest Board"
                             Draw_Info_Banner
@@ -2005,21 +1990,39 @@ Function Visit_a_Building {
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                 }
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                if ($Import_JSON.Character.Buffs.DrinksPurchased -gt 0) {
-                                    $Player_Walking_to_Quest_Board = @(
-                                        "You stagger over to the board, bumping into a few chairs along the way.",
-                                        "You stumble over to the board.",
-                                        "You make your way to the board and trip over your own feet."
-                                    )
-                                } else {
-                                    $Player_Walking_to_Quest_Board = @(
-                                        "You walk to the board to see how many quests are available.",
-                                        "You stride over to the board to check if there are any quests available."
-                                    )
+                                if ($First_Time_Looking_at_Quest_Board -eq $true) {
+                                    if ($Import_JSON.Character.Buffs.DrinksPurchased -gt 0) {
+                                        $Player_Walking_to_Quest_Board = @(
+                                            "You stagger over to the board, bumping into a few chairs along the way.",
+                                            "You stumble over to the board.",
+                                            "You make your way to the board and trip over your own feet."
+                                        )
+                                    } else {
+                                        $Player_Walking_to_Quest_Board = @(
+                                            "You walk to the board to see how many quests are available.",
+                                            "You stride over to the board to check if there are any quests available."
+                                        )
+                                    }
+                                    $Player_Walking_to_Quest_Board = Get-Random -Input $Player_Walking_to_Quest_Board
+                                    Write-Color "  $Player_Walking_to_Quest_Board" -Color DarkGray
                                 }
-                                $Player_Walking_to_Quest_Board = Get-Random -Input $Player_Walking_to_Quest_Board
-                                Write-Color "  $Player_Walking_to_Quest_Board" -Color DarkGray
-                                Write-Color "  The following quests are available." -Color DarkGray
+                                if ($Quest_Accepted -eq $true) {
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                    for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                    }
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                    Write-Color "  $($Import_JSON.Locations.Town.Buildings.Tavern.Owner) ","thanks you for accepting the ","$($Quest_Name.Name)"," quest" -Color Blue,DarkGray,White,DarkGray
+                                    Write-Color "  and tells you she will let the person know you've accepted it." -Color DarkGray
+                                    Write-Color "  Don't forget, you can view quests you've accepted by choosing '","Q","' here or in most other menus." -Color DarkGray,Green,DarkGray
+                                    Write-Color ""
+                                    $Quest_Name = $($Quest_Name.Name)
+                                    $Import_JSON.Quests.$Quest_Name.Available = $false
+                                    $Import_JSON.Quests.$Quest_Name.InProgress = $true
+                                    $Import_JSON.Quests.$Quest_Name.Status = "In Progress"
+                                    Save-JSON
+                                }
+                                Write-Color "  The following quests are pinned to the board." -Color DarkGray
                                 Write-Color "`r" -Color DarkGray
                                 $Available_Quest_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
                                 $Quest_Names = $Import_JSON.Quests.PSObject.Properties.Name
@@ -2095,6 +2098,7 @@ Function Visit_a_Building {
                             }
                             $Exit_Quest_Board = $true
                             $Exit_Drinks_Menu = $false
+                            $First_Time_Looking_at_Quest_Board = $false
                         } until ($Tavern_Quest_Board_Choice -ieq "e")
                     }
                     $First_Time_Entered_Tavern = $false
@@ -2320,7 +2324,7 @@ Function Draw_Quest_Log {
                             Write-Color "  Location    ",": $($Quest_Name.HandInLocation)" -Color White,DarkGray
                             Write-Color "  Building    ",": $($Quest_Name.Building)" -Color White,DarkGray
                             Write-Color "  NPC         ",": $($Quest_Name.HandInNPC)" -Color White,DarkGray
-}
+                        }
                     }
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
