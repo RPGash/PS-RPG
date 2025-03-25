@@ -20,7 +20,9 @@
 #       armour protection, stat bonuses/buffs etc.
 #   - add somewhere to buy/sell potions
 #   - add some quests in the Tavern
-#       mob kill count
+#       mob kill count - done
+#       add more quests
+#   - add some quests in other locations
 #   - change "you are low on health/mana" message to
 #       if less than 25%/50% = "you are running low/very low on health/mana"
 #       if 50% or above = "you are not at max health" (maybe?)
@@ -2052,6 +2054,9 @@ Function Visit_a_Building {
                                     Write-Color "  Description ",": $($Quest_Name.Description)" -Color White,DarkGray
                                     Write-Color "  Reward      ",": $($Quest_Name.Reward)"," Gold" -Color White,DarkGray,DarkYellow
                                     Write-Color "  Status      ",": $($Quest_Name.Status)" -Color White,DarkGray
+                                    Write-Color "  Location    ",": $($Quest_Name.HandInLocation)" -Color White,DarkGray
+                                    Write-Color "  Building    ",": $($Quest_Name.Building)" -Color White,DarkGray
+                                    Write-Color "  NPC         ",": $($Quest_Name.HandInNPC)" -Color White,DarkGray
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                                     $Tavern_Quest_Info_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
@@ -2070,20 +2075,23 @@ Function Visit_a_Building {
                                     $Tavern_Quest_Info_Choice = Read-Host " "
                                     $Tavern_Quest_Info_Choice = $Tavern_Quest_Info_Choice.Trim()
                                 } until ($Tavern_Quest_Info_Choice -in $Tavern_Quest_Info_Choice_Array)
+                                # accept a quest
                                 if ($Tavern_Quest_Info_Choice -ieq "a") {
                                     $Quest_Accepted = $true
                                     $Quest_Name.Status = "In Progress"
                                     $Quest_Name.InProgress = $true
                                     $Quest_Name.Available = $false
                                 }
+                                # hand in a quest
                                 if ($Tavern_Quest_Info_Choice -ieq "h") {
                                     $Quest_Name.Status = "Available"
                                     $Quest_Name.InProgress = $false
                                     $Quest_Name.Available = $true
-                                    $Quest_Name.Progress = "0"
+                                    $Quest_Name.Progress = 0
                                     # + Reward
                                     # - item (if an item quest)
                                 }
+                                Save-JSON
                             }
                             $Exit_Quest_Board = $true
                             $Exit_Drinks_Menu = $false
@@ -2301,16 +2309,18 @@ Function Draw_Quest_Log {
                 $Script:Info_Banner = "Quest Log Info"
                 Draw_Info_Banner
                 do {
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                     foreach ($Quest_Name in $Quest_Names) {
                         $Quest_Name = $Import_JSON.Quests.$Quest_Name
                         if ($Quest_Name.QuestLetter -ieq $Quest_Log_Choice) {
                             Write-Color "  Name        ",": $($Quest_Name.Name)" -Color White,DarkGray
                             Write-Color "  Description ",": $($Quest_Name.Description)" -Color White,DarkGray
                             Write-Color "  Reward      ",": $($Quest_Name.Reward)"," Gold" -Color White,DarkGray,DarkYellow
-                            Write-Color "  Progress    ",": $($Quest_Name.Progress) of $($Quest_Name.ProgressMax)" -Color White,DarkGray
                             Write-Color "  Status      ",": $($Quest_Name.Status)" -Color White,DarkGray
-                        }
+                            Write-Color "  Location    ",": $($Quest_Name.HandInLocation)" -Color White,DarkGray
+                            Write-Color "  Building    ",": $($Quest_Name.Building)" -Color White,DarkGray
+                            Write-Color "  NPC         ",": $($Quest_Name.HandInNPC)" -Color White,DarkGray
+}
                     }
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
