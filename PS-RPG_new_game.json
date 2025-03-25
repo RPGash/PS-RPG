@@ -877,7 +877,7 @@
     "Sick Elder": {
       "Name": "Sick Elder",
       "QuestLetter": "S",
-      "Description": "Find a Healing Potion.",
+      "Description": "Find a Healing Potion",
       "Reward": 10,
       "Kills": 0,
       "Killed": 0,

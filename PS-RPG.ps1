@@ -1263,7 +1263,6 @@ Function Fight_Or_Run {
         $Fight_Or_Escape = $Fight_Or_Escape.Trim()
     } until ($Fight_Or_Escape -ieq "f" -or $Fight_Or_Escape -ieq "e")
     if ($Fight_Or_Escape -ieq "f") {
-
         $In_Combat = $true
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
         Draw_Player_Window_and_Stats
@@ -1311,7 +1310,6 @@ Function Fight_Or_Run {
                         $Character_Hit_Damage = $Character_Damage*$Random_PlusMinus10/100+$Character_Damage
                         # damage done formula = damage * (damage / (damage + armour))
                         $Character_Hit_Damage = [Math]::Round($Character_Hit_Damage*($Character_Hit_Damage/($Character_Hit_Damage+$Selected_Mob_Armour)))
-                        
                         # player crit
                         $Random_Crit_Chance = Get-Random -Minimum 1 -Maximum 101
                         $Crit_Hit = ""
@@ -1320,7 +1318,6 @@ Function Fight_Or_Run {
                             $Character_Hit_Damage = [Math]::Round($Character_Hit_Damage*20/100+$Character_Hit_Damage)
                             $Crit_Hit = "critically "
                         }
-
                         # adjust mobs health by damage amount
                         $Selected_Mob_HealthCurrent = $Selected_Mob_HealthCurrent - $Character_Hit_Damage
                         $Selected_Mob.Health = $Selected_Mob_HealthCurrent
@@ -1347,12 +1344,9 @@ Function Fight_Or_Run {
                         Write-Color "  You miss the ","$($Selected_Mob.Name)","." -Color DarkGray,Blue,DarkGray
                     }
                 }
-
                 # spells
                 if ($Fight_Choice -ieq "s") {
-
                 }
-
                 $Player_Turn = $false
             } else {
                 # mobs turn
@@ -1368,7 +1362,6 @@ Function Fight_Or_Run {
                     $Selected_Mob_Hit_Damage = $Selected_Mob.Damage*$Random_PlusMinus10/100+$Selected_Mob.Damage
                     # damage done = damage * (damage / (damage + armour))
                     $Selected_Mob_Hit_Damage = [Math]::Round($Selected_Mob_Hit_Damage*($Selected_Mob_Hit_Damage/($Selected_Mob_Hit_Damage+$Import_JSON.Character.Stats.Armour)))
-                    
                     # mob crit
                     $Random_Crit_Chance = Get-Random -Minimum 1 -Maximum 101
                     $Crit_Hit = ""
@@ -1377,7 +1370,6 @@ Function Fight_Or_Run {
                         $Selected_Mob_Hit_Damage = [Math]::Round($Selected_Mob_Hit_Damage*20/100+$Selected_Mob_Hit_Damage)
                         $Crit_Hit = "critically "
                     }
-                    
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
                     Write-Color "  The ","$($Selected_Mob.Name) ",$Crit_Hit,"hits you for ","$Selected_Mob_Hit_Damage ","health." -Color DarkGray,Blue,Red,DarkGray,Red,DarkGray
                     # adjust player health by damage amount
@@ -1392,7 +1384,6 @@ Function Fight_Or_Run {
                 $Player_Turn = $true
                 $Continue_Fight = $true
             }
-
             # if character health is zero, display death message
             if ($Character_HealthCurrent -le 0) {
                 # reset buffs
@@ -1404,7 +1395,6 @@ Function Fight_Or_Run {
                 Read-Host
                 exit
             }
-
             # if mob health is zero, display you killed mob message
             if ($Selected_Mob_HealthCurrent -eq 0) {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,20;$Host.UI.Write("")
@@ -1414,7 +1404,6 @@ Function Fight_Or_Run {
                 $Total_XP = $Total_XP + $Selected_Mob.XP
                 $Import_JSON.Character.XP_TNL -= $Selected_Mob.XP
                 $Script:XP_TNL = $XP_TNL - $Selected_Mob.XP
-                
                 # loot chance
                 $Random_100 = Get-Random -Minimum 1 -Maximum 101
                 if ($Random_100 -le 20) { # no loot at all (20% chance)
@@ -1451,8 +1440,18 @@ Function Fight_Or_Run {
                         Write-Color "  The ", "$($Selected_Mob.Name) ", "did not drop any loot." -Color DarkGray,Blue,DarkGray
                     }
                 }
-
-
+                # update mob kill count if quest related
+                $Quest_Names = $Import_JSON.Quests.PSObject.Properties.Name
+                foreach ($Quest_Name in $Quest_Names) {
+                    $Quest_Name = $Import_JSON.Quests.$Quest_Name
+                    if ($Selected_Mob.Name -like $Quest_Name.Mob) {
+                        $Quest_Name.Progress += 1
+                        if ($Quest_Name.Progress -ge $Quest_Name.ProgressMax) {
+                            $Quest_Name.Status = "Hand In"
+                        }
+                    }
+                }
+                # level up check
                 if ($XP_TNL -lt 0) {
                     $Script:XP_Difference = $XP_TNL
                 }
@@ -1466,7 +1465,6 @@ Function Fight_Or_Run {
                 Draw_Player_Window_and_Stats
                 Break
             }
-
             # ask continue fight question after mobs turn
             if ($Continue_Fight -eq $true) {
                 do {
@@ -1478,7 +1476,6 @@ Function Fight_Or_Run {
                 } until ($Fight_Or_Escape -ieq "f" -or $Fight_Or_Escape -ieq "e")
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,26;$Host.UI.Write("");" "*105
             }
-
             # try to escape (during combat)
             if ($Fight_Or_Escape -ieq "e") {
                 # escape formula = Player Q / (Player Q + (Mob Q / 3))
@@ -1998,80 +1995,99 @@ Function Visit_a_Building {
                     }
                     # quest board
                     if ($Tavern_Choice -ieq "q") {
-                        $Script:Info_Banner = "Quest Board"
-                        Draw_Info_Banner
                         do {
-                            for ($Position = 17; $Position -lt 22; $Position++) { # clear some lines from previous widow
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                            }
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                            if ($Import_JSON.Character.Buffs.DrinksPurchased -gt 0) {
-                                $Player_Walking_to_Quest_Board = @(
-                                    "You stagger over to the board, bumping into a few chairs along the way.",
-                                    "You stumble over to the board.",
-                                    "You make your way to the board and trip over your own feet."
-                                )
-                            } else {Buildings
-                                $Player_Walking_to_Quest_Board = @(
-                                    "You walk to the board to see how many quests are available.",
-                                    "You stride over to the board to check if there are any quests available."
-                                )
-                            }
-                            $Player_Walking_to_Quest_Board = Get-Random -Input $Player_Walking_to_Quest_Board
-                            Write-Color "  $Player_Walking_to_Quest_Board" -Color DarkGray
-                            Write-Color "  The following quests are available." -Color DarkGray
-                            Write-Color "`r" -Color DarkGray
-                            $Available_Quest_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
-                            $Quest_Names = $Import_JSON.Quests.PSObject.Properties.Name
-                            foreach ($Quest_Name in $Quest_Names) {
-                                $Quest_Name = $Import_JSON.Quests.$Quest_Name
-                                if ($Quest_Name.Available -eq $true -or $Quest_Name.Status -eq "In Progress") {
-                                    Write-Color "  $($Quest_Name.QuestLetter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status)" -Color Green,DarkGray,DarkYellow
-                                    $Available_Quest_Letters_Array.Add($Quest_Name.QuestLetter)
-                                }
-                            }
-                            $Available_Quest_Letters_Array_String = $Available_Quest_Letters_Array -Join "/"
-                            $Available_Quest_Letters_Array_String = $Available_Quest_Letters_Array_String + "/E"
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                            Write-Color -NoNewLine "View details about a quest, or ","E","xit ","[$Available_Quest_Letters_Array_String]" -Color DarkYellow,Green,DarkYellow,Green
-                            $Tavern_Quest_Choice = Read-Host " "
-                            $Tavern_Quest_Choice = $Tavern_Quest_Choice.Trim()
-                        } until ($Tavern_Quest_Choice -eq "e" -or $Tavern_Quest_Choice -in $Available_Quest_Letters_Array)
-                        if ($Tavern_Quest_Choice -in $Available_Quest_Letters_Array) {
-                            Do {
-                                for ($Position = 17; $Position -lt 28; $Position++) { # clear some lines from previous widow
+                            $Script:Info_Banner = "Quest Board"
+                            Draw_Info_Banner
+                            do {
+                                for ($Position = 17; $Position -lt 25; $Position++) { # clear some lines from previous widow
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                 }
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                if ($Import_JSON.Character.Buffs.DrinksPurchased -gt 0) {
+                                    $Player_Walking_to_Quest_Board = @(
+                                        "You stagger over to the board, bumping into a few chairs along the way.",
+                                        "You stumble over to the board.",
+                                        "You make your way to the board and trip over your own feet."
+                                    )
+                                } else {
+                                    $Player_Walking_to_Quest_Board = @(
+                                        "You walk to the board to see how many quests are available.",
+                                        "You stride over to the board to check if there are any quests available."
+                                    )
+                                }
+                                $Player_Walking_to_Quest_Board = Get-Random -Input $Player_Walking_to_Quest_Board
+                                Write-Color "  $Player_Walking_to_Quest_Board" -Color DarkGray
+                                Write-Color "  The following quests are available." -Color DarkGray
+                                Write-Color "`r" -Color DarkGray
+                                $Available_Quest_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
+                                $Quest_Names = $Import_JSON.Quests.PSObject.Properties.Name
                                 foreach ($Quest_Name in $Quest_Names) {
                                     $Quest_Name = $Import_JSON.Quests.$Quest_Name
-                                    if ($Quest_Name.QuestLetter -ieq $Tavern_Quest_Choice) {
-                                        Break
+                                    if ($Quest_Name.Available -eq $true -or $Quest_Name.Status -eq "In Progress" -or $Quest_Name.Status -eq "Hand In") {
+                                        Write-Color "  $($Quest_Name.QuestLetter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status)" -Color Green,DarkGray,DarkYellow
+                                        $Available_Quest_Letters_Array.Add($Quest_Name.QuestLetter)
                                     }
                                 }
-                                Write-Color "  Name        : ","$($Quest_Name.Name)" -Color DarkGray,White
-                                Write-Color "  Description : ","$($Quest_Name.Description)" -Color DarkGray,White
-                                Write-Color "  Reward      : ","$($Quest_Name.Reward)"," Gold" -Color DarkGray,White,DarkYellow
+                                $Available_Quest_Letters_Array_String = $Available_Quest_Letters_Array -Join "/"
+                                $Available_Quest_Letters_Array_String = $Available_Quest_Letters_Array_String + "/E"
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                $Tavern_Accept_Quest_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
-                                if ($Quest_Name.Status -ieq "In Progress") {
-                                    Write-Color -NoNewLine "E","xit ","[E]" -Color Green,DarkYellow,Green
-                                    $Tavern_Accept_Quest_Choice_Array = "E"
-                                } else {
-                                    Write-Color -NoNewLine "A","ccept quest or ", "E","xit ","[A/E]" -Color Green,DarkYellow,Green,DarkYellow,Green
-                                    $Tavern_Accept_Quest_Choice_Array = "A","E"
+                                Write-Color -NoNewLine "View details about a quest, or ","E","xit ","[$Available_Quest_Letters_Array_String]" -Color DarkYellow,Green,DarkYellow,Green
+                                $Tavern_Quest_Board_Choice = Read-Host " "
+                                $Tavern_Quest_Board_Choice = $Tavern_Quest_Board_Choice.Trim()
+                            } until ($Tavern_Quest_Board_Choice -eq "e" -or $Tavern_Quest_Board_Choice -in $Available_Quest_Letters_Array)
+                            if ($Tavern_Quest_Board_Choice -in $Available_Quest_Letters_Array) {
+                                do {
+                                    for ($Position = 17; $Position -lt 28; $Position++) { # clear some lines from previous widow
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                    }
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                    foreach ($Quest_Name in $Quest_Names) {
+                                        $Quest_Name = $Import_JSON.Quests.$Quest_Name
+                                        if ($Quest_Name.QuestLetter -ieq $Tavern_Quest_Board_Choice) {
+                                            Break
+                                        }
+                                    }
+                                    Write-Color "  Name        ",": $($Quest_Name.Name)" -Color White,DarkGray
+                                    Write-Color "  Description ",": $($Quest_Name.Description)" -Color White,DarkGray
+                                    Write-Color "  Reward      ",": $($Quest_Name.Reward)"," Gold" -Color White,DarkGray,DarkYellow
+                                    Write-Color "  Status      ",": $($Quest_Name.Status)" -Color White,DarkGray
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                    $Tavern_Quest_Info_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
+                                    if ($Quest_Name.Status -ieq "In Progress") {
+                                        Write-Color -NoNewLine "E","xit ","[E]" -Color Green,DarkYellow,Green
+                                        $Tavern_Quest_Info_Choice_Array = "E"
+                                    }
+                                    if ($Quest_Name.Status -ieq "Available") {
+                                        Write-Color -NoNewLine "A","ccept quest or ", "E","xit ","[A/E]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                                        $Tavern_Quest_Info_Choice_Array = "A","E"
+                                    }
+                                    if ($Quest_Name.Status -ieq "Hand In") {
+                                        Write-Color -NoNewLine "H","and in quest or ", "E","xit ","[H/E]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                                        $Tavern_Quest_Info_Choice_Array = "H","E"
+                                    }
+                                    $Tavern_Quest_Info_Choice = Read-Host " "
+                                    $Tavern_Quest_Info_Choice = $Tavern_Quest_Info_Choice.Trim()
+                                } until ($Tavern_Quest_Info_Choice -in $Tavern_Quest_Info_Choice_Array)
+                                if ($Tavern_Quest_Info_Choice -ieq "a") {
+                                    $Quest_Accepted = $true
+                                    $Quest_Name.Status = "In Progress"
+                                    $Quest_Name.InProgress = $true
+                                    $Quest_Name.Available = $false
                                 }
-                                $Tavern_Accept_Quest_Choice = Read-Host " "
-                                $Tavern_Accept_Quest_Choice = $Tavern_Accept_Quest_Choice.Trim()
-                            } until ($Tavern_Accept_Quest_Choice -in $Tavern_Accept_Quest_Choice_Array)
-                            if ($Tavern_Accept_Quest_Choice -ieq "a") {
-                                $Quest_Accepted = $true
+                                if ($Tavern_Quest_Info_Choice -ieq "h") {
+                                    $Quest_Name.Status = "Available"
+                                    $Quest_Name.InProgress = $false
+                                    $Quest_Name.Available = $true
+                                    $Quest_Name.Progress = "0"
+                                    # + Reward
+                                    # - item (if an item quest)
+                                }
                             }
-                        }
-                        $Exit_Quest_Board = $true
-                        $Exit_Drinks_Menu = $false
+                            $Exit_Quest_Board = $true
+                            $Exit_Drinks_Menu = $false
+                        } until ($Tavern_Quest_Board_Choice -ieq "e")
                     }
                     $First_Time_Entered_Tavern = $false
                 } until ($Tavern_Choice -ieq "e")
@@ -2246,12 +2262,12 @@ Function Draw_Quest_Log {
         foreach ($Quest_Name in $Quest_Names) {
             $Quest_Name = $Import_JSON.Quests.$Quest_Name
             $Quest_Log_Name_Right_Padding = " "*(32 - $Quest_Name.Name.Length)
-
-            if ($Quest_Name.Available -eq $true -or $Quest_Name.Status -eq "In Progress") {
+            $Quest_Log_Status_Right_Padding = " "*(12 - $Quest_Name.Status.Length)
+            if ($Quest_Name.Status -eq "In Progress" -or $Quest_Name.Status -eq "Hand In") {
                 $Quest_In_Progress_Count += 1
                 $Position += 1
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,$Position;$Host.UI.Write("")
-                Write-Color "| ","$($Quest_Name.QuestLetter)","$($Quest_Name.Name.SubString(1.0))$Quest_Log_Name_Right_Padding| ","$($Quest_Name.Status) ","|" -Color DarkGray,Green,DarkGray,DarkYellow,DarkGray
+                Write-Color "| ","$($Quest_Name.QuestLetter)","$($Quest_Name.Name.SubString(1.0))$Quest_Log_Name_Right_Padding| ","$($Quest_Name.Status)$Quest_Log_Status_Right_Padding","|" -Color DarkGray,Green,DarkGray,DarkYellow,DarkGray
                 $Available_Quest_Letters_Array.Add($Quest_Name.QuestLetter)
             }
         }
@@ -2268,7 +2284,7 @@ Function Draw_Quest_Log {
         Write-Color "+---------------------------------+-------------+" -Color DarkGray
         do {
             Save-JSON
-            for ($Position = 14; $Position -lt 24; $Position++) { # clear some lines from previous widow
+            for ($Position = 14; $Position -lt 34; $Position++) { # clear some lines from previous widow
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
             }
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
@@ -2292,6 +2308,8 @@ Function Draw_Quest_Log {
                             Write-Color "  Name        ",": $($Quest_Name.Name)" -Color White,DarkGray
                             Write-Color "  Description ",": $($Quest_Name.Description)" -Color White,DarkGray
                             Write-Color "  Reward      ",": $($Quest_Name.Reward)"," Gold" -Color White,DarkGray,DarkYellow
+                            Write-Color "  Progress    ",": $($Quest_Name.Progress) of $($Quest_Name.ProgressMax)" -Color White,DarkGray
+                            Write-Color "  Status      ",": $($Quest_Name.Status)" -Color White,DarkGray
                         }
                     }
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
