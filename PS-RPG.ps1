@@ -2230,55 +2230,78 @@ Function Visit_a_Building {
 # draw quest log
 #
 Function Draw_Quest_Log {
-    $Script:Info_Banner = "Quest Log"
-    Draw_Info_Banner
-    
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,0;$Host.UI.Write("")
-    Write-Color "+-----------------------------------------------+" -Color DarkGray
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,1;$Host.UI.Write("")
-    Write-Color "| ","Quest Log","                                     |" -Color DarkGray,White,DarkGray
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,2;$Host.UI.Write("")
-    Write-Color "+-----------------------------------------------+" -Color DarkGray
-    $Position = 2
-    $Available_Quest_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
-    $Quest_Names = $Import_JSON.Quests.PSObject.Properties.Name
-    $Quest_In_Progress_Count = 0
-    foreach ($Quest_Name in $Quest_Names) {
-        $Quest_Name = $Import_JSON.Quests.$Quest_Name
-        if ($Quest_Name.Available -eq $true -or $Quest_Name.Status -eq "In Progress") {
-            $Quest_In_Progress_Count += 1
+    Do {
+        # $Script:Info_Banner = "Quest Log"
+        # Draw_Info_Banner
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,0;$Host.UI.Write("")
+        Write-Color "+-----------------------------------------------+" -Color DarkGray
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,1;$Host.UI.Write("")
+        Write-Color "| ","Quest Log","                                     |" -Color DarkGray,White,DarkGray
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,2;$Host.UI.Write("")
+        Write-Color "+-----------------------------------------------+" -Color DarkGray
+        $Position = 2
+        $Available_Quest_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
+        $Quest_Names = $Import_JSON.Quests.PSObject.Properties.Name
+        $Quest_In_Progress_Count = 0
+        foreach ($Quest_Name in $Quest_Names) {
+            $Quest_Name = $Import_JSON.Quests.$Quest_Name
+            if ($Quest_Name.Available -eq $true -or $Quest_Name.Status -eq "In Progress") {
+                $Quest_In_Progress_Count += 1
+                $Position += 1
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,$Position;$Host.UI.Write("")
+                Write-Color "| ","$($Quest_Name.QuestLetter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status) ","|" -Color DarkGray,Green,DarkGray,DarkYellow,DarkGray
+                $Available_Quest_Letters_Array.Add($Quest_Name.QuestLetter)
+            }
+        }
+        $In_Progress_Quest_Letters_Array_String = $Available_Quest_Letters_Array -Join "/"
+        $In_Progress_Quest_Letters_Array_String = $In_Progress_Quest_Letters_Array_String + "/E"
+        $Quest_Log_Extra_Blank_Lines = 10 - $Quest_In_Progress_Count
+        for ($i = 0; $i -lt $Quest_Log_Extra_Blank_Lines; $i++) {
             $Position += 1
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,$Position;$Host.UI.Write("")
-            Write-Color "| ","$($Quest_Name.QuestLetter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status) ","|" -Color DarkGray,Green,DarkGray,DarkYellow,DarkGray
-            $Available_Quest_Letters_Array.Add($Quest_Name.QuestLetter)
+            Write-Color "|                                               |" -Color DarkGray
         }
-    }
-    $In_Progress_Quest_Letters_Array_String = $Available_Quest_Letters_Array -Join "/"
-    $In_Progress_Quest_Letters_Array_String = $In_Progress_Quest_Letters_Array_String + "/E"
-    $Quest_Log_Extra_Blank_Lines = 10 - $Quest_In_Progress_Count
-    for ($i = 0; $i -lt $Quest_Log_Extra_Blank_Lines; $i++) {
         $Position += 1
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,$Position;$Host.UI.Write("")
-        Write-Color "|                                               |" -Color DarkGray
-    }
-    $Position += 1
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,$Position;$Host.UI.Write("")
-    Write-Color "+-----------------------------------------------+" -Color DarkGray
-    do {
-        Save-JSON
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-        Write-Color -NoNewLine "Select a Quest for more info ", "[$In_Progress_Quest_Letters_Array_String]" -Color DarkYellow,Green
-        $Quest_Log_Choice = Read-Host " "
-        $Quest_Log_Choice = $Quest_Log_Choice.Trim()
-    } until ($Quest_Log_Choice -eq "e" -or $Quest_Log_Choice -in $Available_Quest_Letters_Array)
-    switch ($Quest_Log_Choice) {
-        $Quest_Log_Choice {
-            
-            break
+        Write-Color "+-----------------------------------------------+" -Color DarkGray
+        do {
+            Save-JSON
+            for ($Position = 14; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+            }
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+            Write-Color -NoNewLine "Select a Quest for more info ", "[$In_Progress_Quest_Letters_Array_String]" -Color DarkYellow,Green
+            $Quest_Log_Choice = Read-Host " "
+            $Quest_Log_Choice = $Quest_Log_Choice.Trim()
+        } until ($Quest_Log_Choice -eq "e" -or $Quest_Log_Choice -in $Available_Quest_Letters_Array)
+        switch ($Quest_Log_Choice) {
+            e {
+                Continue
+            }
+            $Quest_Log_Choice {
+                $Script:Info_Banner = "Quest Log Info"
+                Draw_Info_Banner
+                do {
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
+                    foreach ($Quest_Name in $Quest_Names) {
+                        $Quest_Name = $Import_JSON.Quests.$Quest_Name
+                        if ($Quest_Name.QuestLetter -ieq $Quest_Log_Choice) {
+                            Write-Color "  Name        ",": $($Quest_Name.Name)" -Color White,DarkGray
+                            Write-Color "  Description ",": $($Quest_Name.Description)" -Color White,DarkGray
+                            Write-Color "  Reward      ",": $($Quest_Name.Reward)"," Gold" -Color White,DarkGray,DarkYellow
+                        }
+                    }
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                    Write-Color -NoNewLine "E","xit ","[E]" -Color Green,DarkYellow,Green
+                    $Quest_Log_Info_Choice = Read-Host " "
+                    $Quest_Log_Info_Choice = $Quest_Log_Info_Choice.Trim()
+                } until ($Quest_Log_Info_Choice -ieq "e")
+            }
+            Default {}
         }
-        Default {}
-    }
+    } until ($Quest_Log_Choice -ieq "e")
 }
 
 
