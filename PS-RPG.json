@@ -511,33 +511,33 @@
     "Name": "Igert",
     "Class": "Mage",
     "Race": "Human",
-    "Level": 7,
-    "Total_XP": 25840,
-    "XP_TNL": 300.0,
+    "Level": 14,
+    "Total_XP": 32400,
+    "XP_TNL": 234.0,
     "Stats": {
       "HealthCurrent": 98.0,
-      "HealthMax": 130.0,
+      "HealthMax": 165.0,
       "HealthMaxUnBuffed": 0,
       "StaminaCurrent": 50,
-      "StaminaMax": 74,
+      "StaminaMax": 102,
       "ManaCurrent": 100,
-      "ManaMax": 199.0,
-      "ManaMaxUnBuffed": 142,
-      "Damage": 68,
-      "Attack": 62,
+      "ManaMax": 184,
+      "ManaMaxUnBuffed": 0,
+      "Damage": 124,
+      "Attack": 111,
       "AttackUnBuffed": 0,
-      "Armour": 50,
+      "Armour": 85,
       "ArmourUnBuffed": 0,
-      "Dodge": 44.0,
+      "Dodge": 72.0,
       "DodgeUnBuffed": 0,
-      "Quickness": 50,
-      "Spells": 109,
-      "Healing": 83
+      "Quickness": 78,
+      "Spells": 172,
+      "Healing": 132
     },
     "Buffs": {
-      "Duration": 2,
-      "Dropped": false,
-      "DrinksPurchased": 1
+      "Duration": 0,
+      "Dropped": true,
+      "DrinksPurchased": 0
     },
     "Skills": {
       "Dodge": 0,
@@ -548,11 +548,11 @@
       }
     },
     "Items": {
-      "Gold": 854121.0,
+      "Gold": 443.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
-          "Quantity": 93,
+          "Quantity": 1,
           "Restores": 30,
           "GoldValue": 50,
           "IsJunk": false,
@@ -561,7 +561,7 @@
         },
         "Mana Potion": {
           "Name": "Mana Potion",
-          "Quantity": 33,
+          "Quantity": 0,
           "Restores": 20,
           "Info": "Capacity 20",
           "GoldValue": 10,
@@ -570,7 +570,7 @@
         },
         "Greater Mana Potion": {
           "Name": "Greater Mana Potion",
-          "Quantity": 22,
+          "Quantity": 0,
           "Restores": 50,
           "Info": "Capacity 50",
           "GoldValue": 30,
@@ -579,7 +579,7 @@
         },
         "Lesser Mana Potion": {
           "Name": "Lesser Mana Potion",
-          "Quantity": 83,
+          "Quantity": 0,
           "Restores": 10,
           "Info": "Capacity 10",
           "GoldValue": 20,
@@ -604,7 +604,7 @@
         },
         "Hides": {
           "Name": "Hides",
-          "Quantity": 1,
+          "Quantity": 0,
           "Info": "Trader",
           "GoldValue": 10,
           "IsJunk": false,
@@ -612,7 +612,7 @@
         },
         "Chicken Feathers": {
           "Name": "Chicken Feathers",
-          "Quantity": 20,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 1,
           "IsJunk": true,
@@ -620,7 +620,7 @@
         },
         "Rook Feathers": {
           "Name": "Rook Feathers",
-          "Quantity": 23,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 2,
           "IsJunk": true,
@@ -628,7 +628,7 @@
         },
         "Rook Claws": {
           "Name": "Rook Claws",
-          "Quantity": 27,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 2,
           "IsJunk": true,
@@ -636,7 +636,7 @@
         },
         "Rat Tails": {
           "Name": "Rat Tails",
-          "Quantity": 24,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 3,
           "IsJunk": true,
@@ -644,7 +644,7 @@
         },
         "Rat Guts": {
           "Name": "Rat Guts",
-          "Quantity": 22,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 3,
           "IsJunk": true,
@@ -660,7 +660,7 @@
         },
         "Wolf Hides": {
           "Name": "Wolf Hides",
-          "Quantity": 1,
+          "Quantity": 0,
           "Info": "Skinner",
           "GoldValue": 90,
           "IsJunk": false,
@@ -668,7 +668,7 @@
         },
         "Wolf Teeth": {
           "Name": "Wolf Teeth",
-          "Quantity": 1,
+          "Quantity": 0,
           "Info": "???",
           "GoldValue": 3,
           "IsJunk": false,
@@ -684,7 +684,7 @@
         },
         "Boar Hides": {
           "Name": "Boar Hides",
-          "Quantity": 1,
+          "Quantity": 0,
           "Info": "Skinner",
           "GoldValue": 3,
           "IsJunk": false,
@@ -692,7 +692,7 @@
         },
         "Broken Boar Teeth": {
           "Name": "Broken Boar Teeth",
-          "Quantity": 2,
+          "Quantity": 0,
           "Info": "???",
           "GoldValue": 1,
           "IsJunk": false,
@@ -708,7 +708,7 @@
         },
         "Sharp Cat Teeth": {
           "Name": "Sharp Cat Teeth",
-          "Quantity": 8,
+          "Quantity": 0,
           "Info": "???",
           "GoldValue": 5,
           "IsJunk": false,
@@ -716,7 +716,7 @@
         },
         "Random Loot #1": {
           "Name": "Random Loot #1",
-          "Quantity": 79,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 5,
           "IsJunk": true,
@@ -724,7 +724,7 @@
         },
         "Random Loot #2": {
           "Name": "Random Loot #2",
-          "Quantity": 90,
+          "Quantity": 1,
           "Info": "?????",
           "GoldValue": 3,
           "IsJunk": false,
@@ -732,7 +732,7 @@
         },
         "Random Loot #3": {
           "Name": "Random Loot #3",
-          "Quantity": 78,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 4,
           "IsJunk": true,
@@ -740,7 +740,7 @@
         },
         "Random Loot #4": {
           "Name": "Random Loot #4",
-          "Quantity": 49,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 3,
           "IsJunk": true,
@@ -748,7 +748,7 @@
         },
         "Random Loot #5": {
           "Name": "Random Loot #5",
-          "Quantity": 35,
+          "Quantity": 0,
           "Info": "?????",
           "GoldValue": 3,
           "IsJunk": false,
@@ -868,7 +868,11 @@
       "Building": "Tavern",
       "HandInNPC": "Quest Board",
       "Mob": "Rat",
-      "Reward": 10,
+      "GoldReward": 10,
+      "ItemReward": {
+        "Lesser Health Potion": 3,
+        "Random Loot #2": 1
+      },
       "Progress": 0,
       "ProgressMax": 2,
       "LevelRange": "1-5",
@@ -876,7 +880,7 @@
       "InProgress": false,
       "Completed": false,
       "Repeatable": true,
-      "Status": "available"
+      "Status": "Available"
     },
     "Sick Elder": {
       "Name": "Sick Elder",
@@ -886,7 +890,8 @@
       "Building": "Tavern",
       "HandInNPC": "Quest Board",
       "Mob": false,
-      "Reward": 10,
+      "GoldReward": 10,
+      "ItemReward": false,
       "Progress": 0,
       "ProgressMax": 1,
       "LevelRange": "1-5",

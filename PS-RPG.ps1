@@ -13,6 +13,7 @@
 #   
 #   
 # - NEXT
+#   - limit inventory items to 99
 #   - buy items in The Anvil & Blade shop
 #   - add spells
 #   - add item equipment drops from mob loot
@@ -1852,6 +1853,9 @@ Function Visit_a_Building {
                                 Write-Color "  $($Import_JSON.Locations.Town.Buildings.Tavern.Owner) ","says you've had too many and refuses to serve you until you sober up." -Color Blue,DarkGray
                             }
                             if ($Exit_Quest_Board -eq $true -and $Import_JSON.Character.Buffs.DrinksPurchased -lt 2) {
+                                for ($Position = 17; $Position -lt 31; $Position++) { # clear some lines from previous widow
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                }
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                 if ($Drink_Purchased -eq $true) {
                                     Write-Color "  Maybe another ","D","rink before you leave?" -Color DarkGray,Green,DarkGray
@@ -2008,7 +2012,7 @@ Function Visit_a_Building {
                                 }
                                 if ($Quest_Accepted -eq $true) {
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                    for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                                    for ($Position = 17; $Position -lt 31; $Position++) { # clear some lines from previous widow
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                     }
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
@@ -2021,6 +2025,11 @@ Function Visit_a_Building {
                                     $Import_JSON.Quests.$Quest_Name.InProgress = $true
                                     $Import_JSON.Quests.$Quest_Name.Status = "In Progress"
                                     Save-JSON
+                                } else {
+                                    for ($Position = 17; $Position -lt 31; $Position++) { # clear some lines from previous widow
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                    }
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                 }
                                 Write-Color "  The following quests are pinned to the board." -Color DarkGray
                                 Write-Color "`r" -Color DarkGray
@@ -2055,7 +2064,8 @@ Function Visit_a_Building {
                                     }
                                     Write-Color "  Name        ",": $($Quest_Name.Name)" -Color White,DarkGray
                                     Write-Color "  Description ",": $($Quest_Name.Description)" -Color White,DarkGray
-                                    Write-Color "  Reward      ",": $($Quest_Name.Reward)"," Gold" -Color White,DarkGray,DarkYellow
+                                    Write-Color "  Reward      ",": $($Quest_Name.GoldReward)"," Gold" -Color White,DarkGray,DarkYellow
+                                    Write-Color "  Progress    ",": $($Quest_Name.Progress) of $($Quest_Name.ProgressMax)" -Color White,DarkGray
                                     Write-Color "  Status      ",": $($Quest_Name.Status)" -Color White,DarkGray
                                     Write-Color "  Location    ",": $($Quest_Name.HandInLocation)" -Color White,DarkGray
                                     Write-Color "  Building    ",": $($Quest_Name.Building)" -Color White,DarkGray
@@ -2087,12 +2097,32 @@ Function Visit_a_Building {
                                 }
                                 # hand in a quest
                                 if ($Tavern_Quest_Info_Choice -ieq "h") {
-                                    $Quest_Name.Status = "Available"
-                                    $Quest_Name.InProgress = $false
-                                    $Quest_Name.Available = $true
-                                    $Quest_Name.Progress = 0
-                                    # + Reward
-                                    # - item (if an item quest)
+                                    do {
+                                        # reset quest
+                                        $Quest_Name.Status = "Available"
+                                        $Quest_Name.InProgress = $false
+                                        $Quest_Name.Available = $true
+                                        $Quest_Name.Progress = 0
+                                        # update gold
+                                        $Import_JSON.Character.Items.Gold += $Quest_Name.GoldReward
+                                        $Script:Gold = $Import_JSON.Character.Items.Gold
+                                        Draw_Player_Window_and_Stats
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,25;$Host.UI.Write("");" "*105
+                                        Write-Color "  Thank you for completing this quest ","$Character_Name",". Here is your reward." -Color DarkGray,Blue,DarkGray
+                                        Write-Color "  $($Quest_Name.GoldReward) Gold" -Color DarkYellow
+                                        # if there are reward items, update inventory
+                                        if (-not($Quest_Name.ItemReward -eq $false)) {
+                                            foreach ($item in $Quest_Name.ItemReward.PSObject.Properties.Name) {
+                                                Write-Color "  $Item" -Color DarkGray
+                                                $Import_JSON.Character.Items.Inventory.$Item.Quantity += 1
+                                            }
+                                        }
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                        Write-Color -NoNewLine "E","xit ","[E]" -Color Green,DarkYellow,Green
+                                        $Quest_Hand_In_Exit = Read-Host " "
+                                        $Quest_Hand_In_Exit = $Quest_Hand_In_Exit.Trim()
+                                    } until ($Quest_Hand_In_Exit -ieq "e")
                                 }
                                 Save-JSON
                             }
@@ -2319,7 +2349,8 @@ Function Draw_Quest_Log {
                         if ($Quest_Name.QuestLetter -ieq $Quest_Log_Choice) {
                             Write-Color "  Name        ",": $($Quest_Name.Name)" -Color White,DarkGray
                             Write-Color "  Description ",": $($Quest_Name.Description)" -Color White,DarkGray
-                            Write-Color "  Reward      ",": $($Quest_Name.Reward)"," Gold" -Color White,DarkGray,DarkYellow
+                            Write-Color "  Reward      ",": $($Quest_Name.GoldReward)"," Gold" -Color White,DarkGray,DarkYellow
+                            Write-Color "  Progress    ",": $($Quest_Name.Progress) of $($Quest_Name.ProgressMax)" -Color White,DarkGray
                             Write-Color "  Status      ",": $($Quest_Name.Status)" -Color White,DarkGray
                             Write-Color "  Location    ",": $($Quest_Name.HandInLocation)" -Color White,DarkGray
                             Write-Color "  Building    ",": $($Quest_Name.Building)" -Color White,DarkGray
