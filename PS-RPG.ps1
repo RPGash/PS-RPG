@@ -5,7 +5,7 @@
 #   - "Sort-Object Name" not working when displaying inventory Items
 #       (items are not collected then displayed, but instead written out one by one)
 #   - when viewing the available buildings in Town, none of them show which letter to choose for that selection
-#   
+#   - error when inventory empty
 #   
 #   
 # - TEST
@@ -2052,6 +2052,7 @@ Function Visit_a_Building {
                             } until ($Tavern_Quest_Board_Choice -eq "e" -or $Tavern_Quest_Board_Choice -in $Available_Quest_Letters_Array)
                             if ($Tavern_Quest_Board_Choice -in $Available_Quest_Letters_Array) {
                                 do {
+                                    Draw_Inventory
                                     for ($Position = 17; $Position -lt 28; $Position++) { # clear some lines from previous widow
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                     }
@@ -2113,10 +2114,11 @@ Function Visit_a_Building {
                                         # if there are reward items, update inventory
                                         if (-not($Quest_Name.ItemReward -eq $false)) {
                                             foreach ($item in $Quest_Name.ItemReward.PSObject.Properties.Name) {
-                                                Write-Color "  $Item" -Color DarkGray
-                                                $Import_JSON.Character.Items.Inventory.$Item.Quantity += 1
+                                                $Import_JSON.Character.Items.Inventory.$Item.Quantity += $Quest_Name.ItemReward.$Item
+                                                Write-Color "  x$($Quest_Name.ItemReward.$Item) ","$Item" -Color White,DarkGray
                                             }
                                         }
+                                        Draw_Inventory
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                                         Write-Color -NoNewLine "E","xit ","[E]" -Color Green,DarkYellow,Green
