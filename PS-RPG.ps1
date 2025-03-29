@@ -23,8 +23,7 @@
 #   - change "you are low on health/mana" message to
 #       if less than 25%/50% = "you are running low/very low on health/mana"
 #       if 50% or above = "you are not at max health" (maybe?)
-#   - different message types
-#       you hit/strike/bash/wack at mob - done
+#   - different message types for
 #       heals? kills? buffs etc.
 #   - [ongoing] an info page available after starting the game
 #       game info, PSWriteColour module, GitHub, website, uninstall module,
@@ -37,7 +36,7 @@
 #
 # - KNOWN ISSUES
 #   - On the Travel page, the available locations to travel to does not show the single character highlighted in Green as the choice for that location. e.g. if "Town" is listed, the letter "T" is not Green. All location names are White, but the question does show the correct highlighted characters for hat area.
-#   - if a player purchases one drink and gains its buff, kills mobs until one buff left (not necessarily one but the closer to zero the better the exploit), they can go buy another buff and it will extend the original buff for another full duration rather than the first buff expiring after one more fight. both buffs last the full duration. in other words getting a "free" buff.
+#   - if a player purchases one drink and gains its buff, kills mobs until one kill left before it drops (not necessarily one but the closer to zero the better the exploit), they can go buy a second buff and it will extend the original buff for another full duration rather than the first buff expiring after one more fight. both buffs last the full duration. in other words getting a "free" buff.
 #   
 
 # write errors out to log file
