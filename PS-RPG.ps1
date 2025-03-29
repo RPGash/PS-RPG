@@ -24,7 +24,7 @@
 #       if less than 25%/50% = "you are running low/very low on health/mana"
 #       if 50% or above = "you are not at max health" (maybe?)
 #   - different message types
-#       you hit/strike/bash/wack at mob
+#       you hit/strike/bash/wack at mob - done
 #       heals? kills? buffs etc.
 #   - [ongoing] an info page available after starting the game
 #       game info, PSWriteColour module, GitHub, website, uninstall module,
@@ -999,7 +999,7 @@ Function Draw_Inventory {
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Position;$Host.UI.Write("")
             # if no items in inventory, else an actual item
             if ($Inventory_Is_Empty -eq $true) {
-                Write-Color "|  | Inventory Empty     |       |" -Color DarkGray
+                Write-Color "|  | Inventory Empty |       |" -Color DarkGray
                 $Inventory_Is_Empty = $false
                 Break
             } else {
@@ -1310,21 +1310,37 @@ Function Fight_Or_Run {
                         }
                         Draw_Mob_Window_and_Stats
                         if ($First_Turn -eq $true) {
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("");" "*105
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("");" "*105
+                            for ($Position = 18; $Position -lt 20; $Position++) { # clear some lines from previous widow
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                            }
                         } else {
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("");" "*105
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("");" "*105
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("");" "*105
+                            for ($Position = 17; $Position -lt 20; $Position++) { # clear some lines from previous widow
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                            }
+                        }
+                        [System.Collections.ArrayList]$Random_Player_Hit_Verb = ("successfully","effectively","adeptly","masterfully","effortlessly","expertly","dexterously","deftly","nimbly","gracefully")
+                        $Random_Player_Hit_Verb_Word = Get-Random -Input $Random_Player_Hit_Verb
+                        [System.Collections.ArrayList]$Random_Player_Hit = ("cleave","slice","rend","scythe through","carve","lacerate","crush","smash","pound","wack","maul","pierce","impale","skewer","puncture","jab","thrust","hit")
+                        $Random_Player_Hit_Word = Get-Random -Input $Random_Player_Hit
+                        [System.Collections.ArrayList]$Random_Player_Hit_Health = ("health","hit points","damage","life")
+                        $Random_Player_Hit_Health_Word = Get-Random -Input $Random_Player_Hit_Health
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
+                        Write-Color "  You $Random_Player_Hit_Verb_Word ",$Crit_Hit,"$Random_Player_Hit_Word the ","$($Selected_Mob.Name)"," for ","$Character_Hit_Damage ","$Random_Player_Hit_Health_Word." -Color DarkGray,Red,DarkGray,Blue,DarkGray,Red,DarkGray
+                    } else {
+                        for ($Position = 17; $Position -lt 20; $Position++) { # clear some lines from previous widow
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                         }
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                        Write-Color "  You successfully ",$Crit_Hit,"hit the ","$($Selected_Mob.Name)"," for ","$Character_Hit_Damage ","health." -Color DarkGray,Red,DarkGray,Blue,DarkGray,Red,DarkGray
-                    } else {
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("");" "*105
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("");" "*105
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("");" "*105
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                        Write-Color "  You miss the ","$($Selected_Mob.Name)","." -Color DarkGray,Blue,DarkGray
+                        $Get_Random_Player_Miss = Get-Random -Minimum 1 -Maximum 3
+                        if ($Get_Random_Player_Miss -eq 1) {
+                            [System.Collections.ArrayList]$Random_Player_Miss = ("sidesteps your attack","nimbly dodges your blow","creature ducks out of the way","weaves to avoid your strike","anticipates your move and you miss","dances away from danger","reacts quickly, evading your hit","reflexes are too fast and you miss","gracefully avoids your clumsy attack")
+                            $Random_Player_Miss_Word = Get-Random -Input $Random_Player_Miss
+                            Write-Color "  The ","$($Selected_Mob.Name) ","$Random_Player_Miss_Word." -Color DarkGray,Blue,DarkGray
+                        } else {
+                            [System.Collections.ArrayList]$Random_Player_Miss = ("Your swing misses the","Your attack falls short and you miss the","Your blow goes astray missing the","You fail to connect a hit on the","Your strike doesn't land on the","You hit nothing air missing the","A near miss on the","Your weapon whistles past the","The attack glances off the")
+                            $Random_Player_Miss_Word = Get-Random -Input $Random_Player_Miss
+                            Write-Color "  $Random_Player_Miss_Word ","$($Selected_Mob.Name)","." -Color DarkGray,Blue,DarkGray
+                        }
                     }
                 }
                 # spells
@@ -1353,8 +1369,15 @@ Function Fight_Or_Run {
                         $Selected_Mob_Hit_Damage = [Math]::Round($Selected_Mob_Hit_Damage*20/100+$Selected_Mob_Hit_Damage)
                         $Crit_Hit = "critically "
                     }
+
+                    [System.Collections.ArrayList]$Random_Mob_Hit_Verb = ("successfully","effectively","adeptly","masterfully","effortlessly","expertly","dexterously","deftly","nimbly","gracefully")
+                    $Random_Mob_Hit_Verb_Word = Get-Random -Input $Random_Mob_Hit_Verb
+                    [System.Collections.ArrayList]$Random_Mob_Hit = ("cleave","slice","rend","scythe through","carve","lacerate","crush","smash","pound","wack","maul","pierce","impale","skewer","puncture","jab","thrust","hit")
+                    $Random_Mob_Hit_Word = Get-Random -Input $Random_Mob_Hit
+                    [System.Collections.ArrayList]$Random_Mob_Hit_Health = ("health","hit points","damage","life")
+                    $Random_Mob_Hit_Health_Word = Get-Random -Input $Random_Mob_Hit_Health
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
-                    Write-Color "  The ","$($Selected_Mob.Name) ",$Crit_Hit,"hits you for ","$Selected_Mob_Hit_Damage ","health." -Color DarkGray,Blue,Red,DarkGray,Red,DarkGray
+                    Write-Color "  The ","$($Selected_Mob.Name) ","$Random_Mob_Hit_Verb_Word ",$Crit_Hit,"$Random_Mob_Hit_Word you for ","$Selected_Mob_Hit_Damage ","$Random_Mob_Hit_Health_Word." -Color DarkGray,Blue,DarkGray,Red,DarkGray,Red,DarkGray
                     # adjust player health by damage amount
                     $Script:Character_HealthCurrent = $Character_HealthCurrent - $Selected_Mob_Hit_Damage
                     $Import_JSON.Character.Stats.HealthCurrent = $Character_HealthCurrent
@@ -1362,7 +1385,10 @@ Function Fight_Or_Run {
                     Draw_Player_Window_and_Stats
                 } else {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
-                    Write-Color "  The ","$($Selected_Mob.Name) ","misses you." -Color DarkGray,Blue,DarkGray
+                    [System.Collections.ArrayList]$Random_Mob_Miss = (" swings and misses you","'s attack falls short and missing you","'s blow goes astray missing you"," fails to connect a hit on you","'s strike doesn't land on you"," hits nothing but air missing you","'s attack whistles past you ear","'s attack glances off you")
+                    $Random_Mob_Miss_Word = Get-Random -Input $Random_Mob_Miss
+
+                    Write-Color "  The ","$($Selected_Mob.Name)","$Random_Mob_Miss_Word." -Color DarkGray,Blue,DarkGray
                 }
                 $Player_Turn = $true
                 $Continue_Fight = $true
@@ -1478,8 +1504,9 @@ Function Fight_Or_Run {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     Write-Color "  You escaped from the ","$($Selected_Mob.Name)","." -Color DarkGray,Blue,DarkGray
                 } else {
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("");" "*105
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("");" "*105
+                    for ($Position = 17; $Position -lt 18; $Position++) { # clear some lines from previous widow
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                    }
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     Write-Color "  You failed to escape the ","$($Selected_Mob.Name)","!" -Color DarkGray,Blue,DarkGray
                     $Fight_Or_Escape = "" # reset so it does not exit the loop and stays in combat
@@ -1755,8 +1782,9 @@ Function Visit_a_Building {
                         Save-JSON
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                         Draw_Player_Window_and_Stats
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("");" "*105
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("");" "*105
+                        for ($Position = 17; $Position -lt 19; $Position++) { # clear some lines from previous widow
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                        }
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                         Write-Color "  You are now fully rested. There is nothing else to do but leave." -Color DarkGray
                         $Home_Choice_Letters_Array.Add("E") # array now only contains L
@@ -1852,7 +1880,6 @@ Function Visit_a_Building {
                                 Write-Color "  Maybe you'd like a ","D","rink before you leave?" -Color DarkGray,Green,DarkGray
                             }
                             if ($Exit_Quest_Board -eq $true -and $Import_JSON.Character.Buffs.DrinksPurchased -eq 2) {
-                                # $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                 Write-Color "  Stay safe out there, $($Character_Name)" -Color DarkGray,Green,DarkGray
                             }
                         }
