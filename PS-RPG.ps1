@@ -33,7 +33,6 @@
 #       CTRL+C warning and file syncing issue (e.g. Google Drive or OneDrive etc.)
 #   - consider changing mob crit rate/damage to from fixed 20%/20% to specific % for different mobs
 #   - change leaving Home from "Leave" to "Exit"? for consistency
-#   - check the following is still used or can be removed/edited
 #   - when viewing the available buildings in Town, none of them show which letter to choose for that selection
 #       New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
 #
@@ -1761,7 +1760,8 @@ Function Visit_a_Building {
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("");" "*105
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                         Write-Color "  You are now fully rested. There is nothing else to do but leave." -Color DarkGray
-                        $Home_Choice_Letters_Array.Add("L") # array now only contains L
+                        $Home_Choice_Letters_Array.Add("E") # array now only contains L
+                        $Home_Choice_Letters_Array_String = "E"
                     } else {
                         Write-Color "  You are now inside your ","Home","." -Color DarkGray,White,DarkGray
                         if (($Character_HealthCurrent -lt $Character_HealthMax) -or ($Character_ManaCurrent -lt $Character_ManaMax)) {
@@ -1771,7 +1771,7 @@ Function Visit_a_Building {
                         } else {
                             $Fully_Healed = ", but it looks like you are already fully rested."
                         }
-                        $Home_Choice_Letters_Array.Add("L")
+                        $Home_Choice_Letters_Array.Add("E")
                         $Home_Choice_Letters_Array_String = $Home_Choice_Letters_Array -Join "/"
                         Write-Color "  You can rest here and recover your ","health ","and ","mana","$($Fully_Healed)" -Color DarkGray,Green,DarkGray,Blue,DarkGray
                     }
@@ -1779,9 +1779,9 @@ Function Visit_a_Building {
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                         if ($Home_Choice_Letters_Array.Contains("R")) {
-                            Write-Color -NoNewLine "R","est or ","L","eave? ", "[$Home_Choice_Letters_Array_String]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                            Write-Color -NoNewLine "R","est or ","E","xit? ", "[$Home_Choice_Letters_Array_String]" -Color Green,DarkYellow,Green,DarkYellow,Green
                         } else {
-                            Write-Color -NoNewLine "L","eave ", "[$Home_Choice_Letters_Array_String]" -Color Green,DarkYellow,Green
+                            Write-Color -NoNewLine "E","xit ", "[$Home_Choice_Letters_Array_String]" -Color Green,DarkYellow,Green
                         }
                         $Home_Choice = Read-Host " "
                         $Home_Choice = $Home_Choice.Trim()
@@ -1791,7 +1791,7 @@ Function Visit_a_Building {
                         $Script:Character_HealthCurrent = $Character_HealthMax
                         $Import_JSON.Character.Stats.HealthCurrent = $Character_HealthCurrent
                     }
-                } until ($Home_Choice -ieq "l")
+                } until ($Home_Choice -ieq "e")
             }
             t { # tavern
                 # updates location text colour
