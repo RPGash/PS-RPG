@@ -2,7 +2,7 @@
 # ----
 #
 # - BUGS
-#   - when selecting a character race and choosing e for exit, result is Elf but displays "Exit"
+#   -
 #   
 #   
 # - TEST
@@ -724,9 +724,7 @@ Function Create_Character {
             do {
                 $Character_Class = $false
                 $Character_Class_Confirm = $false
-                
                 Class_Race_Info
-                
                 Write-Color -NoNewLine "Choose your Characters Class ", "[M/R/C/W]" -Color DarkYellow,Green
                 $Character_Class = Read-Host " "
             if ($Character_Class -ieq "e") {{Exit}}
@@ -753,12 +751,9 @@ Function Create_Character {
             do {
                 $Character_Race = $false
                 $Character_Race_Confirm = $false
-                
                 Class_Race_Info
-                
                 Write-Color -NoNewLine "Choose your Characters Race ", "[E/O/D/H]" -Color DarkYellow,Green
                 $Character_Race = Read-Host " "
-                if ($Character_Race -ieq "e") {{Exit}}
             } until ($Character_Race -ieq "e" -or $Character_Race -ieq "o" -or $Character_Race -eq "d" -or $Character_Race -eq "h")
             switch ($Character_Race) {
                 e { $Character_Race = "Elf";$A_AN = "an" }

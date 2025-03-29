@@ -1,5 +1,5 @@
 {
-  "CharacterCreation": false,
+  "CharacterCreation": true,
   "Locations": {
     "Town": {
       "CurrentLocation": true,
@@ -509,31 +509,31 @@
     }
   },
   "Character": {
-    "Name": "",
-    "Class": "",
-    "Race": "",
+    "Name": "Ebrir",
+    "Class": "Mage",
+    "Race": "Elf",
     "Level": 1,
     "Total_XP": 0,
     "XP_TNL": 0.0,
     "Stats": {
-      "HealthCurrent": 0.0,
-      "HealthMax": 0.0,
+      "HealthCurrent": 50,
+      "HealthMax": 50,
       "HealthMaxUnBuffed": 0,
-      "StaminaCurrent": 0,
-      "StaminaMax": 0,
-      "ManaCurrent": 0,
-      "ManaMax": 0,
+      "StaminaCurrent": 40,
+      "StaminaMax": 40,
+      "ManaCurrent": 80,
+      "ManaMax": 80,
       "ManaMaxUnBuffed": 0,
-      "Damage": 0,
-      "Attack": 0,
+      "Damage": 10,
+      "Attack": 4,
       "AttackUnBuffed": 0,
-      "Armour": 0,
+      "Armour": 4,
       "ArmourUnBuffed": 0,
-      "Dodge": 0.0,
+      "Dodge": 1,
       "DodgeUnBuffed": 0,
-      "Quickness": 0,
-      "Spells": 0,
-      "Healing": 0
+      "Quickness": 4,
+      "Spells": 10,
+      "Healing": 6
     },
     "Buffs": {
       "Duration": 0,
