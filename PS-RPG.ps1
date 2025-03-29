@@ -2,6 +2,7 @@
 # ----
 #
 # - BUGS
+#   - when selecting a character race and choosing e for exit, result is Elf but displays "Exit"
 #   
 #   
 # - TEST
@@ -37,7 +38,6 @@
 #       New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
 #
 # - KNOWN ISSUES
-#   - if no JSON file is found, then you start a new game but quit before completing character creation, the game finds an "empty" game file and loads with no character data - FIX is to start a new game? or check for an "empty" file and delete?
 #   - On the Travel page, the available locations to travel to does not show the single character highlighted in Green as the choice for that location. e.g. if "Town" is listed, the letter "T" is not Green. All location names are White, but the question does show the correct highlighted characters for hat area.
 #   - if a player purchases one drink and gains its buff, kills mobs until one buff left (not necessarily one but the closer to zero the better the exploit), they can go buy another buff and it will extend the original buff for another full duration rather than the first buff expiring after one more fight. both buffs last the full duration. in other words getting a "free" buff.
 #   
@@ -861,6 +861,7 @@ Function Create_Character {
         $Import_JSON.Character.Stats.Spells         = 1
         $Import_JSON.Character.Stats.Healing        = 4
     }
+    $Import_JSON.CharacterCreation = $true
     Save-JSON
     Import-JSON
     Set_Variables
@@ -2389,8 +2390,16 @@ Function Draw_Quest_Log {
 #
 
 #
-# check for save data first
+# check for JSON save file
 #
+# if the save file has the CharacterCreation flag set to false, deletes JSON file
+if (Test-Path -Path .\PS-RPG.json) {
+    Import-JSON
+    if ($Import_JSON.CharacterCreation -eq $false) {
+        Remove-Item -Path .\PS-RPG.json
+    }
+}
+# loads save file
 if (Test-Path -Path .\PS-RPG.json) {
     do {
         Clear-Host

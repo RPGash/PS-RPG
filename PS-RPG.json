@@ -1,4 +1,5 @@
 {
+  "CharacterCreation": false,
   "Locations": {
     "Town": {
       "CurrentLocation": true,
@@ -508,31 +509,31 @@
     }
   },
   "Character": {
-    "Name": "Igert",
-    "Class": "Mage",
-    "Race": "Human",
-    "Level": 17,
-    "Total_XP": 37600,
-    "XP_TNL": 200.0,
+    "Name": "",
+    "Class": "",
+    "Race": "",
+    "Level": 1,
+    "Total_XP": 0,
+    "XP_TNL": 0.0,
     "Stats": {
-      "HealthCurrent": 98.0,
-      "HealthMax": 180.0,
+      "HealthCurrent": 0.0,
+      "HealthMax": 0.0,
       "HealthMaxUnBuffed": 0,
-      "StaminaCurrent": 50,
-      "StaminaMax": 114,
-      "ManaCurrent": 100,
-      "ManaMax": 205,
+      "StaminaCurrent": 0,
+      "StaminaMax": 0,
+      "ManaCurrent": 0,
+      "ManaMax": 0,
       "ManaMaxUnBuffed": 0,
-      "Damage": 148,
-      "Attack": 132,
+      "Damage": 0,
+      "Attack": 0,
       "AttackUnBuffed": 0,
-      "Armour": 100,
+      "Armour": 0,
       "ArmourUnBuffed": 0,
-      "Dodge": 84.0,
+      "Dodge": 0.0,
       "DodgeUnBuffed": 0,
-      "Quickness": 90,
-      "Spells": 199,
-      "Healing": 153
+      "Quickness": 0,
+      "Spells": 0,
+      "Healing": 0
     },
     "Buffs": {
       "Duration": 0,
@@ -548,11 +549,11 @@
       }
     },
     "Items": {
-      "Gold": 659.0,
+      "Gold": 443.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
-          "Quantity": 99,
+          "Quantity": 0,
           "Restores": 30,
           "GoldValue": 50,
           "IsJunk": false,
@@ -579,7 +580,7 @@
         },
         "Lesser Mana Potion": {
           "Name": "Lesser Mana Potion",
-          "Quantity": 1,
+          "Quantity": 0,
           "Restores": 10,
           "Info": "Capacity 10",
           "GoldValue": 20,
@@ -588,7 +589,7 @@
         },
         "Bones": {
           "Name": "Bones",
-          "Quantity": 10,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 5,
           "IsJunk": true,
@@ -612,7 +613,7 @@
         },
         "Chicken Feathers": {
           "Name": "Chicken Feathers",
-          "Quantity": 10,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 1,
           "IsJunk": true,
@@ -620,7 +621,7 @@
         },
         "Rook Feathers": {
           "Name": "Rook Feathers",
-          "Quantity": 99,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 2,
           "IsJunk": true,
@@ -628,7 +629,7 @@
         },
         "Rook Claws": {
           "Name": "Rook Claws",
-          "Quantity": 99,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 2,
           "IsJunk": true,
@@ -636,7 +637,7 @@
         },
         "Rat Tails": {
           "Name": "Rat Tails",
-          "Quantity": 2,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 3,
           "IsJunk": true,
@@ -644,7 +645,7 @@
         },
         "Rat Guts": {
           "Name": "Rat Guts",
-          "Quantity": 1,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 3,
           "IsJunk": true,
@@ -716,7 +717,7 @@
         },
         "Random Loot #1": {
           "Name": "Random Loot #1",
-          "Quantity": 92,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 5,
           "IsJunk": true,
@@ -724,7 +725,7 @@
         },
         "Random Loot #2": {
           "Name": "Random Loot #2",
-          "Quantity": 99,
+          "Quantity": 0,
           "Info": "?????",
           "GoldValue": 3,
           "IsJunk": false,
@@ -732,7 +733,7 @@
         },
         "Random Loot #3": {
           "Name": "Random Loot #3",
-          "Quantity": 12,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 4,
           "IsJunk": true,
@@ -740,7 +741,7 @@
         },
         "Random Loot #4": {
           "Name": "Random Loot #4",
-          "Quantity": 2,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 3,
           "IsJunk": true,
@@ -748,7 +749,7 @@
         },
         "Random Loot #5": {
           "Name": "Random Loot #5",
-          "Quantity": 2,
+          "Quantity": 0,
           "Info": "?????",
           "GoldValue": 3,
           "IsJunk": false,
@@ -871,7 +872,7 @@
       "GoldReward": 10,
       "ItemReward": {
         "Lesser Health Potion": 3,
-        "Random Loot #2": 5
+        "Random Loot #2": 1
       },
       "Progress": 0,
       "ProgressMax": 2,
