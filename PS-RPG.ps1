@@ -32,7 +32,6 @@
 #       crit chance,
 #       CTRL+C warning and file syncing issue (e.g. Google Drive or OneDrive etc.)
 #   - consider changing mob crit rate/damage to from fixed 20%/20% to specific % for different mobs
-#   - change leaving Home from "Leave" to "Exit"? for consistency
 #   - when viewing the available buildings in Town, none of them show which letter to choose for that selection
 #       New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
 #
