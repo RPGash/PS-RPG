@@ -2,8 +2,6 @@
 # ----
 #
 # - BUGS
-#   - "Sort-Object Name" not working when displaying inventory Items
-#       (items are not collected then displayed, but instead written out one by one)
 #   
 #   
 # - TEST
@@ -933,7 +931,7 @@ Function Draw_Inventory {
     # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
     $Inventory_Items_Name_Array = New-Object System.Collections.Generic.List[System.Object]
     $Inventory_Items_Gold_Value_Array = New-Object System.Collections.Generic.List[System.Object]
-    $Script:Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name
+    $Script:Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name | Sort-Object
     foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
         if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
             $Inventory_Items_Name_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name.Length)
@@ -975,7 +973,7 @@ Function Draw_Inventory {
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,2;$Host.UI.Write("")
     Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+" -Color DarkGray
     $Position = 2
-    foreach ($Inventory_Item_Name in $Inventory_Item_Names | Sort-Object Name) {
+    foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
         if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0 -or $Inventory_Is_Empty -eq $true) {
             $Position += 1
             # padding for name length

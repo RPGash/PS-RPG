@@ -579,7 +579,7 @@
         },
         "Lesser Mana Potion": {
           "Name": "Lesser Mana Potion",
-          "Quantity": 0,
+          "Quantity": 1,
           "Restores": 10,
           "Info": "Capacity 10",
           "GoldValue": 20,
@@ -588,7 +588,7 @@
         },
         "Bones": {
           "Name": "Bones",
-          "Quantity": 0,
+          "Quantity": 10,
           "Info": "Junk",
           "GoldValue": 5,
           "IsJunk": true,
@@ -612,7 +612,7 @@
         },
         "Chicken Feathers": {
           "Name": "Chicken Feathers",
-          "Quantity": 0,
+          "Quantity": 10,
           "Info": "Junk",
           "GoldValue": 1,
           "IsJunk": true,
