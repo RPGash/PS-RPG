@@ -11,7 +11,6 @@
 #   
 #   
 # - NEXT
-#   - limit inventory items to 99
 #   - buy items in The Anvil & Blade shop
 #   - add spells
 #   - add item equipment drops from mob loot
@@ -977,14 +976,12 @@ Function Draw_Inventory {
     } else {
         $Inventory_Box_Gold_Value_Width_Middle = " "*1
     }
-    
     # get max item name length
     $Inventory_Items_Name_Array_Max_Length = ($Inventory_Items_Name_Array | Measure-Object -Maximum).Maximum
     # calculate top and bottom name width
     $Inventory_Box_Name_Width_Top_Bottom = "-"*($Inventory_Items_Name_Array_Max_Length + 7)
     # calculate middle name width
     $Inventory_Box_Name_Width_Middle = " "*($Inventory_Items_Name_Array_Max_Length - 7)
-    
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,0;$Host.UI.Write("")
     Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+" -Color DarkGray
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,1;$Host.UI.Write("")
@@ -1015,16 +1012,6 @@ Function Draw_Inventory {
             } else {
                 $Gold_Value_Right_Padding = " "*($Inventory_Items_Gold_Value_Array_Max_Length - ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters + 1)
             }
-            # only show potion IDs in inventory
-            # if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*potion*") {
-            #     if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
-            #         $ID_Number = "$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)"
-            #     } else {
-            #         $ID_Number = " $($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)" # if ID is a single digit (1 extra $Padding)
-            #     }
-            # } else { # padding for non-potions (so displays no IDs)
-            #     $ID_Number = "  "
-            # }
             if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
                 $ID_Number = "$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)"
             } else {
@@ -1032,8 +1019,9 @@ Function Draw_Inventory {
             }
             Inventory_Highlight
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Position;$Host.UI.Write("")
+            # if no items in inventory, else an actual item
             if ($Inventory_Is_Empty -eq $true) {
-                Write-Color "|  |   Inventory Empty   |       |" -Color DarkGray
+                Write-Color "|  | Inventory Empty     |       |" -Color DarkGray
                 $Inventory_Is_Empty = $false
                 Break
             } else {
@@ -1442,16 +1430,23 @@ Function Fight_Or_Run {
                                 $Script:Import_JSON.Character.Items.Gold = $Import_JSON.Character.Items.Gold + $Looted_Gold
                                 $Script:Gold = $Import_JSON.Character.Items.Gold + $Looted_Gold
                             } else { # add non-gold loot
-                                $Looted_Items.Add("1x $($Loot_Item)")
                                 # update non-gold items in inventory
-                                $Script:Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity = ($Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity += 1)
+                                $Current_Item_Quantity = $Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity
+                                if ($Current_Item_Quantity + $Selected_Mob.Loot.$Loot_Item -gt 99) {
+                                    $Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity = 99
+                                    $Max_99_Items = "(MAX 99 items)"
+                                } else {
+                                    $Script:Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity = ($Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity += $Selected_Mob.Loot.$Loot_Item)
+                                    $Max_99_Items = ""
+                                }
+                                $Looted_Items.Add("$($Selected_Mob.Loot.$Loot_Item)x $($Loot_Item) $MAX_99_Items")
                                 Save-JSON
                             }
                         }
                     }
                     if ($Looted_Items -gt 0) {
                         Write-Color "  The ", "$($Selected_Mob.Name) ", "dropped the following items:" -Color DarkGray,Blue,DarkGray
-                        Write-Color "  $($Looted_Items)" -Color DarkGray,White
+                        Write-Color "  $($Looted_Items)" -Color DarkGray
                         Draw_Inventory
                     } else {
                         Write-Color "  The ", "$($Selected_Mob.Name) ", "did not drop any loot." -Color DarkGray,Blue,DarkGray
@@ -2127,9 +2122,16 @@ Function Visit_a_Building {
                                         Write-Color "  $($Quest_Name.GoldReward) Gold" -Color DarkYellow
                                         # if there are reward items, update inventory
                                         if (-not($Quest_Name.ItemReward -eq $false)) {
-                                            foreach ($item in $Quest_Name.ItemReward.PSObject.Properties.Name) {
-                                                $Import_JSON.Character.Items.Inventory.$Item.Quantity += $Quest_Name.ItemReward.$Item
-                                                Write-Color "  x$($Quest_Name.ItemReward.$Item) ","$Item" -Color White,DarkGray
+                                            foreach ($Quest_Hand_In_Item in $Quest_Name.ItemReward.PSObject.Properties.Name) {
+                                                $Current_Item_Quantity = $Import_JSON.Character.Items.Inventory.$Quest_Hand_In_Item.Quantity
+                                                if ($Current_Item_Quantity + $Quest_Name.ItemReward.$Quest_Hand_In_Item -gt 99) {
+                                                    $Import_JSON.Character.Items.Inventory.$Quest_Hand_In_Item.Quantity = 99
+                                                    $Max_99_Items = "(MAX 99 items)"
+                                                } else {
+                                                    $Import_JSON.Character.Items.Inventory.$Quest_Hand_In_Item.Quantity += $Quest_Name.ItemReward.$Quest_Hand_In_Item
+                                                    $Max_99_Items = ""
+                                                }
+                                                Write-Color "  x$($Quest_Name.ItemReward.$Quest_Hand_In_Item) ","$Quest_Hand_In_Item $Max_99_Items" -Color White,DarkGray
                                             }
                                         }
                                         Draw_Inventory

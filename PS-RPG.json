@@ -511,28 +511,28 @@
     "Name": "Igert",
     "Class": "Mage",
     "Race": "Human",
-    "Level": 16,
-    "Total_XP": 34360,
-    "XP_TNL": 1534.0,
+    "Level": 17,
+    "Total_XP": 37600,
+    "XP_TNL": 200.0,
     "Stats": {
       "HealthCurrent": 98.0,
-      "HealthMax": 175.0,
+      "HealthMax": 180.0,
       "HealthMaxUnBuffed": 0,
       "StaminaCurrent": 50,
-      "StaminaMax": 110,
+      "StaminaMax": 114,
       "ManaCurrent": 100,
-      "ManaMax": 198,
+      "ManaMax": 205,
       "ManaMaxUnBuffed": 0,
-      "Damage": 140,
-      "Attack": 125,
+      "Damage": 148,
+      "Attack": 132,
       "AttackUnBuffed": 0,
-      "Armour": 95,
+      "Armour": 100,
       "ArmourUnBuffed": 0,
-      "Dodge": 80.0,
+      "Dodge": 84.0,
       "DodgeUnBuffed": 0,
-      "Quickness": 86,
-      "Spells": 190,
-      "Healing": 146
+      "Quickness": 90,
+      "Spells": 199,
+      "Healing": 153
     },
     "Buffs": {
       "Duration": 0,
@@ -548,11 +548,11 @@
       }
     },
     "Items": {
-      "Gold": 562.0,
+      "Gold": 649.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
-          "Quantity": 0,
+          "Quantity": 98,
           "Restores": 30,
           "GoldValue": 50,
           "IsJunk": false,
@@ -620,7 +620,7 @@
         },
         "Rook Feathers": {
           "Name": "Rook Feathers",
-          "Quantity": 0,
+          "Quantity": 99,
           "Info": "Junk",
           "GoldValue": 2,
           "IsJunk": true,
@@ -628,7 +628,7 @@
         },
         "Rook Claws": {
           "Name": "Rook Claws",
-          "Quantity": 0,
+          "Quantity": 99,
           "Info": "Junk",
           "GoldValue": 2,
           "IsJunk": true,
@@ -636,7 +636,7 @@
         },
         "Rat Tails": {
           "Name": "Rat Tails",
-          "Quantity": 0,
+          "Quantity": 2,
           "Info": "Junk",
           "GoldValue": 3,
           "IsJunk": true,
@@ -644,7 +644,7 @@
         },
         "Rat Guts": {
           "Name": "Rat Guts",
-          "Quantity": 0,
+          "Quantity": 1,
           "Info": "Junk",
           "GoldValue": 3,
           "IsJunk": true,
@@ -716,7 +716,7 @@
         },
         "Random Loot #1": {
           "Name": "Random Loot #1",
-          "Quantity": 0,
+          "Quantity": 92,
           "Info": "Junk",
           "GoldValue": 5,
           "IsJunk": true,
@@ -724,7 +724,7 @@
         },
         "Random Loot #2": {
           "Name": "Random Loot #2",
-          "Quantity": 0,
+          "Quantity": 98,
           "Info": "?????",
           "GoldValue": 3,
           "IsJunk": false,
@@ -732,7 +732,7 @@
         },
         "Random Loot #3": {
           "Name": "Random Loot #3",
-          "Quantity": 0,
+          "Quantity": 12,
           "Info": "Junk",
           "GoldValue": 4,
           "IsJunk": true,
@@ -740,7 +740,7 @@
         },
         "Random Loot #4": {
           "Name": "Random Loot #4",
-          "Quantity": 0,
+          "Quantity": 2,
           "Info": "Junk",
           "GoldValue": 3,
           "IsJunk": true,
@@ -748,7 +748,7 @@
         },
         "Random Loot #5": {
           "Name": "Random Loot #5",
-          "Quantity": 0,
+          "Quantity": 2,
           "Info": "?????",
           "GoldValue": 3,
           "IsJunk": false,
@@ -876,8 +876,8 @@
       "Progress": 2,
       "ProgressMax": 2,
       "LevelRange": "1-5",
-      "Available": true,
-      "InProgress": false,
+      "Available": false,
+      "InProgress": true,
       "Completed": false,
       "Repeatable": true,
       "Status": "Hand In"
