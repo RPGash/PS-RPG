@@ -196,8 +196,8 @@ Function Import-JSON {
 # save data back to JSON file
 #
 Function Save-JSON {
-    if (-not(Test-Path -Path "$ENV:userprofile\My Drive\PS-RPG\error_log.log")) {
-        New-Item -Path "$ENV:userprofile\My Drive\PS-RPG\error_log.log" -ItemType File -Force | Out-Null
+    if (-not(Test-Path -Path "$ENV:userprofile\My Drive\PS-RPG\error.log")) {
+        New-Item -Path "$ENV:userprofile\My Drive\PS-RPG\error.log" -ItemType File -Force | Out-Null
     }
     # Implement a retry mechanism with a delay
     $maxRetries = 5
@@ -207,15 +207,15 @@ Function Save-JSON {
         try {
             ($Script:Import_JSON | ConvertTo-Json -depth 32) | Set-Content ".\PS-RPG.json" -ErrorAction Stop
             # If successful, Break out of the loop
-            # Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error_log.log" -value "Success attempt #$($retry)"
+            # Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error.log" -value "Success attempt #$($retry)"
             Break
         } catch {
-            Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error_log.log" -value "Error attempt #$($retry) $($_.Exception.Message)"
+            Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error.log" -value "Error attempt #$($retry) $($_.Exception.Message)"
             if ($retry -lt $maxRetries) {
-                Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error_log.log" -value "Retrying $($retryDelaySeconds)s"
+                Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error.log" -value "Retrying $($retryDelaySeconds)s"
                 Start-Sleep -Seconds $retryDelaySeconds # leave in
             } else {
-                Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error_log.log" -value "Failed $($maxRetries) attempts"
+                Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error.log" -value "Failed $($maxRetries) attempts"
                 # Optionally, take further action like exiting the script or prompting the user
                 # Exit 1 # Exit with a non-zero code
             }
@@ -532,7 +532,6 @@ Function Create_Character {
         $Character_Name = $false
         $Character_Name_Valid = $false
         $Character_Name_Confirm = $false
-    
         # character name loop
         do {
             $Character_Name = $false
@@ -633,6 +632,7 @@ Function Create_Character {
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,8;$Host.UI.Write("");" "*105
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,8;$Host.UI.Write("")
                             Write-Color -NoNewLine "Choose this name? ","[Y/N]" -Color DarkYellow,Green
+                            $Random_Character_Name_Count += 1
                             $Character_Name_Random = Read-Host " "
                         } until ($Character_Name_Random -ieq "y" -or $Character_Name_Random -ieq "n")
                         if ($Character_Name_Random -ieq "y") {
