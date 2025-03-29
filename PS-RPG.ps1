@@ -4,8 +4,6 @@
 # - BUGS
 #   - "Sort-Object Name" not working when displaying inventory Items
 #       (items are not collected then displayed, but instead written out one by one)
-#   - when viewing the available buildings in Town, none of them show which letter to choose for that selection
-#   - error when inventory empty
 #   
 #   
 # - TEST
@@ -38,6 +36,7 @@
 #   - consider changing mob crit rate/damage to from fixed 20%/20% to specific % for different mobs
 #   - change leaving Home from "Leave" to "Exit"? for consistency
 #   - check the following is still used or can be removed/edited
+#   - when viewing the available buildings in Town, none of them show which letter to choose for that selection
 #       New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
 #
 # - KNOWN ISSUES
@@ -946,6 +945,7 @@ Function Draw_Info_Banner {
 # displays inventory (top right)
 #
 Function Draw_Inventory {
+    # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
     $Inventory_Items_Name_Array = New-Object System.Collections.Generic.List[System.Object]
     $Inventory_Items_Gold_Value_Array = New-Object System.Collections.Generic.List[System.Object]
     $Script:Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name
@@ -954,6 +954,14 @@ Function Draw_Inventory {
             $Inventory_Items_Name_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name.Length)
             $Inventory_Items_Gold_Value_Array.Add(($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters)
         }
+    }
+    # if tere are no items in the inventory, set window values so it still draws correctly
+    if ($Inventory_Items_Name_Array.Count -eq 0) {
+        $Inventory_Items_Name_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name.Length)
+        $Inventory_Items_Gold_Value_Array.Add("1")
+        $Inventory_Is_Empty = $true
+    } else {
+        $Inventory_Is_Empty = $false
     }
     # get max item gold value length
     $Inventory_Items_Gold_Value_Array_Max_Length = ($Inventory_Items_Gold_Value_Array | Measure-Object -Maximum).Maximum
@@ -985,7 +993,7 @@ Function Draw_Inventory {
     Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+" -Color DarkGray
     $Position = 2
     foreach ($Inventory_Item_Name in $Inventory_Item_Names | Sort-Object Name) {
-        if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
+        if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0 -or $Inventory_Is_Empty -eq $true) {
             $Position += 1
             # padding for name length
             if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name.Length -lt $Inventory_Items_Name_Array_Max_Length) {
@@ -1024,7 +1032,13 @@ Function Draw_Inventory {
             }
             Inventory_Highlight
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Position;$Host.UI.Write("")
-            Write-Color "|","$ID_Number","| ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)$Name_Left_Padding ",":", "$Quantity_Left_Padding$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity) ","| ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue)$Gold_Value_Right_Padding","|" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,White,DarkGray,White,DarkGray
+            if ($Inventory_Is_Empty -eq $true) {
+                Write-Color "|  |   Inventory Empty   |       |" -Color DarkGray
+                $Inventory_Is_Empty = $false
+                Break
+            } else {
+                Write-Color "|","$ID_Number","| ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)$Name_Left_Padding ",":", "$Quantity_Left_Padding$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity) ","| ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue)$Gold_Value_Right_Padding","|" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,White,DarkGray,White,DarkGray
+            }
             $Script:Selectable_ID_Highlight = "DarkGray"
             $Script:Selectable_Name_Highlight = "DarkGray"
         }
