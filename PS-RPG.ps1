@@ -44,11 +44,12 @@
 #   - if a player purchases one drink and gains its buff, kills mobs until one buff left (not necessarily one but the closer to zero the better the exploit), they can go buy another buff and it will extend the original buff for another full duration rather than the first buff expiring after one more fight. both buffs last the full duration. in other words getting a "free" buff.
 #   
 
+# write errors out to log file
 Trap {
     $Time = Get-Date -Format "HH:mm:ss"
-    Add-Content -Path .\error_log.log -value "-Trap Error $Time ----------------------------------"
-    Add-Content -Path .\error_log.log -value "$PSItem"
-    Add-Content -Path .\error_log.log -value "------------------------------------------------------"
+    Add-Content -Path .\error.log -value "-Trap Error $Time ----------------------------------"
+    Add-Content -Path .\error.log -value "$PSItem"
+    Add-Content -Path .\error.log -value "------------------------------------------------------"
 }
 
 Clear-Host
@@ -106,9 +107,8 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
             Write-Color "+                                                                                                                                        +" -Color DarkYellow
         }
         Write-Color "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" -Color DarkYellow
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 20,10;$Host.UI.Write( "Using the CTRL + mouse scroll wheel forward and back,")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 20,11;$Host.UI.Write( "adjust the font size to make sure the yellow box fits within the screen.")
-
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 20,10;$Host.UI.Write( "Using the CTRL + mouse scroll wheel forward and back,")
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 20,11;$Host.UI.Write( "adjust the font size to make sure the yellow box fits within the screen.")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
         Write-Color -NoNewLine "+ Adjust font size with ","CTRL + mouse scroll wheel",", then confirm with 'go' and Enter" -Color DarkYellow,Green,DarkYellow
         $Adjust_Font_Size = Read-Host " "
@@ -155,7 +155,6 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
     Write-Color "Enter the single character then hit Enter to confirm the choice." -Color DarkGray
     Write-Color "`r`nWARNING - Quitting the game unexpectedly may cause lose of data." -Color Cyan
     Write-Color "`r`nYou are now ready to play", " PS-RPG", "." -Color DarkGray,Magenta,DarkGray
-
     do {
         do {
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
@@ -163,7 +162,6 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
             $Ready_To_Play_PSRPG = Read-Host " "
             $Ready_To_Play_PSRPG = $Ready_To_Play_PSRPG.Trim()
         } until ($Ready_To_Play_PSRPG -ieq "y" -or $Ready_To_Play_PSRPG -ieq "n" -or $Ready_To_Play_PSRPG -ieq "e")
-
         if ($Ready_To_Play_PSRPG -ieq "n" -or $Ready_To_Play_PSRPG -ieq "e") {
             do {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
@@ -469,7 +467,6 @@ Function Level_Up {
             }
         }
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 13,12;$Host.UI.Write("");" "*6 # clears the TNL value because it shows a negative value while updating
-
         Save-JSON
         Import-JSON
         Set_Variables
@@ -803,17 +800,6 @@ Function Create_Character {
         }
     } until ($Update_Character_JSON_Confirm -eq $true)
     Save-JSON
-
-    # TEMP FO TESTING
-    # set JSON character stats and items
-    #
-    # $Import_JSON.Character.Level                         = 1
-    # $Import_JSON.Character.Total_XP                      = 0
-    # $Import_JSON.Character.XP_TNL                        = 163
-    # $Import_JSON.Character.Items.Gold                    = 100
-    # $Import_JSON.Character.Items.Inventory | Where-Object {$PSItem.Name -eq "Small Health Potion"} | ForEach-Object {$PSItem.Quantity = 10}
-    # $Import_JSON.Character.Items.Inventory | Where-Object {$PSItem.Name -eq "Small Mana Potion"} | ForEach-Object {$PSItem.Quantity = 10}
-
     #
     # set JSON class stats
     #
@@ -1585,7 +1571,6 @@ Function Travel {
     Write-Color "   | |   Tavern     |  |  ????????    |  |  ????????   | |" -Color DarkYellow
     Write-Color "  _| +--------------+  +--------------+  +-------------+ |" -Color DarkYellow
     Write-Color " (_/____________________________________________________/" -Color DarkYellow
-
     do {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -1593,33 +1578,38 @@ Function Travel {
         $Travel_Choice = Read-Host " "
         $Travel_Choice = $Travel_Choice.Trim()
     } until ($All_Linked_Locations_Letters_Array -match $Travel_Choice)
-    
     switch ($Travel_Choice) {
         e {
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
-            break
+            for ($Position = 14; $Position -lt 34; $Position++) { # clear some lines from previous widow
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+            }
         }
         t {
             $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
             $Script:Current_Location = "Town"
             $Import_JSON.Locations.Town.CurrentLocation = $true
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
+            for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+            }
             Save-JSON
         }
         f {
             $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
             $Script:Current_Location = "The Forest"
             $Import_JSON.Locations."The Forest".CurrentLocation = $true
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
+            for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+            }
         }
         r {
             $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
             $Script:Current_Location = "The River"
             $Import_JSON.Locations."The River".CurrentLocation = $true
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
+            for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+            }
         }
-        Default {
-        }
+        # Default {}
     }
     Save-JSON
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
@@ -1743,7 +1733,9 @@ Function Visit_a_Building {
         $Building_Choice = Read-Host " "
         $Building_Choice = $Building_Choice.Trim()
     } until ($Building_Choice -ieq "e" -or $Building_Choice -in $All_Building_Letters_Array)
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
+    for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+    }
     # set building name single characters to DarkYellow as they are no longer valid locations to visit
     $host.UI.RawUI.ForegroundColor = "DarkYellow"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 96,2;$Host.UI.Write("A") # The Anvil & Blade
@@ -1753,14 +1745,12 @@ Function Visit_a_Building {
     # switch choice for Town
     if ($Current_Location -eq "Town") {
         switch ($Building_Choice) {
-            e {
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
-                # break
+            e { # exit
+                for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                }
             }
-            #
-            # Home
-            #
-            h {
+            h { # home
                 $host.UI.RawUI.ForegroundColor = "White"
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("Home")
                 $host.UI.RawUI.ForegroundColor = "DarkYellow"
@@ -1809,10 +1799,7 @@ Function Visit_a_Building {
                     }
                 } until ($Home_Choice -ieq "l")
             }
-            #
-            # Tavern
-            #
-            t {
+            t { # tavern
                 # updates location text colour
                 $host.UI.RawUI.ForegroundColor = "White"
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("Tavern")
@@ -2265,17 +2252,25 @@ Function Visit_a_Building {
     # switch choice for The Forest
     if ($Current_Location -eq "The Forest") {
         switch ($Building_Choice) {
-            e {
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
+            e { # exit
+                for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                }
             }
             h { # Hut
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
+                for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                }
             }
             t { # Tree House
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
+                for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                }
             }
             s { # Secret Location
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
+                for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                }
             }
             # Default {}
         }
@@ -2283,16 +2278,17 @@ Function Visit_a_Building {
     # switch choice for The River
     if ($Current_Location -eq "The River") {
         switch ($Building_Choice) {
-            e {
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
-                # break
+            e { # exit
+                for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                }
             }
             c { # Camp
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
-                # break
+                for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                }
             }
-            # Default {
-            # }
+            # Default {}
         }
     }
     # below is run if Q quit is chosen in any location
