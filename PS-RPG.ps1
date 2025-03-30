@@ -2,7 +2,8 @@
 # ----
 #
 # - BUGS
-#   -
+#   - in Town, Elixir Emporium and Exit both have "E" as a choice (Exit does not work)
+#       rename Elixir Emporium or change Exit to "X"?
 #   
 #   
 # - TEST
@@ -10,7 +11,11 @@
 #   
 #   
 # - NEXT
-#   - buy items in The Anvil & Blade shop
+#   - change initial choices from single line question to menu list
+#   - in the Travel map, the current single character location name is highlighted
+#       as well as the locations that can be travelled to.
+#       current location single character highlight should not be highlighted.
+#   - buy items in the Anvil & Blade shop
 #   - add spells
 #   - add item equipment drops from mob loot
 #   - add equipment that can be equipped?
@@ -1026,7 +1031,7 @@ Function Inventory_Choice{
     if (($Character_HealthCurrent -lt $Character_HealthMax) -or ($Character_ManaCurrent -lt $Character_ManaMax)) {
         $Enough_Health_Potions = "no"
         if ($Character_HealthCurrent -lt $Character_HealthMax) {
-            $Script:Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name
+            $Script:Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name | Sort-Object
             foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
                 if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*health potion*" -and $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
                     $Enough_Health_Potions = "yes"
@@ -1579,15 +1584,17 @@ Function Travel {
     Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
     Write-Color "`r`n  You can travel to the following locations:" -Color DarkGray
     Write-Color "  $All_Linked_Locations_List" -Color White
-    Write-Color " ,------------------------------------------------------." -Color DarkYellow
-    Write-Color "(_\  +--------------+  +--------------+  +-------------+ \" -Color DarkYellow
-    Write-Color "   | |     ","T","own     |  |  The ","F","orest  |  |  The ","R","iver  | |" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow
-    Write-Color "   | |              |  |              |  |             | |" -Color DarkYellow
-    Write-Color "   | |   The Anvil  |  |              |  |             | |" -Color DarkYellow
-    Write-Color "   | |   & Blade    |  |            <------>           | |" -Color DarkYellow
-    Write-Color "   | |          <------------>        |  |             | |" -Color DarkYellow
-    Write-Color "   | |   Tavern     |  |  ????????    |  |  ????????   | |" -Color DarkYellow
-    Write-Color "  _| +--------------+  +--------------+  +-------------+ |" -Color DarkYellow
+    Write-Color " ,---------------------------------------------------------." -Color DarkYellow
+    Write-Color "(_\  +-----------------+  +--------------+  +-------------+ \" -Color DarkYellow
+    Write-Color "   | |       ","T","own      |  |  The ","F","orest  |  |  The ","R","iver  | |" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow
+    Write-Color "   | |                 |  |              |  |             | |" -Color DarkYellow
+    Write-Color "   | | Elixir Emporium |  |              |  |             | |" -Color DarkYellow
+    Write-Color "   | |                 |  |              |  |             | |" -Color DarkYellow
+    Write-Color "   | | Anvil & Blade   |  |              |  |             | |" -Color DarkYellow
+    Write-Color "   | |                 |  |            <------>           | |" -Color DarkYellow
+    Write-Color "   | |             <------------>        |  |             | |" -Color DarkYellow
+    Write-Color "   | |   Tavern        |  |  ????????    |  |  ????????   | |" -Color DarkYellow
+    Write-Color "  _| +-----------------+  +--------------+  +-------------+ |" -Color DarkYellow
     Write-Color " (_/____________________________________________________/" -Color DarkYellow
     do {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
@@ -1598,7 +1605,7 @@ Function Travel {
     } until ($All_Linked_Locations_Letters_Array -match $Travel_Choice)
     switch ($Travel_Choice) {
         e {
-            for ($Position = 14; $Position -lt 34; $Position++) { # clear some lines from previous widow
+            for ($Position = 14; $Position -lt 35; $Position++) { # clear some lines from previous widow
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
             }
         }
@@ -1606,7 +1613,7 @@ Function Travel {
             $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
             $Script:Current_Location = "Town"
             $Import_JSON.Locations.Town.CurrentLocation = $true
-            for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
+            for ($Position = 14; $Position -lt 35; $Position++) { # clear some lines from previous widow
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
             }
             Save-JSON
@@ -1615,7 +1622,7 @@ Function Travel {
             $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
             $Script:Current_Location = "The Forest"
             $Import_JSON.Locations."The Forest".CurrentLocation = $true
-            for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
+            for ($Position = 14; $Position -lt 35; $Position++) { # clear some lines from previous widow
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
             }
         }
@@ -1623,7 +1630,7 @@ Function Travel {
             $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
             $Script:Current_Location = "The River"
             $Import_JSON.Locations."The River".CurrentLocation = $true
-            for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
+            for ($Position = 14; $Position -lt 35; $Position++) { # clear some lines from previous widow
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
             }
         }
@@ -1640,26 +1647,26 @@ Function Travel {
 Function Draw_Town_Map {
     $host.UI.RawUI.ForegroundColor = "DarkYellow"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,0;$Host.UI.Write( "+-----------------------------------------------+")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,0;$Host.UI.Write( "+-----------------------------------------------+")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,1;$Host.UI.Write( "|                     Town        +-----------+ |")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,2;$Host.UI.Write( "|                                 | The Anvil | |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,2;$Host.UI.Write( "|                                 | Anvil     | |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,3;$Host.UI.Write( "| +------+                        | & Blade   | |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,4;$Host.UI.Write( "| | Home |                        |           | |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,5;$Host.UI.Write( "| |      |    +--------------+    +-----------+ |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,6;$Host.UI.Write( "| |      |    |    Tavern    |                  |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,7;$Host.UI.Write( "| +------+    |              |                  |")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,8;$Host.UI.Write( "|             |              |                  |")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,9;$Host.UI.Write( "|             |              |                  |")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,10;$Host.UI.Write("|             |              |                  |")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,11;$Host.UI.Write("|             |              |                  |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,8;$Host.UI.Write( "|             |              |    +----------+  |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,9;$Host.UI.Write( "|             |              |    | Elixir   |  |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,10;$Host.UI.Write("|             |              |    | Emporium |  |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,11;$Host.UI.Write("|             |              |    +----------+  |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,12;$Host.UI.Write("|             +--------------+                  |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,13;$Host.UI.Write("+-----------------------------------------------+")
     $host.UI.RawUI.ForegroundColor = "White"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town") # Town
     $host.UI.RawUI.ForegroundColor = "Green"
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 96,2;$Host.UI.Write("A") # The Anvil & Blade
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("A") # Anvil & Blade
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("H") # Home
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("T") # Tavern
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("E") # Elixir Emporium
     $host.UI.RawUI.ForegroundColor = "DarkGray" # set the foreground color back to original colour
 }
 
@@ -1756,9 +1763,10 @@ Function Visit_a_Building {
     }
     # set building name single characters to DarkYellow as they are no longer valid locations to visit
     $host.UI.RawUI.ForegroundColor = "DarkYellow"
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 96,2;$Host.UI.Write("A") # The Anvil & Blade
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("A") # Anvil & Blade
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("H") # Home
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("T") # Tavern
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("E") # Tavern
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
     # switch choice for Town
     if ($Current_Location -eq "Town") {
@@ -1769,10 +1777,11 @@ Function Visit_a_Building {
                 }
             }
             h { # home
-                $host.UI.RawUI.ForegroundColor = "White"
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("Home")
+                # update building words in location map. white to current building and reset location to dark yellow 
                 $host.UI.RawUI.ForegroundColor = "DarkYellow"
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
+                $host.UI.RawUI.ForegroundColor = "White"
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("Home")
                 do {
                     $Script:Info_Banner = "Home"
                     Draw_Info_Banner
@@ -1820,11 +1829,11 @@ Function Visit_a_Building {
                 } until ($Home_Choice -ieq "e")
             }
             t { # tavern
-                # updates location text colour
-                $host.UI.RawUI.ForegroundColor = "White"
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("Tavern")
+                # update building words in location map. white to current building and reset location to dark yellow 
                 $host.UI.RawUI.ForegroundColor = "DarkYellow"
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
+                $host.UI.RawUI.ForegroundColor = "White"
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("Tavern")
                 $First_Time_Entered_Tavern = $true
                 $Exit_Drinks_Menu = $false
                 $Exit_Quest_Board = $false
@@ -2159,18 +2168,18 @@ Function Visit_a_Building {
                 } until ($Tavern_Choice -ieq "e")
             }
             #
-            # The Anvil & Blade
+            # Anvil & Blade
             #
             a {
-                # updates location text colour
-                $host.UI.RawUI.ForegroundColor = "White"
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("The Anvil")
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 92,3;$Host.UI.Write("& Blade")
+                # update building words in location map. white to current building and reset location to dark yellow 
                 $host.UI.RawUI.ForegroundColor = "DarkYellow"
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
+                $host.UI.RawUI.ForegroundColor = "White"
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("Anvil")
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,3;$Host.UI.Write("& Blade")
                 $First_Time_Entered_Anvil = $true
                 do {
-                    $Script:Info_Banner = "The Anvil & Blade"
+                    $Script:Info_Banner = "Anvil & Blade"
                     Draw_Info_Banner
                     Draw_Inventory
                     do {
@@ -2209,7 +2218,7 @@ Function Visit_a_Building {
                             Write-Color "  A","rmour" -Color Green,DarkGray
                             Write-Color "  W","eapons" -Color Green,DarkGray
                             Write-Color "  N","othing for now." -Color Green,DarkGray
-                            Write-Color "  E","xit The Anvil & Blade." -Color Green,DarkGray
+                            Write-Color "  E","xit the Anvil & Blade." -Color Green,DarkGray
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                             Write-Color -NoNewLine "J","unk, ","A","rmour, ","W","eapons, or ", "E","xit ","[J/A/W/N]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
@@ -2218,7 +2227,6 @@ Function Visit_a_Building {
                         } until ($Anvil_Sell_Choice -ieq "j" -or $Anvil_Sell_Choice -ieq "a" -or $Anvil_Sell_Choice -ieq "w" -or $Anvil_Sell_Choice -ieq "n" -or $Anvil_Sell_Choice -ieq "e")
                         if ($Anvil_Sell_Choice -ieq "j") {
                             $Anvil_Choice_Sell_Junk_Array = New-Object System.Collections.Generic.List[System.Object]
-                            $Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name
                             $Script:Anvil_Choice_Sell_Junk_Quantity = 0 # reset variables so they don't increase next time
                             $Script:Anvil_Choice_Sell_Junk_GoldValue = 0 # reset variables so they don't increase next time
                             $Script:Selectable_ID_Search = "Junk"
@@ -2258,12 +2266,153 @@ Function Visit_a_Building {
                         }
                         $Script:Selectable_ID_Search = "not_set"
                         $First_Time_Entered_Anvil = $false
-                        if ($Anvil_Sell_Choice -ieq "e") { # leaves The Anvil & Blade
+                        if ($Anvil_Sell_Choice -ieq "e") { # leaves the Anvil & Blade
                             Break
                         }
                     }
                     
                 } until ($Anvil_Choice -ieq "e")
+            }
+            e { # Elixir Emporium
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                # update building words in location map. white to current building and reset location to dark yellow 
+                $host.UI.RawUI.ForegroundColor = "DarkYellow"
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
+                $host.UI.RawUI.ForegroundColor = "White"
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("Elixir")
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,10;$Host.UI.Write("Emporium")
+                $First_Time_Entered_Elixir_Emporium = $true
+                do {
+                    $Script:Info_Banner = "Elixir Emporium"
+                    Draw_Info_Banner
+                    Draw_Inventory
+                    do {
+                        if ($First_Time_Entered_Elixir_Emporium -eq $false) {
+                            for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                            }
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                            Write-Color "  Maybe there is something else you might like?" -Color DarkGray
+                        } else {
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                            Write-Color "  Welcome adventurer." -Color DarkGray
+                            Write-Color "  I deal in all kinds of potions. If you are interested, take a look at what i have to offer." -Color DarkGray
+                        }
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                        Write-Color -NoNewLine "B","uy, ","S","ell, or ", "E","xit ","[B/S/E]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                        $Elixir_Emporium_Choice = Read-Host " "
+                        $Elixir_Emporium_Choice = $Elixir_Emporium_Choice.Trim()
+                    } until ($Elixir_Emporium_Choice -ieq "b" -or $Elixir_Emporium_Choice -ieq "s" -or $Elixir_Emporium_Choice -ieq "e")
+                    
+                    # if ($Elixir_Emporium_Choice -ieq "b") {
+                        
+                    # }
+                    if ($Elixir_Emporium_Choice -ieq "s") {
+                        $Script:Info_Banner = "Elixir Emporium - Sell"
+                        Draw_Info_Banner
+                        do {
+                            do {
+                                for ($Position = 17; $Position -lt 19; $Position++) { # clear some lines from previous widow
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                }
+                                $Elixir_Emporium_Potion_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
+                                $Elixir_Emporium_Choice_Sell_Quantity = New-Object System.Collections.Generic.List[System.Object]
+                                $Elixir_Emporium_Choice_Sell_GoldValue = New-Object System.Collections.Generic.List[System.Object]
+                                $Elixir_Emporium_Potion_Letters_Array.Clear()
+                                $Elixir_Emporium_Choice_Sell_Quantity.Clear()
+                                $Elixir_Emporium_Choice_Sell_GoldValue.Clear()
+                                $Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name
+                                foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
+                                    if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*mana potion*" -or $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*health potion*" -and $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
+                                        $Elixir_Emporium_Potion_Letters_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)
+                                        $Elixir_Emporium_Choice_Sell_Quantity.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity)
+                                        $Elixir_Emporium_Choice_Sell_GoldValue.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue)
+                                    }
+                                }
+                                $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array -Join "/"
+                                $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array_String + "/E"
+                                #
+                                $Script:Selectable_ID_Search = "HealthMana"
+                                Draw_Inventory
+                                #
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                Write-Color "  Which potion do you want to sell?" -Color DarkGray
+                                #
+                                #
+                                #
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                Write-Color -NoNewLine "ID ","numbers or ", "E","xit ","[$Elixir_Emporium_Potion_Letters_Array_String]" -Color DarkYellow,DarkYellow,Green,DarkYellow,Green
+                                $Elixir_Emporium_Sell_Choice = Read-Host " "
+                                $Elixir_Emporium_Sell_Choice = $Elixir_Emporium_Sell_Choice.Trim()
+                            } until ($Elixir_Emporium_Sell_Choice -ieq "e" -or $Elixir_Emporium_Sell_Choice -in $Elixir_Emporium_Potion_Letters_Array)
+                            $Script:Selectable_ID_Search = "not_set"
+                            $First_Time_Entered_Elixir_Emporium = $false
+                            if ($Elixir_Emporium_Sell_Choice -ieq "e") {
+                                Break
+                            }
+                            switch ($Elixir_Emporium_Sell_Choice) {
+                                $Elixir_Emporium_Sell_Choice {
+                                    foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
+                                        if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID -eq $Elixir_Emporium_Sell_Choice) {
+                                            $Potion_Quantity = $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity
+                                            $Potion_GoldValue = $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue
+                                            Break
+                                        }
+                                    }
+                                    do {
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                        Write-Color "  How many of these do you want to sell?" -Color DarkGray
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                        Write-Color -NoNewLine "Quantity or ", "E","xit ","[1-$Potion_Quantity]" -Color DarkYellow,Green,DarkYellow,Green
+                                        $Elixir_Emporium_Sell_Potion_Choice = Read-Host " "
+                                        $Elixir_Emporium_Sell_Potion_Choice = $Elixir_Emporium_Sell_Potion_Choice.Trim()
+                                    } until ($Elixir_Emporium_Sell_Potion_Choice -ieq "E" -or $Elixir_Emporium_Sell_Potion_Choice -le $Potion_Quantity)
+                                    if ($Elixir_Emporium_Sell_Potion_Choice -ieq "E") { # exit
+                                        Break
+                                    } else { # quantity confirm
+                                        do {
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                            Write-Color "  $Elixir_Emporium_Sell_Potion_Choice ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)'s"," are worth ","$($Potion_GoldValue*$Elixir_Emporium_Sell_Potion_Choice) Gold",", do you want to sell them?" -Color White,DarkCyan,DarkGray,DarkYellow,DarkGray
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                            Write-Color -NoNewLine "Y","es or ", "N","o ","[Y/N]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                                            $Elixir_Emporium_Sell_Potion_Confirm_Choice = Read-Host " "
+                                            $Elixir_Emporium_Sell_Potion_Confirm_Choice = $Elixir_Emporium_Sell_Potion_Confirm_Choice.Trim()
+                                        } until ($Elixir_Emporium_Sell_Potion_Confirm_Choice -ieq "Y" -or $Elixir_Emporium_Sell_Potion_Confirm_Choice -ieq "N")
+                                        if ($Elixir_Emporium_Sell_Potion_Confirm_Choice -ieq "Y") {
+                                            #
+                                        }
+                                        if ($Elixir_Emporium_Sell_Potion_Confirm_Choice -ieq "N") {
+                                            #
+                                        }
+                                    }
+                                }
+                                # Default {}
+                            }
+                        } until ($Elixir_Emporium_Sell_Choice -ieq "e")
+                        #
+                    }
+                } until ($Elixir_Emporium_Choice -ieq "e")
+
+
+
+
+
+
+
             }
             # Default {}
         }
