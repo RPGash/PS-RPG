@@ -10,11 +10,15 @@ Why? - I love RPGs and PowerShell so thought it would be a good project.
 
 Want to try it out? - If you do download and run it (a big if haha), it is suggested to run the script then maximise the window before continuing. You can then adjust the font size with CTRL + mouse wheel to make sure everything fits on the screen correctly.
 
+<hr/>
+
 # Requirements
 - PowerShell Module PSWriteColor (will prompt to install for you if not already installed)
   - PowerShell Gallery - https://www.powershellgallery.com/packages/PSWriteColor/1.0.1
   - GitHub project site - https://github.com/EvotecIT/PSWriteColor
   - Website - https://evotec.xyz/hub/scripts/pswritecolor
+
+<hr/>
 
 # Screenshots
 Combat
