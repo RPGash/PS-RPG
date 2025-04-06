@@ -21,11 +21,11 @@ Want to try it out? - If you do download and run it (a big if haha), it is sugge
 <hr/>
 
 # Screenshots
-Combat
+Combat (screenshot running in Windows Terminal and PowerShell 7+)
 ![PS-RPG combat](https://github.com/user-attachments/assets/1d6d7b04-1db1-4793-90c7-628a1ade3d2e)
 
 
 
-Character Creation
+Character Creation (screenshot running in Windows PowerShell 5.1)
 ![PS-RPG character creation](https://github.com/user-attachments/assets/169f9f80-505f-40b5-a125-6ca12b52a3e7)
 
