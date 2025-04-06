@@ -21,7 +21,7 @@ Want to try it out? - If you do download and run it (a big if 😅 haha), it is 
 <hr/>
 
 # Screenshots
-Combat (screenshot running in Windows Terminal and PowerShell 7+)
+Combat (screenshot running in Windows Terminal with PowerShell 7+)
 ![PS-RPG combat](https://github.com/user-attachments/assets/1d6d7b04-1db1-4793-90c7-628a1ade3d2e)
 
 
