@@ -1588,7 +1588,7 @@ Function Travel {
     Write-Color "(_\  +-----------------+  +--------------+  +-------------+ \" -Color DarkYellow
     Write-Color "   | |       ","T","own      |  |  The ","F","orest  |  |  The ","R","iver  | |" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow
     Write-Color "   | |                 |  |              |  |             | |" -Color DarkYellow
-    Write-Color "   | | Elixir Emporium |  |              |  |             | |" -Color DarkYellow
+    Write-Color "   | | Mend & Mana     |  |              |  |             | |" -Color DarkYellow
     Write-Color "   | |                 |  |              |  |             | |" -Color DarkYellow
     Write-Color "   | | Anvil & Blade   |  |              |  |             | |" -Color DarkYellow
     Write-Color "   | |                 |  |            <------>           | |" -Color DarkYellow
@@ -1655,8 +1655,8 @@ Function Draw_Town_Map {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,6;$Host.UI.Write( "| |      |    |    Tavern    |                  |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,7;$Host.UI.Write( "| +------+    |              |                  |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,8;$Host.UI.Write( "|             |              |    +----------+  |")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,9;$Host.UI.Write( "|             |              |    | Elixir   |  |")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,10;$Host.UI.Write("|             |              |    | Emporium |  |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,9;$Host.UI.Write( "|             |              |    | Mend     |  |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,10;$Host.UI.Write("|             |              |    | & Mana   |  |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,11;$Host.UI.Write("|             |              |    +----------+  |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,12;$Host.UI.Write("|             +--------------+                  |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,13;$Host.UI.Write("+-----------------------------------------------+")
@@ -1666,7 +1666,7 @@ Function Draw_Town_Map {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("A") # Anvil & Blade
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("H") # Home
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("T") # Tavern
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("E") # Elixir Emporium
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("M") # Mend & Mana
     $host.UI.RawUI.ForegroundColor = "DarkGray" # set the foreground color back to original colour
 }
 
@@ -1766,7 +1766,7 @@ Function Visit_a_Building {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("A") # Anvil & Blade
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("H") # Home
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("T") # Tavern
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("E") # Tavern
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("M") # Mend & Mana
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
     # switch choice for Town
     if ($Current_Location -eq "Town") {
@@ -2273,7 +2273,7 @@ Function Visit_a_Building {
                     
                 } until ($Anvil_Choice -ieq "e")
             }
-            e { # Elixir Emporium
+            m { # Mend & Mana
                 
                 
                 
@@ -2289,11 +2289,11 @@ Function Visit_a_Building {
                 $host.UI.RawUI.ForegroundColor = "DarkYellow"
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
                 $host.UI.RawUI.ForegroundColor = "White"
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("Elixir")
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,10;$Host.UI.Write("Emporium")
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("Mend")
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,10;$Host.UI.Write("& Mana")
                 $First_Time_Entered_Elixir_Emporium = $true
                 do {
-                    $Script:Info_Banner = "Elixir Emporium"
+                    $Script:Info_Banner = "Mend & Mana"
                     Draw_Info_Banner
                     Draw_Inventory
                     do {
@@ -2319,7 +2319,7 @@ Function Visit_a_Building {
                         
                     # }
                     if ($Elixir_Emporium_Choice -ieq "s") {
-                        $Script:Info_Banner = "Elixir Emporium - Sell"
+                        $Script:Info_Banner = "Mend & Mana - Sell"
                         Draw_Info_Banner
                         do {
                             do {
