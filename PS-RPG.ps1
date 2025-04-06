@@ -2,8 +2,8 @@
 # ----
 #
 # - BUGS
-#   - in Town, Elixir Emporium and Exit both have "E" as a choice (Exit does not work)
-#       rename Elixir Emporium or change Exit to "X"?
+#   - selling potions in the Mend & Mana stop does not update the inventory list
+#       does it also accept the correct quantities?
 #   
 #   
 # - TEST
