@@ -2,8 +2,8 @@
 # ----
 #
 # - BUGS
-#   - selling potions in the Mend & Mana stop does not update the inventory list
-#       does it also accept the correct quantities?
+#   - selling potions in the Mend & Mana shop does not accept valid quantities?
+#       5-9 quantities not allowed??? on all potions sold
 #   
 #   
 # - TEST
@@ -2379,20 +2379,20 @@ Function Visit_a_Building {
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                                         Write-Color -NoNewLine "Quantity or ", "E","xit ","[1-$Potion_Quantity]" -Color DarkYellow,Green,DarkYellow,Green
-                                        $Elixir_Emporium_Sell_Potion_Choice = Read-Host " "
-                                        Add-Content -Path .\error.log -value "Q3: $Elixir_Emporium_Sell_Potion_Choice"
-                                        $Elixir_Emporium_Sell_Potion_Choice = $Elixir_Emporium_Sell_Potion_Choice.Trim()
-                                        Add-Content -Path .\error.log -value "Q4: $Elixir_Emporium_Sell_Potion_Choice"
-                                    } until ($Elixir_Emporium_Sell_Potion_Choice -ieq "E" -or $Elixir_Emporium_Sell_Potion_Choice -le $Potion_Quantity)
+                                        $Elixir_Emporium_Sell_Potion_Quantity_Choice = Read-Host " "
+                                        Add-Content -Path .\error.log -value "Q3: $Elixir_Emporium_Sell_Potion_Quantity_Choice"
+                                        $Elixir_Emporium_Sell_Potion_Quantity_Choice = $Elixir_Emporium_Sell_Potion_Quantity_Choice.Trim()
+                                        Add-Content -Path .\error.log -value "Q4: $Elixir_Emporium_Sell_Potion_Quantity_Choice"
+                                    } until ($Elixir_Emporium_Sell_Potion_Quantity_Choice -ieq "E" -or $Elixir_Emporium_Sell_Potion_Quantity_Choice -le $Potion_Quantity)
                                     Add-Content -Path .\error.log -value "Q5: $Potion_Quantity"
-                                    if ($Elixir_Emporium_Sell_Potion_Choice -ieq "E") { # exit
+                                    if ($Elixir_Emporium_Sell_Potion_Quantity_Choice -ieq "E") { # exit
                                         Add-Content -Path .\error.log -value "if 1"
                                         Break
                                     } else { # quantity confirm
                                         Add-Content -Path .\error.log -value "if 2"
                                         do {
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                            Write-Color "  $Elixir_Emporium_Sell_Potion_Choice ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)'s"," are worth ","$($Potion_GoldValue*$Elixir_Emporium_Sell_Potion_Choice) Gold",", do you want to sell them?" -Color White,DarkCyan,DarkGray,DarkYellow,DarkGray
+                                            Write-Color "  $Elixir_Emporium_Sell_Potion_Quantity_Choice ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)'s"," are worth ","$($Potion_GoldValue*$Elixir_Emporium_Sell_Potion_Quantity_Choice) Gold",", do you want to sell them?" -Color White,DarkCyan,DarkGray,DarkYellow,DarkGray
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                                             Write-Color -NoNewLine "Y","es or ", "N","o ","[Y/N]" -Color Green,DarkYellow,Green,DarkYellow,Green
@@ -2400,7 +2400,12 @@ Function Visit_a_Building {
                                             $Elixir_Emporium_Sell_Potion_Confirm_Choice = $Elixir_Emporium_Sell_Potion_Confirm_Choice.Trim()
                                         } until ($Elixir_Emporium_Sell_Potion_Confirm_Choice -ieq "Y" -or $Elixir_Emporium_Sell_Potion_Confirm_Choice -ieq "N")
                                         if ($Elixir_Emporium_Sell_Potion_Confirm_Choice -ieq "Y") {
-                                            #
+                                            # update items in invenroty and gold
+                                            $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -= $Elixir_Emporium_Sell_Potion_Quantity_Choice
+                                            $Import_JSON.Character.Items.Gold += $Potion_GoldValue * $Elixir_Emporium_Sell_Potion_Quantity_Choice
+                                            Save-JSON
+                                            Set_Variables
+                                            Draw_Player_Window_and_Stats
                                         }
                                     }
                                 }
