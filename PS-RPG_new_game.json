@@ -1,21 +1,28 @@
 {
-  "CharacterCreation": false,
+  "CharacterCreation": true,
   "Locations": {
     "Town": {
       "CurrentLocation": true,
       "LinkedLocations": {
         "The Forest": "F"
       },
+      "LocationOptions": {
+        "Hunt": false,
+        "Travel": false,
+        "Visit": false,
+        "Questss": false,
+        "Inventory": false
+      },
       "Mobs": [
         {
           "Name": "Chicken",
           "Level": 1,
-          "Health": 10,
+          "Health": 1000,
           "Stamina": 50,
           "Mana": 50,
           "Attack": 5,
           "Damage": 1,
-          "Armour": 10,
+          "Armour": 1,
           "Dodge": 10,
           "Quickness": 1,
           "Spells": 50,
@@ -340,15 +347,20 @@
             }
           }
         },
-        "The Anvil & Blade": {
+        "Anvil & Blade": {
           "BuildingLetter": "A",
           "Owner": "Draven",
+          "Visited": 0
+        },
+        "Mend & Mana": {
+          "BuildingLetter": "M",
+          "Owner": "Kaelen",
           "Visited": 0
         }
       }
     },
     "The Forest": {
-      "CurrentLocation": false,
+      "CurrentLocation": true,
       "LinkedLocations": {
         "Town": "T",
         "The River": "R"
@@ -509,31 +521,31 @@
     }
   },
   "Character": {
-    "Name": "",
-    "Class": "",
-    "Race": "",
-    "Level": 1,
-    "Total_XP": 0,
-    "XP_TNL": 0.0,
+    "Name": "Minerde",
+    "Class": "Cleric",
+    "Race": "Elf",
+    "Level": 4,
+    "Total_XP": 160,
+    "XP_TNL": 154.0,
     "Stats": {
-      "HealthCurrent": 0.0,
-      "HealthMax": 0.0,
+      "HealthCurrent": 400.0,
+      "HealthMax": 49,
       "HealthMaxUnBuffed": 0,
-      "StaminaCurrent": 0,
-      "StaminaMax": 0,
-      "ManaCurrent": 0,
-      "ManaMax": 0,
+      "StaminaCurrent": 50,
+      "StaminaMax": 68,
+      "ManaCurrent": 100,
+      "ManaMax": 124,
       "ManaMaxUnBuffed": 0,
-      "Damage": 0,
-      "Attack": 0,
+      "Damage": 34,
+      "Attack": 38,
       "AttackUnBuffed": 0,
-      "Armour": 0,
+      "Armour": 49,
       "ArmourUnBuffed": 0,
-      "Dodge": 0.0,
+      "Dodge": 118,
       "DodgeUnBuffed": 0,
-      "Quickness": 0,
-      "Spells": 0,
-      "Healing": 0
+      "Quickness": 22,
+      "Spells": 37,
+      "Healing": 40
     },
     "Buffs": {
       "Duration": 0,
@@ -549,11 +561,11 @@
       }
     },
     "Items": {
-      "Gold": 443.0,
+      "Gold": 901.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
-          "Quantity": 0,
+          "Quantity": 1,
           "Restores": 30,
           "GoldValue": 50,
           "IsJunk": false,
@@ -562,7 +574,7 @@
         },
         "Mana Potion": {
           "Name": "Mana Potion",
-          "Quantity": 0,
+          "Quantity": 2,
           "Restores": 20,
           "Info": "Capacity 20",
           "GoldValue": 10,
@@ -571,7 +583,7 @@
         },
         "Greater Mana Potion": {
           "Name": "Greater Mana Potion",
-          "Quantity": 0,
+          "Quantity": 37,
           "Restores": 50,
           "Info": "Capacity 50",
           "GoldValue": 30,
@@ -580,12 +592,12 @@
         },
         "Lesser Mana Potion": {
           "Name": "Lesser Mana Potion",
-          "Quantity": 0,
+          "Quantity": 20,
           "Restores": 10,
           "Info": "Capacity 10",
           "GoldValue": 20,
           "IsJunk": false,
-          "ID": 40
+          "ID": 4
         },
         "Bones": {
           "Name": "Bones",
@@ -605,7 +617,7 @@
         },
         "Hides": {
           "Name": "Hides",
-          "Quantity": 0,
+          "Quantity": 20,
           "Info": "Trader",
           "GoldValue": 10,
           "IsJunk": false,
@@ -621,7 +633,7 @@
         },
         "Rook Feathers": {
           "Name": "Rook Feathers",
-          "Quantity": 0,
+          "Quantity": 3,
           "Info": "Junk",
           "GoldValue": 2,
           "IsJunk": true,
@@ -629,7 +641,7 @@
         },
         "Rook Claws": {
           "Name": "Rook Claws",
-          "Quantity": 0,
+          "Quantity": 3,
           "Info": "Junk",
           "GoldValue": 2,
           "IsJunk": true,
@@ -649,7 +661,7 @@
           "Info": "Junk",
           "GoldValue": 3,
           "IsJunk": true,
-          "ID": 13
+          "ID": 12
         },
         "Mouse Tails": {
           "Name": "Mouse Tails",
@@ -657,7 +669,7 @@
           "Info": "Junk",
           "GoldValue": 8,
           "IsJunk": true,
-          "ID": 14
+          "ID": 13
         },
         "Wolf Hides": {
           "Name": "Wolf Hides",
@@ -665,7 +677,7 @@
           "Info": "Skinner",
           "GoldValue": 90,
           "IsJunk": false,
-          "ID": 16
+          "ID": 14
         },
         "Wolf Teeth": {
           "Name": "Wolf Teeth",
@@ -673,7 +685,7 @@
           "Info": "???",
           "GoldValue": 3,
           "IsJunk": false,
-          "ID": 17
+          "ID": 15
         },
         "Boar Tails": {
           "Name": "Boar Tails",
@@ -681,7 +693,7 @@
           "Info": "Junk",
           "GoldValue": 4,
           "IsJunk": true,
-          "ID": 18
+          "ID": 16
         },
         "Boar Hides": {
           "Name": "Boar Hides",
@@ -689,7 +701,7 @@
           "Info": "Skinner",
           "GoldValue": 3,
           "IsJunk": false,
-          "ID": 19
+          "ID": 17
         },
         "Broken Boar Teeth": {
           "Name": "Broken Boar Teeth",
@@ -697,7 +709,7 @@
           "Info": "???",
           "GoldValue": 1,
           "IsJunk": false,
-          "ID": 20
+          "ID": 18
         },
         "Cat Whiskers": {
           "Name": "Cat Whiskers",
@@ -705,7 +717,7 @@
           "Info": "Junk",
           "GoldValue": 1,
           "IsJunk": true,
-          "ID": 21
+          "ID": 19
         },
         "Sharp Cat Teeth": {
           "Name": "Sharp Cat Teeth",
@@ -713,31 +725,31 @@
           "Info": "???",
           "GoldValue": 5,
           "IsJunk": false,
-          "ID": 22
+          "ID": 20
         },
         "Random Loot #1": {
           "Name": "Random Loot #1",
-          "Quantity": 0,
+          "Quantity": 1,
           "Info": "Junk",
           "GoldValue": 5,
           "IsJunk": true,
-          "ID": 99
+          "ID": 21
         },
         "Random Loot #2": {
           "Name": "Random Loot #2",
-          "Quantity": 0,
+          "Quantity": 1,
           "Info": "?????",
           "GoldValue": 3,
           "IsJunk": false,
-          "ID": 98
+          "ID": 22
         },
         "Random Loot #3": {
           "Name": "Random Loot #3",
-          "Quantity": 0,
+          "Quantity": 1,
           "Info": "Junk",
           "GoldValue": 4,
           "IsJunk": true,
-          "ID": 97
+          "ID": 23
         },
         "Random Loot #4": {
           "Name": "Random Loot #4",
@@ -745,7 +757,7 @@
           "Info": "Junk",
           "GoldValue": 3,
           "IsJunk": true,
-          "ID": 96
+          "ID": 24
         },
         "Random Loot #5": {
           "Name": "Random Loot #5",
@@ -753,7 +765,7 @@
           "Info": "?????",
           "GoldValue": 3,
           "IsJunk": false,
-          "ID": 95
+          "ID": 25
         }
       }
     }

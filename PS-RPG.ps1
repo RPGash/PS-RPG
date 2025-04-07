@@ -2632,6 +2632,19 @@ if ($Load_Save_Data_Choice -ieq "e" -or $Start_A_New_Game -ieq "e") {
 do {
     do {
         Save-JSON
+        $Current_Location = "Town"
+        $LocationOptions = $Import_JSON.Locations.$Current_Location.LocationOptions.PSObject.Properties.Name
+        foreach ($LocationOption in $LocationOptions) {
+            Write-Color "$($LocationOption.Substring(0,1))","$($LocationOption.Substring(1,$LocationOption.Length-1))" -Color Green,DarkGray
+        }
+
+
+
+
+
+
+
+
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         Write-Color -NoNewLine "H", "unt, ","T","ravel, ","V","isit a building, ","Q","uest log, or look at your ","I","nventory? ", "[H/T/V/Q/I]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
