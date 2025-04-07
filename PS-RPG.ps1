@@ -2,8 +2,7 @@
 # ----
 #
 # - BUGS
-#   - selling potions in the Mend & Mana shop does not accept valid quantities?
-#       5-9 quantities not allowed??? on all potions sold
+#   - 
 #   
 #   
 # - TEST
@@ -2368,28 +2367,27 @@ Function Visit_a_Building {
                                         if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID -eq $Elixir_Emporium_Sell_Choice) {
                                             $Potion_Quantity = $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity
                                             $Potion_GoldValue = $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue
-                                            Add-Content -Path .\error.log -value "Q1: $Potion_Quantity"
                                             Break
                                         }
                                     }
                                     do {
-                                        Add-Content -Path .\error.log -value "Q2: $Potion_Quantity"
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                         Write-Color "  How many ","$Inventory_Item_Name's"," do you want to sell?" -Color DarkGray,Blue,DarkGray
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                                         Write-Color -NoNewLine "Quantity or ", "E","xit ","[1-$Potion_Quantity]" -Color DarkYellow,Green,DarkYellow,Green
                                         $Elixir_Emporium_Sell_Potion_Quantity_Choice = Read-Host " "
-                                        Add-Content -Path .\error.log -value "Q3: $Elixir_Emporium_Sell_Potion_Quantity_Choice"
                                         $Elixir_Emporium_Sell_Potion_Quantity_Choice = $Elixir_Emporium_Sell_Potion_Quantity_Choice.Trim()
-                                        Add-Content -Path .\error.log -value "Q4: $Elixir_Emporium_Sell_Potion_Quantity_Choice"
+                                        # check if input is a number or E
+                                        if ($Elixir_Emporium_Sell_Potion_Quantity_Choice -match "^[0-9]+$") {
+                                            $Elixir_Emporium_Sell_Potion_Quantity_Choice = [int]$Elixir_Emporium_Sell_Potion_Quantity_Choice
+                                        } else {
+                                            $Elixir_Emporium_Sell_Potion_Quantity_Choice = "E"
+                                        }
                                     } until ($Elixir_Emporium_Sell_Potion_Quantity_Choice -ieq "E" -or $Elixir_Emporium_Sell_Potion_Quantity_Choice -le $Potion_Quantity)
-                                    Add-Content -Path .\error.log -value "Q5: $Potion_Quantity"
                                     if ($Elixir_Emporium_Sell_Potion_Quantity_Choice -ieq "E") { # exit
-                                        Add-Content -Path .\error.log -value "if 1"
                                         Break
                                     } else { # quantity confirm
-                                        Add-Content -Path .\error.log -value "if 2"
                                         do {
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                             Write-Color "  $Elixir_Emporium_Sell_Potion_Quantity_Choice ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)'s"," are worth ","$($Potion_GoldValue*$Elixir_Emporium_Sell_Potion_Quantity_Choice) Gold",", do you want to sell them?" -Color White,DarkCyan,DarkGray,DarkYellow,DarkGray
