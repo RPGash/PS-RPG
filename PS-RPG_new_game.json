@@ -1,5 +1,6 @@
 {
   "CharacterCreation": true,
+  "TutorialComplete": false,
   "Locations": {
     "Town": {
       "CurrentLocation": true,
@@ -7,10 +8,10 @@
         "The Forest": "F"
       },
       "LocationOptions": {
-        "Hunt": false,
-        "Travel": false,
+        "Hunt": true,
+        "Travel": true,
         "Visit": false,
-        "Questss": false,
+        "Quests": true,
         "Inventory": false
       },
       "Mobs": [
@@ -360,10 +361,17 @@
       }
     },
     "The Forest": {
-      "CurrentLocation": true,
+      "CurrentLocation": false,
       "LinkedLocations": {
         "Town": "T",
         "The River": "R"
+      },
+      "LocationOptions": {
+        "Hunt": true,
+        "Travel": true,
+        "Visit": false,
+        "Quests": true,
+        "Inventory": true
       },
       "Mobs": [
         {

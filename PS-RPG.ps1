@@ -10,6 +10,9 @@
 #   
 #   
 # - NEXT
+#   - add a tutorial
+#       add random mob stats in tutorial page
+#   - access the 'info' menu from any choice prompt?
 #   - on loading a game, show the current location when a save file is found
 #   - change initial choices from single line question to menu list
 #   - in the Travel map, the current single character location name is highlighted
@@ -660,7 +663,7 @@ Function Create_Character {
                 do {
                     Write-Color -NoNewLine "You have chosen ", "$Character_Name ", "for your Character name, is this correct? ", "[Y/N/E]" -Color DarkYellow,Blue,DarkYellow,Green
                     $Character_Name_Confirm = Read-Host " "
-                } until ($Character_Name_Confirm -ieq "y" -or $Character_Name_Confirm -ieq "n" -or $Character_Name_Confirm -eq "e")
+                } until ($Character_Name_Confirm -ieq "y" -or $Character_Name_Confirm -ieq "n" -or $Character_Name_Confirm -ieq "e")
                 if ($Character_Name_Confirm -ieq "y") {
                     $Character_Name_Confirm = $true
                 } else {
@@ -685,14 +688,14 @@ Function Create_Character {
             if ($Character_Race) {
                 Write-Color "Character Race  : ", "$Character_Race" -Color DarkGray,Blue
                 $ClassRaceInfoColours1 = $ClassRaceInfoColours2 = $ClassRaceInfoColours3 = $ClassRaceInfoColours4 = $ClassRaceInfoColours5 = $ClassRaceInfoColours6 = $ClassRaceInfoColours7 = $ClassRaceInfoColours8 = $ClassRaceInfoColours9 = $ClassRaceInfoColours10 = $ClassRaceInfoColours11 = $ClassRaceInfoColours12 = $ClassRaceInfoColours13 = $ClassRaceInfoColours14 = $ClassRaceInfoColours15 = $ClassRaceInfoColours16 = "DarkGray"
-                if ($Character_Class -eq "Mage") {$ClassRaceInfoColours1 = $ClassRaceInfoColours2 = "Green"}
-                if ($Character_Class -eq "Rogue") {$ClassRaceInfoColours3 = $ClassRaceInfoColours4 = "Green"}
-                if ($Character_Class -eq "Cleric") {$ClassRaceInfoColours5 = $ClassRaceInfoColours6 = "Green"}
-                if ($Character_Class -eq "Warrior") {$ClassRaceInfoColours7 = $ClassRaceInfoColours8 = "Green"}
-                if ($Character_Race -eq "Elf") {$ClassRaceInfoColours9 = $ClassRaceInfoColours10 = "Green"}
-                if ($Character_Race -eq "Orc") {$ClassRaceInfoColours11 = $ClassRaceInfoColours12 = "Green"}
-                if ($Character_Race -eq "Dwarf") {$ClassRaceInfoColours13 = $ClassRaceInfoColours14 = "Green"}
-                if ($Character_Race -eq "Human") {$ClassRaceInfoColours15 = $ClassRaceInfoColours16 = "Green"}
+                if ($Character_Class -ieq "Mage") {$ClassRaceInfoColours1 = $ClassRaceInfoColours2 = "Green"}
+                if ($Character_Class -ieq "Rogue") {$ClassRaceInfoColours3 = $ClassRaceInfoColours4 = "Green"}
+                if ($Character_Class -ieq "Cleric") {$ClassRaceInfoColours5 = $ClassRaceInfoColours6 = "Green"}
+                if ($Character_Class -ieq "Warrior") {$ClassRaceInfoColours7 = $ClassRaceInfoColours8 = "Green"}
+                if ($Character_Race -ieq "Elf") {$ClassRaceInfoColours9 = $ClassRaceInfoColours10 = "Green"}
+                if ($Character_Race -ieq "Orc") {$ClassRaceInfoColours11 = $ClassRaceInfoColours12 = "Green"}
+                if ($Character_Race -ieq "Dwarf") {$ClassRaceInfoColours13 = $ClassRaceInfoColours14 = "Green"}
+                if ($Character_Race -ieq "Human") {$ClassRaceInfoColours15 = $ClassRaceInfoColours16 = "Green"}
             }
             if (-not($Character_Race)){
                 Write-Color "`r`nChoose a Class and Race from the below tables." -Color DarkGray
@@ -730,7 +733,7 @@ Function Create_Character {
                 Write-Color -NoNewLine "Choose your Characters Class ", "[M/R/C/W]" -Color DarkYellow,Green
                 $Character_Class = Read-Host " "
             if ($Character_Class -ieq "e") {{Exit}}
-            } until ($Character_Class -ieq "m" -or $Character_Class -ieq "r" -or $Character_Class -eq "c" -or $Character_Class -eq "w")
+            } until ($Character_Class -ieq "m" -or $Character_Class -ieq "r" -or $Character_Class -ieq "c" -or $Character_Class -ieq "w")
             switch ($Character_Class) {
                 m { $Character_Class = "Mage" }
                 r { $Character_Class = "Rogue" }
@@ -740,7 +743,7 @@ Function Create_Character {
             do {
                 Write-Color -NoNewLine "You have chosen a ", "$Character_Class ", "for your Character Class, is this correct? ", "[Y/N/E]" -Color DarkYellow,Blue,DarkYellow,Green
                 $Character_Class_Confirm = Read-Host " "
-            } until ($Character_Class_Confirm -ieq "y" -or $Character_Class_Confirm -ieq "n" -or $Character_Class_Confirm -eq "e")
+            } until ($Character_Class_Confirm -ieq "y" -or $Character_Class_Confirm -ieq "n" -or $Character_Class_Confirm -ieq "e")
             if ($Character_Class_Confirm -ieq "y") {
                 $Character_Class_Confirm = $true
             } else {
@@ -756,7 +759,7 @@ Function Create_Character {
                 Class_Race_Info
                 Write-Color -NoNewLine "Choose your Characters Race ", "[E/O/D/H]" -Color DarkYellow,Green
                 $Character_Race = Read-Host " "
-            } until ($Character_Race -ieq "e" -or $Character_Race -ieq "o" -or $Character_Race -eq "d" -or $Character_Race -eq "h")
+            } until ($Character_Race -ieq "e" -or $Character_Race -ieq "o" -or $Character_Race -ieq "d" -or $Character_Race -ieq "h")
             switch ($Character_Race) {
                 e { $Character_Race = "Elf";$A_AN = "an" }
                 o { $Character_Race = "Orc";$A_AN = "an" }
@@ -766,7 +769,7 @@ Function Create_Character {
             do {
                 Write-Color -NoNewLine "You have chosen $A_AN ", "$Character_Race ", "for your Character Race, is this correct? ", "[Y/N/E]" -Color DarkYellow,Blue,DarkYellow,Green
                 $Character_Race_Confirm = Read-Host " "
-            } until ($Character_Race_Confirm -ieq "y" -or $Character_Race_Confirm -ieq "n" -or $Character_Race_Confirm -eq "e")
+            } until ($Character_Race_Confirm -ieq "y" -or $Character_Race_Confirm -ieq "n" -or $Character_Race_Confirm -ieq "e")
             if ($Character_Race_Confirm -ieq "y") {
                 $Character_Race_Confirm = $true
             } else {
@@ -798,7 +801,7 @@ Function Create_Character {
     #
     # set JSON class stats
     #
-    if ($Character_Class -eq "Mage") {
+    if ($Character_Class -ieq "Mage") {
         $Import_JSON.Character.Stats.HealthCurrent  = 50
         $Import_JSON.Character.Stats.HealthMax      = 50
         $Import_JSON.Character.Stats.StaminaCurrent = 40
@@ -813,7 +816,7 @@ Function Create_Character {
         $Import_JSON.Character.Stats.Spells         = 10
         $Import_JSON.Character.Stats.Healing        = 6
     }
-    if ($Character_Class -eq "Rogue") {
+    if ($Character_Class -ieq "Rogue") {
         $Import_JSON.Character.Stats.HealthCurrent  = 60
         $Import_JSON.Character.Stats.HealthMax      = 60
         $Import_JSON.Character.Stats.StaminaCurrent = 80
@@ -828,7 +831,7 @@ Function Create_Character {
         $Import_JSON.Character.Stats.Spells         = 1
         $Import_JSON.Character.Stats.Healing        = 4
     }
-    if ($Character_Class -eq "Cleric") {
+    if ($Character_Class -ieq "Cleric") {
         $Import_JSON.Character.Stats.HealthCurrent  = 40
         $Import_JSON.Character.Stats.HealthMax      = 40
         $Import_JSON.Character.Stats.StaminaCurrent = 50
@@ -843,7 +846,7 @@ Function Create_Character {
         $Import_JSON.Character.Stats.Spells         = 10
         $Import_JSON.Character.Stats.Healing        = 10
     }
-    if ($Character_Class -eq "Warrior") {
+    if ($Character_Class -ieq "Warrior") {
         $Import_JSON.Character.Stats.HealthCurrent  = 100
         $Import_JSON.Character.Stats.HealthMax      = 100
         $Import_JSON.Character.Stats.StaminaCurrent = 100
@@ -864,6 +867,209 @@ Function Create_Character {
     Set_Variables
     Clear-Host
     Draw_Player_Window_and_Stats
+}
+
+#
+# tutorial
+#
+Function Tutorial {
+    do {
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+        Write-Color -NoNewLine "Would you like to start the tutorial? ","[Y/N]" -Color DarkYellow,Green
+        $Tutorial_Choice = Read-Host " "
+        $Tutorial_Choice = $Tutorial_Choice.Trim()
+    } until ($Tutorial_Choice -ieq "y" -or $Tutorial_Choice -ieq "n")
+    if ($Tutorial_Choice -ieq "y") {
+        do {
+            $Script:Info_Banner = "Tutorial"
+            Draw_Info_Banner
+            Write-Color "  Welcome to the tutorial." -Color DarkGray
+            Write-Color "  This is a simple tutorial to help you get started with the game." -Color DarkGray
+            Write-Color "  You will be guided through the basics of the game and how to play." -Color DarkGray
+            Write-Color "  Press '","C","' to ","C","ontinue the tutorial or '","E","' to ","E","xit at any time, then hit the enter key to confirm." -Color DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+            Write-Color -NoNewLine "C","ontinue or ","E","xit ","[C/E]" -Color Green,DarkYellow,Green,DarkYellow,Green
+            $Tutorial_Choice = Read-Host " "
+        $Tutorial_Choice = $Tutorial_Choice.Trim()
+        } until ($Tutorial_Choice -ieq "c" -or $Tutorial_Choice -ieq "e")
+        if ($Tutorial_Choice -ieq "e") {
+            for ($Position = 18; $Position -lt 20; $Position++) { # clear some lines from previous widow
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+            }
+            Write-Color "  You have chosen to exit the tutorial." -Color DarkGray
+            Write-Color "  You can always start the tutorial again later from the 'info' menu." -Color DarkGray
+            do {
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                Write-Color -NoNewLine "E","xit ","[E]" -Color Green,DarkYellow,Green
+                $Tutorial_Choice = Read-Host " "
+                $Tutorial_Choice = $Tutorial_Choice.Trim()
+            } until ($Tutorial_Choice -ieq "e")
+            $Import_JSON.TutorialComplete = $true
+            Break
+        }
+        if ($Tutorial_Choice -ieq "c") {
+            for ($Position = 18; $Position -lt 21; $Position++) { # clear some lines from previous widow
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+            }
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+            Write-Color "  You should already be familar with the choice prompt by now." -Color DarkGray
+            Write-Color "  It always appears at the bottom of the screen." -Color DarkGray
+            $host.UI.RawUI.ForegroundColor = "Cyan"
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 12,23;$Host.UI.Write(".")
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 10,24;$Host.UI.Write(".:;:.")
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 11,25;$Host.UI.Write(";;; ")
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 10,26;$Host.UI.Write(" ;;; ")
+            do {
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                Write-Color -NoNewLine "C","ontinue or ","E","xit ","[C/E]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                $Tutorial_Choice = Read-Host " "
+                $Tutorial_Choice = $Tutorial_Choice.Trim()
+            } until ($Tutorial_Choice -ieq "c" -or $Tutorial_Choice -ieq "e")
+            if ($Tutorial_Choice -ieq "e") {
+                Break
+            }
+            if ($Tutorial_Choice -ieq "c") {
+                for ($Position = 18; $Position -lt 21; $Position++) { # clear some lines from previous widow
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                }
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                Write-Color "  The window in the top left corner of the screen shows your player info and stats." -Color DarkGray
+                $host.UI.RawUI.ForegroundColor = "Cyan"
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 24,13;$Host.UI.Write(".")
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 22,14;$Host.UI.Write(".:;:.")
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 23,15;$Host.UI.Write(";;; ")
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 22,16;$Host.UI.Write(" ;;; ")
+                do {
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                    Write-Color -NoNewLine "C","ontinue or ","E","xit ","[C/E]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                    $Tutorial_Choice = Read-Host " "
+                    $Tutorial_Choice = $Tutorial_Choice.Trim()
+                } until ($Tutorial_Choice -ieq "c" -or $Tutorial_Choice -ieq "e")
+                if ($Tutorial_Choice -ieq "e") {
+                    Break
+                }
+                if ($Tutorial_Choice -ieq "c") {
+                    Clear-Host
+                    Draw_Mob_Window_and_Stats
+                    Draw_Info_Banner
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                    Write-Color "  The window in the top middle of the screen shows the mobs info and stats." -Color DarkGray
+                    $host.UI.RawUI.ForegroundColor = "Cyan"
+                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 81,13;$Host.UI.Write(".")
+                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 79,14;$Host.UI.Write(".:;:.")
+                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,15;$Host.UI.Write(";;; ")
+                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 79,16;$Host.UI.Write(" ;;; ")
+                    do {
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                        Write-Color -NoNewLine "C","ontinue or ","E","xit ","[C/E]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                        $Tutorial_Choice = Read-Host " "
+                        $Tutorial_Choice = $Tutorial_Choice.Trim()
+                    } until ($Tutorial_Choice -ieq "c" -or $Tutorial_Choice -ieq "e")
+                    if ($Tutorial_Choice -ieq "e") {
+                        Break
+                    }
+                    if ($Tutorial_Choice -ieq "c") {
+                        Clear-Host
+                        Draw_Inventory
+                        Draw_Info_Banner
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                        Write-Color "  The top middle of the screen can also show a location map." -Color DarkGray
+                        $host.UI.RawUI.ForegroundColor = "Cyan"
+                        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 81,13;$Host.UI.Write(".")
+                        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 79,14;$Host.UI.Write(".:;:.")
+                        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,15;$Host.UI.Write(";;; ")
+                        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 79,16;$Host.UI.Write(" ;;; ")
+                        do {
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                            Write-Color -NoNewLine "C","ontinue or ","E","xit ","[C/E]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                            $Tutorial_Choice = Read-Host " "
+                            $Tutorial_Choice = $Tutorial_Choice.Trim()
+                        } until ($Tutorial_Choice -ieq "c" -or $Tutorial_Choice -ieq "e")
+                        if ($Tutorial_Choice -ieq "e") {
+                            Break
+                        }
+                        if ($Tutorial_Choice -ieq "c") {
+                            Clear-Host
+                            Draw_Inventory
+                            Draw_Info_Banner
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                            Write-Color "  As well as your quest log." -Color DarkGray
+                            $host.UI.RawUI.ForegroundColor = "Cyan"
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 91,13;$Host.UI.Write(".")
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 89,14;$Host.UI.Write(".:;:.")
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 88,15;$Host.UI.Write(";;; ")
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 89,16;$Host.UI.Write(" ;;; ")
+                            do {
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                Write-Color -NoNewLine "C","ontinue or ","E","xit ","[C/E]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                                $Tutorial_Choice = Read-Host " "
+                                $Tutorial_Choice = $Tutorial_Choice.Trim()
+                            } until ($Tutorial_Choice -ieq "c" -or $Tutorial_Choice -ieq "e")
+                            if ($Tutorial_Choice -ieq "e") {
+                                Break
+                            }
+                            if ($Tutorial_Choice -ieq "c") {
+                                Clear-Host
+                                Draw_Inventory
+                                Draw_Info_Banner
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                Write-Color "  The window on the right of the screen shows your inventory." -Color DarkGray
+                                $host.UI.RawUI.ForegroundColor = "Cyan"
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 91,13;$Host.UI.Write(".")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 89,14;$Host.UI.Write(".:;:.")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 88,15;$Host.UI.Write(";;; ")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 89,16;$Host.UI.Write(" ;;; ")
+                                do {
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                    Write-Color -NoNewLine "C","ontinue or ","E","xit ","[C/E]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                                    $Tutorial_Choice = Read-Host " "
+                                    $Tutorial_Choice = $Tutorial_Choice.Trim()
+                                } until ($Tutorial_Choice -ieq "c" -or $Tutorial_Choice -ieq "e")
+                                if ($Tutorial_Choice -ieq "e") {
+                                    Break
+                                }
+                                if ($Tutorial_Choice -ieq "c") {
+                                    Clear-Host
+                                    Draw_Inventory
+                                    Draw_Info_Banner
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                    Write-Color "  combat and visiting buildings." -Color DarkGray
+                                    $host.UI.RawUI.ForegroundColor = "Cyan"
+                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 91,13;$Host.UI.Write(".")
+                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 89,14;$Host.UI.Write(".:;:.")
+                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 88,15;$Host.UI.Write(";;; ")
+                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 89,16;$Host.UI.Write(" ;;; ")
+                                    do {
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                        Write-Color -NoNewLine "C","ontinue or ","E","xit ","[C/E]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                                        $Tutorial_Choice = Read-Host " "
+                                        $Tutorial_Choice = $Tutorial_Choice.Trim()
+                                    } until ($Tutorial_Choice -ieq "c" -or $Tutorial_Choice -ieq "e")
+                                    if ($Tutorial_Choice -ieq "e") {
+                                        Break
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        # $Import_JSON.TutorialComplete = $true
+        # 
+    } else {
+        $Tutorial_Choice = $false
+    }
 }
 
 #
@@ -1048,13 +1254,13 @@ Function Inventory_Choice{
                 }
             }
         }
-        if ($Enough_Health_Potions -eq "no" -and $Enough_Mana_Potions -eq "no") {
+        if ($Enough_Health_Potions -ieq "no" -and $Enough_Mana_Potions -ieq "no") {
         } else {
             do {
                 $Script:Info_Banner = "Inventory"
                 Draw_Info_Banner
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                if ($Enough_Health_Potions -eq "yes" -and $Enough_Mana_Potions -eq "no") {
+                if ($Enough_Health_Potions -ieq "yes" -and $Enough_Mana_Potions -ieq "no") {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("");" "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     Write-Color -NoNewLine "  You are low on ","Health", "." -Color DarkGray,Green,DarkGray
@@ -1063,7 +1269,7 @@ Function Inventory_Choice{
                     Write-Color -NoNewLine "Use a potion? ", "[Y/N]" -Color DarkYellow,Green
                     $Potion_Choice = "Health"
                     $Script:Selectable_ID_Search = "Health"
-                } elseif ($Enough_Mana_Potions -eq "yes" -and $Enough_Health_Potions -eq "no") {
+                } elseif ($Enough_Mana_Potions -ieq "yes" -and $Enough_Health_Potions -ieq "no") {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("");" "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                     Write-Color -NoNewLine "  You are low on ","Mana", "." -Color DarkGray,Blue,DarkGray
@@ -1746,9 +1952,9 @@ Function Visit_a_Building {
     Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
     Write-Color "`r`n  You can visit the following buildings:" -Color DarkGray
     Write-Color "  $All_Buildings_In_Current_Location_List" -Color White
-    if ($Current_Location -eq "Town") { Draw_Town_Map }
-    if ($Current_Location -eq "The Forest") { Draw_The_Forest_Map }
-    if ($Current_Location -eq "The River") { Draw_The_River_Map }
+    if ($Current_Location -ieq "Town") { Draw_Town_Map }
+    if ($Current_Location -ieq "The Forest") { Draw_The_Forest_Map }
+    if ($Current_Location -ieq "The River") { Draw_The_River_Map }
     do {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -1767,7 +1973,7 @@ Function Visit_a_Building {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("M") # Mend & Mana
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
     # switch choice for Town
-    if ($Current_Location -eq "Town") {
+    if ($Current_Location -ieq "Town") {
         switch ($Building_Choice) {
             e { # exit
                 for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
@@ -2059,7 +2265,7 @@ Function Visit_a_Building {
                                 $Quest_Names = $Import_JSON.Quests.PSObject.Properties.Name
                                 foreach ($Quest_Name in $Quest_Names) {
                                     $Quest_Name = $Import_JSON.Quests.$Quest_Name
-                                    if ($Quest_Name.Available -eq $true -or $Quest_Name.Status -eq "In Progress" -or $Quest_Name.Status -eq "Hand In") {
+                                    if ($Quest_Name.Available -eq $true -or $Quest_Name.Status -ieq "In Progress" -or $Quest_Name.Status -ieq "Hand In") {
                                         Write-Color "  $($Quest_Name.QuestLetter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status)" -Color Green,DarkGray,DarkYellow
                                         $Available_Quest_Letters_Array.Add($Quest_Name.QuestLetter)
                                     }
@@ -2071,7 +2277,7 @@ Function Visit_a_Building {
                                 Write-Color -NoNewLine "View details about a quest, or ","E","xit ","[$Available_Quest_Letters_Array_String]" -Color DarkYellow,Green,DarkYellow,Green
                                 $Tavern_Quest_Board_Choice = Read-Host " "
                                 $Tavern_Quest_Board_Choice = $Tavern_Quest_Board_Choice.Trim()
-                            } until ($Tavern_Quest_Board_Choice -eq "e" -or $Tavern_Quest_Board_Choice -in $Available_Quest_Letters_Array)
+                            } until ($Tavern_Quest_Board_Choice -ieq "e" -or $Tavern_Quest_Board_Choice -in $Available_Quest_Letters_Array)
                             if ($Tavern_Quest_Board_Choice -in $Available_Quest_Letters_Array) {
                                 do {
                                     Draw_Inventory
@@ -2424,7 +2630,7 @@ Function Visit_a_Building {
         }
     }
     # switch choice for The Forest
-    if ($Current_Location -eq "The Forest") {
+    if ($Current_Location -ieq "The Forest") {
         switch ($Building_Choice) {
             e { # exit
                 for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
@@ -2450,7 +2656,7 @@ Function Visit_a_Building {
         }
     }
     # switch choice for The River
-    if ($Current_Location -eq "The River") {
+    if ($Current_Location -ieq "The River") {
         switch ($Building_Choice) {
             e { # exit
                 for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
@@ -2493,7 +2699,7 @@ Function Draw_Quest_Log {
             $Quest_Name = $Import_JSON.Quests.$Quest_Name
             $Quest_Log_Name_Right_Padding = " "*(32 - $Quest_Name.Name.Length)
             $Quest_Log_Status_Right_Padding = " "*(12 - $Quest_Name.Status.Length)
-            if ($Quest_Name.Status -eq "In Progress" -or $Quest_Name.Status -eq "Hand In") {
+            if ($Quest_Name.Status -ieq "In Progress" -or $Quest_Name.Status -ieq "Hand In") {
                 $Quest_In_Progress_Count += 1
                 $Position += 1
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,$Position;$Host.UI.Write("")
@@ -2522,7 +2728,7 @@ Function Draw_Quest_Log {
             Write-Color -NoNewLine "Select a Quest for more info, or ","E","xit ", "[$In_Progress_Quest_Letters_Array_String]" -Color DarkYellow,Green,DarkYellow,Green
             $Quest_Log_Choice = Read-Host " "
             $Quest_Log_Choice = $Quest_Log_Choice.Trim()
-        } until ($Quest_Log_Choice -eq "e" -or $Quest_Log_Choice -in $Available_Quest_Letters_Array)
+        } until ($Quest_Log_Choice -ieq "e" -or $Quest_Log_Choice -in $Available_Quest_Letters_Array)
         switch ($Quest_Log_Choice) {
             e {
                 Break
@@ -2612,12 +2818,14 @@ if (Test-Path -Path .\PS-RPG.json) {
             if ($Start_A_New_Game -ieq "y") {
                 # new game
                 Create_Character
+                Tutorial
             }
         }
     } until ($Load_Save_Data_Choice -ieq "y" -or $Start_A_New_Game -ieq "y" -or $Start_A_New_Game -ieq "e")
 } else {
     # no JSON file found
     Create_Character
+    Tutorial
 }
 if ($Load_Save_Data_Choice -ieq "e" -or $Start_A_New_Game -ieq "e") {
     Write-Color -NoNewLine "`r`nQuitting ","PS-RPG","." -Color DarkYellow,Magenta,DarkYellow
