@@ -40,9 +40,9 @@ While i appreciate your support and enthusiasm for this project, i do not accept
 
 ## :question: Still here?
 
-If you are reading this, bravo dear user and (hopefully) contributor for making it this far! You are awesome. :100: 
+If you are reading this, then maybe you are considering a contribution to this project. If you do, then you are awesome :100:
 
-To confirm that you have read this guide and are following it as best as possible, **include this emoji at the top** of your issue or pull request: :bug: `:bug:`
+To confirm that you have read this guide and are following it as best as possible, **include this emoji at the top** of your issue or feature request: :bug: `:bug:`
 
 ## :pray: Credits
 
