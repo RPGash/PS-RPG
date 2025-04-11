@@ -24,7 +24,7 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
- - OS: [e.g. iOS]
+ - OS: (**NOTE**: only bugs from Windows will be fixed at the moment)
  - PowerShell version ($PSVersionTable output)
 
 **Additional context**
