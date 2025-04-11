@@ -42,7 +42,7 @@ While i appreciate your support and enthusiasm for this project, i do not accept
 
 If you are reading this, then maybe you are considering a contribution to this project. If you do, then you are awesome :100:
 
-To confirm that you have read this guide and are following it as best as possible, **include this emoji at the top** of your issue or feature request: :bug: `:bug:`
+To confirm that you have read this guide and are following it as best as possible, **include this emoji at the top** of your issue or feature request: :floppy_disk: `:floppy_disk:`
 
 ## :pray: Credits
 
