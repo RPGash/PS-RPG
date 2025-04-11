@@ -38,7 +38,7 @@ You can triage issues which may include reproducing bug reports or asking for ad
 
 While i appreciate your support and enthusiasm for this project, i do not accept pull requests, only bug reports and feature requests.
 
-## Still here?
+## :question: Still here?
 
 If you are reading this, bravo dear user and (hopefully) contributor for making it this far! You are awesome. :100: 
 
