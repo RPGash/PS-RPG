@@ -6,7 +6,7 @@ Please review our [Code of Conduct](https://github.com/RPGash/PS-RPG/blob/main/C
 
 Before [creating an issue](https://help.github.com/en/github/managing-your-work-on-github/creating-an-issue), check if you are using the latest version of the project. If you are not up-to-date, see if updating fixes your issue first.
 
-### :beetle: Bug Reports and Other Issues
+## :beetle: Bug Reports and Other Issues
 
 A great way to contribute to the project is to send a detailed issue when you encounter a problem. I always appreciate a well-written, thorough bug report. :v:
 
