@@ -873,6 +873,22 @@ Function Create_Character {
 #
 # tutorial
 #
+Function Tutorial_Exit {
+    for ($Position = 17; $Position -lt 36; $Position++) { # clear some lines from previous widow
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+    }
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+    Write-Color "  You have chosen to exit the tutorial." -Color DarkGray
+    Write-Color "  You can always start the tutorial again later from the 'info' menu." -Color DarkGray
+    do {
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+        Write-Color -NoNewLine "E","xit ","[E]" -Color Green,DarkYellow,Green
+        $Tutorial_Choice = Read-Host " "
+        $Tutorial_Choice = $Tutorial_Choice.Trim()
+    } until ($Tutorial_Choice -ieq "e")
+    Break
+}
 Function Tutorial {
     do {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
@@ -881,9 +897,9 @@ Function Tutorial {
         $Tutorial_Choice = Read-Host " "
         $Tutorial_Choice = $Tutorial_Choice.Trim()
     } until ($Tutorial_Choice -ieq "y" -or $Tutorial_Choice -ieq "n")
-    if ($Tutorial_Choice -ieq "y") {
+    if ($Tutorial_Choice -ieq "y") { # Tutorial - Welcome
         do {
-            $Script:Info_Banner = "Tutorial"
+            $Script:Info_Banner = "Tutorial - Welcome"
             Draw_Info_Banner
             Write-Color "  Welcome to the tutorial." -Color DarkGray
             Write-Color "  This is a simple tutorial to help you get started with the game." -Color DarkGray
@@ -896,33 +912,34 @@ Function Tutorial {
         $Tutorial_Choice = $Tutorial_Choice.Trim()
         } until ($Tutorial_Choice -ieq "c" -or $Tutorial_Choice -ieq "e")
         if ($Tutorial_Choice -ieq "e") {
-            for ($Position = 18; $Position -lt 20; $Position++) { # clear some lines from previous widow
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-            }
-            Write-Color "  You have chosen to exit the tutorial." -Color DarkGray
-            Write-Color "  You can always start the tutorial again later from the 'info' menu." -Color DarkGray
-            do {
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                Write-Color -NoNewLine "E","xit ","[E]" -Color Green,DarkYellow,Green
-                $Tutorial_Choice = Read-Host " "
-                $Tutorial_Choice = $Tutorial_Choice.Trim()
-            } until ($Tutorial_Choice -ieq "e")
-            $Import_JSON.TutorialComplete = $true
-            Break
+            Tutorial_Exit
         }
-        if ($Tutorial_Choice -ieq "c") {
+        if ($Tutorial_Choice -ieq "c") { # Tutorial - Choice prompt
+            $Script:Info_Banner = "Tutorial - Choice prompt"
+            Draw_Info_Banner
             for ($Position = 18; $Position -lt 21; $Position++) { # clear some lines from previous widow
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
             }
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-            Write-Color "  You should already be familar with the choice prompt by now." -Color DarkGray
-            Write-Color "  It always appears at the bottom of the screen." -Color DarkGray
+            Write-Color "  You should already be familar with the choice prompt by now." -Color Cyan
+            Write-Color "  It always appears at the bottom of the screen." -Color Cyan
             $host.UI.RawUI.ForegroundColor = "Cyan"
-            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 12,23;$Host.UI.Write(".")
-            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 10,24;$Host.UI.Write(".:;:.")
-            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 11,25;$Host.UI.Write(";;; ")
-            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 10,26;$Host.UI.Write(" ;;; ")
+
+
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 16,22;$Host.UI.Write("     .")
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 16,23;$Host.UI.Write("      .")
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 16,24;$Host.UI.Write("   . ;.")
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 16,25;$Host.UI.Write("   .;")
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 16,26;$Host.UI.Write("    ;;.")
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 16,27;$Host.UI.Write("  ;.;;")
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 16,28;$Host.UI.Write("  ;;;;.")
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 16,29;$Host.UI.Write("  ;;;;;")
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 16,30;$Host.UI.Write("  ;;;;;")
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 16,31;$Host.UI.Write("  ;;;;;")
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 16,32;$Host.UI.Write("  ;;;;;")
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 16,33;$Host.UI.Write("..;;;;;..")
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 16,34;$Host.UI.Write(" ':::::' ")
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 16,35;$Host.UI.Write("   ':' ")
             do {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -931,19 +948,22 @@ Function Tutorial {
                 $Tutorial_Choice = $Tutorial_Choice.Trim()
             } until ($Tutorial_Choice -ieq "c" -or $Tutorial_Choice -ieq "e")
             if ($Tutorial_Choice -ieq "e") {
-                Break
+                Tutorial_Exit
             }
-            if ($Tutorial_Choice -ieq "c") {
-                for ($Position = 18; $Position -lt 21; $Position++) { # clear some lines from previous widow
+            if ($Tutorial_Choice -ieq "c") { # Tutorial - Player stats
+                $Script:Info_Banner = "Tutorial - Player stats"
+                Draw_Info_Banner
+                    for ($Position = 18; $Position -lt 36; $Position++) { # clear some lines from previous widow
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                 }
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                Write-Color "  The window in the top left corner of the screen shows your player info and stats." -Color DarkGray
+                Write-Color "  The window in the top left corner of the screen shows your player info and stats." -Color Cyan
                 $host.UI.RawUI.ForegroundColor = "Cyan"
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 24,13;$Host.UI.Write(".")
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 22,14;$Host.UI.Write(".:;:.")
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 23,15;$Host.UI.Write(";;; ")
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 22,16;$Host.UI.Write(" ;;; ")
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,5;$Host.UI.Write( "    .")
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,6;$Host.UI.Write( "  .;;............ ..")
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,7;$Host.UI.Write( ".;;;;::::::::::::..")
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,8;$Host.UI.Write(" ':;;:::::::::::: . .")
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,9;$Host.UI.Write("   ':")
                 do {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -952,19 +972,23 @@ Function Tutorial {
                     $Tutorial_Choice = $Tutorial_Choice.Trim()
                 } until ($Tutorial_Choice -ieq "c" -or $Tutorial_Choice -ieq "e")
                 if ($Tutorial_Choice -ieq "e") {
-                    Break
+                    Tutorial_Exit
                 }
-                if ($Tutorial_Choice -ieq "c") {
+                if ($Tutorial_Choice -ieq "c") { # Tutorial - Mob stats
                     Clear-Host
+                    $Script:TutorialMob = $true
+                    Random_Mob
+                    $Script:TutorialMob = $false
                     Draw_Mob_Window_and_Stats
+                    $Script:Info_Banner = "Tutorial - Mob stats"
                     Draw_Info_Banner
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                    Write-Color "  The window in the top middle of the screen shows the mobs info and stats." -Color DarkGray
+                    Write-Color "  The window in the top middle of the screen shows the mobs info and stats." -Color Cyan
                     $host.UI.RawUI.ForegroundColor = "Cyan"
-                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 81,13;$Host.UI.Write(".")
-                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 79,14;$Host.UI.Write(".:;:.")
-                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,15;$Host.UI.Write(";;; ")
-                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 79,16;$Host.UI.Write(" ;;; ")
+                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 68,13;$Host.UI.Write(".")
+                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 66,14;$Host.UI.Write(".:;:.")
+                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 66,16;$Host.UI.Write(" ;;; ")
+                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 66,15;$Host.UI.Write(" ;;; ")
                     do {
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -973,18 +997,19 @@ Function Tutorial {
                         $Tutorial_Choice = $Tutorial_Choice.Trim()
                     } until ($Tutorial_Choice -ieq "c" -or $Tutorial_Choice -ieq "e")
                     if ($Tutorial_Choice -ieq "e") {
-                        Break
+                        Tutorial_Exit
                     }
-                    if ($Tutorial_Choice -ieq "c") {
+                    if ($Tutorial_Choice -ieq "c") { # Tutorial - Visit map
                         Clear-Host
-                        Draw_Inventory
+                        Draw_Town_Map
+                        $Script:Info_Banner = "Tutorial - Visit map"
                         Draw_Info_Banner
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                        Write-Color "  The top middle of the screen can also show a location map." -Color DarkGray
+                        Write-Color "  The top middle of the screen can also show buildings you can visit in a location." -Color Cyan
                         $host.UI.RawUI.ForegroundColor = "Cyan"
                         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 81,13;$Host.UI.Write(".")
                         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 79,14;$Host.UI.Write(".:;:.")
-                        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,15;$Host.UI.Write(";;; ")
+                        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 79,15;$Host.UI.Write(" ;;; ")
                         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 79,16;$Host.UI.Write(" ;;; ")
                         do {
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
@@ -994,19 +1019,42 @@ Function Tutorial {
                             $Tutorial_Choice = $Tutorial_Choice.Trim()
                         } until ($Tutorial_Choice -ieq "c" -or $Tutorial_Choice -ieq "e")
                         if ($Tutorial_Choice -ieq "e") {
-                            Break
+                            Tutorial_Exit
                         }
-                        if ($Tutorial_Choice -ieq "c") {
+                        if ($Tutorial_Choice -ieq "c") { # Tutorial - Quest log
                             Clear-Host
-                            Draw_Inventory
+                            $Script:Info_Banner = "Tutorial - Quest log"
                             Draw_Info_Banner
+                            $host.UI.RawUI.ForegroundColor = "DarkGray"
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,0;$Host.UI.Write("+---------------------------------+-------------+")
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,1;$Host.UI.Write("|                                 |             |")
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,2;$Host.UI.Write("+---------------------------------+-------------+")
+                            for ($Position = 3; $Position -lt 13; $Position++) {
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,$Position;$Host.UI.Write("|                                 |             |")
+                            }
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,13;$Host.UI.Write("+---------------------------------+-------------+")
+                            $host.UI.RawUI.ForegroundColor = "White"
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 58,1;$Host.UI.Write("Quest Log")
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,1;$Host.UI.Write("Status")
+                            $host.UI.RawUI.ForegroundColor = "DarkGray"
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 58,3;$Host.UI.Write("Sick Elder")
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 58,4;$Host.UI.Write("Rat infestation")
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 58,5;$Host.UI.Write("The Lost Artifact")
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 58,6;$Host.UI.Write("Obsidian Heart")
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 58,7;$Host.UI.Write("Mapping the Wildlands")
+                            $host.UI.RawUI.ForegroundColor = "DarkYellow"
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,3;$Host.UI.Write("In Progress")
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,4;$Host.UI.Write("Available")
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,5;$Host.UI.Write("Hand-In")
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,6;$Host.UI.Write("Available")
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,7;$Host.UI.Write("Completed")
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                            Write-Color "  As well as your quest log." -Color DarkGray
+                            Write-Color "  As well as your quest log." -Color Cyan
                             $host.UI.RawUI.ForegroundColor = "Cyan"
-                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 91,13;$Host.UI.Write(".")
-                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 89,14;$Host.UI.Write(".:;:.")
-                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 88,15;$Host.UI.Write(";;; ")
-                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 89,16;$Host.UI.Write(" ;;; ")
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 97,13;$Host.UI.Write(".")
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 95,14;$Host.UI.Write(".:;:.")
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 95,15;$Host.UI.Write(" ;;; ")
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 95,16;$Host.UI.Write(" ;;; ")
                             do {
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -1015,19 +1063,52 @@ Function Tutorial {
                                 $Tutorial_Choice = $Tutorial_Choice.Trim()
                             } until ($Tutorial_Choice -ieq "c" -or $Tutorial_Choice -ieq "e")
                             if ($Tutorial_Choice -ieq "e") {
-                                Break
+                                Tutorial_Exit
                             }
-                            if ($Tutorial_Choice -ieq "c") {
+                            if ($Tutorial_Choice -ieq "c") { # Tutorial - Inventory
                                 Clear-Host
-                                Draw_Inventory
+                                $Script:Info_Banner = "Tutorial - Inventory"
                                 Draw_Info_Banner
+                                $host.UI.RawUI.ForegroundColor = "DarkGray"
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 105,0;$Host.UI.Write("+--+---------------------+-------+")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 105,1;$Host.UI.Write("|  |                     |       |")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 105,2;$Host.UI.Write("+--+---------------------+-------+")
+                                for ($Position = 3; $Position -lt 7; $Position++) {
+                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 105,$Position;$Host.UI.Write("|  |                     |       |")
+                                }
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 105,7;$Host.UI.Write("+--+---------------------+-------+")
+                                $host.UI.RawUI.ForegroundColor = "White"
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,1;$Host.UI.Write("ID")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 110,1;$Host.UI.Write("Inventory")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 126,1;$Host.UI.Write("Qty")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 132,1;$Host.UI.Write("Value")
+                                $host.UI.RawUI.ForegroundColor = "DarkGray"
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 110,3;$Host.UI.Write("Mana Potion")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 110,4;$Host.UI.Write("Wolf Hides")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 110,5;$Host.UI.Write("Sharp Cat Teeth")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 110,6;$Host.UI.Write("Rat Tails")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 107,3;$Host.UI.Write("6")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,4;$Host.UI.Write("14")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 107,5;$Host.UI.Write("8")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 107,6;$Host.UI.Write("9")
+                                $host.UI.RawUI.ForegroundColor = "White"
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 128,3;$Host.UI.Write("1")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 128,4;$Host.UI.Write("5")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 128,5;$Host.UI.Write("8")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 128,6;$Host.UI.Write("2")
+                                $host.UI.RawUI.ForegroundColor = "White"
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 132,3;$Host.UI.Write("5")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 132,4;$Host.UI.Write("15")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 132,5;$Host.UI.Write("8")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 132,6;$Host.UI.Write("2")
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                Write-Color "  The window on the right of the screen shows your inventory." -Color DarkGray
+                                Write-Color "  The window on the right of the screen shows your inventory." -Color Cyan
                                 $host.UI.RawUI.ForegroundColor = "Cyan"
-                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 91,13;$Host.UI.Write(".")
-                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 89,14;$Host.UI.Write(".:;:.")
-                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 88,15;$Host.UI.Write(";;; ")
-                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 89,16;$Host.UI.Write(" ;;; ")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 83,2;$Host.UI.Write("                .")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 83,3;$Host.UI.Write(" .. ............;;.")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 83,4;$Host.UI.Write("  ..::::::::::::;;;;.")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 83,5;$Host.UI.Write(". . ::::::::::::;;:'")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 83,6;$Host.UI.Write("                :'")
                                 do {
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -1036,19 +1117,33 @@ Function Tutorial {
                                     $Tutorial_Choice = $Tutorial_Choice.Trim()
                                 } until ($Tutorial_Choice -ieq "c" -or $Tutorial_Choice -ieq "e")
                                 if ($Tutorial_Choice -ieq "e") {
-                                    Break
+                                    Tutorial_Exit
                                 }
-                                if ($Tutorial_Choice -ieq "c") {
+                                if ($Tutorial_Choice -ieq "c") { # Tutorial - Travel
                                     Clear-Host
-                                    Draw_Inventory
+                                    $Script:Info_Banner = "Tutorial - Travel"
                                     Draw_Info_Banner
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                    Write-Color "  combat and visiting buildings." -Color DarkGray
+                                    Write-Color "  The Travel area shows which locations you can move between." -Color Cyan
+                                    Write-Color ""
+                                    Write-Color " ,---------------------------------------------------------." -Color DarkYellow
+                                    Write-Color "(_\  +-----------------+  +--------------+  +-------------+ \" -Color DarkYellow
+                                    Write-Color "   | |       ","T","own      |  |  The ","F","orest  |  |  The ","R","iver  | |" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow
+                                    Write-Color "   | |                 |  |              |  |             | |" -Color DarkYellow
+                                    Write-Color "   | | Mend & Mana     |  |              |  |             | |" -Color DarkYellow
+                                    Write-Color "   | |                 |  |              |  |             | |" -Color DarkYellow
+                                    Write-Color "   | | Anvil & Blade   |  |              |  |             | |" -Color DarkYellow
+                                    Write-Color "   | |                 |  |            <------>           | |" -Color DarkYellow
+                                    Write-Color "   | |             <------------>        |  |             | |" -Color DarkYellow
+                                    Write-Color "   | |   Tavern        |  |  ????????    |  |  ????????   | |" -Color DarkYellow
+                                    Write-Color "  _| +-----------------+  +--------------+  +-------------+ |" -Color DarkYellow
+                                    Write-Color " (_/________________________________________________________/" -Color DarkYellow
                                     $host.UI.RawUI.ForegroundColor = "Cyan"
-                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 91,13;$Host.UI.Write(".")
-                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 89,14;$Host.UI.Write(".:;:.")
-                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 88,15;$Host.UI.Write(";;; ")
-                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 89,16;$Host.UI.Write(" ;;; ")
+                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 62,23;$Host.UI.Write("    .")
+                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 62,24;$Host.UI.Write("  .;;............ ..")
+                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 62,25;$Host.UI.Write(".;;;;::::::::::::..")
+                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 62,26;$Host.UI.Write(" ':;;:::::::::::: . .")
+                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 62,27;$Host.UI.Write("   ':")
                                     do {
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -1057,7 +1152,45 @@ Function Tutorial {
                                         $Tutorial_Choice = $Tutorial_Choice.Trim()
                                     } until ($Tutorial_Choice -ieq "c" -or $Tutorial_Choice -ieq "e")
                                     if ($Tutorial_Choice -ieq "e") {
-                                        Break
+                                        Tutorial_Exit
+                                    }
+                                    if ($Tutorial_Choice -ieq "c") { # Tutorial - Combat
+                                        Clear-Host
+                                        $Script:Info_Banner = "Tutorial - Combat"
+                                        Draw_Info_Banner
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                        Write-Color "  Here is where all the combat info is displayed." -Color Cyan
+                                        Write-Color ""
+                                        Write-Color "  Successfully ","critically ","wack the ","Rat ","for ","7 ","damage." -Color DarkGray,Red,DarkGray,Blue,DarkGray,Red,DarkGray
+                                        Write-Color ""
+                                        Write-Color "  You killed the ","Rat ","and gained ","160 XP!" -Color DarkGray,Blue,DarkGray,Cyan
+                                        Write-Color "  The ","Rat ","dropped the following items:" -Color DarkGray,Blue,DarkGray
+                                        Write-Color "  14 Gold" -Color DarkGray
+                                        Write-Color "  1x Rat Tails" -Color DarkGray
+                                        Write-Color "  1x Rat Guts" -Color DarkGray
+                                        Write-Color "  1x Random Loot #1" -Color DarkGray
+                                        Write-Color "  1x Random Loot #3" -Color DarkGray
+                                        Write-Color "  1x Random Loot #5" -Color DarkGray
+                                        Write-Color ""
+                                        Write-Color "  Congratulations! ","You gained ","1 ","level. You are now level ","5." -Color Cyan,DarkGray,White,DarkGray,White
+                                        $host.UI.RawUI.ForegroundColor = "Cyan"
+                                        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 62,23;$Host.UI.Write("    .")
+                                        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 62,24;$Host.UI.Write("  .;;............ ..")
+                                        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 62,25;$Host.UI.Write(".;;;;::::::::::::..")
+                                        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 62,26;$Host.UI.Write(" ':;;:::::::::::: . .")
+                                        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 62,27;$Host.UI.Write("   ':")
+                                        do {
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                            Write-Color -NoNewLine "E","xit ","[E]" -Color Green,DarkYellow,Green
+                                            $Tutorial_Choice = Read-Host " "
+                                            $Tutorial_Choice = $Tutorial_Choice.Trim()
+                                        } until ($Tutorial_Choice -ieq "e")
+                                        if ($Tutorial_Choice -ieq "e") {
+                                            $Import_JSON.TutorialComplete = $true
+                                            Save_JSON
+                                            Break
+                                        }
                                     }
                                 }
                             }
@@ -1066,8 +1199,6 @@ Function Tutorial {
                 }
             }
         }
-        # $Import_JSON.TutorialComplete = $true
-        # 
     } else {
         $Tutorial_Choice = $false
     }
@@ -1394,7 +1525,11 @@ Function You_Died {
 # random mob from current Location with 10 percentage chance of rare mob
 #
 Function Random_Mob {
-    $Current_Location_Mobs = $Import_JSON.Locations.$Current_Location.Mobs
+    if ($TutorialMob -eq $true) {
+        $Current_Location_Mobs = $Import_JSON.Locations.'Town'.Mobs
+    } else {
+        $Current_Location_Mobs = $Import_JSON.Locations.$Current_Location.Mobs
+    }
     $Random_100 = Get-Random -Minimum 1 -Maximum 101
     if ($Random_100 -le 10) { # rare mob (10% of the time)
         $All_Rare_Mobs_In_Current_Location = @()
@@ -1800,7 +1935,7 @@ Function Travel {
     Write-Color "   | |             <------------>        |  |             | |" -Color DarkYellow
     Write-Color "   | |   Tavern        |  |  ????????    |  |  ????????   | |" -Color DarkYellow
     Write-Color "  _| +-----------------+  +--------------+  +-------------+ |" -Color DarkYellow
-    Write-Color " (_/____________________________________________________/" -Color DarkYellow
+    Write-Color " (_/________________________________________________________/" -Color DarkYellow
     do {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -2839,6 +2974,8 @@ if ($Load_Save_Data_Choice -ieq "e" -or $Start_A_New_Game -ieq "e") {
 # main loop
 do {
     do {
+        Clear-Host
+        Draw_Player_Window_and_Stats
         $Script:Info_Banner = "$Current_Location"
         Draw_Info_Banner
         Save_JSON

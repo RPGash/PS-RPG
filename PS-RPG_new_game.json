@@ -10,9 +10,9 @@
       "LocationOptions": {
         "Hunt": true,
         "Travel": true,
-        "Visit": false,
+        "Visit": true,
         "Quests": true,
-        "Inventory": false
+        "Inventory": true
       },
       "Mobs": [
         {
@@ -573,7 +573,7 @@
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
-          "Quantity": 1,
+          "Quantity": 0,
           "Restores": 30,
           "GoldValue": 50,
           "IsJunk": false,
@@ -582,7 +582,7 @@
         },
         "Mana Potion": {
           "Name": "Mana Potion",
-          "Quantity": 2,
+          "Quantity": 0,
           "Restores": 20,
           "Info": "Capacity 20",
           "GoldValue": 10,
@@ -591,7 +591,7 @@
         },
         "Greater Mana Potion": {
           "Name": "Greater Mana Potion",
-          "Quantity": 37,
+          "Quantity": 0,
           "Restores": 50,
           "Info": "Capacity 50",
           "GoldValue": 30,
@@ -600,7 +600,7 @@
         },
         "Lesser Mana Potion": {
           "Name": "Lesser Mana Potion",
-          "Quantity": 20,
+          "Quantity": 0,
           "Restores": 10,
           "Info": "Capacity 10",
           "GoldValue": 20,
@@ -625,7 +625,7 @@
         },
         "Hides": {
           "Name": "Hides",
-          "Quantity": 20,
+          "Quantity": 0,
           "Info": "Trader",
           "GoldValue": 10,
           "IsJunk": false,
@@ -641,7 +641,7 @@
         },
         "Rook Feathers": {
           "Name": "Rook Feathers",
-          "Quantity": 3,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 2,
           "IsJunk": true,
@@ -649,7 +649,7 @@
         },
         "Rook Claws": {
           "Name": "Rook Claws",
-          "Quantity": 3,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 2,
           "IsJunk": true,
@@ -737,7 +737,7 @@
         },
         "Random Loot #1": {
           "Name": "Random Loot #1",
-          "Quantity": 1,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 5,
           "IsJunk": true,
@@ -745,7 +745,7 @@
         },
         "Random Loot #2": {
           "Name": "Random Loot #2",
-          "Quantity": 1,
+          "Quantity": 0,
           "Info": "?????",
           "GoldValue": 3,
           "IsJunk": false,
