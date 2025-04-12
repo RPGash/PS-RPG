@@ -1189,7 +1189,6 @@ Function Tutorial {
                                         if ($Tutorial_Choice -ieq "e") {
                                             $Import_JSON.TutorialComplete = $true
                                             Save_JSON
-                                            Break
                                         }
                                     }
                                 }
