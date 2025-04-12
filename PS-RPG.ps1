@@ -11,7 +11,7 @@
 #   
 # - NEXT
 #   - add a tutorial
-#       add random mob stats in tutorial page
+#       add tutorial into the "info" page"
 #   - access the 'info' menu from any choice prompt?
 #   - on loading a game, show the current location when a save file is found
 #   - change initial choices from single line question to menu list
