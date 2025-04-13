@@ -280,7 +280,7 @@ Function Draw_Player_Window_and_Stats {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 38,5;$Host.UI.Write("$Character_ManaCurrent")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 45,5;$Host.UI.Write("$Character_ManaMax")
     $host.UI.RawUI.ForegroundColor = "DarkGray" # set the foreground color back to original colour
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,11;$Host.UI.Write("")
+    # $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,11;$Host.UI.Write("")
 }
 
 Function Game_Info {
@@ -518,7 +518,7 @@ Function Level_Up {
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,31;$Host.UI.Write("")
         Write-Color "  You have also learned ", "x skills","." -Color DarkGray,White,DarkGray
         if ($Levels_Levelled_Up -ne "1") {
-            Start-Sleep -Seconds 2 # leave in (shows multiple levels slowly)
+            Start-Sleep -Seconds 3 # leave in (shows multiple levels slowly)
         }
         Draw_Player_Window_and_Stats
     } until ($XP_Difference -gt 0)
@@ -1822,6 +1822,13 @@ Function Fight_or_Run {
                 Set_Variables
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                 Draw_Player_Window_and_Stats
+                do {
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                    Write-Color -NoNewLine "C","ontinue ", "[C]" -Color Green,DarkYellow,Green
+                    $Finish_Combat = Read-Host " "
+                    $Finish_Combat = $Finish_Combat.Trim()
+                } until ($Finish_Combat -ieq "c")
                 Break
             }
             # ask continue fight question after mobs turn
@@ -1894,6 +1901,7 @@ Function Fight_or_Run {
         Write-Output "You escaped from the $($Selected_Mob.Name)! (no combat)"
     }
     $Script:In_Combat = $false
+
 }
 
 
@@ -2973,11 +2981,20 @@ if ($Load_Save_Data_Choice -ieq "e" -or $Start_A_New_Game -ieq "e") {
 # main loop
 do {
     do {
-        Clear-Host
+        # clears combat messages
+        for ($Position = 17; $Position -lt 36; $Position++) {
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+        }
+        # clears mob window
+        for ($Position = 0; $Position -lt 14; $Position++) {
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,$Position;$Host.UI.Write("");" "*49
+        }
+        # Clear-Host # clears previous combat messages and mob window
         Draw_Player_Window_and_Stats
         $Script:Info_Banner = "$Current_Location"
         Draw_Info_Banner
         Save_JSON
+        # display all choice options in location
         $LocationOptions = $Import_JSON.Locations.$Current_Location.LocationOptions.PSObject.Properties.Name
         $Main_Loop_Choice_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
         foreach ($LocationOption in $LocationOptions) {
@@ -2986,10 +3003,9 @@ do {
                 $Main_Loop_Choice_Letters_Array.Add($LocationOption.Substring(0,1))
             }
         }
+        $Main_Loop_Choice_Letters_Array.Add("INFO")
         $Main_Loop_Choice_Letters_Array_String = $Main_Loop_Choice_Letters_Array -Join "/"
-        # for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
-        #     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-        # }
+        # $Main_Loop_Choice_Letters_Array_String = $Main_Loop_Choice_Letters_Array_String + "/INFO"
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         Write-Color -NoNewLine "What do you want to do? ", "[$Main_Loop_Choice_Letters_Array_String]" -Color DarkYellow,Green
@@ -3010,13 +3026,9 @@ do {
         }
         q {
             Draw_Quest_Log
-            Clear-Host
-            Draw_Player_Window_and_Stats
         }
         i {
-            Clear-Host
-            Draw_Player_Window_and_Stats
-            Inventory_Choice
+            Draw_Inventory
         }
         info {
             Game_Info
