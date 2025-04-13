@@ -1,6 +1,6 @@
 {
   "CharacterCreation": true,
-  "TutorialComplete": false,
+  "TutorialComplete": true,
   "Locations": {
     "Town": {
       "CurrentLocation": true,
@@ -529,31 +529,31 @@
     }
   },
   "Character": {
-    "Name": "Minerde",
-    "Class": "Cleric",
+    "Name": "Sanzagh",
+    "Class": "Rogue",
     "Race": "Elf",
-    "Level": 4,
-    "Total_XP": 160,
-    "XP_TNL": 154.0,
+    "Level": 9,
+    "Total_XP": 2240,
+    "XP_TNL": 236.0,
     "Stats": {
-      "HealthCurrent": 400.0,
-      "HealthMax": 49,
+      "HealthCurrent": 60,
+      "HealthMax": 85,
       "HealthMaxUnBuffed": 0,
-      "StaminaCurrent": 50,
-      "StaminaMax": 68,
-      "ManaCurrent": 100,
-      "ManaMax": 124,
+      "StaminaCurrent": 80,
+      "StaminaMax": 115,
+      "ManaCurrent": 10,
+      "ManaMax": 55,
       "ManaMaxUnBuffed": 0,
-      "Damage": 34,
-      "Attack": 38,
+      "Damage": 55,
+      "Attack": 55,
       "AttackUnBuffed": 0,
-      "Armour": 49,
+      "Armour": 26,
       "ArmourUnBuffed": 0,
-      "Dodge": 118,
+      "Dodge": 60,
       "DodgeUnBuffed": 0,
-      "Quickness": 22,
-      "Spells": 37,
-      "Healing": 40
+      "Quickness": 60,
+      "Spells": 26,
+      "Healing": 44
     },
     "Buffs": {
       "Duration": 0,
@@ -569,7 +569,7 @@
       }
     },
     "Items": {
-      "Gold": 901.0,
+      "Gold": 976.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
@@ -659,7 +659,7 @@
           "Name": "Rat Tails",
           "Quantity": 0,
           "Info": "Junk",
-          "GoldValue": 3,
+          "GoldValue": 0,
           "IsJunk": true,
           "ID": 11
         },
@@ -753,7 +753,7 @@
         },
         "Random Loot #3": {
           "Name": "Random Loot #3",
-          "Quantity": 1,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 4,
           "IsJunk": true,
@@ -894,14 +894,14 @@
         "Lesser Health Potion": 3,
         "Random Loot #2": 1
       },
-      "Progress": 0,
+      "Progress": 3,
       "ProgressMax": 2,
       "LevelRange": "1-5",
       "Available": true,
       "InProgress": false,
       "Completed": false,
       "Repeatable": true,
-      "Status": "Available"
+      "Status": "Hand In"
     },
     "Sick Elder": {
       "Name": "Sick Elder",
@@ -922,5 +922,11 @@
       "Repeatable": false,
       "Status": "In Progress"
     }
+  },
+  "Game Information": {
+    "Info": "I",
+    "Stats": "S",
+    "Q???": "Q",
+    "Start Turorial": "T"
   }
 }

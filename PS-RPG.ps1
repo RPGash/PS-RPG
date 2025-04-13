@@ -285,7 +285,7 @@ Function Draw_Player_Window_and_Stats {
 
 Function Game_Info_Banner {
     # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
-    Clear-Host
+    # Clear-Host
     Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
     Write-Color "| Game Information                                                                                                                     |" -Color DarkGray
     Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
@@ -309,7 +309,11 @@ Function Game_Info_Banner {
             $Game_Info_Letter = $Import_JSON.'Game Information'.$Game_Info_Object
             $Game_Info_Letter_Position = $Game_Info_Letter_Position + 1
             $Game_Info_Rest_of_Word = $Game_Info_Object.Substring($Game_Info_Letter_Position,($game_info_object | Measure-Object -Character).Characters-$Game_Info_Letter_Position)
-            Write-Color -NoNewLine " ","$Game_Info_Beginning_of_Word","$Game_Info_Letter","$Game_Info_Rest_of_Word |" -Color DarkGray,DarkGray,Green,DarkGray
+            if ($Game_Info_Page_Choice -ieq $Game_Info_Letter) {
+                Write-Color -NoNewLine " $Game_Info_Beginning_of_Word","$Game_Info_Letter","$Game_Info_Rest_of_Word ","|" -Color White,Green,White,DarkGray
+            } else {
+                Write-Color -NoNewLine " $Game_Info_Beginning_of_Word","$Game_Info_Letter","$Game_Info_Rest_of_Word |" -Color DarkGray,Green,DarkGray
+            }
         }
         $Game_Info_Tab_Array.Add($Game_Info_Letter)
     }
@@ -318,64 +322,83 @@ Function Game_Info_Banner {
     $Script:Game_Info_Tab_Array_String = $Game_Info_Tab_Array_String + "/E"
 }
 
+# starting Tutorial
+# then exit
+# then it clears screen on next info window
+
 Function Game_Info {
+    Clear-Host
     Game_Info_Banner
     do {
         do {
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("");" "*105
+            # # bit of a hack to clear the screen when exiting the tutorial but still show the game info page
+            # # because the tutorial function has a second exit function
+            # if ($Tutorial_Choice -ieq "e") {
+            #     $Game_Info_Page_Choice = ""
+            #     Clear-Host
+            #     Game_Info_Banner
+            #     $Tutorial_Choice = ""
+            # }
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
             Write-Color -NoNewLine "`r`nSelect ","[$Game_Info_Tab_Array_String]" -Color DarkYellow,Green
             $Game_Info_Page_Choice = Read-Host " "
             $Script:Game_Info_Page_Choice = $Game_Info_Page_Choice.Trim()
-        } until ($Game_Info_Page_Choice -in $Game_Info_Tab_Array)
-        if ($Game_Info_Page_Choice -ieq "e") {
-            Clear-Host
-            Break
-        }
-        if ($Game_Info_Page_Choice -ieq "i") {
-            Clear-Host
-
-            Game_Info_Banner
-            $PSScriptRoot_Padding = " "*(83 - ($PSScriptRoot | Measure-Object -Character).Characters)
-            Write-Color "|                                                                                                                                      |" -Color DarkGray,White
-            Write-Color "|"," Welcome to ","PS-RPG",", my 1st RPG text adventure written in PowerShell.","                                                                  |" -Color DarkGray,White,Magenta,White,DarkGray
-            Write-Color "|                                                                                                                                      |" -Color DarkGray,White
-            Write-Color "| ","As previously mentioned, the PSWriteColor PowerShell module written by Przemyslaw Klys","                                               |" -Color DarkGray,White,DarkGray
-            Write-Color "| ","is required which if you are seeing this message then it has installed and imported successfully.","                                    |" -Color DarkGray,White,DarkGray
-            Write-Color "|                                                                                                                                      |" -Color DarkGray,White
-            Write-Color "| ","Absolutely ","NO ","info personal or otherwise is collected or sent anywhere or to anybody.","                                                |" -Color DarkGray,White,Red,White,DarkGray
-            Write-Color "|                                                                                                                                      |" -Color DarkGray,White
-            Write-Color "| ","All the ","PS-RPG ","games files are stored your ","$PSScriptRoot"," folder","$PSScriptRoot_Padding|" -Color DarkGray,White,Magenta,White,Cyan,White,DarkGray
-            Write-Color "| ","which is where you have run the game from. They include:","                                                                             |" -Color DarkGray,White,DarkGray
-            Write-Color "| ","The main PowerShell script            : ","PS-RPG.ps1","                                                                                   |" -Color DarkGray,White,Cyan,DarkGray
-            Write-Color "| ","ASCII art for death messages          : ","ASCII.txt","                                                                                    |" -Color DarkGray,White,Cyan,DarkGray
-            Write-Color "| ","A JSON file that stores all game info : ","PS-RPG.json ","(e.g. Locations, Mobs, NPCs and Character Stats etc.)","                            |" -Color DarkGray,White,Cyan,White,DarkGray
-            Write-Color "|                                                                                                                                      |" -Color DarkGray
-            Write-Color "| ","Player input options appear in ","Green ","e.g. ","[Y/N/E/I] ","would be ","yes/no/exit/inventory", "                                                   |" -Color DarkGray,White,Green,White,Green,White,Green,DarkGray
-            Write-Color "| ","Enter the single character then hit Enter to confirm the choice.","                                                                     |" -Color DarkGray,White,DarkGray
-            Write-Color "|                                                                                                                                      |" -Color DarkGray,White
-            Write-Color "|"," WARNING - Quitting the game unexpectedly may cause lose of data.","                                                                     |" -Color DarkGray,Cyan,DarkGray
-            Write-Color "|                                                                                                                                      |" -Color DarkGray,White
-            Write-Color "|"," NOTE:"," If you running this game from a location that has an online backup active e.g. Google Drive or OneDrive,","                       |" -Color DarkGray,DarkYellow,White,DarkGray
-            Write-Color "|"," game saves will take longer due to the file being in use while syncing, so will appear to be slow when the screen refreshes. ","        |" -Color DarkGray,White
-            Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-        }
-        if ($Game_Info_Page_Choice -ieq "2") {
-            Clear-Host
-            Write-Color "+---------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-            Write-Color "| ","Page 2 of 3 - Stats","                                                                                                             |" -Color DarkGray,White,DarkGray
-            Write-Color "+---------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-            Write-Color "|                                                                                                                                 |" -Color DarkGray
-            Write-Color "+---------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-        }
-        if ($Game_Info_Page_Choice -ieq "3") {
-            Clear-Host
-            Write-Color "+---------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-            Write-Color "| ","Page 3 of 3 - ?????","                                                                                                             |" -Color DarkGray,White,DarkGray
-            Write-Color "+---------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-            Write-Color "|                                                                                                                                 |" -Color DarkGray
-            Write-Color "|                                                                                                                                 |" -Color DarkGray
-            Write-Color "+---------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+        } until ($Game_Info_Page_Choice -in $Game_Info_Tab_Array -or $Game_Info_Page_Choice -ieq "e")
+        switch ($Game_Info_Page_Choice) {
+            e {
+                Clear-Host
+                break
+            }
+            i {
+                Clear-Host
+                Game_Info_Banner
+                $PSScriptRoot_Padding = " "*(83 - ($PSScriptRoot | Measure-Object -Character).Characters)
+                Write-Color "|                                                                                                                                      |" -Color DarkGray,White
+                Write-Color "|"," Welcome to ","PS-RPG",", my 1st RPG text adventure written in PowerShell.","                                                                  |" -Color DarkGray,White,Magenta,White,DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray,White
+                Write-Color "| ","As previously mentioned, the PSWriteColor PowerShell module written by Przemyslaw Klys","                                               |" -Color DarkGray,White,DarkGray
+                Write-Color "| ","is required which if you are seeing this message then it has installed and imported successfully.","                                    |" -Color DarkGray,White,DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray,White
+                Write-Color "| ","Absolutely ","NO ","info personal or otherwise is collected or sent anywhere or to anybody.","                                                |" -Color DarkGray,White,Red,White,DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray,White
+                Write-Color "| ","All the ","PS-RPG ","games files are stored your ","$PSScriptRoot"," folder","$PSScriptRoot_Padding|" -Color DarkGray,White,Magenta,White,Cyan,White,DarkGray
+                Write-Color "| ","which is where you have run the game from. They include:","                                                                             |" -Color DarkGray,White,DarkGray
+                Write-Color "| ","The main PowerShell script            : ","PS-RPG.ps1","                                                                                   |" -Color DarkGray,White,Cyan,DarkGray
+                Write-Color "| ","ASCII art for death messages          : ","ASCII.txt","                                                                                    |" -Color DarkGray,White,Cyan,DarkGray
+                Write-Color "| ","A JSON file that stores all game info : ","PS-RPG.json ","(e.g. Locations, Mobs, NPCs and Character Stats etc.)","                            |" -Color DarkGray,White,Cyan,White,DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
+                Write-Color "| ","Player input options appear in ","Green ","e.g. ","[Y/N/E/I] ","would be ","yes/no/exit/inventory", "                                                   |" -Color DarkGray,White,Green,White,Green,White,Green,DarkGray
+                Write-Color "| ","Enter the single character then hit Enter to confirm the choice.","                                                                     |" -Color DarkGray,White,DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray,White
+                Write-Color "|"," WARNING - Quitting the game unexpectedly may cause lose of data.","                                                                     |" -Color DarkGray,Cyan,DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray,White
+                Write-Color "|"," NOTE:"," If you running this game from a location that has an online backup active e.g. Google Drive or OneDrive,","                       |" -Color DarkGray,DarkYellow,White,DarkGray
+                Write-Color "|"," game saves will take longer due to the file being in use while syncing, so will appear to be slow when the screen refreshes. ","        |" -Color DarkGray,White
+                Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+            }
+            s {
+                Clear-Host
+                Game_Info_Banner
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
+                Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+            }
+            q {
+                Clear-Host
+                Game_Info_Banner
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
+                Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+            }
+            t {
+                # Clear-Host
+                # Game_Info_Banner
+                Tutorial
+                Clear-Host
+                $Game_Info_Page_Choice = ""
+                Game_Info_Banner
+            }
+            Default {}
         }
     } until ($Game_Info_Page_Choice -ieq "e")
 }
@@ -911,12 +934,15 @@ Function Tutorial_Exit {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         Write-Color -NoNewLine "E","xit ","[E]" -Color Green,DarkYellow,Green
         $Tutorial_Choice = Read-Host " "
-        $Tutorial_Choice = $Tutorial_Choice.Trim()
+        $Script:Tutorial_Choice = $Tutorial_Choice.Trim()
     } until ($Tutorial_Choice -ieq "e")
     Break
 }
 Function Tutorial {
-    do {
+    Clear-Host
+    $Script:Info_Banner = "Tutorial"
+    Draw_Info_Banner
+do {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         Write-Color -NoNewLine "Would you like to start the tutorial? ","[Y/N]" -Color DarkYellow,Green
@@ -950,8 +976,6 @@ Function Tutorial {
             Write-Color "  You should already be familar with the choice prompt by now." -Color Cyan
             Write-Color "  It always appears at the bottom of the screen." -Color Cyan
             $host.UI.RawUI.ForegroundColor = "Cyan"
-
-
             $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 16,22;$Host.UI.Write("     .")
             $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 16,23;$Host.UI.Write("      .")
             $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 16,24;$Host.UI.Write("   . ;.")
@@ -978,6 +1002,7 @@ Function Tutorial {
             }
             if ($Tutorial_Choice -ieq "c") { # Tutorial - Player stats
                 $Script:Info_Banner = "Tutorial - Player stats"
+                Draw_Player_Window_and_Stats
                 Draw_Info_Banner
                     for ($Position = 18; $Position -lt 36; $Position++) { # clear some lines from previous widow
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
