@@ -410,9 +410,7 @@ Function Game_Info {
                 $PSWriteColor_ModuleBase = (Get-Module -Name "PSWriteColor" -ListAvailable | Select-Object ModuleBase).ModuleBase
                 $PSWriteColor_ModuleBase_Padding = " "*(113 - ($PSWriteColor_ModuleBase | Measure-Object -Character).Characters)
                 $PSWriteColor_ProjectURI = (Get-Module -Name "PSWriteColor" -ListAvailable | Select-Object ProjectUri).ProjectURI
-                $PSWriteColor_ProjectURI_Padding = " "*(113 - ($PSWriteColor_ProjectURI | Measure-Object -Character).Characters)
-                $PSWriteColor_RepositorySource = (Get-Module -Name "PSWriteColor" -ListAvailable | Select-Object RepositorySourceLocation).RepositorySourceLocation
-                $PSWriteColor_RepositorySource_Padding = " "*(113 - ($PSWriteColor_RepositorySource | Measure-Object -Character).Characters)
+                $PSWriteColor_ProjectURI_Padding = " "*(112 - ($PSWriteColor_ProjectURI | Measure-Object -Character).Characters)
                 $PSWriteColor_Version = (Get-Module -Name "PSWriteColor" -ListAvailable | Select-Object Version).Version
                 $PSWriteColor_Version_Padding = " "*(113 - ($PSWriteColor_Version | Measure-Object -Character).Characters)
                 $PSWriteColor_Description_Line1 = $PSWriteColor_Description.Substring($PSWriteColor_Description.IndexOf('.')+1).trim()
@@ -429,11 +427,10 @@ Function Game_Info {
                 Write-Color "| ","Description      :"," $PSWriteColor_Description_Line1 $PSWriteColor_Description_Line1_Padding|" -Color DarkGray,DarkYellow,DarkGray
                 Write-Color "|                    $PSWriteColor_Description_Line2 $PSWriteColor_Description_Line2_Padding|" -Color DarkGray
                 Write-Color "| ","Installed Path   :"," $PSWriteColor_ModuleBase $PSWriteColor_ModuleBase_Padding|" -Color DarkGray,DarkYellow,DarkGray
-                Write-Color "| ","Project URI      :"," $PSWriteColor_ProjectURI $PSWriteColor_ProjectURI_Padding|" -Color DarkGray,DarkYellow,DarkGray
                 Write-Color "| ","Version          :"," $PSWriteColor_Version $PSWriteColor_Version_Padding|" -Color DarkGray,DarkYellow,DarkGray
-                Write-Color "| ","PowerShell Gallery   :"," https://www.powershellgallery.com/packages/PSWriteColor/1.0.1                                                 |" -Color DarkGray,DarkYellow,DarkGray
-                Write-Color "| ","GitHub Repository URL:"," https://github.com/EvotecIT/PSWriteColor                                                                      |" -Color DarkGray,DarkYellow,DarkGray
-                Write-Color "| ","More info at         :"," https://evotec.xyz/hub/scripts/pswritecolor                                                                   |" -Color DarkGray,DarkYellow,DarkGray
+                Write-Color "| ","Project URI       :"," $PSWriteColor_ProjectURI $PSWriteColor_ProjectURI_Padding|" -Color DarkGray,DarkYellow,DarkGray
+                Write-Color "| ","PowerShell Gallery:"," https://www.powershellgallery.com/packages/PSWriteColor/1.0.1                                                    |" -Color DarkGray,DarkYellow,DarkGray
+                Write-Color "| ","More info at      :"," https://evotec.xyz/hub/scripts/pswritecolor                                                                      |" -Color DarkGray,DarkYellow,DarkGray
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
                 Write-Color "| If you want to remove the PSWriteColor module from your system, quit the game, then run the following command in a console window:   |" -Color DarkGray
                 Write-Color "| ","Uninstall-Module -Name PSWriteColor","                                                                                                  |" -Color DarkGray,DarkCyan,DarkGray
