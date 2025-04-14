@@ -34,10 +34,10 @@
 #   - different message types for
 #       heals? kills? buffs etc.
 #   - [ongoing] an info page available after starting the game
-#       game info, PSWriteColour module, GitHub, website, uninstall module,
+#       PSWriteColour module, uninstall module
+#       GitHub, website,
 #       damage calculation = damage * (damage / (damage + armour)),
 #       crit chance,
-#       CTRL+C warning and file syncing issue (e.g. Google Drive or OneDrive etc.)
 #       ASCII art - https://asciiart.website/
 #   - consider changing mob crit rate/damage to from fixed 20%/20% to specific % for different mobs
 #   - when viewing the available buildings in Town, none of them show which letter to choose for that selection
@@ -345,53 +345,119 @@ Function Game_Info {
             $Script:Game_Info_Page_Choice = $Game_Info_Page_Choice.Trim()
         } until ($Game_Info_Page_Choice -in $Game_Info_Tab_Array -or $Game_Info_Page_Choice -ieq "e")
         switch ($Game_Info_Page_Choice) {
-            e {
+            e { # exit
                 Clear-Host
                 break
             }
-            i {
+            i { # info
                 Clear-Host
                 Game_Info_Banner
                 $PSScriptRoot_Padding = " "*(83 - ($PSScriptRoot | Measure-Object -Character).Characters)
-                Write-Color "|                                                                                                                                      |" -Color DarkGray,White
-                Write-Color "|"," Welcome to ","PS-RPG",", my 1st RPG text adventure written in PowerShell.","                                                                  |" -Color DarkGray,White,Magenta,White,DarkGray
-                Write-Color "|                                                                                                                                      |" -Color DarkGray,White
-                Write-Color "| ","As previously mentioned, the PSWriteColor PowerShell module written by Przemyslaw Klys","                                               |" -Color DarkGray,White,DarkGray
-                Write-Color "| ","is required which if you are seeing this message then it has installed and imported successfully.","                                    |" -Color DarkGray,White,DarkGray
-                Write-Color "|                                                                                                                                      |" -Color DarkGray,White
-                Write-Color "| ","Absolutely ","NO ","info personal or otherwise is collected or sent anywhere or to anybody.","                                                |" -Color DarkGray,White,Red,White,DarkGray
-                Write-Color "|                                                                                                                                      |" -Color DarkGray,White
-                Write-Color "| ","All the ","PS-RPG ","games files are stored your ","$PSScriptRoot"," folder","$PSScriptRoot_Padding|" -Color DarkGray,White,Magenta,White,Cyan,White,DarkGray
-                Write-Color "| ","which is where you have run the game from. They include:","                                                                             |" -Color DarkGray,White,DarkGray
-                Write-Color "| ","The main PowerShell script            : ","PS-RPG.ps1","                                                                                   |" -Color DarkGray,White,Cyan,DarkGray
-                Write-Color "| ","ASCII art for death messages          : ","ASCII.txt","                                                                                    |" -Color DarkGray,White,Cyan,DarkGray
-                Write-Color "| ","A JSON file that stores all game info : ","PS-RPG.json ","(e.g. Locations, Mobs, NPCs and Character Stats etc.)","                            |" -Color DarkGray,White,Cyan,White,DarkGray
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
-                Write-Color "| ","Player input options appear in ","Green ","e.g. ","[Y/N/E/I] ","would be ","yes/no/exit/inventory", "                                                   |" -Color DarkGray,White,Green,White,Green,White,Green,DarkGray
-                Write-Color "| ","Enter the single character then hit Enter to confirm the choice.","                                                                     |" -Color DarkGray,White,DarkGray
-                Write-Color "|                                                                                                                                      |" -Color DarkGray,White
+                Write-Color "| Welcome to ","PS-RPG",", my 1st RPG text adventure written in PowerShell.                                                                  |" -Color DarkGray,Magenta,DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
+                Write-Color "| Absolutely ","NO ","info personal or otherwise is collected or sent anywhere or to anybody.                                                |" -Color DarkGray,Red,DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
+                Write-Color "| All the ","PS-RPG ","games files are stored your ","$PSScriptRoot"," folder$PSScriptRoot_Padding|" -Color DarkGray,Magenta,DarkGray,Cyan,DarkGray
+                Write-Color "| which is where you have run the game from. They include:                                                                             |" -Color DarkGray
+                Write-Color "| The main PowerShell script            : ","PS-RPG.ps1","                                                                                   |" -Color DarkGray,Cyan,DarkGray
+                Write-Color "| ASCII art for death messages          : ","ASCII.txt","                                                                                    |" -Color DarkGray,Cyan,DarkGray
+                Write-Color "| A JSON file that stores all game info : ","PS-RPG.json ","(e.g. Locations, Mobs, NPCs and Character Stats etc.)                            |" -Color DarkGray,Cyan,DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
+                Write-Color "| Player input options appear in ","Green ","e.g. ","[Y/N/E/I] ","would be ","yes/no/exit/inventory", "                                                   |" -Color DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray
+                Write-Color "| Enter the single character then hit Enter to confirm the choice.                                                                     |" -Color DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
                 Write-Color "|"," WARNING - Quitting the game unexpectedly may cause lose of data.","                                                                     |" -Color DarkGray,Cyan,DarkGray
-                Write-Color "|                                                                                                                                      |" -Color DarkGray,White
-                Write-Color "|"," NOTE:"," If you running this game from a location that has an online backup active e.g. Google Drive or OneDrive,","                       |" -Color DarkGray,DarkYellow,White,DarkGray
-                Write-Color "|"," game saves will take longer due to the file being in use while syncing, so will appear to be slow when the screen refreshes. ","        |" -Color DarkGray,White
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
+                Write-Color "|"," NOTE:"," If you running this game from a location that has an online backup active e.g. Google Drive or OneDrive,                       |" -Color DarkGray,DarkYellow,DarkGray
+                Write-Color "|       game saves will take longer due to the file being in use while syncing, so will appear to be slow when the screen refreshes.   |" -Color DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
                 Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
             }
-            s {
+            s { # stats
                 Clear-Host
                 Game_Info_Banner
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
+                Write-Color "| ","Page not implemented yet","                                                                                               |" -Color DarkGray,Red,DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
+                Write-Color "| sub menu items here...                                                                                                       |" -Color DarkGray
+                Write-Color "| MOB STATS | Quest Stats | ????? |                                                                                                    |" -Color DarkGray
+                Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                Write-Color "| sub sub menu per location ???                                                                                                 |" -Color DarkGray
+                Write-Color "| Location 1                                                                                                                  |" -Color DarkGray
+                Write-Color "| Mob name | Killed | total xp? |                                                                                            |" -Color DarkGray
+                Write-Color "| Rat      | 4      | 840                                                                                                     |" -Color DarkGray
+                Write-Color "| Wolf     | 12     | 1236                                                                                                      |" -Color DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
+                Write-Color "| mob stats | QUESTS STATS | ????? |                                                                                                    |" -Color DarkGray
+                Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+                Write-Color "| quest | completed | ?????                                                                                                     |" -Color DarkGray
+                Write-Color "| Rat...      4                                                                                                                |" -Color DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
                 Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
             }
-            q {
+            p { # PSWriteColor
+                Clear-Host
+                Game_Info_Banner
+                $PSWriteColor_Name = (Get-Module -Name "PSWriteColor" -ListAvailable | Select-Object Name).Name
+                $PSWriteColor_Name_Padding = " "*(113 - ($PSWriteColor_Name | Measure-Object -Character).Characters)
+                $PSWriteColor_Author = (Get-Module -Name "PSWriteColor" -ListAvailable | Select-Object Author).Author
+                $PSWriteColor_Author_Padding = " "*(113 - ($PSWriteColor_Author | Measure-Object -Character).Characters)
+                $PSWriteColor_Copyright = (Get-Module -Name "PSWriteColor" -ListAvailable | Select-Object Copyright).Copyright
+                $PSWriteColor_Copyright_Padding = " "*(113 - ($PSWriteColor_Copyright | Measure-Object -Character).Characters)
+                $PSWriteColor_Description = (Get-Module -Name "PSWriteColor" -ListAvailable | Select-Object Description).Description
+                $PSWriteColor_ModuleBase = (Get-Module -Name "PSWriteColor" -ListAvailable | Select-Object ModuleBase).ModuleBase
+                $PSWriteColor_ModuleBase_Padding = " "*(113 - ($PSWriteColor_ModuleBase | Measure-Object -Character).Characters)
+                $PSWriteColor_ProjectURI = (Get-Module -Name "PSWriteColor" -ListAvailable | Select-Object ProjectUri).ProjectURI
+                $PSWriteColor_ProjectURI_Padding = " "*(113 - ($PSWriteColor_ProjectURI | Measure-Object -Character).Characters)
+                $PSWriteColor_RepositorySource = (Get-Module -Name "PSWriteColor" -ListAvailable | Select-Object RepositorySourceLocation).RepositorySourceLocation
+                $PSWriteColor_RepositorySource_Padding = " "*(113 - ($PSWriteColor_RepositorySource | Measure-Object -Character).Characters)
+                $PSWriteColor_Version = (Get-Module -Name "PSWriteColor" -ListAvailable | Select-Object Version).Version
+                $PSWriteColor_Version_Padding = " "*(113 - ($PSWriteColor_Version | Measure-Object -Character).Characters)
+                $PSWriteColor_Description_Line1 = $PSWriteColor_Description.Substring($PSWriteColor_Description.IndexOf('.')+1).trim()
+                $PSWriteColor_Description_Line1_Padding = " "*(113 - ($PSWriteColor_Description_Line1 | Measure-Object -Character).Characters)
+                $PSWriteColor_Description_Line2 = $PSWriteColor_Description.Substring(0,$PSWriteColor_Description.IndexOf('.')+1).trim()
+                $PSWriteColor_Description_Line2_Padding = " "*(113 - ($PSWriteColor_Description_Line2 | Measure-Object -Character).Characters)
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
+                Write-Color "| The PSWriteColor PowerShell module used by this game is written by Przemyslaw Klys and is required in order to play the game.        |" -Color DarkGray
+                Write-Color "| If you are seeing this message then it has installed and imported successfully.                                                      |" -Color DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
+                Write-Color "| ","Name             :"," $PSWriteColor_Name $PSWriteColor_Name_Padding|" -Color DarkGray,DarkYellow,DarkGray
+                Write-Color "| ","Author           :"," $PSWriteColor_Author $PSWriteColor_Author_Padding|" -Color DarkGray,DarkYellow,DarkGray
+                Write-Color "| ","Copyright        :"," $PSWriteColor_Copyright $PSWriteColor_Copyright_Padding|" -Color DarkGray,DarkYellow,DarkGray
+                Write-Color "| ","Description      :"," $PSWriteColor_Description_Line1 $PSWriteColor_Description_Line1_Padding|" -Color DarkGray,DarkYellow,DarkGray
+                Write-Color "|                    $PSWriteColor_Description_Line2 $PSWriteColor_Description_Line2_Padding|" -Color DarkGray
+                Write-Color "| ","Installed Path   :"," $PSWriteColor_ModuleBase $PSWriteColor_ModuleBase_Padding|" -Color DarkGray,DarkYellow,DarkGray
+                Write-Color "| ","Project URI      :"," $PSWriteColor_ProjectURI $PSWriteColor_ProjectURI_Padding|" -Color DarkGray,DarkYellow,DarkGray
+                Write-Color "| ","Version          :"," $PSWriteColor_Version $PSWriteColor_Version_Padding|" -Color DarkGray,DarkYellow,DarkGray
+                Write-Color "| ","PowerShell Gallery   :"," https://www.powershellgallery.com/packages/PSWriteColor/1.0.1                                                 |" -Color DarkGray,DarkYellow,DarkGray
+                Write-Color "| ","GitHub Repository URL:"," https://github.com/EvotecIT/PSWriteColor                                                                      |" -Color DarkGray,DarkYellow,DarkGray
+                Write-Color "| ","More info at         :"," https://evotec.xyz/hub/scripts/pswritecolor                                                                   |" -Color DarkGray,DarkYellow,DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
+                Write-Color "| If you want to remove the PSWriteColor module from your system, quit the game, then run the following command in a console window:   |" -Color DarkGray
+                Write-Color "| ","Uninstall-Module -Name PSWriteColor","                                                                                                  |" -Color DarkGray,DarkCyan,DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
+                Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+            }
+            w { # web links
                 Clear-Host
                 Game_Info_Banner
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
+                Write-Color "| ","My GitHub PS-RPG URL:"," https://github.com/RPGash/PS-RPG                                                                               |" -Color DarkGray,DarkYellow,DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
+                Write-Color "| ","My Website URL      :"," https://RPG-ash.online                                                                                         |" -Color DarkGray,DarkYellow,DarkGray
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
                 Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
             }
-            t {
-                # Clear-Host
-                # Game_Info_Banner
+            r { # random
+                Clear-Host
+                Game_Info_Banner
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
+                Write-Color "| Nothing here yet                                                                                                                     |" -Color DarkGray
+                Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
+            }
+            t { # tutorial
                 Tutorial
                 Add-Content -Path .\error.log -value "called after exit tut?"
                 Clear-Host
