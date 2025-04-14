@@ -10,9 +10,6 @@
 #   
 #   
 # - NEXT
-#   - add a tutorial
-#       add tutorial into the "info" page"
-#   - access the 'info' menu from any choice prompt?
 #   - on loading a game, show the current location when a save file is found
 #   - change initial choices from single line question to menu list
 #   - in the Travel map, the current single character location name is highlighted
