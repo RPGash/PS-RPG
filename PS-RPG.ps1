@@ -331,14 +331,13 @@ Function Game_Info {
     Game_Info_Banner
     do {
         do {
-            # # bit of a hack to clear the screen when exiting the tutorial but still show the game info page
-            # # because the tutorial function has a second exit function
-            # if ($Tutorial_Choice -ieq "e") {
-            #     $Game_Info_Page_Choice = ""
-            #     Clear-Host
-            #     Game_Info_Banner
-            #     $Tutorial_Choice = ""
-            # }
+            # bit of a hack to clear the screen when exiting the tutorial but still show the game info page
+            if ($Tutorial_Choice -ieq "e") {
+                $Game_Info_Page_Choice = "" # resets page tab colour to DarkGray
+                Clear-Host
+                Game_Info_Banner
+                $Script:Tutorial_Choice = ""
+            }
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
             Write-Color -NoNewLine "`r`nSelect ","[$Game_Info_Tab_Array_String]" -Color DarkYellow,Green
@@ -394,6 +393,7 @@ Function Game_Info {
                 # Clear-Host
                 # Game_Info_Banner
                 Tutorial
+                Add-Content -Path .\error.log -value "called after exit tut?"
                 Clear-Host
                 $Game_Info_Page_Choice = ""
                 Game_Info_Banner
