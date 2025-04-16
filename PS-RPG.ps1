@@ -10,8 +10,6 @@
 #   
 #   
 # - NEXT
-#   - on loading a game, show the current location when a save file is found
-#   - change initial choices from single line question to menu list
 #   - in the Travel map, the current single character location name is highlighted
 #       as well as the locations that can be travelled to.
 #       current location single character highlight should not be highlighted.
