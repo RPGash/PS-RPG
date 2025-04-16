@@ -529,7 +529,7 @@
     }
   },
   "Character": {
-    "Name": "Sanzagh",
+    "Name": "Aened",
     "Class": "Rogue",
     "Race": "Elf",
     "Level": 9,
@@ -537,23 +537,23 @@
     "XP_TNL": 236.0,
     "Stats": {
       "HealthCurrent": 60,
-      "HealthMax": 85,
+      "HealthMax": 60,
       "HealthMaxUnBuffed": 0,
       "StaminaCurrent": 80,
-      "StaminaMax": 115,
+      "StaminaMax": 80,
       "ManaCurrent": 10,
-      "ManaMax": 55,
+      "ManaMax": 30,
       "ManaMaxUnBuffed": 0,
-      "Damage": 55,
-      "Attack": 55,
+      "Damage": 10,
+      "Attack": 10,
       "AttackUnBuffed": 0,
-      "Armour": 26,
+      "Armour": 6,
       "ArmourUnBuffed": 0,
-      "Dodge": 60,
+      "Dodge": 10,
       "DodgeUnBuffed": 0,
-      "Quickness": 60,
-      "Spells": 26,
-      "Healing": 44
+      "Quickness": 10,
+      "Spells": 1,
+      "Healing": 4
     },
     "Buffs": {
       "Duration": 0,
@@ -569,22 +569,22 @@
       }
     },
     "Items": {
-      "Gold": 976.0,
+      "Gold": 1006.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
-          "Quantity": 0,
+          "Quantity": 1,
           "Restores": 30,
           "GoldValue": 50,
           "IsJunk": false,
           "ID": 1,
-          "Info": "Capacity 30"
+          "Info": "Cap 300"
         },
         "Mana Potion": {
           "Name": "Mana Potion",
-          "Quantity": 0,
+          "Quantity": 5,
           "Restores": 20,
-          "Info": "Capacity 20",
+          "Info": "pacity 2",
           "GoldValue": 10,
           "IsJunk": false,
           "ID": 2
@@ -609,7 +609,7 @@
         },
         "Bones": {
           "Name": "Bones",
-          "Quantity": 0,
+          "Quantity": 99,
           "Info": "Junk",
           "GoldValue": 5,
           "IsJunk": true,
@@ -617,8 +617,8 @@
         },
         "Feather": {
           "Name": "Feather",
-          "Quantity": 0,
-          "Info": "Junk",
+          "Quantity": 10,
+          "Info": "",
           "GoldValue": 1,
           "IsJunk": true,
           "ID": 6
