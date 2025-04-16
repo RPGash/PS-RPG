@@ -10,6 +10,11 @@
 #   
 #   
 # - NEXT
+#   - when in the Mend and Mana shop, if you have no potions to sell, the choice is "[/E]"
+#       the slash should not be there, it should be "[E]"
+#   - at line "if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0 -or $Inventory_Is_Empty -eq $true) {"
+#       change so that the $Inventory_Is_Empty is evaluated first so it does not have to loop through all items in the inventory
+#   - "1 Greater Mana Potion's are worth 30 Gold" - should not show the "'s" for single potions
 #   - buy items in the Anvil & Blade shop
 #   - add spells
 #   - add item equipment drops from mob loot
@@ -1372,17 +1377,20 @@ Function Draw_Inventory {
     # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
     $Inventory_Items_Name_Array = New-Object System.Collections.Generic.List[System.Object]
     $Inventory_Items_Gold_Value_Array = New-Object System.Collections.Generic.List[System.Object]
+    $Inventory_Items_Info_Array = New-Object System.Collections.Generic.List[System.Object]
     $Script:Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name | Sort-Object
     foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
         if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
             $Inventory_Items_Name_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name.Length)
             $Inventory_Items_Gold_Value_Array.Add(($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters)
+            $Inventory_Items_Info_Array.Add(($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Info | Measure-Object -Character).Characters)
         }
     }
-    # if tere are no items in the inventory, set window values so it still draws correctly
+    # if there are no items in the inventory, set window values so it still draws correctly
     if ($Inventory_Items_Name_Array.Count -eq 0) {
         $Inventory_Items_Name_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name.Length)
         $Inventory_Items_Gold_Value_Array.Add("1")
+        $Inventory_Items_Info_Array.Add("4")
         $Inventory_Is_Empty = $true
     } else {
         $Inventory_Is_Empty = $false
@@ -1407,12 +1415,18 @@ Function Draw_Inventory {
     $Inventory_Box_Name_Width_Top_Bottom = "-"*($Inventory_Items_Name_Array_Max_Length + 7)
     # calculate middle name width
     $Inventory_Box_Name_Width_Middle = " "*($Inventory_Items_Name_Array_Max_Length - 7)
+    # get max item info length
+    $Inventory_Items_Info_Array_Max_Length = ($Inventory_Items_Info_Array | Measure-Object -Maximum).Maximum
+    # calculate top and bottom info width
+    $Inventory_Box_Info_Width_Top_Bottom = "-"*($Inventory_Items_Info_Array_Max_Length + 2)
+    # calculate middle info width
+    $Inventory_Box_Info_Width_Middle = " "*($Inventory_Items_Info_Array_Max_Length - 3)
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,0;$Host.UI.Write("")
-    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+" -Color DarkGray
+    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+$Inventory_Box_Info_Width_Top_Bottom+" -Color DarkGray
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,1;$Host.UI.Write("")
-    Write-Color "|","ID","| ","Inventory","$Inventory_Box_Name_Width_Middle","Qty ","| ","Value","$Inventory_Box_Gold_Value_Width_Middle|" -Color DarkGray,White,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray
+    Write-Color "|","ID","| ","Inventory","$Inventory_Box_Name_Width_Middle","Qty ","| ","Value","$Inventory_Box_Gold_Value_Width_Middle|"," Info","$Inventory_Box_Info_Width_Middle|" -Color DarkGray,White,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,2;$Host.UI.Write("")
-    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+" -Color DarkGray
+    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+$Inventory_Box_Info_Width_Top_Bottom+" -Color DarkGray
     $Position = 2
     foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
         if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0 -or $Inventory_Is_Empty -eq $true) {
@@ -1429,6 +1443,7 @@ Function Draw_Inventory {
             } else {
                 $Quantity_Left_Padding = " " # more than 9 quantity (2 digits so needs 1 padding)
             }
+            # gold padding
             if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters -le '5') {
                 $Gold_Value_Right_Padding = " "*(6 - ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters)
                 if ($Inventory_Items_Gold_Value_Array_Max_Length -gt 5 ) {
@@ -1437,20 +1452,27 @@ Function Draw_Inventory {
             } else {
                 $Gold_Value_Right_Padding = " "*($Inventory_Items_Gold_Value_Array_Max_Length - ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters + 1)
             }
+            #ID padding
             if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
                 $ID_Number = "$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)"
             } else {
                 $ID_Number = " $($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)" # if ID is a single digit (1 extra padding)
             }
+            # info padding
+            if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Info.Length -lt $Inventory_Items_Info_Array_Max_Length) {
+                $Info_Right_Padding = " "*($Inventory_Items_Info_Array_Max_Length - $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Info.Length)
+            } else {
+                $Info_Right_Padding = ""
+            }
             Inventory_Highlight
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Position;$Host.UI.Write("")
             # if no items in inventory, else an actual item
             if ($Inventory_Is_Empty -eq $true) {
-                Write-Color "|  | Inventory Empty |       |" -Color DarkGray
+                Write-Color "|  | Inventory Empty |       |      |" -Color DarkGray
                 $Inventory_Is_Empty = $false
                 Break
             } else {
-                Write-Color "|","$ID_Number","| ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)$Name_Left_Padding ",":", "$Quantity_Left_Padding$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity) ","| ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue)$Gold_Value_Right_Padding","|" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,White,DarkGray,White,DarkGray
+                Write-Color "|","$ID_Number","| ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)$Name_Left_Padding ",":", "$Quantity_Left_Padding$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity) ","| ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue)$Gold_Value_Right_Padding","| $($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Info)$Info_Right_Padding |" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,White,DarkGray,White,DarkGray
             }
             $Script:Selectable_ID_Highlight = "DarkGray"
             $Script:Selectable_Name_Highlight = "DarkGray"
@@ -1458,7 +1480,7 @@ Function Draw_Inventory {
     }
     $Position += 1
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Position;$Host.UI.Write("")
-    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+" -Color DarkGray
+    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+$Inventory_Box_Info_Width_Top_Bottom+" -Color DarkGray
 }
 
 #
@@ -2745,17 +2767,6 @@ Function Visit_a_Building {
                 } until ($Anvil_Choice -ieq "e")
             }
             m { # Mend & Mana
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
                 # update building words in location map. white to current building and reset location to dark yellow 
                 $host.UI.RawUI.ForegroundColor = "DarkYellow"
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
@@ -2813,15 +2824,10 @@ Function Visit_a_Building {
                                 }
                                 $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array -Join "/"
                                 $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array_String + "/E"
-                                #
                                 $Script:Selectable_ID_Search = "HealthMana"
                                 Draw_Inventory
-                                #
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                 Write-Color "  Which potion do you want to sell?" -Color DarkGray
-                                #
-                                #
-                                #
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                                 Write-Color -NoNewLine "ID ","numbers or ", "E","xit ","[$Elixir_Emporium_Potion_Letters_Array_String]" -Color DarkYellow,DarkYellow,Green,DarkYellow,Green
@@ -2885,13 +2891,6 @@ Function Visit_a_Building {
                         #
                     }
                 } until ($Elixir_Emporium_Choice -ieq "e")
-
-
-
-
-
-
-
             }
             # Default {}
         }
