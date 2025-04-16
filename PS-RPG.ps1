@@ -10,9 +10,6 @@
 #   
 #   
 # - NEXT
-#   - in the Travel map, the current single character location name is highlighted
-#       as well as the locations that can be travelled to.
-#       current location single character highlight should not be highlighted.
 #   - buy items in the Anvil & Blade shop
 #   - add spells
 #   - add item equipment drops from mob loot
@@ -2037,12 +2034,30 @@ Function Travel {
     
     $Script:Info_Banner = "Travel"
     Draw_Info_Banner
+    switch ($Current_Location) {
+        Town {
+            $Travel_Map_Town_Colour = "DarkYellow"
+            $Travel_Map_The_Forest_Colour = "Green"
+            $Travel_Map_The_River_Colour = "Green"
+        }
+        "The Forest" {
+            $Travel_Map_Town_Colour = "Green"
+            $Travel_Map_The_Forest_Colour = "DarkYellow"
+            $Travel_Map_The_River_Colour = "Green"
+        }
+        'The River' {
+            $Travel_Map_Town_Colour = "DarkYellow"
+            $Travel_Map_The_Forest_Colour = "DarkYellow"
+            $Travel_Map_The_River_Colour = "Green"
+        }
+        Default {}
+    }
     Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
     Write-Color "`r`n  You can travel to the following locations:" -Color DarkGray
     Write-Color "  $All_Linked_Locations_List" -Color White
     Write-Color " ,---------------------------------------------------------." -Color DarkYellow
     Write-Color "(_\  +-----------------+  +--------------+  +-------------+ \" -Color DarkYellow
-    Write-Color "   | |       ","T","own      |  |  The ","F","orest  |  |  The ","R","iver  | |" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow
+    Write-Color "   | |       ","T","own      |  |  The ","F","orest  |  |  The ","R","iver  | |" -Color DarkYellow,$Travel_Map_Town_Colour,DarkYellow,$Travel_Map_The_Forest_Colour,DarkYellow,$Travel_Map_The_River_Colour,DarkYellow
     Write-Color "   | |                 |  |              |  |             | |" -Color DarkYellow
     Write-Color "   | | Mend & Mana     |  |              |  |             | |" -Color DarkYellow
     Write-Color "   | |                 |  |              |  |             | |" -Color DarkYellow
