@@ -2873,14 +2873,14 @@ Function Visit_a_Building {
                                         Write-Color "  How many ","$Inventory_Item_Name's"," do you want to sell?" -Color DarkGray,Blue,DarkGray
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                        Write-Color -NoNewLine "Quantity or ", "E","xit ","[1-$Potion_Quantity]" -Color DarkYellow,Green,DarkYellow,Green
+                                        Write-Color -NoNewLine "Quantity or ", "E","xit ","[1-$Potion_Quantity/E]" -Color DarkYellow,Green,DarkYellow,Green
                                         $Elixir_Emporium_Sell_Potion_Quantity_Choice = Read-Host " "
                                         $Elixir_Emporium_Sell_Potion_Quantity_Choice = $Elixir_Emporium_Sell_Potion_Quantity_Choice.Trim()
                                         # check if input is a number or E
                                         if ($Elixir_Emporium_Sell_Potion_Quantity_Choice -match "^[0-9]+$") {
                                             $Elixir_Emporium_Sell_Potion_Quantity_Choice = [int]$Elixir_Emporium_Sell_Potion_Quantity_Choice
                                         }
-                                        if ($null -eq $Elixir_Emporium_Sell_Potion_Quantity_Choice ){# sets to null if not a number or E which stops allowing no input
+                                        if ($null -eq $Elixir_Emporium_Sell_Potion_Quantity_Choice -or $Elixir_Emporium_Sell_Potion_Quantity_Choice -eq ""){# sets to null if not a number or E which stops allowing no input
                                             $Elixir_Emporium_Sell_Potion_Quantity_Choice = "not_set"
                                         }
                                     } until ($Elixir_Emporium_Sell_Potion_Quantity_Choice -ieq "E" -or $Elixir_Emporium_Sell_Potion_Quantity_Choice -le $Potion_Quantity)
