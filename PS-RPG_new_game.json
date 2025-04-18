@@ -529,12 +529,12 @@
     }
   },
   "Character": {
-    "Name": "Aened",
-    "Class": "Rogue",
-    "Race": "Elf",
-    "Level": 9,
-    "Total_XP": 2240,
-    "XP_TNL": 236.0,
+    "Name": "",
+    "Class": "",
+    "Race": "",
+    "Level": 0,
+    "Total_XP": 0,
+    "XP_TNL": 160.0,
     "Stats": {
       "HealthCurrent": 60,
       "HealthMax": 60,
@@ -569,11 +569,11 @@
       }
     },
     "Items": {
-      "Gold": 1006.0,
+      "Gold": 1586.0,
       "Inventory": {
         "Lesser Health Potion": {
           "Name": "Lesser Health Potion",
-          "Quantity": 1,
+          "Quantity": 0,
           "Restores": 30,
           "GoldValue": 50,
           "IsJunk": false,
@@ -582,7 +582,7 @@
         },
         "Mana Potion": {
           "Name": "Mana Potion",
-          "Quantity": 5,
+          "Quantity": 0,
           "Restores": 20,
           "Info": "pacity 2",
           "GoldValue": 10,
@@ -609,7 +609,7 @@
         },
         "Bones": {
           "Name": "Bones",
-          "Quantity": 99,
+          "Quantity": 0,
           "Info": "Junk",
           "GoldValue": 5,
           "IsJunk": true,
@@ -617,7 +617,7 @@
         },
         "Feather": {
           "Name": "Feather",
-          "Quantity": 10,
+          "Quantity": 0,
           "Info": "",
           "GoldValue": 1,
           "IsJunk": true,
