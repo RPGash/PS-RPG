@@ -15,7 +15,7 @@
 #   - add item equipment drops from mob loot
 #   - add equipment that can be equipped?
 #       armour protection, stat bonuses/buffs etc.
-#   - add somewhere to buy/sell potions
+#   - add somewhere to buy
 #   - add some quests in the Tavern
 #       mob kill count - done
 #       add more quests
@@ -466,28 +466,28 @@ Function Inventory_Highlight {
         $Script:Selectable_Name_Highlight = "DarkGray" # reset Selectable_Name_Highlight so it highlights correct potion IDs in inventory list
         switch ($Selectable_ID_Search) {
             Health {
-                if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -ilike "*health potion*") {
+                if ($Import_JSON.Items.Inventory.$Inventory_Item_Name.Name -ilike "*health potion*") {
                     $Script:Selectable_ID_Highlight = "DarkCyan"
                     $Script:Selectable_Name_Highlight = "DarkCyan"
                 }
             }
             Mana {
-                if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -ilike "*mana potion*") {
+                if ($Import_JSON.Items.Inventory.$Inventory_Item_Name.Name -ilike "*mana potion*") {
                     $Script:Selectable_ID_Highlight = "DarkCyan"
                     $Script:Selectable_Name_Highlight = "DarkCyan"
                 }
             }
             HealthMana {
-                if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -ilike "*mana potion*" -or $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -ilike "*health potion*") {
+                if ($Import_JSON.Items.Inventory.$Inventory_Item_Name.Name -ilike "*mana potion*" -or $Import_JSON.Items.Inventory.$Inventory_Item_Name.Name -ilike "*health potion*") {
                     $Script:Selectable_ID_Highlight = "DarkCyan"
                     $Script:Selectable_Name_Highlight = "DarkCyan"
                 }
             }
             Junk {
-                if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.IsJunk -eq $true) {
-                    $Anvil_Choice_Sell_Junk_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)
-                    $Script:Anvil_Choice_Sell_Junk_GoldValue += ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue * $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity) 
-                    $Script:Anvil_Choice_Sell_Junk_Quantity += $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity
+                if ($Import_JSON.Items.Inventory.$Inventory_Item_Name.IsJunk -eq $true) {
+                    $Anvil_Choice_Sell_Junk_Array.Add($Import_JSON.Items.Inventory.$Inventory_Item_Name.Name)
+                    $Script:Anvil_Choice_Sell_Junk_GoldValue += ($Import_JSON.Items.Inventory.$Inventory_Item_Name.GoldValue * $Import_JSON.Items.Inventory.$Inventory_Item_Name.Quantity) 
+                    $Script:Anvil_Choice_Sell_Junk_Quantity += $Import_JSON.Items.Inventory.$Inventory_Item_Name.Quantity
                     $Script:Selectable_ID_Highlight = "DarkCyan"
                     $Script:Selectable_Name_Highlight = "DarkCyan"
                 }
@@ -523,7 +523,7 @@ Function Set_Variables {
     $Script:Character_Quickness      = $Import_JSON.Character.Stats.Quickness
     $Script:Character_Spells         = $Import_JSON.Character.Stats.Spells
     $Script:Character_Healing        = $Import_JSON.Character.Stats.Healing
-    $Script:Gold                     = $Import_JSON.Character.Items.Gold
+    $Script:Gold                     = $Import_JSON.Character.Gold
     $Script:Character_Level          = $Import_JSON.Character.Level
     $Script:Total_XP                 = $Import_JSON.Character.Total_XP
     $Script:XP_TNL                   = $Import_JSON.Character.XP_TNL
@@ -616,14 +616,9 @@ Function Level_Up {
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,12;$Host.UI.Write("(+$Healing_Bonus_On_Level_Up)")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 18,8;$Host.UI.Write("(+$Levels_Levelled_Up)")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 18,11;$Host.UI.Write("(+$($Selected_Mob.XP))")
-        
-        # Write-Color "  You have gained ", "x Health ","x Stamina ", "and ", "x Mana","." -Color DarkGray,Green,Yellow,DarkGray,Blue,DarkGray
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,31;$Host.UI.Write("")
         Write-Color "  You have also learned ", "x skills","." -Color DarkGray,White,DarkGray
-        if ($Levels_Levelled_Up -ne "1") {
-            Start-Sleep -Seconds 3 # leave in (shows multiple levels slowly)
-        }
-        Draw_Player_Window_and_Stats
+        Start-Sleep -Seconds 2 # leave in (shows multiple levels slowly)
     } until ($XP_Difference -gt 0)
 }
 
@@ -1372,17 +1367,17 @@ Function Draw_Inventory {
     $Inventory_Items_Name_Array = New-Object System.Collections.Generic.List[System.Object]
     $Inventory_Items_Gold_Value_Array = New-Object System.Collections.Generic.List[System.Object]
     $Inventory_Items_Info_Array = New-Object System.Collections.Generic.List[System.Object]
-    $Script:Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name | Sort-Object
+    $Script:Inventory_Item_Names = $Import_JSON.Items.Inventory.PSObject.Properties.Name | Sort-Object
     foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
-        if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
-            $Inventory_Items_Name_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name.Length)
-            $Inventory_Items_Gold_Value_Array.Add(($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters)
-            $Inventory_Items_Info_Array.Add(($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Info | Measure-Object -Character).Characters)
+        if ($Import_JSON.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
+            $Inventory_Items_Name_Array.Add($Import_JSON.Items.Inventory.$Inventory_Item_Name.Name.Length)
+            $Inventory_Items_Gold_Value_Array.Add(($Import_JSON.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters)
+            $Inventory_Items_Info_Array.Add(($Import_JSON.Items.Inventory.$Inventory_Item_Name.Info | Measure-Object -Character).Characters)
         }
     }
     # if there are no items in the inventory, set window values so it still draws correctly
     if ($Inventory_Items_Name_Array.Count -eq 0) {
-        $Inventory_Items_Name_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name.Length)
+        $Inventory_Items_Name_Array.Add($Import_JSON.Items.Inventory.$Inventory_Item_Name.Name.Length)
         $Inventory_Items_Gold_Value_Array.Add("1")
         $Inventory_Items_Info_Array.Add("4")
         $Inventory_Is_Empty = $true
@@ -1423,38 +1418,38 @@ Function Draw_Inventory {
     Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+$Inventory_Box_Info_Width_Top_Bottom+" -Color DarkGray
     $Position = 2
     foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
-        if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0 -or $Inventory_Is_Empty -eq $true) {
+        if ($Import_JSON.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0 -or $Inventory_Is_Empty -eq $true) {
             $Position += 1
             # padding for name length
-            if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name.Length -lt $Inventory_Items_Name_Array_Max_Length) {
-                $Name_Left_Padding = " "*($Inventory_Items_Name_Array_Max_Length - $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name.Length)
+            if ($Import_JSON.Items.Inventory.$Inventory_Item_Name.Name.Length -lt $Inventory_Items_Name_Array_Max_Length) {
+                $Name_Left_Padding = " "*($Inventory_Items_Name_Array_Max_Length - $Import_JSON.Items.Inventory.$Inventory_Item_Name.Name.Length)
             } else {
                 $Name_Left_Padding = ""
             }
             # padding for quantity
-            if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -lt 10) { # quantity less than 10 in inventory (1 digit so needs 2 padding)
+            if ($Import_JSON.Items.Inventory.$Inventory_Item_Name.Quantity -lt 10) { # quantity less than 10 in inventory (1 digit so needs 2 padding)
                 $Quantity_Left_Padding = "  " # less than 10 quantity (1 digit so needs 2 padding)
             } else {
                 $Quantity_Left_Padding = " " # more than 9 quantity (2 digits so needs 1 padding)
             }
             # gold padding
-            if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters -le '5') {
-                $Gold_Value_Right_Padding = " "*(6 - ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters)
+            if (($Import_JSON.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters -le '5') {
+                $Gold_Value_Right_Padding = " "*(6 - ($Import_JSON.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters)
                 if ($Inventory_Items_Gold_Value_Array_Max_Length -gt 5 ) {
-                    $Gold_Value_Right_Padding = " "*($Inventory_Items_Gold_Value_Array_Max_Length - ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters + 1)
+                    $Gold_Value_Right_Padding = " "*($Inventory_Items_Gold_Value_Array_Max_Length - ($Import_JSON.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters + 1)
                 }
             } else {
-                $Gold_Value_Right_Padding = " "*($Inventory_Items_Gold_Value_Array_Max_Length - ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters + 1)
+                $Gold_Value_Right_Padding = " "*($Inventory_Items_Gold_Value_Array_Max_Length - ($Import_JSON.Items.Inventory.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters + 1)
             }
             #ID padding
-            if (($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
-                $ID_Number = "$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)"
+            if (($Import_JSON.Items.Inventory.$Inventory_Item_Name.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
+                $ID_Number = "$($Import_JSON.Items.Inventory.$Inventory_Item_Name.ID)"
             } else {
-                $ID_Number = " $($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)" # if ID is a single digit (1 extra padding)
+                $ID_Number = " $($Import_JSON.Items.Inventory.$Inventory_Item_Name.ID)" # if ID is a single digit (1 extra padding)
             }
             # info padding
-            if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Info.Length -lt $Inventory_Items_Info_Array_Max_Length) {
-                $Info_Right_Padding = " "*($Inventory_Items_Info_Array_Max_Length - $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Info.Length)
+            if ($Import_JSON.Items.Inventory.$Inventory_Item_Name.Info.Length -lt $Inventory_Items_Info_Array_Max_Length) {
+                $Info_Right_Padding = " "*($Inventory_Items_Info_Array_Max_Length - $Import_JSON.Items.Inventory.$Inventory_Item_Name.Info.Length)
             } else {
                 $Info_Right_Padding = ""
             }
@@ -1466,7 +1461,7 @@ Function Draw_Inventory {
                 $Inventory_Is_Empty = $false
                 Break
             } else {
-                Write-Color "|","$ID_Number","| ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)$Name_Left_Padding ",":", "$Quantity_Left_Padding$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity) ","| ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue)$Gold_Value_Right_Padding","| $($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Info)$Info_Right_Padding |" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,White,DarkGray,White,DarkGray
+                Write-Color "|","$ID_Number","| ","$($Import_JSON.Items.Inventory.$Inventory_Item_Name.Name)$Name_Left_Padding ",":", "$Quantity_Left_Padding$($Import_JSON.Items.Inventory.$Inventory_Item_Name.Quantity) ","| ","$($Import_JSON.Items.Inventory.$Inventory_Item_Name.GoldValue)$Gold_Value_Right_Padding","| $($Import_JSON.Items.Inventory.$Inventory_Item_Name.Info)$Info_Right_Padding |" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,White,DarkGray,White,DarkGray
             }
             $Script:Selectable_ID_Highlight = "DarkGray"
             $Script:Selectable_Name_Highlight = "DarkGray"
@@ -1490,20 +1485,20 @@ Function Inventory_Choice{
     if (($Character_HealthCurrent -lt $Character_HealthMax) -or ($Character_ManaCurrent -lt $Character_ManaMax)) {
         $Enough_Health_Potions = "no"
         if ($Character_HealthCurrent -lt $Character_HealthMax) {
-            $Script:Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name | Sort-Object
+            $Script:Inventory_Item_Names = $Import_JSON.Items.Inventory.PSObject.Properties.Name | Sort-Object
             foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
-                if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*health potion*" -and $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
+                if ($Import_JSON.Items.Inventory.$Inventory_Item_Name.Name -like "*health potion*" -and $Import_JSON.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
                     $Enough_Health_Potions = "yes"
-                    $Potion_IDs_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)
+                    $Potion_IDs_Array.Add($Import_JSON.Items.Inventory.$Inventory_Item_Name.ID)
                 }
             }
         }
         $Enough_Mana_Potions = "no"
         if ($Character_ManaCurrent -lt $Character_ManaMax) {
             foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
-                if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*mana potion*" -and $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
+                if ($Import_JSON.Items.Inventory.$Inventory_Item_Name.Name -like "*mana potion*" -and $Import_JSON.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
                     $Enough_Mana_Potions = "yes"
-                    $Potion_IDs_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)
+                    $Potion_IDs_Array.Add($Import_JSON.Items.Inventory.$Inventory_Item_Name.ID)
                 }
             }
         }
@@ -1561,8 +1556,8 @@ Function Inventory_Choice{
                 
                 # get the name of the potion from the ID selected above so the correct potion is used below
                 foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
-                    if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID -eq $Inventory_ID) {
-                        $Script:Potion = $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name
+                    if ($Import_JSON.Items.Inventory.$Inventory_Item_Name.ID -eq $Inventory_ID) {
+                        $Script:Potion = $Import_JSON.Items.Inventory.$Inventory_Item_Name
                     }
                 }
                 
@@ -1896,16 +1891,16 @@ Function Fight_or_Run {
                                 $Looted_Gold = [Math]::Round(($Random_5/10+1)*$Selected_Mob.Loot.Gold) # gold amount between 1-1.5
                                 $Looted_Items.Add("$($Looted_Gold) Gold")
                                 # update gold in inventory
-                                $Script:Import_JSON.Character.Items.Gold = $Import_JSON.Character.Items.Gold + $Looted_Gold
-                                $Script:Gold = $Import_JSON.Character.Items.Gold + $Looted_Gold
+                                $Script:Import_JSON.Character.Gold = $Import_JSON.Character.Gold + $Looted_Gold
+                                $Script:Gold = $Import_JSON.Character.Gold + $Looted_Gold
                             } else { # add non-gold loot
                                 # update non-gold items in inventory
-                                $Current_Item_Quantity = $Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity
+                                $Current_Item_Quantity = $Import_JSON.Items.Inventory.$Loot_Item.Quantity
                                 if ($Current_Item_Quantity + $Selected_Mob.Loot.$Loot_Item -gt 99) {
-                                    $Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity = 99
+                                    $Import_JSON.Items.Inventory.$Loot_Item.Quantity = 99
                                     $Max_99_Items = "(MAX 99 items)"
                                 } else {
-                                    $Script:Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity = ($Import_JSON.Character.Items.Inventory.$Loot_Item.Quantity += $Selected_Mob.Loot.$Loot_Item)
+                                    $Script:Import_JSON.Items.Inventory.$Loot_Item.Quantity = ($Import_JSON.Items.Inventory.$Loot_Item.Quantity += $Selected_Mob.Loot.$Loot_Item)
                                     $Max_99_Items = ""
                                 }
                                 $Looted_Items.Add("$($Selected_Mob.Loot.$Loot_Item)x $($Loot_Item) $MAX_99_Items")
@@ -1943,7 +1938,6 @@ Function Fight_or_Run {
                 Import-JSON
                 Set_Variables
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
-                Draw_Player_Window_and_Stats
                 do {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -2616,8 +2610,8 @@ Function Visit_a_Building {
                                         $Quest_Name.Available = $true
                                         $Quest_Name.Progress = 0
                                         # update gold
-                                        $Import_JSON.Character.Items.Gold += $Quest_Name.GoldReward
-                                        $Script:Gold = $Import_JSON.Character.Items.Gold
+                                        $Import_JSON.Character.Gold += $Quest_Name.GoldReward
+                                        $Script:Gold = $Import_JSON.Character.Gold
                                         Draw_Player_Window_and_Stats
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,25;$Host.UI.Write("");" "*105
                                         Write-Color "  Thank you for completing this quest ","$Character_Name",". Here is your reward." -Color DarkGray,Blue,DarkGray
@@ -2625,12 +2619,12 @@ Function Visit_a_Building {
                                         # if there are reward items, update inventory
                                         if (-not($Quest_Name.ItemReward -eq $false)) {
                                             foreach ($Quest_Hand_In_Item in $Quest_Name.ItemReward.PSObject.Properties.Name) {
-                                                $Current_Item_Quantity = $Import_JSON.Character.Items.Inventory.$Quest_Hand_In_Item.Quantity
+                                                $Current_Item_Quantity = $Import_JSON.Items.Inventory.$Quest_Hand_In_Item.Quantity
                                                 if ($Current_Item_Quantity + $Quest_Name.ItemReward.$Quest_Hand_In_Item -gt 99) {
-                                                    $Import_JSON.Character.Items.Inventory.$Quest_Hand_In_Item.Quantity = 99
+                                                    $Import_JSON.Items.Inventory.$Quest_Hand_In_Item.Quantity = 99
                                                     $Max_99_Items = "(MAX 99 items)"
                                                 } else {
-                                                    $Import_JSON.Character.Items.Inventory.$Quest_Hand_In_Item.Quantity += $Quest_Name.ItemReward.$Quest_Hand_In_Item
+                                                    $Import_JSON.Items.Inventory.$Quest_Hand_In_Item.Quantity += $Quest_Name.ItemReward.$Quest_Hand_In_Item
                                                     $Max_99_Items = ""
                                                 }
                                                 Write-Color "  x$($Quest_Name.ItemReward.$Quest_Hand_In_Item) ","$Quest_Hand_In_Item $Max_99_Items" -Color White,DarkGray
@@ -2737,9 +2731,9 @@ Function Visit_a_Building {
                             }
                         }
                         if ($Anvil_Sell_Junk_Choice -ieq "y") { # sells all junk
-                            $Import_JSON.Character.Items.Gold = $Import_JSON.Character.Items.Gold + $Anvil_Choice_Sell_Junk_GoldValue
+                            $Import_JSON.Character.Gold = $Import_JSON.Character.Gold + $Anvil_Choice_Sell_Junk_GoldValue
                             foreach (${JunkItem} in ${Anvil_Choice_Sell_Junk_Array}) {
-                                $Import_JSON.Character.Items.Inventory.$JunkItem.Quantity = 0
+                                $Import_JSON.Items.Inventory.$JunkItem.Quantity = 0
                             }
                             Save_JSON
                             Clear-Host
@@ -2809,7 +2803,7 @@ Function Visit_a_Building {
                                 $Elixir_Emporium_Potion_Letters_Array.Clear()
                                 $Elixir_Emporium_Choice_Sell_Quantity.Clear()
                                 $Elixir_Emporium_Choice_Sell_GoldValue.Clear()
-                                $Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name | Sort-Object
+                                $Inventory_Item_Names = $Import_JSON.Items.Inventory.PSObject.Properties.Name | Sort-Object
                                 $Script:Selectable_ID_Search = "HealthMana"
                                 Clear-Host
                                 Draw_Player_Window_and_Stats
@@ -2818,10 +2812,10 @@ Function Visit_a_Building {
                                 Draw_Inventory
                                 foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
                                     # if there are potions in inventory, add them to the array
-                                    if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*mana potion*" -or $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*health potion*" -and $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
-                                        $Elixir_Emporium_Potion_Letters_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)
-                                        $Elixir_Emporium_Choice_Sell_Quantity.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity)
-                                        $Elixir_Emporium_Choice_Sell_GoldValue.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue)
+                                    if ($Import_JSON.Items.Inventory.$Inventory_Item_Name.Name -like "*mana potion*" -or $Import_JSON.Items.Inventory.$Inventory_Item_Name.Name -like "*health potion*" -and $Import_JSON.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
+                                        $Elixir_Emporium_Potion_Letters_Array.Add($Import_JSON.Items.Inventory.$Inventory_Item_Name.ID)
+                                        $Elixir_Emporium_Choice_Sell_Quantity.Add($Import_JSON.Items.Inventory.$Inventory_Item_Name.Quantity)
+                                        $Elixir_Emporium_Choice_Sell_GoldValue.Add($Import_JSON.Items.Inventory.$Inventory_Item_Name.GoldValue)
                                         $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array -Join "/"
                                         $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array_String + "/E"
                                     }
@@ -2857,9 +2851,9 @@ Function Visit_a_Building {
                             switch ($Elixir_Emporium_Sell_Choice) {
                                 $Elixir_Emporium_Sell_Choice {
                                     foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
-                                        if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID -eq $Elixir_Emporium_Sell_Choice) {
-                                            $Potion_Quantity = $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity
-                                            $Potion_GoldValue = $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue
+                                        if ($Import_JSON.Items.Inventory.$Inventory_Item_Name.ID -eq $Elixir_Emporium_Sell_Choice) {
+                                            $Potion_Quantity = $Import_JSON.Items.Inventory.$Inventory_Item_Name.Quantity
+                                            $Potion_GoldValue = $Import_JSON.Items.Inventory.$Inventory_Item_Name.GoldValue
                                             Break
                                         }
                                     }
@@ -2890,7 +2884,7 @@ Function Visit_a_Building {
                                             } else {
                                                 $Single_or_Multiple = "'s"
                                             }
-                                            Write-Color "  $Elixir_Emporium_Sell_Potion_Quantity_Choice ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)$Single_or_Multiple"," are worth ","$($Potion_GoldValue*$Elixir_Emporium_Sell_Potion_Quantity_Choice) Gold",", do you want to sell them?" -Color White,DarkCyan,DarkGray,DarkYellow,DarkGray
+                                            Write-Color "  $Elixir_Emporium_Sell_Potion_Quantity_Choice ","$($Import_JSON.Items.Inventory.$Inventory_Item_Name.Name)$Single_or_Multiple"," are worth ","$($Potion_GoldValue*$Elixir_Emporium_Sell_Potion_Quantity_Choice) Gold",", do you want to sell them?" -Color White,DarkCyan,DarkGray,DarkYellow,DarkGray
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                                             Write-Color -NoNewLine "Y","es or ", "N","o ","[Y/N]" -Color Green,DarkYellow,Green,DarkYellow,Green
@@ -2899,8 +2893,8 @@ Function Visit_a_Building {
                                         } until ($Elixir_Emporium_Sell_Potion_Confirm_Choice -ieq "Y" -or $Elixir_Emporium_Sell_Potion_Confirm_Choice -ieq "N")
                                         if ($Elixir_Emporium_Sell_Potion_Confirm_Choice -ieq "Y") {
                                             # update items in invenroty and gold
-                                            $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -= $Elixir_Emporium_Sell_Potion_Quantity_Choice
-                                            $Import_JSON.Character.Items.Gold += $Potion_GoldValue * $Elixir_Emporium_Sell_Potion_Quantity_Choice
+                                            $Import_JSON.Items.Inventory.$Inventory_Item_Name.Quantity -= $Elixir_Emporium_Sell_Potion_Quantity_Choice
+                                            $Import_JSON.Character.Gold += $Potion_GoldValue * $Elixir_Emporium_Sell_Potion_Quantity_Choice
                                             Save_JSON
                                             Set_Variables
                                         }

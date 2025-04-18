@@ -356,7 +356,25 @@
         "Mend & Mana": {
           "BuildingLetter": "M",
           "Owner": "Kaelen",
-          "Visited": 0
+          "Visited": 0,
+          "Potions": {
+            "Lesser Health Potion": {
+              "Name": "Lesser Health Potion",
+              "Quantity": 0,
+              "Restores": 30,
+              "GoldValue": 50,
+              "ID": 1,
+              "Info": "Restores 30"
+            },
+            "Mana Potion": {
+              "Name": "Mana Potion",
+              "Quantity": 0,
+              "Restores": 20,
+              "Info": "Restores 20",
+              "GoldValue": 10,
+              "ID": 2
+            }
+          }
         }
       }
     },
@@ -578,13 +596,13 @@
           "GoldValue": 50,
           "IsJunk": false,
           "ID": 1,
-          "Info": "Cap 300"
+          "Info": "Restores 30"
         },
         "Mana Potion": {
           "Name": "Mana Potion",
           "Quantity": 0,
           "Restores": 20,
-          "Info": "pacity 2",
+          "Info": "Restores 20",
           "GoldValue": 10,
           "IsJunk": false,
           "ID": 2
@@ -593,7 +611,7 @@
           "Name": "Greater Mana Potion",
           "Quantity": 0,
           "Restores": 50,
-          "Info": "Capacity 50",
+          "Info": "Restores 50",
           "GoldValue": 30,
           "IsJunk": false,
           "ID": 3
@@ -602,7 +620,7 @@
           "Name": "Lesser Mana Potion",
           "Quantity": 0,
           "Restores": 10,
-          "Info": "Capacity 10",
+          "Info": "Restores 10",
           "GoldValue": 20,
           "IsJunk": false,
           "ID": 4
