@@ -10,8 +10,6 @@
 #   
 #   
 # - NEXT
-#   - when in the Mend & Mana shop, if you have no potions to sell, the choice is "[/E]"
-#       the slash should not be there, it should be "[E]"
 #   - at line "if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0 -or $Inventory_Is_Empty -eq $true) {"
 #       change so that the $Inventory_Is_Empty is evaluated first so it does not have to loop through all items in the inventory
 #   - "1 Greater Mana Potion's are worth 30 Gold" - should not show the "'s" for single potions
