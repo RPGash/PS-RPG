@@ -10,7 +10,6 @@
 #   
 #   
 # - NEXT
-#   - "1 Greater Mana Potion's are worth 30 Gold" - should not show the "'s" for single potions
 #   - buy items in the Anvil & Blade shop
 #   - add spells
 #   - add item equipment drops from mob loot
@@ -2885,7 +2884,13 @@ Function Visit_a_Building {
                                     } else { # quantity confirm
                                         do {
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                            Write-Color "  $Elixir_Emporium_Sell_Potion_Quantity_Choice ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)'s"," are worth ","$($Potion_GoldValue*$Elixir_Emporium_Sell_Potion_Quantity_Choice) Gold",", do you want to sell them?" -Color White,DarkCyan,DarkGray,DarkYellow,DarkGray
+                                            # displaying correct grammar for singular or plural potion
+                                            if ($Elixir_Emporium_Sell_Potion_Quantity_Choice -eq 1) {
+                                                $Single_or_Multiple = ""
+                                            } else {
+                                                $Single_or_Multiple = "'s"
+                                            }
+                                            Write-Color "  $Elixir_Emporium_Sell_Potion_Quantity_Choice ","$($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name)$Single_or_Multiple"," are worth ","$($Potion_GoldValue*$Elixir_Emporium_Sell_Potion_Quantity_Choice) Gold",", do you want to sell them?" -Color White,DarkCyan,DarkGray,DarkYellow,DarkGray
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                                             Write-Color -NoNewLine "Y","es or ", "N","o ","[Y/N]" -Color Green,DarkYellow,Green,DarkYellow,Green
