@@ -10,7 +10,7 @@
 #   
 #   
 # - NEXT
-#   - when in the Mend and Mana shop, if you have no potions to sell, the choice is "[/E]"
+#   - when in the Mend & Mana shop, if you have no potions to sell, the choice is "[/E]"
 #       the slash should not be there, it should be "[E]"
 #   - at line "if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0 -or $Inventory_Is_Empty -eq $true) {"
 #       change so that the $Inventory_Is_Empty is evaluated first so it does not have to loop through all items in the inventory
@@ -453,7 +453,6 @@ Function Game_Info {
             }
             t { # tutorial
                 Tutorial
-                Add-Content -Path .\error.log -value "called after exit tut?"
                 Clear-Host
                 $Game_Info_Page_Choice = ""
                 Game_Info_Banner
@@ -2801,6 +2800,7 @@ Function Visit_a_Building {
                         
                     # }
                     if ($Elixir_Emporium_Choice -ieq "s") {
+                        $First_Time_Entered_Elixir_Emporium = $true
                         $Script:Info_Banner = "Mend & Mana - Sell"
                         Draw_Info_Banner
                         do {
@@ -2815,22 +2815,41 @@ Function Visit_a_Building {
                                 $Elixir_Emporium_Choice_Sell_Quantity.Clear()
                                 $Elixir_Emporium_Choice_Sell_GoldValue.Clear()
                                 $Inventory_Item_Names = $Import_JSON.Character.Items.Inventory.PSObject.Properties.Name | Sort-Object
+                                $Script:Selectable_ID_Search = "HealthMana"
+                                Clear-Host
+                                Draw_Player_Window_and_Stats
+                                Draw_Town_Map
+                                Draw_Info_Banner
+                                Draw_Inventory
                                 foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
+                                    # if there are potions in inventory, add them to the array
                                     if ($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*mana potion*" -or $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Name -like "*health potion*" -and $Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity -gt 0) {
                                         $Elixir_Emporium_Potion_Letters_Array.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.ID)
                                         $Elixir_Emporium_Choice_Sell_Quantity.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.Quantity)
                                         $Elixir_Emporium_Choice_Sell_GoldValue.Add($Import_JSON.Character.Items.Inventory.$Inventory_Item_Name.GoldValue)
+                                        $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array -Join "/"
+                                        $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array_String + "/E"
                                     }
                                 }
-                                $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array -Join "/"
-                                $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array_String + "/E"
-                                $Script:Selectable_ID_Search = "HealthMana"
-                                Draw_Inventory
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                Write-Color "  Which potion do you want to sell?" -Color DarkGray
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                Write-Color -NoNewLine "ID ","numbers or ", "E","xit ","[$Elixir_Emporium_Potion_Letters_Array_String]" -Color DarkYellow,DarkYellow,Green,DarkYellow,Green
+                                if ($Elixir_Emporium_Potion_Letters_Array.Count -gt 0) { # potions in inventory
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                    Write-Color "  Which potion do you want to sell?" -Color DarkGray
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                    Write-Color -NoNewLine "ID ","numbers or ", "E","xit ","[$Elixir_Emporium_Potion_Letters_Array_String]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                                } else { # no potions so only "E" (no slash)
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                    if ($First_Time_Entered_Elixir_Emporium -eq $true) {
+                                        Write-Color "  It doesn't look like you have any potions to sell." -Color DarkGray
+                                    } else {
+                                        Write-Color "  It doesn't look like you have any more potions to sell." -Color DarkGray
+                                    }
+                                    $Elixir_Emporium_Potion_Letters_Array_String = "E"
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                    Write-Color -NoNewLine "E","xit ","[$Elixir_Emporium_Potion_Letters_Array_String]" -Color Green,DarkYellow,Green
+                                }
+                                $First_Time_Entered_Elixir_Emporium = $false
                                 $Elixir_Emporium_Sell_Choice = Read-Host " "
                                 $Elixir_Emporium_Sell_Choice = $Elixir_Emporium_Sell_Choice.Trim()
                             } until ($Elixir_Emporium_Sell_Choice -ieq "e" -or $Elixir_Emporium_Sell_Choice -in $Elixir_Emporium_Potion_Letters_Array)
@@ -2839,6 +2858,7 @@ Function Visit_a_Building {
                             if ($Elixir_Emporium_Sell_Choice -ieq "e") {
                                 Break
                             }
+                            # ID number chosen
                             switch ($Elixir_Emporium_Sell_Choice) {
                                 $Elixir_Emporium_Sell_Choice {
                                     foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
@@ -2859,8 +2879,9 @@ Function Visit_a_Building {
                                         # check if input is a number or E
                                         if ($Elixir_Emporium_Sell_Potion_Quantity_Choice -match "^[0-9]+$") {
                                             $Elixir_Emporium_Sell_Potion_Quantity_Choice = [int]$Elixir_Emporium_Sell_Potion_Quantity_Choice
-                                        } else {
-                                            $Elixir_Emporium_Sell_Potion_Quantity_Choice = "E"
+                                        }
+                                        if ($null -eq $Elixir_Emporium_Sell_Potion_Quantity_Choice ){# sets to null if not a number or E which stops allowing no input
+                                            $Elixir_Emporium_Sell_Potion_Quantity_Choice = "not_set"
                                         }
                                     } until ($Elixir_Emporium_Sell_Potion_Quantity_Choice -ieq "E" -or $Elixir_Emporium_Sell_Potion_Quantity_Choice -le $Potion_Quantity)
                                     if ($Elixir_Emporium_Sell_Potion_Quantity_Choice -ieq "E") { # exit
@@ -2881,7 +2902,6 @@ Function Visit_a_Building {
                                             $Import_JSON.Character.Items.Gold += $Potion_GoldValue * $Elixir_Emporium_Sell_Potion_Quantity_Choice
                                             Save_JSON
                                             Set_Variables
-                                            Draw_Player_Window_and_Stats
                                         }
                                     }
                                 }
