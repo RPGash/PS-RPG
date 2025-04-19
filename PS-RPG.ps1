@@ -10,6 +10,7 @@
 #   
 #   
 # - NEXT
+#   - is "$Elixir_Emporium_Potion_Letters_Array.Clear()" needed?
 #   - buy items in the Anvil & Blade shop
 #   - add spells
 #   - add item equipment drops from mob loot
@@ -105,7 +106,7 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
         Write-Color "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" -Color DarkYellow
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 20,10;$Host.UI.Write( "Using the CTRL + mouse scroll wheel forward and back,")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 20,11;$Host.UI.Write( "adjust the font size to make sure the yellow box fits within the screen.")
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         Write-Color -NoNewLine "+ Adjust font size with ","CTRL + mouse scroll wheel",", then confirm with 'go' and Enter" -Color DarkYellow,Green,DarkYellow
         $Adjust_Font_Size = Read-Host " "
         $Adjust_Font_Size = $Adjust_Font_Size.Trim()
@@ -153,21 +154,21 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
     Write-Color "`r`nYou are now ready to play", " PS-RPG", "." -Color DarkGray,Magenta,DarkGray
     do {
         do {
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
-            Write-Color -NoNewLine "`r`nNo save file found. Are you ready to start playing ", "PS-RPG", "?"," [Y/N/E]" -Color DarkYellow,Magenta,DarkYellow,Green
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+            Write-Color -NoNewLine "No save file found. Are you ready to start playing ", "PS-RPG", "?"," [Y/N/E]" -Color DarkYellow,Magenta,DarkYellow,Green
             $Ready_To_Play_PSRPG = Read-Host " "
             $Ready_To_Play_PSRPG = $Ready_To_Play_PSRPG.Trim()
         } until ($Ready_To_Play_PSRPG -ieq "y" -or $Ready_To_Play_PSRPG -ieq "n" -or $Ready_To_Play_PSRPG -ieq "e")
         if ($Ready_To_Play_PSRPG -ieq "n" -or $Ready_To_Play_PSRPG -ieq "e") {
             do {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
-                Write-Color -NoNewLine "`r`nDo you want to quit ", "PS-RPG", "?"," [Y/N]" -Color DarkYellow,Magenta,DarkYellow,Green
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                Write-Color -NoNewLine "Do you want to quit ", "PS-RPG", "?"," [Y/N]" -Color DarkYellow,Magenta,DarkYellow,Green
                 $Quit_Game = Read-Host " "
                 $Quit_Game = $Quit_Game.Trim()
             } until ($Quit_Game -ieq "y" -or $Quit_Game -ieq "n")
             if ($Quit_Game -ieq "y") {
-                Write-Color -NoNewLine "`r`nExiting ","PS-RPG","." -Color DarkYellow,Magenta,DarkYellow
+                Write-Color -NoNewLine "Exiting ","PS-RPG","." -Color DarkYellow,Magenta,DarkYellow
                 Exit
             }
         }
@@ -331,8 +332,8 @@ Function Game_Info {
                 $Script:Tutorial_Choice = ""
             }
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
-            Write-Color -NoNewLine "`r`nSelect ","[$Game_Info_Tab_Array_String]" -Color DarkYellow,Green
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+            Write-Color -NoNewLine "Select ","[$Game_Info_Tab_Array_String]" -Color DarkYellow,Green
             $Game_Info_Page_Choice = Read-Host " "
             $Script:Game_Info_Page_Choice = $Game_Info_Page_Choice.Trim()
         } until ($Game_Info_Page_Choice -in $Game_Info_Tab_Array -or $Game_Info_Page_Choice -ieq "e")
@@ -2785,9 +2786,132 @@ Function Visit_a_Building {
                         $Elixir_Emporium_Choice = $Elixir_Emporium_Choice.Trim()
                     } until ($Elixir_Emporium_Choice -ieq "b" -or $Elixir_Emporium_Choice -ieq "s" -or $Elixir_Emporium_Choice -ieq "e")
                     
-                    # if ($Elixir_Emporium_Choice -ieq "b") {
-                        
-                    # }
+                    if ($Elixir_Emporium_Choice -ieq "b") {
+
+
+
+
+
+
+
+                        $First_Time_Entered_Elixir_Emporium = $true
+                        $Script:Info_Banner = "Mend & Mana - Buy"
+                        Draw_Info_Banner
+                        do {
+                            do {
+                                for ($Position = 17; $Position -lt 19; $Position++) { # clear some lines from previous widow
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                }
+                                $Elixir_Emporium_Potion_Name_Array = New-Object System.Collections.Generic.List[System.Object]
+                                $Elixir_Emporium_Potion_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
+                                $Elixir_Emporium_Choice_Sell_GoldValue = New-Object System.Collections.Generic.List[System.Object]
+                                $Inventory_Item_Names = $Import_JSON.Items.PSObject.Properties.Name | Sort-Object
+                                $Script:Selectable_ID_Search = "HealthMana"
+                                Clear-Host
+                                Draw_Player_Window_and_Stats
+                                Draw_Town_Map
+                                Draw_Info_Banner
+                                Draw_Inventory
+                                foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
+                                    # if there are potions in inventory, add them to the array
+                                    if ($Import_JSON.Items.$Inventory_Item_Name."Mend & Mana" -eq $true) {
+                                        $Elixir_Emporium_Potion_Name_Array.Add($Import_JSON.Items.$Inventory_Item_Name.Name)
+                                        $Elixir_Emporium_Potion_Letters_Array.Add($Import_JSON.Items.$Inventory_Item_Name.ID)
+                                        $Elixir_Emporium_Choice_Sell_GoldValue.Add($Import_JSON.Items.$Inventory_Item_Name.GoldValue)
+                                        $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array -Join "/"
+                                        $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array_String + "/E"
+                                    }
+                                }
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                Write-Color "  Which potion do you want to purchase?" -LinesAfter 1 -Color DarkGray
+                                
+                                
+                                Write-Color "  $Elixir_Emporium_Potion_Name_Array" -Color DarkGray
+
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                Write-Color -NoNewLine "ID ","numbers or ", "E","xit ","[$Elixir_Emporium_Potion_Letters_Array_String]" -Color Green,DarkYellow,Green,DarkYellow,Green
+
+                                $Elixir_Emporium_Buy_Choice = Read-Host " "
+                                $Elixir_Emporium_Buy_Choice = $Elixir_Emporium_Buy_Choice.Trim()
+                            } until ($Elixir_Emporium_Buy_Choice -ieq "e" -or $Elixir_Emporium_Buy_Choice -in $Elixir_Emporium_Potion_Letters_Array)
+                            $Script:Selectable_ID_Search = "not_set"
+                            $First_Time_Entered_Elixir_Emporium = $false
+                            if ($Elixir_Emporium_Buy_Choice -ieq "e") {
+                                Break
+                            }
+                            # ID number chosen
+                            switch ($Elixir_Emporium_Buy_Choice) {
+                                $Elixir_Emporium_Buy_Choice {
+                                    $Potion_GoldValue = $Import_JSON.Items.$Inventory_Item_Name.GoldValue
+
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,25;$Host.UI.Write("")
+                                    Write-Color "  How many ","$($Import_JSON.Items.$Inventory_Item_Name.ID)'s"," do you want to purchase?" -Color DarkGray,Blue,DarkGray
+                                    do {
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                        Write-Color -NoNewLine "Quantity or ", "E","xit ","[1-$Potion_Quantity/E]" -Color DarkYellow,Green,DarkYellow,Green
+                                        $Elixir_Emporium_Buy_Potion_Quantity_Choice = Read-Host " "
+                                        $Elixir_Emporium_Buy_Potion_Quantity_Choice = $Elixir_Emporium_Buy_Potion_Quantity_Choice.Trim()
+                                        # check if input is a number or E
+                                        if ($Elixir_Emporium_Buy_Potion_Quantity_Choice -match "^[0-9]+$") {
+                                            $Elixir_Emporium_Buy_Potion_Quantity_Choice = [int]$Elixir_Emporium_Buy_Potion_Quantity_Choice
+                                        }
+                                        if ($null -eq $Elixir_Emporium_Buy_Potion_Quantity_Choice -or $Elixir_Emporium_Buy_Potion_Quantity_Choice -eq ""){# sets to null if not a number or E which stops allowing no input
+                                            $Elixir_Emporium_Buy_Potion_Quantity_Choice = "not_set"
+                                        }
+                                    } until ($Elixir_Emporium_Buy_Potion_Quantity_Choice -ieq "E" -or $Elixir_Emporium_Buy_Potion_Quantity_Choice -le $Potion_Quantity)
+                                    if ($Elixir_Emporium_Buy_Potion_Quantity_Choice -ieq "E") { # exit
+                                        Break
+                                    } else { # quantity confirm
+                                        do {
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                            # displaying correct grammar for singular or plural potion
+                                            if ($Elixir_Emporium_Buy_Potion_Quantity_Choice -eq 1) {
+                                                $Single_or_Multiple = ""
+                                            } else {
+                                                $Single_or_Multiple = "'s"
+                                            }
+                                            Write-Color "  $Elixir_Emporium_Buy_Potion_Quantity_Choice ","$($Import_JSON.Items.$Inventory_Item_Name.Name)$Single_or_Multiple"," are worth ","$($Potion_GoldValue*$Elixir_Emporium_Buy_Potion_Quantity_Choice) Gold",", do you want to purchase these?" -Color White,DarkCyan,DarkGray,DarkYellow,DarkGray
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                            Write-Color -NoNewLine "Y","es or ", "N","o ","[Y/N]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                                            $Elixir_Emporium_Sell_Potion_Confirm_Choice = Read-Host " "
+                                            $Elixir_Emporium_Sell_Potion_Confirm_Choice = $Elixir_Emporium_Sell_Potion_Confirm_Choice.Trim()
+                                        } until ($Elixir_Emporium_Sell_Potion_Confirm_Choice -ieq "Y" -or $Elixir_Emporium_Sell_Potion_Confirm_Choice -ieq "N")
+                                        if ($Elixir_Emporium_Sell_Potion_Confirm_Choice -ieq "Y") {
+                                            # update items in invenroty and gold
+                                            $Import_JSON.Items.$Inventory_Item_Name.Quantity += $Elixir_Emporium_Buy_Potion_Quantity_Choice
+                                            $Import_JSON.Character.Gold -= $Potion_GoldValue * $Elixir_Emporium_Buy_Potion_Quantity_Choice
+                                            Save_JSON
+                                            Set_Variables
+                                        }
+                                    }
+                                }
+                                # Default {}
+                            }
+                        } until ($Elixir_Emporium_Buy_Choice -ieq "e")
+                        #
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    }
                     if ($Elixir_Emporium_Choice -ieq "s") {
                         $First_Time_Entered_Elixir_Emporium = $true
                         $Script:Info_Banner = "Mend & Mana - Sell"
@@ -2838,7 +2962,6 @@ Function Visit_a_Building {
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                                     Write-Color -NoNewLine "E","xit ","[$Elixir_Emporium_Potion_Letters_Array_String]" -Color Green,DarkYellow,Green
                                 }
-                                $First_Time_Entered_Elixir_Emporium = $false
                                 $Elixir_Emporium_Sell_Choice = Read-Host " "
                                 $Elixir_Emporium_Sell_Choice = $Elixir_Emporium_Sell_Choice.Trim()
                             } until ($Elixir_Emporium_Sell_Choice -ieq "e" -or $Elixir_Emporium_Sell_Choice -in $Elixir_Emporium_Potion_Letters_Array)
@@ -3071,15 +3194,14 @@ if (Test-Path -Path .\PS-RPG.json) {
         Draw_Player_Window_and_Stats
         Draw_Inventory
         do {
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("");" "*105
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
-            Write-Color -NoNewLine "`r`nPS-RPG.json ","save data found. Load saved data?"," [Y/N/E]" -Color Magenta,DarkYellow,Green
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+            Write-Color -NoNewLine "PS-RPG.json ","save data found. Load saved data?"," [Y/N/E]" -Color Magenta,DarkYellow,Green
             $Load_Save_Data_Choice = Read-Host " "
             $Load_Save_Data_Choice = $Load_Save_Data_Choice.Trim()
         } until ($Load_Save_Data_Choice -ieq "y" -or $Load_Save_Data_Choice -ieq "n" -or $Load_Save_Data_Choice -ieq "e")
         if ($Load_Save_Data_Choice -ieq "e") {
-            Write-Color -NoNewLine "`r`nExiting ","PS-RPG","." -Color DarkYellow,Magenta,DarkYellow
+            Write-Color -NoNewLine "Exiting ","PS-RPG","." -Color DarkYellow,Magenta,DarkYellow
             Exit
         }
         if ($Load_Save_Data_Choice -ieq "y") {
@@ -3091,8 +3213,8 @@ if (Test-Path -Path .\PS-RPG.json) {
         if ($Load_Save_Data_Choice -ieq "n") {
             do {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,35;$Host.UI.Write("")
-                Write-Color -NoNewLine "`r`nStart a new game?"," [Y/N/E]" -Color Magenta,Green
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                Write-Color -NoNewLine "Start a new game?"," [Y/N/E]" -Color Magenta,Green
                 $Start_A_New_Game = Read-Host " "
                 $Start_A_New_Game = $Start_A_New_Game.Trim()
             } until ($Start_A_New_Game -ieq "y" -or $Start_A_New_Game -ieq "n" -or $Start_A_New_Game -ieq "e")
@@ -3109,7 +3231,7 @@ if (Test-Path -Path .\PS-RPG.json) {
     Tutorial
 }
 if ($Load_Save_Data_Choice -ieq "e" -or $Start_A_New_Game -ieq "e") {
-    Write-Color -NoNewLine "`r`nQuitting ","PS-RPG","." -Color DarkYellow,Magenta,DarkYellow
+    Write-Color -NoNewLine "Quitting ","PS-RPG","." -Color DarkYellow,Magenta,DarkYellow
     Exit
 }
 
