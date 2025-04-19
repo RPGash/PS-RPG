@@ -363,7 +363,7 @@
     "The Forest": {
       "CurrentLocation": false,
       "LinkedLocations": {
-        "Town": "T",
+        "Home Town": "T",
         "The River": "R"
       },
       "LocationOptions": {
@@ -532,29 +532,29 @@
     "Name": "Celodhil",
     "Class": "Rogue",
     "Race": "Elf",
-    "Level": 13,
-    "Total_XP": 6921,
-    "XP_TNL": 464.0,
-    "Gold": 230.0,
+    "Level": 14,
+    "Total_XP": 8241,
+    "XP_TNL": 514.0,
+    "Gold": 237.0,
     "Stats": {
-      "HealthCurrent": 54.0,
-      "HealthMax": 65,
+      "HealthCurrent": 70,
+      "HealthMax": 70,
       "HealthMaxUnBuffed": 0,
       "StaminaCurrent": 80,
-      "StaminaMax": 87,
-      "ManaCurrent": 10,
-      "ManaMax": 35,
+      "StaminaMax": 94,
+      "ManaCurrent": 40,
+      "ManaMax": 40,
       "ManaMaxUnBuffed": 0,
-      "Damage": 19,
-      "Attack": 19,
+      "Damage": 28,
+      "Attack": 28,
       "AttackUnBuffed": 0,
-      "Armour": 10,
+      "Armour": 14,
       "ArmourUnBuffed": 0,
-      "Dodge": 20,
+      "Dodge": 30,
       "DodgeUnBuffed": 0,
-      "Quickness": 20,
-      "Spells": 6,
-      "Healing": 12
+      "Quickness": 30,
+      "Spells": 11,
+      "Healing": 20
     },
     "Buffs": {
       "Duration": 0,
@@ -741,7 +741,7 @@
     },
     "Random Loot #1": {
       "Name": "Random Loot #1",
-      "Quantity": 0,
+      "Quantity": 2,
       "Info": "Junk",
       "GoldValue": 5,
       "IsJunk": true,
@@ -749,7 +749,7 @@
     },
     "Random Loot #2": {
       "Name": "Random Loot #2",
-      "Quantity": 2,
+      "Quantity": 4,
       "Info": "?????",
       "GoldValue": 3,
       "IsJunk": false,
@@ -757,7 +757,7 @@
     },
     "Random Loot #3": {
       "Name": "Random Loot #3",
-      "Quantity": 0,
+      "Quantity": 1,
       "Info": "Junk",
       "GoldValue": 4,
       "IsJunk": true,

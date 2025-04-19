@@ -12,8 +12,6 @@ ToDo
     
 - NEXT
     - Travel locations not showing highlighted first letter in Green
-    - when viewing the available buildings in Home Town, none of them show which letter to choose for that selection
-        New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
     - is "$Elixir_Emporium_Potion_Letters_Array.Clear()" needed?
     - buy items in the Anvil & Blade shop
     - add spells
