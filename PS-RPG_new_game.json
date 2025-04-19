@@ -2,7 +2,7 @@
   "CharacterCreation": true,
   "TutorialComplete": true,
   "Locations": {
-    "Town": {
+    "Home Town": {
       "CurrentLocation": true,
       "LinkedLocations": {
         "The Forest": "F"
@@ -532,29 +532,29 @@
     "Name": "Celodhil",
     "Class": "Rogue",
     "Race": "Elf",
-    "Level": 12,
-    "Total_XP": 5601,
-    "XP_TNL": 576.0,
-    "Gold": 1774.0,
+    "Level": 13,
+    "Total_XP": 6921,
+    "XP_TNL": 464.0,
+    "Gold": 230.0,
     "Stats": {
-      "HealthCurrent": 60,
-      "HealthMax": 60,
+      "HealthCurrent": 54.0,
+      "HealthMax": 65,
       "HealthMaxUnBuffed": 0,
       "StaminaCurrent": 80,
-      "StaminaMax": 80,
+      "StaminaMax": 87,
       "ManaCurrent": 10,
-      "ManaMax": 30,
+      "ManaMax": 35,
       "ManaMaxUnBuffed": 0,
-      "Damage": 10,
-      "Attack": 10,
+      "Damage": 19,
+      "Attack": 19,
       "AttackUnBuffed": 0,
-      "Armour": 6,
+      "Armour": 10,
       "ArmourUnBuffed": 0,
-      "Dodge": 10,
+      "Dodge": 20,
       "DodgeUnBuffed": 0,
-      "Quickness": 10,
-      "Spells": 1,
-      "Healing": 4
+      "Quickness": 20,
+      "Spells": 6,
+      "Healing": 12
     },
     "Buffs": {
       "Duration": 0,
@@ -573,7 +573,7 @@
   "Items": {
     "Lesser Health Potion": {
       "Name": "Lesser Health Potion",
-      "Quantity": 0,
+      "Quantity": 1,
       "Restores": 30,
       "GoldValue": 50,
       "IsJunk": false,
@@ -583,7 +583,7 @@
     },
     "Mana Potion": {
       "Name": "Mana Potion",
-      "Quantity": 1,
+      "Quantity": 0,
       "Restores": 20,
       "GoldValue": 10,
       "IsJunk": true,
@@ -598,16 +598,18 @@
       "Info": "Restores 50",
       "GoldValue": 30,
       "IsJunk": false,
-      "ID": 3
+      "ID": 3,
+      "Mend & Mana": true
     },
     "Lesser Mana Potion": {
       "Name": "Lesser Mana Potion",
-      "Quantity": 0,
+      "Quantity": 90,
       "Restores": 10,
       "Info": "Restores 10",
       "GoldValue": 20,
       "IsJunk": false,
-      "ID": 4
+      "ID": 4,
+      "Mend & Mana": true
     },
     "Bones": {
       "Name": "Bones",
@@ -643,7 +645,7 @@
     },
     "Rook Feathers": {
       "Name": "Rook Feathers",
-      "Quantity": 6,
+      "Quantity": 0,
       "Info": "Junk",
       "GoldValue": 2,
       "IsJunk": true,
@@ -651,7 +653,7 @@
     },
     "Rook Claws": {
       "Name": "Rook Claws",
-      "Quantity": 3,
+      "Quantity": 0,
       "Info": "Junk",
       "GoldValue": 2,
       "IsJunk": true,
@@ -691,7 +693,7 @@
     },
     "Wolf Teeth": {
       "Name": "Wolf Teeth",
-      "Quantity": 0,
+      "Quantity": 1,
       "Info": "???",
       "GoldValue": 3,
       "IsJunk": false,
@@ -739,7 +741,7 @@
     },
     "Random Loot #1": {
       "Name": "Random Loot #1",
-      "Quantity": 2,
+      "Quantity": 0,
       "Info": "Junk",
       "GoldValue": 5,
       "IsJunk": true,
@@ -747,7 +749,7 @@
     },
     "Random Loot #2": {
       "Name": "Random Loot #2",
-      "Quantity": 1,
+      "Quantity": 2,
       "Info": "?????",
       "GoldValue": 3,
       "IsJunk": false,
@@ -755,7 +757,7 @@
     },
     "Random Loot #3": {
       "Name": "Random Loot #3",
-      "Quantity": 2,
+      "Quantity": 0,
       "Info": "Junk",
       "GoldValue": 4,
       "IsJunk": true,
@@ -771,7 +773,7 @@
     },
     "Random Loot #5": {
       "Name": "Random Loot #5",
-      "Quantity": 0,
+      "Quantity": 1,
       "Info": "?????",
       "GoldValue": 3,
       "IsJunk": false,
@@ -894,7 +896,7 @@
         "Lesser Health Potion": 3,
         "Random Loot #2": 1
       },
-      "Progress": 6,
+      "Progress": 7,
       "ProgressMax": 2,
       "LevelRange": "1-5",
       "Available": true,

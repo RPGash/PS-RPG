@@ -11,7 +11,8 @@ ToDo
     
     
 - NEXT
-    - when viewing the available buildings in Town, none of them show which letter to choose for that selection
+    - Travel locations not showing highlighted first letter in Green
+    - when viewing the available buildings in Home Town, none of them show which letter to choose for that selection
         New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
     - is "$Elixir_Emporium_Potion_Letters_Array.Clear()" needed?
     - buy items in the Anvil & Blade shop
@@ -38,7 +39,7 @@ ToDo
     - consider changing mob crit rate/damage to from fixed 20%/20% to specific % for different mobs
 
 - KNOWN ISSUES
-    - On the Travel page, the available locations to travel to does not show the single character highlighted in Green as the choice for that location. e.g. if "Town" is listed, the letter "T" is not Green. All location names are White, but the question does show the correct highlighted characters for hat area.
+    - On the Travel page, the available locations to travel to does not show the single character highlighted in Green as the choice for that location. e.g. if "Home Town" is listed, the letter "T" is not Green. All location names are White, but the question does show the correct highlighted characters for hat area.
     - if a player purchases one drink and gains its buff, kills mobs until one kill left before it drops (not necessarily one but the closer to zero the better the exploit), they can go buy a second buff and it will extend the original buff for another full duration rather than the first buff expiring after one more fight. both buffs last the full duration. in other words getting a "free" buff.
 #>
 
@@ -1230,7 +1231,7 @@ do {
                                     Write-Color ""
                                     Write-Color " ,---------------------------------------------------------." -Color DarkYellow
                                     Write-Color "(_\  +-----------------+  +--------------+  +-------------+ \" -Color DarkYellow
-                                    Write-Color "   | |       ","T","own      |  |  The ","F","orest  |  |  The ","R","iver  | |" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow
+                                    Write-Color "   | |    Home ","T","own    |  |  The ","F","orest  |  |  The ","R","iver  | |" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow
                                     Write-Color "   | |                 |  |              |  |             | |" -Color DarkYellow
                                     Write-Color "   | | Mend & Mana     |  |              |  |             | |" -Color DarkYellow
                                     Write-Color "   | |                 |  |              |  |             | |" -Color DarkYellow
@@ -1765,7 +1766,7 @@ Function You_Died {
 #
 Function Random_Mob {
     if ($TutorialMob -eq $true) {
-        $Current_Location_Mobs = $Import_JSON.Locations.'Town'.Mobs
+        $Current_Location_Mobs = $Import_JSON.Locations."Home Town".Mobs
     } else {
         $Current_Location_Mobs = $Import_JSON.Locations.$Current_Location.Mobs
     }
@@ -2168,7 +2169,7 @@ Function Travel {
     $Script:Info_Banner = "Travel"
     Draw_Info_Banner
     switch ($Current_Location) {
-        Town {
+        "Home Town" {
             $Travel_Map_Town_Colour = "DarkYellow"
             $Travel_Map_The_Forest_Colour = "Green"
             $Travel_Map_The_River_Colour = "Green"
@@ -2190,7 +2191,7 @@ Function Travel {
     Write-Color "  $All_Linked_Locations_List" -Color White
     Write-Color " ,---------------------------------------------------------." -Color DarkYellow
     Write-Color "(_\  +-----------------+  +--------------+  +-------------+ \" -Color DarkYellow
-    Write-Color "   | |       ","T","own      |  |  The ","F","orest  |  |  The ","R","iver  | |" -Color DarkYellow,$Travel_Map_Town_Colour,DarkYellow,$Travel_Map_The_Forest_Colour,DarkYellow,$Travel_Map_The_River_Colour,DarkYellow
+    Write-Color "   | |    Home ","T","own    |  |  The ","F","orest  |  |  The ","R","iver  | |" -Color DarkYellow,$Travel_Map_Town_Colour,DarkYellow,$Travel_Map_The_Forest_Colour,DarkYellow,$Travel_Map_The_River_Colour,DarkYellow
     Write-Color "   | |                 |  |              |  |             | |" -Color DarkYellow
     Write-Color "   | | Mend & Mana     |  |              |  |             | |" -Color DarkYellow
     Write-Color "   | |                 |  |              |  |             | |" -Color DarkYellow
@@ -2215,8 +2216,8 @@ Function Travel {
         }
         t {
             $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
-            $Script:Current_Location = "Town"
-            $Import_JSON.Locations.Town.CurrentLocation = $true
+            $Script:Current_Location = "Home Town"
+            $Import_JSON.Locations."Home Town".CurrentLocation = $true
             for ($Position = 14; $Position -lt 35; $Position++) { # clear some lines from previous widow
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
             }
@@ -2246,12 +2247,12 @@ Function Travel {
 }
 
 #
-# draw Town map
+# draw Home Town map
 #
 Function Draw_Town_Map {
     $host.UI.RawUI.ForegroundColor = "DarkYellow"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,0;$Host.UI.Write( "+-----------------------------------------------+")
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,1;$Host.UI.Write( "|                     Town        +-----------+ |")
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,1;$Host.UI.Write( "|                Home Town        +-----------+ |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,2;$Host.UI.Write( "|                                 | Anvil     | |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,3;$Host.UI.Write( "| +------+                        | & Blade   | |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,4;$Host.UI.Write( "| | Home |                        |           | |")
@@ -2265,7 +2266,7 @@ Function Draw_Town_Map {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,12;$Host.UI.Write("|             +--------------+                  |")
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,13;$Host.UI.Write("+-----------------------------------------------+")
     $host.UI.RawUI.ForegroundColor = "White"
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town") # Town
+    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town") # Home Town
     $host.UI.RawUI.ForegroundColor = "Green"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("A") # Anvil & Blade
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("H") # Home
@@ -2336,23 +2337,26 @@ Function Draw_The_River_Map {
 Function Visit_a_Building {
     Clear-Host
     Draw_Player_Window_and_Stats
+    $Script:Info_Banner = "Visit"
+    Draw_Info_Banner
     # find all linked locations that you can travel to (not including your current location)
     $All_Buildings_In_Current_Location = $Import_JSON.Locations.$Current_Location.Buildings.PSObject.Properties.Name
     $All_Building_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
     $All_Buildings_In_Current_Location_List = New-Object System.Collections.Generic.List[System.Object]
+    Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
+    Write-Color "`r`n  You can visit the following buildings:" -Color DarkGray
     foreach ($Building_In_Current_Location in $All_Buildings_In_Current_Location) {
         $All_Building_Letters_Array.Add($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.BuildingLetter) # grabs single character for that building
+        
+        Write-Color "  $($Building_In_Current_Location.Substring(0,1))","$($Building_In_Current_Location.Substring(1,$Building_In_Current_Location.Length-1))" -Color Green,DarkGray
+
         $All_Buildings_In_Current_Location_List.Add($Building_In_Current_Location)
         $All_Buildings_In_Current_Location_List.Add("`r`n ")
     }
     $All_Buildings_Letters_Array_String = $All_Building_Letters_Array -Join "/"
     $All_Buildings_Letters_Array_String = $All_Buildings_Letters_Array_String + "/E"
-    $Script:Info_Banner = "Visit"
-    Draw_Info_Banner
-    Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
-    Write-Color "`r`n  You can visit the following buildings:" -Color DarkGray
-    Write-Color "  $All_Buildings_In_Current_Location_List" -Color White
-    if ($Current_Location -ieq "Town") { Draw_Town_Map }
+    # Write-Color "  $All_Buildings_In_Current_Location_List" -Color White
+    if ($Current_Location -ieq "Home Town") { Draw_Town_Map }
     if ($Current_Location -ieq "The Forest") { Draw_The_Forest_Map }
     if ($Current_Location -ieq "The River") { Draw_The_River_Map }
     do {
@@ -2372,8 +2376,8 @@ Function Visit_a_Building {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("T") # Tavern
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("M") # Mend & Mana
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-    # switch choice for Town
-    if ($Current_Location -ieq "Town") {
+    # switch choice for Home Town
+    if ($Current_Location -ieq "Home Town") {
         switch ($Building_Choice) {
             e { # exit
                 for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
@@ -2383,7 +2387,7 @@ Function Visit_a_Building {
             h { # home
                 # update building words in location map. white to current building and reset location to dark yellow 
                 $host.UI.RawUI.ForegroundColor = "DarkYellow"
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
                 $host.UI.RawUI.ForegroundColor = "White"
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("Home")
                 do {
@@ -2428,14 +2432,16 @@ Function Visit_a_Building {
                     
                     if ($Home_Choice -ieq "r") {
                         $Script:Character_HealthCurrent = $Character_HealthMax
+                        $Script:Character_ManaCurrent = $Character_ManaMax
                         $Import_JSON.Character.Stats.HealthCurrent = $Character_HealthCurrent
+                        $Import_JSON.Character.Stats.ManaCurrent = $Character_ManaCurrent
                     }
                 } until ($Home_Choice -ieq "e")
             }
             t { # tavern
                 # update building words in location map. white to current building and reset location to dark yellow 
                 $host.UI.RawUI.ForegroundColor = "DarkYellow"
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Home Town")
                 $host.UI.RawUI.ForegroundColor = "White"
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("Tavern")
                 $First_Time_Entered_Tavern = $true
@@ -2449,7 +2455,7 @@ Function Visit_a_Building {
                     do {
                         if ($First_Time_Entered_Tavern -eq $true) {
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                            Write-Color "  Welcome adventurer, I am ","$($Import_JSON.Locations.Town.Buildings.Tavern.Owner)",", the owner of this Tavern." -Color DarkGray,Blue,DarkGray
+                            Write-Color "  Welcome adventurer, I am ","$($Import_JSON.Locations."Home Town".Buildings.Tavern.Owner)",", the owner of this Tavern." -Color DarkGray,Blue,DarkGray
                             Write-Color "  Would you like a ","D","rink? If not, maybe you can spare some time to look at the ","Q","uest board over there." -Color DarkGray,Green,DarkGray,Green,DarkGray
                         }
                         if ($First_Time_Entered_Tavern -eq $false) {
@@ -2462,7 +2468,7 @@ Function Visit_a_Building {
                             }
                             if ($Exit_Drinks_Menu -eq $true -and $Drink_Purchased -eq $true) {
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                Write-Color "  $($Import_JSON.Locations.Town.Buildings.Tavern.Owner) ","hands you a ","$Tavern_Drink","." -Color Blue,DarkGray,White,DarkGray
+                                Write-Color "  $($Import_JSON.Locations."Home Town".Buildings.Tavern.Owner) ","hands you a ","$Tavern_Drink","." -Color Blue,DarkGray,White,DarkGray
                                 Write-Color "  You feel strange. You temporarily have the following buffs." -Color DarkGray
                                 Write-Color ""
                                 if ($Tavern_Drink_Bonus_Name -ieq 'HealthMax') {
@@ -2479,7 +2485,7 @@ Function Visit_a_Building {
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                 }
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                Write-Color "  $($Import_JSON.Locations.Town.Buildings.Tavern.Owner) ","says you've had too many and refuses to serve you until you sober up." -Color Blue,DarkGray
+                                Write-Color "  $($Import_JSON.Locations."Home Town".Buildings.Tavern.Owner) ","says you've had too many and refuses to serve you until you sober up." -Color Blue,DarkGray
                             }
                             if ($Exit_Quest_Board -eq $true -and $Import_JSON.Character.Buffs.DrinksPurchased -lt 2) {
                                 for ($Position = 17; $Position -lt 31; $Position++) { # clear some lines from previous widow
@@ -2511,7 +2517,7 @@ Function Visit_a_Building {
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                             Write-Color "  Please choose from our selection of drinks from the menu." -Color DarkGray
                             Write-Color "`r" -Color DarkGray
-                            $Tavern_Drinks_Categorys = $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.PSObject.Properties.Name
+                            $Tavern_Drinks_Categorys = $Import_JSON.Locations."Home Town".Buildings.Tavern.Drinks.PSObject.Properties.Name
                             $Tavern_Drinks_Category_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
                             foreach ($Tavern_Drinks_Category in $Tavern_Drinks_Categorys) {
                                 $Tavern_Drink_Category_First_Character = $Tavern_Drinks_Category.SubString(0,1)
@@ -2547,15 +2553,15 @@ Function Visit_a_Building {
                                             Break
                                         }
                                     }
-                                    $Tavern_Drinks = $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.PSObject.Properties.Name
+                                    $Tavern_Drinks = $Import_JSON.Locations."Home Town".Buildings.Tavern.Drinks.$Tavern_Drinks_Category.PSObject.Properties.Name
                                     $Tavern_Drink = Get-Random -Input $Tavern_Drinks
-                                    $Script:Tavern_Drink_Bonus_Name = $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.Bonus.PSObject.Properties.Name
+                                    $Script:Tavern_Drink_Bonus_Name = $Import_JSON.Locations."Home Town".Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.Bonus.PSObject.Properties.Name
                                     # update JSON Buffs.Duration based on drink category
-                                    $Import_JSON.Character.Buffs.Duration = $Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.BuffDuration
+                                    $Import_JSON.Character.Buffs.Duration = $Import_JSON.Locations."Home Town".Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.BuffDuration
                                     $Import_JSON.Character.Buffs.Dropped = $false
                                     switch ($Tavern_Drink_Bonus_Name) {
                                         $Tavern_Drink_Bonus_Name {
-                                            $Tavern_Drink_Bonus_Amount = ($Import_JSON.Locations.Town.Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.Bonus).$Tavern_Drink_Bonus_Name
+                                            $Tavern_Drink_Bonus_Amount = ($Import_JSON.Locations."Home Town".Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.Bonus).$Tavern_Drink_Bonus_Name
                                             $Character_Prefix = "Character_"
                                             # gets current character stat bonus value (so difference can be calculated below)
                                             $Bonus_Stat_Before = (Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value
@@ -2644,7 +2650,7 @@ Function Visit_a_Building {
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                     }
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                    Write-Color "  $($Import_JSON.Locations.Town.Buildings.Tavern.Owner) ","thanks you for accepting the ","$($Quest_Name.Name)"," quest" -Color Blue,DarkGray,White,DarkGray
+                                    Write-Color "  $($Import_JSON.Locations."Home Town".Buildings.Tavern.Owner) ","thanks you for accepting the ","$($Quest_Name.Name)"," quest" -Color Blue,DarkGray,White,DarkGray
                                     Write-Color "  and tells you she will let the person know you've accepted it." -Color DarkGray
                                     Write-Color "  Don't forget, you can view quests you've accepted by choosing '","Q","' here or in most other menus." -Color DarkGray,Green,DarkGray
                                     Write-Color ""
@@ -2777,7 +2783,7 @@ Function Visit_a_Building {
             a {
                 # update building words in location map. white to current building and reset location to dark yellow 
                 $host.UI.RawUI.ForegroundColor = "DarkYellow"
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Home Town")
                 $host.UI.RawUI.ForegroundColor = "White"
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("Anvil")
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,3;$Host.UI.Write("& Blade")
@@ -2865,7 +2871,7 @@ Function Visit_a_Building {
                             Draw_Town_Map
                             # update building words in location map. white to current building and reset location to dark yellow 
                             $host.UI.RawUI.ForegroundColor = "DarkYellow"
-                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Home Town")
                             $host.UI.RawUI.ForegroundColor = "White"
                             $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("Anvil")
                             $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,3;$Host.UI.Write("& Blade")
@@ -2886,7 +2892,7 @@ Function Visit_a_Building {
             m { # Mend & Mana
                 # update building words in location map. white to current building and reset location to dark yellow 
                 $host.UI.RawUI.ForegroundColor = "DarkYellow"
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Home Town")
                 $host.UI.RawUI.ForegroundColor = "White"
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("Mend")
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,10;$Host.UI.Write("& Mana")
@@ -2932,7 +2938,7 @@ Function Visit_a_Building {
                                 Draw_Town_Map
                                 # update building words in location map. white to current building and reset location to dark yellow 
                                 $host.UI.RawUI.ForegroundColor = "DarkYellow"
-                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Home Town")
                                 $host.UI.RawUI.ForegroundColor = "White"
                                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("Mend")
                                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,10;$Host.UI.Write("& Mana")
@@ -3072,7 +3078,7 @@ Function Visit_a_Building {
                                 Draw_Town_Map
                                 # update building words in location map. white to current building and reset location to dark yellow 
                                 $host.UI.RawUI.ForegroundColor = "DarkYellow"
-                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Home Town")
                                 $host.UI.RawUI.ForegroundColor = "White"
                                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("Mend")
                                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,10;$Host.UI.Write("& Mana")
