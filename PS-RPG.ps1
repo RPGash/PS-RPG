@@ -11,8 +11,6 @@ ToDo
     
     
 - NEXT
-    - after entering the Mend & Mana shop, then selecting buy/sell
-        the town map Mend & Mana retuens to yellow
     - when viewing the available buildings in Town, none of them show which letter to choose for that selection
         New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
     - is "$Elixir_Emporium_Potion_Letters_Array.Clear()" needed?
@@ -2865,6 +2863,12 @@ Function Visit_a_Building {
                             Set_Variables
                             Draw_Player_Window_and_Stats
                             Draw_Town_Map
+                            # update building words in location map. white to current building and reset location to dark yellow 
+                            $host.UI.RawUI.ForegroundColor = "DarkYellow"
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
+                            $host.UI.RawUI.ForegroundColor = "White"
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("Anvil")
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,3;$Host.UI.Write("& Blade")
                             Draw_Info_Banner
                             Draw_Inventory
                             $host.UI.RawUI.ForegroundColor = "DarkYellow"
@@ -2909,15 +2913,7 @@ Function Visit_a_Building {
                         $Elixir_Emporium_Choice = Read-Host " "
                         $Elixir_Emporium_Choice = $Elixir_Emporium_Choice.Trim()
                     } until ($Elixir_Emporium_Choice -ieq "p" -or $Elixir_Emporium_Choice -ieq "s" -or $Elixir_Emporium_Choice -ieq "e")
-                    
                     if ($Elixir_Emporium_Choice -ieq "p") {
-
-
-
-
-
-
-
                         $First_Time_Entered_Elixir_Emporium = $true
                         $Script:Info_Banner = "Mend & Mana - Purchase"
                         Draw_Info_Banner
@@ -2934,26 +2930,21 @@ Function Visit_a_Building {
                                 Clear-Host
                                 Draw_Player_Window_and_Stats
                                 Draw_Town_Map
+                                # update building words in location map. white to current building and reset location to dark yellow 
+                                $host.UI.RawUI.ForegroundColor = "DarkYellow"
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
+                                $host.UI.RawUI.ForegroundColor = "White"
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("Mend")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,10;$Host.UI.Write("& Mana")
                                 Draw_Info_Banner
                                 Draw_Inventory
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                 Draw_Shop_Potions
-                                # foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
-                                #     # if there are potions in inventory, add them to the array
-                                #     if ($Import_JSON.Items.$Inventory_Item_Name."Mend & Mana" -eq $true) {
-                                #         $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array -Join "/"
-                                #         $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array_String + "/E"
-                                #         # Write-Color "  $($Import_JSON.Items.$Inventory_Item_Name.ID) ","$($Import_JSON.Items.$Inventory_Item_Name.Name) ","$($Import_JSON.Items.$Inventory_Item_Name.GoldValue) Gold" -Color DarkCyan,DarkGray,DarkYellow
-                                #     }
-                                # }
                                 $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array -Join "/"
                                 $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array_String + "/E"
-                                
-
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                                 Write-Color -NoNewLine "Which potion do you want to purchase? ","ID ","numbers or ", "E","xit ","[$Elixir_Emporium_Potion_Letters_Array_String]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
-
                                 $Elixir_Emporium_Purchase_Choice = Read-Host " "
                                 $Elixir_Emporium_Purchase_Choice = $Elixir_Emporium_Purchase_Choice.Trim()
                             } until ($Elixir_Emporium_Purchase_Choice -ieq "e" -or $Elixir_Emporium_Purchase_Choice -in $Elixir_Emporium_Potion_Letters_Array)
@@ -3058,26 +3049,6 @@ Function Visit_a_Building {
                                 # Default {}
                             }
                         } until ($Elixir_Emporium_Purchase_Choice -ieq "e")
-                        #
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                     }
                     if ($Elixir_Emporium_Choice -ieq "s") {
                         $First_Time_Entered_Elixir_Emporium = $true
@@ -3099,6 +3070,12 @@ Function Visit_a_Building {
                                 Clear-Host
                                 Draw_Player_Window_and_Stats
                                 Draw_Town_Map
+                                # update building words in location map. white to current building and reset location to dark yellow 
+                                $host.UI.RawUI.ForegroundColor = "DarkYellow"
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Town")
+                                $host.UI.RawUI.ForegroundColor = "White"
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("Mend")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,10;$Host.UI.Write("& Mana")
                                 Draw_Info_Banner
                                 Draw_Inventory
                                 foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
