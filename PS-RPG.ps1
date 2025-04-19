@@ -1,45 +1,48 @@
-# ToDo
-# ----
-#
-# - BUGS
-#   - 
-#   
-#   
-# - TEST
-#   - 
-#   
-#   
-# - NEXT
-#   - is "$Elixir_Emporium_Potion_Letters_Array.Clear()" needed?
-#   - buy items in the Anvil & Blade shop
-#   - add spells
-#   - add item equipment drops from mob loot
-#   - add equipment that can be equipped?
-#       armour protection, stat bonuses/buffs etc.
-#   - add somewhere to buy
-#   - add some quests in the Tavern
-#       mob kill count - done
-#       add more quests
-#   - add some quests in other locations
-#   - change "you are low on health/mana" message to
-#       if less than 25%/50% = "you are running low/very low on health/mana"
-#       if 50% or above = "you are not at max health" (maybe?)
-#   - different message types for
-#       heals? kills? buffs etc.
-#   - [ongoing] an info page available after starting the game
-#       PSWriteColour module, uninstall module
-#       GitHub, website,
-#       damage calculation = damage * (damage / (damage + armour)),
-#       crit chance,
-#       ASCII art - https://asciiart.website/
-#   - consider changing mob crit rate/damage to from fixed 20%/20% to specific % for different mobs
-#   - when viewing the available buildings in Town, none of them show which letter to choose for that selection
-#       New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
-#
-# - KNOWN ISSUES
-#   - On the Travel page, the available locations to travel to does not show the single character highlighted in Green as the choice for that location. e.g. if "Town" is listed, the letter "T" is not Green. All location names are White, but the question does show the correct highlighted characters for hat area.
-#   - if a player purchases one drink and gains its buff, kills mobs until one kill left before it drops (not necessarily one but the closer to zero the better the exploit), they can go buy a second buff and it will extend the original buff for another full duration rather than the first buff expiring after one more fight. both buffs last the full duration. in other words getting a "free" buff.
-#   
+<#
+ToDo
+----
+
+- BUGS
+    - 
+    
+    
+- TEST
+    - 
+    
+    
+- NEXT
+    - after entering the Mend & Mana shop, then selecting buy/sell
+        the town map Mend & Mana retuens to yellow
+    - when viewing the available buildings in Town, none of them show which letter to choose for that selection
+        New-Object System.Management.Automation.Host.Coordinates 0,14;$Host.UI.Write("");" "*3000
+    - is "$Elixir_Emporium_Potion_Letters_Array.Clear()" needed?
+    - buy items in the Anvil & Blade shop
+    - add spells
+    - add item equipment drops from mob loot
+    - add equipment that can be equipped?
+        armour protection, stat bonuses/buffs etc.
+    - add somewhere to buy
+    - add some quests in the Tavern
+        mob kill count - done
+        add more quests
+    - add some quests in other locations
+    - change "you are low on health/mana" message to
+        if less than 25%/50% = "you are running low/very low on health/mana"
+        if 50% or above = "you are not at max health" (maybe?)
+    - different message types for
+        heals? kills? buffs etc.
+    - [ongoing] an info page available after starting the game
+        PSWriteColour module, uninstall module
+        GitHub, website,
+        damage calculation = damage * (damage / (damage + armour)),
+        crit chance,
+        ASCII art - https://asciiart.website/
+    - consider changing mob crit rate/damage to from fixed 20%/20% to specific % for different mobs
+
+- KNOWN ISSUES
+    - On the Travel page, the available locations to travel to does not show the single character highlighted in Green as the choice for that location. e.g. if "Town" is listed, the letter "T" is not Green. All location names are White, but the question does show the correct highlighted characters for hat area.
+    - if a player purchases one drink and gains its buff, kills mobs until one kill left before it drops (not necessarily one but the closer to zero the better the exploit), they can go buy a second buff and it will extend the original buff for another full duration rather than the first buff expiring after one more fight. both buffs last the full duration. in other words getting a "free" buff.
+#>
 
 # write errors out to log file
 Trap {
@@ -99,11 +102,11 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
     # adjust window size
     do {
         Clear-Host
-        Write-Color "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" -Color DarkYellow
+        Write-Color "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" -Color DarkYellow
         for ($i = 0; $i -lt 36; $i++) {
-            Write-Color "+                                                                                                                                        +" -Color DarkYellow
+            Write-Color "+                                                                                                                                                              +" -Color DarkYellow
         }
-        Write-Color "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" -Color DarkYellow
+        Write-Color "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" -Color DarkYellow
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 20,10;$Host.UI.Write( "Using the CTRL + mouse scroll wheel forward and back,")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 20,11;$Host.UI.Write( "adjust the font size to make sure the yellow box fits within the screen.")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -1473,6 +1476,127 @@ Function Draw_Inventory {
     Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+$Inventory_Box_Info_Width_Top_Bottom+" -Color DarkGray
 }
 
+# draws the shop potions in the shop window
+# same as the Draw_Invenroty but no quantities
+# quantity lines commented out in case i add them back in with a limit on how many that can be purchased.
+# if quantities are added back in, then a GoldValueSell and GoldValueBuy will need to be added to the JSON file for each item
+Function Draw_Shop_Potions {
+    $Inventory_Items_Name_Array = New-Object System.Collections.Generic.List[System.Object]
+    $Inventory_Items_Gold_Value_Array = New-Object System.Collections.Generic.List[System.Object]
+    $Inventory_Items_Info_Array = New-Object System.Collections.Generic.List[System.Object]
+    $Script:Inventory_Item_Names = $Import_JSON.Items.PSObject.Properties.Name | Sort-Object
+    foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
+        if ($Import_JSON.Items.$Inventory_Item_Name."Mend & Mana" -eq $true) {
+            $Inventory_Items_Name_Array.Add($Import_JSON.Items.$Inventory_Item_Name.Name.Length)
+            $Inventory_Items_Gold_Value_Array.Add(($Import_JSON.Items.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters)
+            $Inventory_Items_Info_Array.Add(($Import_JSON.Items.$Inventory_Item_Name.Info | Measure-Object -Character).Characters)
+        }
+    }
+    # if there are no items in the inventory, set window values so it still draws correctly
+    if ($Inventory_Items_Name_Array.Count -eq 0) {
+        $Inventory_Items_Name_Array.Add($Import_JSON.Items.$Inventory_Item_Name.Name.Length)
+        $Inventory_Items_Gold_Value_Array.Add("1")
+        $Inventory_Items_Info_Array.Add("4")
+        $Inventory_Is_Empty = $true
+    } else {
+        $Inventory_Is_Empty = $false
+    }
+    # get max item gold value length
+    $Inventory_Items_Gold_Value_Array_Max_Length = ($Inventory_Items_Gold_Value_Array | Measure-Object -Maximum).Maximum
+    # calculate top and bottom gold value box width
+    if ($Inventory_Items_Gold_Value_Array_Max_Length -le 5) {
+        $Inventory_Box_Gold_Value_Width_Top_Bottom = "-"*7
+    } else {
+        $Inventory_Box_Gold_Value_Width_Top_Bottom = "-"*($Inventory_Items_Gold_Value_Array_Max_Length + 2)
+    }
+    # calculate middle gold value width
+    if ($Inventory_Items_Gold_Value_Array_Max_Length -gt 5 ) {
+        $Inventory_Box_Gold_Value_Width_Middle = " "*($Inventory_Items_Gold_Value_Array_Max_Length - 4)
+    } else {
+        $Inventory_Box_Gold_Value_Width_Middle = " "*1
+    }
+    # get max item name length
+    $Inventory_Items_Name_Array_Max_Length = ($Inventory_Items_Name_Array | Measure-Object -Maximum).Maximum
+    # calculate top and bottom name width
+    # $Inventory_Box_Name_Width_Top_Bottom = "-"*($Inventory_Items_Name_Array_Max_Length + 7)
+    $Inventory_Box_Name_Width_Top_Bottom = "-"*($Inventory_Items_Name_Array_Max_Length + 2)
+    # calculate middle name width
+    $Inventory_Box_Name_Width_Middle = " "*($Inventory_Items_Name_Array_Max_Length - 7) # 5
+    # get max item info length
+    $Inventory_Items_Info_Array_Max_Length = ($Inventory_Items_Info_Array | Measure-Object -Maximum).Maximum
+    # calculate top and bottom info width
+    $Inventory_Box_Info_Width_Top_Bottom = "-"*($Inventory_Items_Info_Array_Max_Length + 2)
+    # calculate middle info width
+    $Inventory_Box_Info_Width_Middle = " "*($Inventory_Items_Info_Array_Max_Length - 3)
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 2,19;$Host.UI.Write("")
+    # Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+$Inventory_Box_Info_Width_Top_Bottom+" -Color DarkGray
+    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+$Inventory_Box_Info_Width_Top_Bottom+" -Color DarkGray
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 2,20;$Host.UI.Write("")
+    # Write-Color "|","ID","| ","Potions","$Inventory_Box_Name_Width_Middle","Qty ","| ","Value","$Inventory_Box_Gold_Value_Width_Middle|"," Info","$Inventory_Box_Info_Width_Middle|" -Color DarkGray,White,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray
+    Write-Color "|","ID","| ","Potions","$Inventory_Box_Name_Width_Middle | ","Value","$Inventory_Box_Gold_Value_Width_Middle|"," Info","$Inventory_Box_Info_Width_Middle|" -Color DarkGray,White,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 2,21;$Host.UI.Write("")
+    # Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+$Inventory_Box_Info_Width_Top_Bottom+" -Color DarkGray
+    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+$Inventory_Box_Info_Width_Top_Bottom+" -Color DarkGray
+    $Position = 21
+    foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
+        if ($Import_JSON.Items.$Inventory_Item_Name."Mend & Mana" -eq $true) {
+            # add potion ID to choice array
+            $Elixir_Emporium_Potion_Letters_Array.Add($Import_JSON.Items.$Inventory_Item_Name.ID)
+            $Position += 1
+            # padding for name length
+            if ($Import_JSON.Items.$Inventory_Item_Name.Name.Length -lt $Inventory_Items_Name_Array_Max_Length) {
+                $Name_Left_Padding = " "*($Inventory_Items_Name_Array_Max_Length - $Import_JSON.Items.$Inventory_Item_Name.Name.Length)
+            } else {
+                $Name_Left_Padding = ""
+            }
+            # padding for quantity
+            if ($Import_JSON.Items.$Inventory_Item_Name.Quantity -lt 10) { # quantity less than 10 in inventory (1 digit so needs 2 padding)
+                $Quantity_Left_Padding = "  " # less than 10 quantity (1 digit so needs 2 padding)
+            } else {
+                $Quantity_Left_Padding = " " # more than 9 quantity (2 digits so needs 1 padding)
+            }
+            # gold padding
+            if (($Import_JSON.Items.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters -le '5') {
+                $Gold_Value_Right_Padding = " "*(6 - ($Import_JSON.Items.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters)
+                if ($Inventory_Items_Gold_Value_Array_Max_Length -gt 5 ) {
+                    $Gold_Value_Right_Padding = " "*($Inventory_Items_Gold_Value_Array_Max_Length - ($Import_JSON.Items.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters + 1)
+                }
+            } else {
+                $Gold_Value_Right_Padding = " "*($Inventory_Items_Gold_Value_Array_Max_Length - ($Import_JSON.Items.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters + 1)
+            }
+            #ID padding
+            if (($Import_JSON.Items.$Inventory_Item_Name.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
+                $ID_Number = "$($Import_JSON.Items.$Inventory_Item_Name.ID)"
+            } else {
+                $ID_Number = " $($Import_JSON.Items.$Inventory_Item_Name.ID)" # if ID is a single digit (1 extra padding)
+            }
+            # info padding
+            if ($Import_JSON.Items.$Inventory_Item_Name.Info.Length -lt $Inventory_Items_Info_Array_Max_Length) {
+                $Info_Right_Padding = " "*($Inventory_Items_Info_Array_Max_Length - $Import_JSON.Items.$Inventory_Item_Name.Info.Length)
+            } else {
+                $Info_Right_Padding = ""
+            }
+            Inventory_Highlight
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 2,$Position;$Host.UI.Write("")
+            # if no items in inventory, else an actual item
+            if ($Inventory_Is_Empty -eq $true) {
+                Write-Color "|  | Inventory Empty |       |      |" -Color DarkGray
+                $Inventory_Is_Empty = $false
+                Break
+            } else {
+                # Write-Color "|","$ID_Number","| ","$($Import_JSON.Items.$Inventory_Item_Name.Name)$Name_Left_Padding ",":", "$Quantity_Left_Padding$($Import_JSON.Items.$Inventory_Item_Name.Quantity) ","| ","$($Import_JSON.Items.$Inventory_Item_Name.GoldValue)$Gold_Value_Right_Padding","| $($Import_JSON.Items.$Inventory_Item_Name.Info)$Info_Right_Padding |" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,White,DarkGray,White,DarkGray
+                Write-Color "|","$ID_Number","| ","$($Import_JSON.Items.$Inventory_Item_Name.Name)$Name_Left_Padding ","| ","$($Import_JSON.Items.$Inventory_Item_Name.GoldValue)$Gold_Value_Right_Padding","| $($Import_JSON.Items.$Inventory_Item_Name.Info)$Info_Right_Padding |" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,White,DarkGray,White,DarkGray
+            }
+            $Script:Selectable_ID_Highlight = "DarkGray"
+            $Script:Selectable_Name_Highlight = "DarkGray"
+        }
+    }
+    $Position += 1
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 2,$Position;$Host.UI.Write("")
+    # Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+$Inventory_Box_Info_Width_Top_Bottom+" -Color DarkGray
+    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+$Inventory_Box_Info_Width_Top_Bottom+" -Color DarkGray
+}
+
 #
 # sets and asks if a potion should be used
 #
@@ -2769,7 +2893,7 @@ Function Visit_a_Building {
                     Draw_Inventory
                     do {
                         if ($First_Time_Entered_Elixir_Emporium -eq $false) {
-                            for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                            for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                             }
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
@@ -2812,21 +2936,20 @@ Function Visit_a_Building {
                                 Draw_Town_Map
                                 Draw_Info_Banner
                                 Draw_Inventory
-                                foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
-                                    # if there are potions in inventory, add them to the array
-                                    if ($Import_JSON.Items.$Inventory_Item_Name."Mend & Mana" -eq $true) {
-                                        $Elixir_Emporium_Potion_Name_Array.Add($Import_JSON.Items.$Inventory_Item_Name.Name)
-                                        $Elixir_Emporium_Potion_Letters_Array.Add($Import_JSON.Items.$Inventory_Item_Name.ID)
-                                        $Elixir_Emporium_Choice_Sell_GoldValue.Add($Import_JSON.Items.$Inventory_Item_Name.GoldValue)
-                                        $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array -Join "/"
-                                        $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array_String + "/E"
-                                    }
-                                }
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                 Write-Color "  Which potion do you want to purchase?" -LinesAfter 1 -Color DarkGray
+                                Draw_Shop_Potions
+                                # foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
+                                #     # if there are potions in inventory, add them to the array
+                                #     if ($Import_JSON.Items.$Inventory_Item_Name."Mend & Mana" -eq $true) {
+                                #         $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array -Join "/"
+                                #         $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array_String + "/E"
+                                #         # Write-Color "  $($Import_JSON.Items.$Inventory_Item_Name.ID) ","$($Import_JSON.Items.$Inventory_Item_Name.Name) ","$($Import_JSON.Items.$Inventory_Item_Name.GoldValue) Gold" -Color DarkCyan,DarkGray,DarkYellow
+                                #     }
+                                # }
+                                $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array -Join "/"
+                                $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array_String + "/E"
                                 
-                                
-                                Write-Color "  $Elixir_Emporium_Potion_Name_Array" -Color DarkGray
 
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -2843,48 +2966,76 @@ Function Visit_a_Building {
                             # ID number chosen
                             switch ($Elixir_Emporium_Buy_Choice) {
                                 $Elixir_Emporium_Buy_Choice {
-                                    $Potion_GoldValue = $Import_JSON.Items.$Inventory_Item_Name.GoldValue
-
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,25;$Host.UI.Write("")
-                                    Write-Color "  How many ","$($Import_JSON.Items.$Inventory_Item_Name.ID)'s"," do you want to purchase?" -Color DarkGray,Blue,DarkGray
-                                    do {
-                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                        Write-Color -NoNewLine "Quantity or ", "E","xit ","[1-$Potion_Quantity/E]" -Color DarkYellow,Green,DarkYellow,Green
-                                        $Elixir_Emporium_Buy_Potion_Quantity_Choice = Read-Host " "
-                                        $Elixir_Emporium_Buy_Potion_Quantity_Choice = $Elixir_Emporium_Buy_Potion_Quantity_Choice.Trim()
-                                        # check if input is a number or E
-                                        if ($Elixir_Emporium_Buy_Potion_Quantity_Choice -match "^[0-9]+$") {
-                                            $Elixir_Emporium_Buy_Potion_Quantity_Choice = [int]$Elixir_Emporium_Buy_Potion_Quantity_Choice
+                                    foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
+                                        if ($Import_JSON.Items.$Inventory_Item_Name.ID -ieq $Elixir_Emporium_Buy_Choice) {
+                                            $Elixir_Emporium_Buy_Choice_Potion_Name = $Import_JSON.Items.$Inventory_Item_Name.Name
+                                            $Elixir_Emporium_Buy_Choice_Potion_Quantity = $Import_JSON.Items.$Inventory_Item_Name.Quantity
+                                            $Elixir_Emporium_Buy_Choice_Potion_GoldValue = $Import_JSON.Items.$Inventory_Item_Name.GoldValue
+                                            $Elixir_Emporium_Buy_Choice_Potion_Quantity_Max = 99 - $Elixir_Emporium_Buy_Choice_Potion_Quantity
                                         }
-                                        if ($null -eq $Elixir_Emporium_Buy_Potion_Quantity_Choice -or $Elixir_Emporium_Buy_Potion_Quantity_Choice -eq ""){# sets to null if not a number or E which stops allowing no input
-                                            $Elixir_Emporium_Buy_Potion_Quantity_Choice = "not_set"
-                                        }
-                                    } until ($Elixir_Emporium_Buy_Potion_Quantity_Choice -ieq "E" -or $Elixir_Emporium_Buy_Potion_Quantity_Choice -le $Potion_Quantity)
-                                    if ($Elixir_Emporium_Buy_Potion_Quantity_Choice -ieq "E") { # exit
-                                        Break
-                                    } else { # quantity confirm
+                                    }
+                                    # check if quantity of potion is already at max, display you cannot carry any more
+                                    if ($Elixir_Emporium_Buy_Choice_Potion_Quantity -eq 99) {
                                         do {
-                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                            # displaying correct grammar for singular or plural potion
-                                            if ($Elixir_Emporium_Buy_Potion_Quantity_Choice -eq 1) {
-                                                $Single_or_Multiple = ""
-                                            } else {
-                                                $Single_or_Multiple = "'s"
-                                            }
-                                            Write-Color "  $Elixir_Emporium_Buy_Potion_Quantity_Choice ","$($Import_JSON.Items.$Inventory_Item_Name.Name)$Single_or_Multiple"," are worth ","$($Potion_GoldValue*$Elixir_Emporium_Buy_Potion_Quantity_Choice) Gold",", do you want to purchase these?" -Color White,DarkCyan,DarkGray,DarkYellow,DarkGray
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                            Write-Color -NoNewLine "Y","es or ", "N","o ","[Y/N]" -Color Green,DarkYellow,Green,DarkYellow,Green
-                                            $Elixir_Emporium_Sell_Potion_Confirm_Choice = Read-Host " "
-                                            $Elixir_Emporium_Sell_Potion_Confirm_Choice = $Elixir_Emporium_Sell_Potion_Confirm_Choice.Trim()
-                                        } until ($Elixir_Emporium_Sell_Potion_Confirm_Choice -ieq "Y" -or $Elixir_Emporium_Sell_Potion_Confirm_Choice -ieq "N")
-                                        if ($Elixir_Emporium_Sell_Potion_Confirm_Choice -ieq "Y") {
-                                            # update items in invenroty and gold
-                                            $Import_JSON.Items.$Inventory_Item_Name.Quantity += $Elixir_Emporium_Buy_Potion_Quantity_Choice
-                                            $Import_JSON.Character.Gold -= $Potion_GoldValue * $Elixir_Emporium_Buy_Potion_Quantity_Choice
-                                            Save_JSON
-                                            Set_Variables
+                                            Write-Color -NoNewLine "You cannot carry any more ","$Elixir_Emporium_Buy_Choice_Potion_Name","'s ", "E","xit ","[E]" -Color DarkYellow,DarkCyan,DarkYellow,Green,DarkYellow,Green
+                                            $Elixir_Emporium_Buy_Potion_Quantity_Choice = Read-Host " "
+                                            $Elixir_Emporium_Buy_Potion_Quantity_Choice = $Elixir_Emporium_Buy_Potion_Quantity_Choice.Trim()
+                                        } until ($Elixir_Emporium_Buy_Potion_Quantity_Choice -ieq "E")
+                                    } else { # otherwise ask for quantity
+                                        do {
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                            Write-Color -NoNewLine "How many ","$Elixir_Emporium_Buy_Choice_Potion_Name","'s do you want to purchase? Quantity or ", "E","xit ","[1-$Elixir_Emporium_Buy_Choice_Potion_Quantity_Max/E]" -Color DarkYellow,DarkCyan,DarkYellow,Green,DarkYellow,Green
+                                            # Write-Color -NoNewLine "Quantity or ", "E","xit ","[1-$Potion_Quantity/E]" -Color DarkYellow,Green,DarkYellow,Green
+                                            $Elixir_Emporium_Buy_Potion_Quantity_Choice = Read-Host " "
+                                            $Elixir_Emporium_Buy_Potion_Quantity_Choice = $Elixir_Emporium_Buy_Potion_Quantity_Choice.Trim()
+                                            # check if input is a number or E
+                                            if ($Elixir_Emporium_Buy_Potion_Quantity_Choice -match "^[0-9]+$") {
+                                                $Elixir_Emporium_Buy_Potion_Quantity_Choice = [int]$Elixir_Emporium_Buy_Potion_Quantity_Choice
+                                            }
+                                            if ($null -eq $Elixir_Emporium_Buy_Potion_Quantity_Choice -or $Elixir_Emporium_Buy_Potion_Quantity_Choice -eq ""){# sets to null if not a number or E which stops allowing no input
+                                                $Elixir_Emporium_Buy_Potion_Quantity_Choice = "not_set"
+                                            }
+                                        } until ($Elixir_Emporium_Buy_Potion_Quantity_Choice -ieq "E" -or $Elixir_Emporium_Buy_Potion_Quantity_Choice -le ($Elixir_Emporium_Buy_Choice_Potion_Quantity_Max))
+                                        if ($Elixir_Emporium_Buy_Potion_Quantity_Choice -ieq "E") { # exit
+                                            Break
+                                        }
+                                        # if already at max quantity, disply you cannot carry any more
+                                        if ($Elixir_Emporium_Buy_Choice_Potion_Quantity -eq 99) {
+                                            do {
+                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                                Write-Color -NoNewLine "You cannot carry any more ","$Elixir_Emporium_Buy_Choice_Potion_Name","'s ", "E","xit ","[E]" -Color DarkYellow,DarkCyan,DarkYellow,Green,DarkYellow,Green
+                                                $Elixir_Emporium_Buy_Potion_Quantity_Choice = Read-Host " "
+                                                $Elixir_Emporium_Buy_Potion_Quantity_Choice = $Elixir_Emporium_Buy_Potion_Quantity_Choice.Trim()
+                                            } until ($Elixir_Emporium_Buy_Potion_Quantity_Choice -ieq "E")
+                                        } else { # otherwise confirm quantity
+                                            do {
+                                                # displaying correct grammar for singular or plural potion
+                                                if ($Elixir_Emporium_Buy_Potion_Quantity_Choice -eq 1) {
+                                                    $Single_or_Multiple = " is"
+                                                } else {
+                                                    $Single_or_Multiple = "'s are"
+                                                }
+                                                $Elixir_Emporium_Buy_Choice_Potion_GoldValue = $Elixir_Emporium_Buy_Potion_Quantity_Choice * $Elixir_Emporium_Buy_Choice_Potion_GoldValue
+                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("");" "*105
+                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                                Write-Color "  $Elixir_Emporium_Buy_Potion_Quantity_Choice ","$Elixir_Emporium_Buy_Choice_Potion_Name","$Single_or_Multiple worth ","$Elixir_Emporium_Buy_Choice_Potion_GoldValue Gold",", do you want to purchase?" -Color White,DarkCyan,DarkGray,DarkYellow,DarkGray
+                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                                Write-Color -NoNewLine "Y","es or ", "N","o ","[Y/N]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                                                $Elixir_Emporium_Buy_Potion_Confirm_Choice = Read-Host " "
+                                                $Elixir_Emporium_Buy_Potion_Confirm_Choice = $Elixir_Emporium_Buy_Potion_Confirm_Choice.Trim()
+                                            } until ($Elixir_Emporium_Buy_Potion_Confirm_Choice -ieq "Y" -or $Elixir_Emporium_Buy_Potion_Confirm_Choice -ieq "N")
+                                            if ($Elixir_Emporium_Buy_Potion_Confirm_Choice -ieq "Y") {
+                                                # update items in invenroty and gold
+                                                $Import_JSON.Items.$Elixir_Emporium_Buy_Choice_Potion_Name.Quantity += $Elixir_Emporium_Buy_Potion_Quantity_Choice
+                                                $Import_JSON.Character.Gold -= $Elixir_Emporium_Buy_Choice_Potion_GoldValue
+                                                Save_JSON
+                                                Set_Variables
+                                            }
                                         }
                                     }
                                 }
@@ -2922,11 +3073,11 @@ Function Visit_a_Building {
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                 }
                                 $Elixir_Emporium_Potion_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
-                                $Elixir_Emporium_Choice_Sell_Quantity = New-Object System.Collections.Generic.List[System.Object]
-                                $Elixir_Emporium_Choice_Sell_GoldValue = New-Object System.Collections.Generic.List[System.Object]
+                                # $Elixir_Emporium_Choice_Sell_Quantity = New-Object System.Collections.Generic.List[System.Object]
+                                # $Elixir_Emporium_Choice_Sell_GoldValue = New-Object System.Collections.Generic.List[System.Object]
                                 $Elixir_Emporium_Potion_Letters_Array.Clear()
-                                $Elixir_Emporium_Choice_Sell_Quantity.Clear()
-                                $Elixir_Emporium_Choice_Sell_GoldValue.Clear()
+                                # $Elixir_Emporium_Choice_Sell_Quantity.Clear()
+                                # $Elixir_Emporium_Choice_Sell_GoldValue.Clear()
                                 $Inventory_Item_Names = $Import_JSON.Items.PSObject.Properties.Name | Sort-Object
                                 $Script:Selectable_ID_Search = "HealthMana"
                                 Clear-Host
@@ -2938,8 +3089,8 @@ Function Visit_a_Building {
                                     # if there are potions in inventory, add them to the array
                                     if ($Import_JSON.Items.$Inventory_Item_Name.Name -like "*mana potion*" -or $Import_JSON.Items.$Inventory_Item_Name.Name -like "*health potion*" -and $Import_JSON.Items.$Inventory_Item_Name.Quantity -gt 0) {
                                         $Elixir_Emporium_Potion_Letters_Array.Add($Import_JSON.Items.$Inventory_Item_Name.ID)
-                                        $Elixir_Emporium_Choice_Sell_Quantity.Add($Import_JSON.Items.$Inventory_Item_Name.Quantity)
-                                        $Elixir_Emporium_Choice_Sell_GoldValue.Add($Import_JSON.Items.$Inventory_Item_Name.GoldValue)
+                                        # $Elixir_Emporium_Choice_Sell_Quantity.Add($Import_JSON.Items.$Inventory_Item_Name.Quantity)
+                                        # $Elixir_Emporium_Choice_Sell_GoldValue.Add($Import_JSON.Items.$Inventory_Item_Name.GoldValue)
                                         $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array -Join "/"
                                         $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array_String + "/E"
                                     }
