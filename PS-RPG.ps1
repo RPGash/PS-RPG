@@ -1528,16 +1528,16 @@ Function Draw_Shop_Potions {
     $Inventory_Box_Info_Width_Top_Bottom = "-"*($Inventory_Items_Info_Array_Max_Length + 2)
     # calculate middle info width
     $Inventory_Box_Info_Width_Middle = " "*($Inventory_Items_Info_Array_Max_Length - 3)
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 2,19;$Host.UI.Write("")
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 2,18;$Host.UI.Write("")
     # Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+$Inventory_Box_Info_Width_Top_Bottom+" -Color DarkGray
     Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+$Inventory_Box_Info_Width_Top_Bottom+" -Color DarkGray
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 2,20;$Host.UI.Write("")
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 2,19;$Host.UI.Write("")
     # Write-Color "|","ID","| ","Potions","$Inventory_Box_Name_Width_Middle","Qty ","| ","Value","$Inventory_Box_Gold_Value_Width_Middle|"," Info","$Inventory_Box_Info_Width_Middle|" -Color DarkGray,White,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray
     Write-Color "|","ID","| ","Potions","$Inventory_Box_Name_Width_Middle | ","Value","$Inventory_Box_Gold_Value_Width_Middle|"," Info","$Inventory_Box_Info_Width_Middle|" -Color DarkGray,White,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 2,21;$Host.UI.Write("")
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 2,20;$Host.UI.Write("")
     # Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+$Inventory_Box_Info_Width_Top_Bottom+" -Color DarkGray
     Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+$Inventory_Box_Info_Width_Top_Bottom+" -Color DarkGray
-    $Position = 21
+    $Position = 20
     foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
         if ($Import_JSON.Items.$Inventory_Item_Name."Mend & Mana" -eq $true) {
             # add potion ID to choice array
@@ -2905,12 +2905,12 @@ Function Visit_a_Building {
                         }
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                        Write-Color -NoNewLine "B","uy, ","S","ell, or ", "E","xit ","[B/S/E]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                        Write-Color -NoNewLine "P","urchase, ","S","ell, or ", "E","xit ","[P/S/E]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
                         $Elixir_Emporium_Choice = Read-Host " "
                         $Elixir_Emporium_Choice = $Elixir_Emporium_Choice.Trim()
-                    } until ($Elixir_Emporium_Choice -ieq "b" -or $Elixir_Emporium_Choice -ieq "s" -or $Elixir_Emporium_Choice -ieq "e")
+                    } until ($Elixir_Emporium_Choice -ieq "p" -or $Elixir_Emporium_Choice -ieq "s" -or $Elixir_Emporium_Choice -ieq "e")
                     
-                    if ($Elixir_Emporium_Choice -ieq "b") {
+                    if ($Elixir_Emporium_Choice -ieq "p") {
 
 
 
@@ -2919,16 +2919,16 @@ Function Visit_a_Building {
 
 
                         $First_Time_Entered_Elixir_Emporium = $true
-                        $Script:Info_Banner = "Mend & Mana - Buy"
+                        $Script:Info_Banner = "Mend & Mana - Purchase"
                         Draw_Info_Banner
                         do {
                             do {
                                 for ($Position = 17; $Position -lt 19; $Position++) { # clear some lines from previous widow
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                 }
-                                $Elixir_Emporium_Potion_Name_Array = New-Object System.Collections.Generic.List[System.Object]
+                                # $Elixir_Emporium_Potion_Name_Array = New-Object System.Collections.Generic.List[System.Object]
                                 $Elixir_Emporium_Potion_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
-                                $Elixir_Emporium_Choice_Sell_GoldValue = New-Object System.Collections.Generic.List[System.Object]
+                                # $Elixir_Emporium_Choice_Sell_GoldValue = New-Object System.Collections.Generic.List[System.Object]
                                 $Inventory_Item_Names = $Import_JSON.Items.PSObject.Properties.Name | Sort-Object
                                 $Script:Selectable_ID_Search = "HealthMana"
                                 Clear-Host
@@ -2937,7 +2937,6 @@ Function Visit_a_Building {
                                 Draw_Info_Banner
                                 Draw_Inventory
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                Write-Color "  Which potion do you want to purchase?" -LinesAfter 1 -Color DarkGray
                                 Draw_Shop_Potions
                                 # foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
                                 #     # if there are potions in inventory, add them to the array
@@ -2953,86 +2952,103 @@ Function Visit_a_Building {
 
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                Write-Color -NoNewLine "ID ","numbers or ", "E","xit ","[$Elixir_Emporium_Potion_Letters_Array_String]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                                Write-Color -NoNewLine "Which potion do you want to purchase? ","ID ","numbers or ", "E","xit ","[$Elixir_Emporium_Potion_Letters_Array_String]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
 
-                                $Elixir_Emporium_Buy_Choice = Read-Host " "
-                                $Elixir_Emporium_Buy_Choice = $Elixir_Emporium_Buy_Choice.Trim()
-                            } until ($Elixir_Emporium_Buy_Choice -ieq "e" -or $Elixir_Emporium_Buy_Choice -in $Elixir_Emporium_Potion_Letters_Array)
+                                $Elixir_Emporium_Purchase_Choice = Read-Host " "
+                                $Elixir_Emporium_Purchase_Choice = $Elixir_Emporium_Purchase_Choice.Trim()
+                            } until ($Elixir_Emporium_Purchase_Choice -ieq "e" -or $Elixir_Emporium_Purchase_Choice -in $Elixir_Emporium_Potion_Letters_Array)
                             $Script:Selectable_ID_Search = "not_set"
                             $First_Time_Entered_Elixir_Emporium = $false
-                            if ($Elixir_Emporium_Buy_Choice -ieq "e") {
+                            if ($Elixir_Emporium_Purchase_Choice -ieq "e") {
                                 Break
                             }
                             # ID number chosen
-                            switch ($Elixir_Emporium_Buy_Choice) {
-                                $Elixir_Emporium_Buy_Choice {
+                            switch ($Elixir_Emporium_Purchase_Choice) {
+                                $Elixir_Emporium_Purchase_Choice {
                                     foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
-                                        if ($Import_JSON.Items.$Inventory_Item_Name.ID -ieq $Elixir_Emporium_Buy_Choice) {
-                                            $Elixir_Emporium_Buy_Choice_Potion_Name = $Import_JSON.Items.$Inventory_Item_Name.Name
-                                            $Elixir_Emporium_Buy_Choice_Potion_Quantity = $Import_JSON.Items.$Inventory_Item_Name.Quantity
-                                            $Elixir_Emporium_Buy_Choice_Potion_GoldValue = $Import_JSON.Items.$Inventory_Item_Name.GoldValue
-                                            $Elixir_Emporium_Buy_Choice_Potion_Quantity_Max = 99 - $Elixir_Emporium_Buy_Choice_Potion_Quantity
+                                        if ($Import_JSON.Items.$Inventory_Item_Name.ID -ieq $Elixir_Emporium_Purchase_Choice) {
+                                            $Elixir_Emporium_Purchase_Choice_Potion_Name = $Import_JSON.Items.$Inventory_Item_Name.Name
+                                            $Elixir_Emporium_Purchase_Choice_Potion_Quantity = $Import_JSON.Items.$Inventory_Item_Name.Quantity
+                                            $Elixir_Emporium_Purchase_Choice_Potion_GoldValue = $Import_JSON.Items.$Inventory_Item_Name.GoldValue
+                                            $Elixir_Emporium_Purchase_Choice_Potion_Quantity_Max = 99 - $Elixir_Emporium_Purchase_Choice_Potion_Quantity
                                         }
                                     }
                                     # check if quantity of potion is already at max, display you cannot carry any more
-                                    if ($Elixir_Emporium_Buy_Choice_Potion_Quantity -eq 99) {
+                                    if ($Elixir_Emporium_Purchase_Choice_Potion_Quantity -eq 99) {
                                         do {
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                            Write-Color -NoNewLine "You cannot carry any more ","$Elixir_Emporium_Buy_Choice_Potion_Name","'s ", "E","xit ","[E]" -Color DarkYellow,DarkCyan,DarkYellow,Green,DarkYellow,Green
-                                            $Elixir_Emporium_Buy_Potion_Quantity_Choice = Read-Host " "
-                                            $Elixir_Emporium_Buy_Potion_Quantity_Choice = $Elixir_Emporium_Buy_Potion_Quantity_Choice.Trim()
-                                        } until ($Elixir_Emporium_Buy_Potion_Quantity_Choice -ieq "E")
+                                            Write-Color -NoNewLine "You cannot carry any more ","$Elixir_Emporium_Purchase_Choice_Potion_Name","'s ", "E","xit ","[E]" -Color DarkYellow,DarkCyan,DarkYellow,Green,DarkYellow,Green
+                                            $Elixir_Emporium_Purchase_Potion_Quantity_Choice = Read-Host " "
+                                            $Elixir_Emporium_Purchase_Potion_Quantity_Choice = $Elixir_Emporium_Purchase_Potion_Quantity_Choice.Trim()
+                                        } until ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -ieq "E")
                                     } else { # otherwise ask for quantity
                                         do {
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                            Write-Color -NoNewLine "How many ","$Elixir_Emporium_Buy_Choice_Potion_Name","'s do you want to purchase? Quantity or ", "E","xit ","[1-$Elixir_Emporium_Buy_Choice_Potion_Quantity_Max/E]" -Color DarkYellow,DarkCyan,DarkYellow,Green,DarkYellow,Green
+                                            Write-Color -NoNewLine "How many ","$Elixir_Emporium_Purchase_Choice_Potion_Name","'s do you want to purchase? Quantity or ", "E","xit ","[1-$Elixir_Emporium_Purchase_Choice_Potion_Quantity_Max/E]" -Color DarkYellow,DarkCyan,DarkYellow,Green,DarkYellow,Green
                                             # Write-Color -NoNewLine "Quantity or ", "E","xit ","[1-$Potion_Quantity/E]" -Color DarkYellow,Green,DarkYellow,Green
-                                            $Elixir_Emporium_Buy_Potion_Quantity_Choice = Read-Host " "
-                                            $Elixir_Emporium_Buy_Potion_Quantity_Choice = $Elixir_Emporium_Buy_Potion_Quantity_Choice.Trim()
+                                            $Elixir_Emporium_Purchase_Potion_Quantity_Choice = Read-Host " "
+                                            $Elixir_Emporium_Purchase_Potion_Quantity_Choice = $Elixir_Emporium_Purchase_Potion_Quantity_Choice.Trim()
                                             # check if input is a number or E
-                                            if ($Elixir_Emporium_Buy_Potion_Quantity_Choice -match "^[0-9]+$") {
-                                                $Elixir_Emporium_Buy_Potion_Quantity_Choice = [int]$Elixir_Emporium_Buy_Potion_Quantity_Choice
+                                            if ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -match "^[0-9]+$") {
+                                                $Elixir_Emporium_Purchase_Potion_Quantity_Choice = [int]$Elixir_Emporium_Purchase_Potion_Quantity_Choice
                                             }
-                                            if ($null -eq $Elixir_Emporium_Buy_Potion_Quantity_Choice -or $Elixir_Emporium_Buy_Potion_Quantity_Choice -eq ""){# sets to null if not a number or E which stops allowing no input
-                                                $Elixir_Emporium_Buy_Potion_Quantity_Choice = "not_set"
+                                            if ($null -eq $Elixir_Emporium_Purchase_Potion_Quantity_Choice -or $Elixir_Emporium_Purchase_Potion_Quantity_Choice -eq ""){# sets to null if not a number or E which stops allowing no input
+                                                $Elixir_Emporium_Purchase_Potion_Quantity_Choice = "not_set"
                                             }
-                                        } until ($Elixir_Emporium_Buy_Potion_Quantity_Choice -ieq "E" -or $Elixir_Emporium_Buy_Potion_Quantity_Choice -le ($Elixir_Emporium_Buy_Choice_Potion_Quantity_Max))
-                                        if ($Elixir_Emporium_Buy_Potion_Quantity_Choice -ieq "E") { # exit
+                                        } until ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -ieq "E" -or $Elixir_Emporium_Purchase_Potion_Quantity_Choice -le ($Elixir_Emporium_Purchase_Choice_Potion_Quantity_Max))
+                                        if ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -ieq "E") { # exit
                                             Break
                                         }
+                                        $Elixir_Emporium_Purchase_Choice_Potion_GoldValue = $Elixir_Emporium_Purchase_Potion_Quantity_Choice * $Elixir_Emporium_Purchase_Choice_Potion_GoldValue
                                         # if already at max quantity, disply you cannot carry any more
-                                        if ($Elixir_Emporium_Buy_Choice_Potion_Quantity -eq 99) {
+                                        if ($Elixir_Emporium_Purchase_Choice_Potion_Quantity -eq 99) {
                                             do {
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                                Write-Color -NoNewLine "You cannot carry any more ","$Elixir_Emporium_Buy_Choice_Potion_Name","'s ", "E","xit ","[E]" -Color DarkYellow,DarkCyan,DarkYellow,Green,DarkYellow,Green
-                                                $Elixir_Emporium_Buy_Potion_Quantity_Choice = Read-Host " "
-                                                $Elixir_Emporium_Buy_Potion_Quantity_Choice = $Elixir_Emporium_Buy_Potion_Quantity_Choice.Trim()
-                                            } until ($Elixir_Emporium_Buy_Potion_Quantity_Choice -ieq "E")
+                                                Write-Color -NoNewLine "You cannot carry any more ","$Elixir_Emporium_Purchase_Choice_Potion_Name","'s ", "E","xit ","[E]" -Color DarkYellow,DarkCyan,DarkYellow,Green,DarkYellow,Green
+                                                $Elixir_Emporium_Purchase_Potion_Quantity_Choice = Read-Host " "
+                                                $Elixir_Emporium_Purchase_Potion_Quantity_Choice = $Elixir_Emporium_Purchase_Potion_Quantity_Choice.Trim()
+                                            } until ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -ieq "E")
+                                        } elseif ($Elixir_Emporium_Purchase_Choice_Potion_GoldValue -gt $Import_JSON.Character.Gold) { # check if player has enough gold
+                                            $Elixir_Emporium_Purchase_Need_x_More_Gold = $Elixir_Emporium_Purchase_Choice_Potion_GoldValue - $Import_JSON.Character.Gold
+                                            if ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -eq 1) {
+                                                $Single_or_Multiple = ""
+                                            } else {
+                                                $Single_or_Multiple = "'s"
+                                            }
+                                            do {
+                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("");" "*105
+                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                                Write-Color "  You don't have enough gold to purchase ","$Elixir_Emporium_Purchase_Potion_Quantity_Choice"," $Elixir_Emporium_Purchase_Choice_Potion_Name","$Single_or_Multiple. You need ","$Elixir_Emporium_Purchase_Need_x_More_Gold"," more gold." -Color DarkGray,white,Blue,DarkGray,DarkYellow,DarkGray
+                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                                Write-Color -NoNewLine "E","xit ","[E]" -Color Green,DarkYellow,Green
+                                                $Elixir_Emporium_Purchase_Potion_Quantity_Choice = Read-Host " "
+                                                $Elixir_Emporium_Purchase_Potion_Quantity_Choice = $Elixir_Emporium_Purchase_Potion_Quantity_Choice.Trim()
+                                            } until ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -ieq "E")
                                         } else { # otherwise confirm quantity
                                             do {
                                                 # displaying correct grammar for singular or plural potion
-                                                if ($Elixir_Emporium_Buy_Potion_Quantity_Choice -eq 1) {
+                                                if ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -eq 1) {
                                                     $Single_or_Multiple = " is"
                                                 } else {
                                                     $Single_or_Multiple = "'s are"
                                                 }
-                                                $Elixir_Emporium_Buy_Choice_Potion_GoldValue = $Elixir_Emporium_Buy_Potion_Quantity_Choice * $Elixir_Emporium_Buy_Choice_Potion_GoldValue
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("");" "*105
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                                Write-Color "  $Elixir_Emporium_Buy_Potion_Quantity_Choice ","$Elixir_Emporium_Buy_Choice_Potion_Name","$Single_or_Multiple worth ","$Elixir_Emporium_Buy_Choice_Potion_GoldValue Gold",", do you want to purchase?" -Color White,DarkCyan,DarkGray,DarkYellow,DarkGray
+                                                Write-Color "  $Elixir_Emporium_Purchase_Potion_Quantity_Choice ","$Elixir_Emporium_Purchase_Choice_Potion_Name","$Single_or_Multiple worth ","$Elixir_Emporium_Purchase_Choice_Potion_GoldValue Gold",", do you want to purchase?" -Color White,DarkCyan,DarkGray,DarkYellow,DarkGray
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                                                 Write-Color -NoNewLine "Y","es or ", "N","o ","[Y/N]" -Color Green,DarkYellow,Green,DarkYellow,Green
-                                                $Elixir_Emporium_Buy_Potion_Confirm_Choice = Read-Host " "
-                                                $Elixir_Emporium_Buy_Potion_Confirm_Choice = $Elixir_Emporium_Buy_Potion_Confirm_Choice.Trim()
-                                            } until ($Elixir_Emporium_Buy_Potion_Confirm_Choice -ieq "Y" -or $Elixir_Emporium_Buy_Potion_Confirm_Choice -ieq "N")
-                                            if ($Elixir_Emporium_Buy_Potion_Confirm_Choice -ieq "Y") {
+                                                $Elixir_Emporium_Purchase_Potion_Confirm_Choice = Read-Host " "
+                                                $Elixir_Emporium_Purchase_Potion_Confirm_Choice = $Elixir_Emporium_Purchase_Potion_Confirm_Choice.Trim()
+                                            } until ($Elixir_Emporium_Purchase_Potion_Confirm_Choice -ieq "Y" -or $Elixir_Emporium_Purchase_Potion_Confirm_Choice -ieq "N")
+                                            if ($Elixir_Emporium_Purchase_Potion_Confirm_Choice -ieq "Y") {
                                                 # update items in invenroty and gold
-                                                $Import_JSON.Items.$Elixir_Emporium_Buy_Choice_Potion_Name.Quantity += $Elixir_Emporium_Buy_Potion_Quantity_Choice
-                                                $Import_JSON.Character.Gold -= $Elixir_Emporium_Buy_Choice_Potion_GoldValue
+                                                $Import_JSON.Items.$Elixir_Emporium_Purchase_Choice_Potion_Name.Quantity += $Elixir_Emporium_Purchase_Potion_Quantity_Choice
+                                                $Import_JSON.Character.Gold -= $Elixir_Emporium_Purchase_Choice_Potion_GoldValue
                                                 Save_JSON
                                                 Set_Variables
                                             }
@@ -3041,7 +3057,7 @@ Function Visit_a_Building {
                                 }
                                 # Default {}
                             }
-                        } until ($Elixir_Emporium_Buy_Choice -ieq "e")
+                        } until ($Elixir_Emporium_Purchase_Choice -ieq "e")
                         #
 
 
