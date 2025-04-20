@@ -26,7 +26,7 @@ ToDo
         if 50% or above = "you are not at max health" (maybe?)
     - different message types for
         heals? kills? buffs etc.
-    - [ongoing] an info page available after starting the game
+    - Game_Info [ongoing] an info page available after starting the game
         PSWriteColour module, uninstall module
         GitHub, website,
         damage calculation = damage * (damage / (damage + armour)),
