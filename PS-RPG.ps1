@@ -48,7 +48,12 @@ Trap {
 }
 
 Clear-Host
-$PSRPG_Version = "v0.1-alpha"
+if (Test-Path ".\PS-RPG_version.txt") {
+    $PSRPG_Version = Get-Content ".\PS-RPG_version.txt" -Raw
+} else {
+    $PSRPG_Version = "<version missing>"
+}
+
 
 Function Install_PSWriteColor {
     Write-Host "PSWriteColor module is not installed." -ForegroundColor Red
