@@ -51,7 +51,7 @@ Clear-Host
 if (Test-Path ".\PS-RPG_version.txt") {
     $PSRPG_Version = Get-Content ".\PS-RPG_version.txt" -Raw
 } else {
-    $PSRPG_Version = "<version missing>"
+    $PSRPG_Version = "<version file`r`n           missing>"
 }
 
 
@@ -346,16 +346,23 @@ Function Game_Info {
                 Clear-Host
                 Game_Info_Banner
                 $PSScriptRoot_Padding = " "*(83 - ($PSScriptRoot | Measure-Object -Character).Characters)
+                if (-not(Test-Path ".\PS-RPG_version.txt")) {
+                    $PSRPG_Version_File_Missing = "PS-RPG_version.txt missing!"
+                    $PSRPG_Version_File_Missing_Padding = ""
+                } else {
+                    $PSRPG_Version_File_Missing_Padding = " "*27
+                }
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
                 Write-Color "| Welcome to ","PS-RPG",", my 1st RPG text adventure written in PowerShell.                                                                  |" -Color DarkGray,Magenta,DarkGray
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
-                Write-Color "| Absolutely ","NO ","info personal or otherwise is collected or sent anywhere or to anybody.                                                |" -Color DarkGray,Red,DarkGray
+                Write-Color "| Absolutely ","NO ","info, personal or otherwise, is collected or sent anywhere or to anybody.                                              |" -Color DarkGray,Red,DarkGray
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
                 Write-Color "| All the ","PS-RPG ","games files are stored your ","$PSScriptRoot"," folder$PSScriptRoot_Padding|" -Color DarkGray,Magenta,DarkGray,Cyan,DarkGray
                 Write-Color "| which is where you have run the game from. They include:                                                                             |" -Color DarkGray
                 Write-Color "| The main PowerShell script            : ","PS-RPG.ps1","                                                                                   |" -Color DarkGray,Cyan,DarkGray
-                Write-Color "| ASCII art for death messages          : ","ASCII.txt","                                                                                    |" -Color DarkGray,Cyan,DarkGray
+                # Write-Color "| ASCII art for death messages          : ","ASCII.txt","                                                                                    |" -Color DarkGray,Cyan,DarkGray
                 Write-Color "| A JSON file that stores all game info : ","PS-RPG.json ","(e.g. Locations, Mobs, NPCs and Character Stats etc.)                            |" -Color DarkGray,Cyan,DarkGray
+                Write-Color "| PS-RPG version file                   : ","PS-RPG_version.txt"," (updates with GitHub commits) ","$PSRPG_Version_File_Missing","$PSRPG_Version_File_Missing_Padding                 |" -Color DarkGray,Cyan,DarkGray,Red,DarkGray
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
                 Write-Color "| Player input options appear in ","Green ","e.g. ","[Y/N/E/I] ","would be ","yes/no/exit/inventory", "                                                   |" -Color DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray
                 Write-Color "| Enter the single character then hit Enter to confirm the choice.                                                                     |" -Color DarkGray
