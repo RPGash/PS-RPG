@@ -11,7 +11,6 @@ ToDo
     
     
 - NEXT
-    - Travel locations not showing highlighted first letter in Green
     - is "$Elixir_Emporium_Potion_Letters_Array.Clear()" needed?
     - buy items in the Anvil & Blade shop
     - add spells
@@ -3399,6 +3398,8 @@ do {
         $Script:Info_Banner = "$Current_Location"
         Draw_Info_Banner
         Save_JSON
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+        Write-Color "  Available options:" -Color DarkGray
         # display all choice options in location
         $LocationOptions = $Import_JSON.Locations.$Current_Location.LocationOptions.PSObject.Properties.Name
         $Main_Loop_Choice_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
@@ -3410,7 +3411,6 @@ do {
         }
         $Main_Loop_Choice_Letters_Array.Add("INFO")
         $Main_Loop_Choice_Letters_Array_String = $Main_Loop_Choice_Letters_Array -Join "/"
-        # $Main_Loop_Choice_Letters_Array_String = $Main_Loop_Choice_Letters_Array_String + "/INFO"
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
         Write-Color -NoNewLine "What do you want to do? ", "[$Main_Loop_Choice_Letters_Array_String]" -Color DarkYellow,Green
