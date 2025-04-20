@@ -3,3 +3,4 @@ PS-RPG.json
 .vscode
 hooks/
 scripts/
+pre-commit.log
