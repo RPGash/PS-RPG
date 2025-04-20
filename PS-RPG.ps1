@@ -11,7 +11,6 @@ ToDo
     
     
 - NEXT
-    - is "$Elixir_Emporium_Potion_Letters_Array.Clear()" needed?
     - buy items in the Anvil & Blade shop
     - add spells
     - add item equipment drops from mob loot
@@ -2777,7 +2776,7 @@ Function Visit_a_Building {
             a {
                 # update building words in location map. white to current building and reset location to dark yellow 
                 $host.UI.RawUI.ForegroundColor = "DarkYellow"
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Home Town")
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
                 $host.UI.RawUI.ForegroundColor = "White"
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("Anvil")
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,3;$Host.UI.Write("& Blade")
@@ -2821,11 +2820,11 @@ Function Visit_a_Building {
                             Write-Color "  J","unk items" -Color Green,DarkGray
                             Write-Color "  A","rmour" -Color Green,DarkGray
                             Write-Color "  W","eapons" -Color Green,DarkGray
-                            Write-Color "  N","othing for now." -Color Green,DarkGray
-                            Write-Color "  E","xit the Anvil & Blade." -Color Green,DarkGray
+                            Write-Color "  N","othing for now" -Color Green,DarkGray
+                            Write-Color "  E","xit the Anvil & Blade" -Color Green,DarkGray
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                            Write-Color -NoNewLine "J","unk, ","A","rmour, ","W","eapons, or ", "E","xit ","[J/A/W/N]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                            Write-Color -NoNewLine "J","unk, ","A","rmour, ","W","eapons, or ", "E","xit ","[J/A/W/N/E]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
                             $Anvil_Sell_Choice = Read-Host " "
                             $Anvil_Sell_Choice = $Anvil_Sell_Choice.Trim()
                         } until ($Anvil_Sell_Choice -ieq "j" -or $Anvil_Sell_Choice -ieq "a" -or $Anvil_Sell_Choice -ieq "w" -or $Anvil_Sell_Choice -ieq "n" -or $Anvil_Sell_Choice -ieq "e")
@@ -2865,7 +2864,7 @@ Function Visit_a_Building {
                             Draw_Town_Map
                             # update building words in location map. white to current building and reset location to dark yellow 
                             $host.UI.RawUI.ForegroundColor = "DarkYellow"
-                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Home Town")
+                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
                             $host.UI.RawUI.ForegroundColor = "White"
                             $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("Anvil")
                             $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,3;$Host.UI.Write("& Blade")
@@ -2886,7 +2885,7 @@ Function Visit_a_Building {
             m { # Mend & Mana
                 # update building words in location map. white to current building and reset location to dark yellow 
                 $host.UI.RawUI.ForegroundColor = "DarkYellow"
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Home Town")
+                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
                 $host.UI.RawUI.ForegroundColor = "White"
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("Mend")
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,10;$Host.UI.Write("& Mana")
@@ -2932,7 +2931,7 @@ Function Visit_a_Building {
                                 Draw_Town_Map
                                 # update building words in location map. white to current building and reset location to dark yellow 
                                 $host.UI.RawUI.ForegroundColor = "DarkYellow"
-                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Home Town")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
                                 $host.UI.RawUI.ForegroundColor = "White"
                                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("Mend")
                                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,10;$Host.UI.Write("& Mana")
@@ -3060,11 +3059,6 @@ Function Visit_a_Building {
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                 }
                                 $Elixir_Emporium_Potion_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
-                                # $Elixir_Emporium_Choice_Sell_Quantity = New-Object System.Collections.Generic.List[System.Object]
-                                # $Elixir_Emporium_Choice_Sell_GoldValue = New-Object System.Collections.Generic.List[System.Object]
-                                $Elixir_Emporium_Potion_Letters_Array.Clear()
-                                # $Elixir_Emporium_Choice_Sell_Quantity.Clear()
-                                # $Elixir_Emporium_Choice_Sell_GoldValue.Clear()
                                 $Inventory_Item_Names = $Import_JSON.Items.PSObject.Properties.Name | Sort-Object
                                 $Script:Selectable_ID_Search = "HealthMana"
                                 Clear-Host
@@ -3072,7 +3066,7 @@ Function Visit_a_Building {
                                 Draw_Town_Map
                                 # update building words in location map. white to current building and reset location to dark yellow 
                                 $host.UI.RawUI.ForegroundColor = "DarkYellow"
-                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Home Town")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
                                 $host.UI.RawUI.ForegroundColor = "White"
                                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("Mend")
                                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,10;$Host.UI.Write("& Mana")
