@@ -2203,7 +2203,7 @@ Function Travel {
         Write-Color -NoNewLine "Where do you want to travel to? ", "[$All_Linked_Locations_Letters_Array_String]" -Color DarkYellow,Green
         $Travel_Choice = Read-Host " "
         $Travel_Choice = $Travel_Choice.Trim()
-    } until ($All_Linked_Locations_Letters_Array -match $Travel_Choice)
+    } until ($Travel_Choice -eq "E" -or $All_Linked_Locations_Letters_Array -match $Travel_Choice)
     switch ($Travel_Choice) {
         e {
             for ($Position = 14; $Position -lt 35; $Position++) { # clear some lines from previous widow
