@@ -66,7 +66,8 @@ Function Install_PSWriteColor {
     $Install_Module_Check = Read-Host "`r`nDo you want to allow the PSWriteColor module to be installed? [Y/N]"
     if (-not($Install_Module_Check -ieq "y")) {
         Write-Host "`r`nThe PSWriteColor module was NOT installed." -ForegroundColor Red
-        Write-Host "Run the script again if you change your mind.`r`n"
+        Write-Host "Run the script again if you change your mind."
+        Write-Host ""
         Exit
     }
     Write-Output "`r`nAttempting to install PSWriteColor module."
@@ -314,10 +315,6 @@ Function Game_Info_Banner {
     $Game_Info_Tab_Array_String = $Game_Info_Tab_Array -join "/"
     $Script:Game_Info_Tab_Array_String = $Game_Info_Tab_Array_String + "/E"
 }
-
-# starting Tutorial
-# then exit
-# then it clears screen on next info window
 
 Function Game_Info {
     Clear-Host
@@ -2147,23 +2144,6 @@ Function Fight_or_Run {
 Function Travel {
     Clear-Host
     Draw_Player_Window_and_Stats
-    # find all linked locations that you can travel to (not including your current location)
-    $All_Location_Names = $Import_JSON.Locations.PSObject.Properties.Name
-    foreach ($Single_Location in $All_Location_Names) {
-        if ($Import_JSON.Locations.$Single_Location.CurrentLocation -eq $true) {
-            $All_Linked_Locations = $Import_JSON.Locations.$Single_Location.LinkedLocations.PSObject.Properties.Name
-            $All_Linked_Locations_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
-            $All_Linked_Locations_List = New-Object System.Collections.Generic.List[System.Object]
-            foreach ($Linked_Location in $All_Linked_Locations) {
-                $All_Linked_Locations_Letters_Array.Add($Import_JSON.Locations.$Current_Location.LinkedLocations.$Linked_Location) # grabs single character for that building
-                $All_Linked_Locations_List.Add($Linked_Location)
-                $All_Linked_Locations_List.Add("`r`n ")
-            }
-        }
-    }
-    $All_Linked_Locations_Letters_Array = $All_Linked_Locations_Letters_Array -Join "/"
-    $All_Linked_Locations_Letters_Array = $All_Linked_Locations_Letters_Array + "/E"
-    
     $Script:Info_Banner = "Travel"
     Draw_Info_Banner
     switch ($Current_Location) {
@@ -2184,9 +2164,27 @@ Function Travel {
         }
         Default {}
     }
-    Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
-    Write-Color "`r`n  You can travel to the following locations:" -Color DarkGray
-    Write-Color "  $All_Linked_Locations_List" -Color White
+    Write-Color "  You can travel to the following locations:" -Color DarkGray
+    # find all linked locations that you can travel to (not including your current location)
+    $Script:All_Linked_Locations_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
+    $Script:Linked_Locations_Name_Array = New-Object System.Collections.Generic.List[System.Object]
+    $Linked_Location_Names = $Import_JSON.Locations.$Current_Location.LinkedLocations.PSObject.Properties.Name
+    foreach ($Linked_Location_Name in $Linked_Location_Names) {
+        $Linked_Location_Letter = $Import_JSON.Locations.$Current_Location.LinkedLocations.$Linked_Location_Name
+        if ($Linked_Location_Letter -eq $Linked_Location_Name.Substring(0,1)) { # -eq to get exact case match rather than any case but only in first position
+            $Game_Info_Rest_of_Word = $Linked_Location_Name.Substring(1)
+            Write-Color -NoNewLine "  $Linked_Location_Letter","$Game_Info_Rest_of_Word" -Color Green,White,DarkGray
+        } else { # search for case sensitive match in tab name - but only works if there is only one upper case latter word that matches single letter (e.g. not "Shop Stats" and "S")
+        $Linked_Location_Letter_Position = $($Linked_Location_Name.LastIndexOf($Linked_Location_Letter))
+            $Game_Info_Beginning_of_Word = $Linked_Location_Name.Substring(0,$Linked_Location_Letter_Position)
+            $Linked_Location_Letter_Position = $Linked_Location_Letter_Position + 1
+            $Game_Info_Rest_of_Word = $Linked_Location_Name.Substring($Linked_Location_Letter_Position,($Linked_Location_Name | Measure-Object -Character).Characters-$Linked_Location_Letter_Position)
+            Write-Color "  $Game_Info_Beginning_of_Word","$Linked_Location_Letter","$Game_Info_Rest_of_Word" -Color DarkGray,Green,DarkGray
+        }
+        $All_Linked_Locations_Letters_Array.Add($Linked_Location_Letter)
+    }
+    $All_Linked_Locations_Letters_Array_String = $All_Linked_Locations_Letters_Array -Join "/"
+    $All_Linked_Locations_Letters_Array_String = $All_Linked_Locations_Letters_Array_String + "/E"
     Write-Color " ,---------------------------------------------------------." -Color DarkYellow
     Write-Color "(_\  +-----------------+  +--------------+  +-------------+ \" -Color DarkYellow
     Write-Color "   | |    Home ","T","own    |  |  The ","F","orest  |  |  The ","R","iver  | |" -Color DarkYellow,$Travel_Map_Town_Colour,DarkYellow,$Travel_Map_The_Forest_Colour,DarkYellow,$Travel_Map_The_River_Colour,DarkYellow
@@ -2202,7 +2200,7 @@ Function Travel {
     do {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-        Write-Color -NoNewLine "Where do you want to travel to? ", "[$All_Linked_Locations_Letters_Array]" -Color DarkYellow,Green
+        Write-Color -NoNewLine "Where do you want to travel to? ", "[$All_Linked_Locations_Letters_Array_String]" -Color DarkYellow,Green
         $Travel_Choice = Read-Host " "
         $Travel_Choice = $Travel_Choice.Trim()
     } until ($All_Linked_Locations_Letters_Array -match $Travel_Choice)
@@ -2341,8 +2339,7 @@ Function Visit_a_Building {
     $All_Buildings_In_Current_Location = $Import_JSON.Locations.$Current_Location.Buildings.PSObject.Properties.Name
     $All_Building_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
     $All_Buildings_In_Current_Location_List = New-Object System.Collections.Generic.List[System.Object]
-    Write-Color "  Your current location is ", "$Current_Location","." -Color DarkGray,White,DarkGray
-    Write-Color "`r`n  You can visit the following buildings:" -Color DarkGray
+    Write-Color "  You can visit the following buildings:" -Color DarkGray
     foreach ($Building_In_Current_Location in $All_Buildings_In_Current_Location) {
         $All_Building_Letters_Array.Add($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.BuildingLetter) # grabs single character for that building
         
@@ -2822,7 +2819,7 @@ Function Visit_a_Building {
                             }
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                             Write-Color "  What do you want to get rid of?" -Color DarkGray
-                            Write-Color "`r`n  J","unk items" -Color Green,DarkGray
+                            Write-Color "  J","unk items" -Color Green,DarkGray
                             Write-Color "  A","rmour" -Color Green,DarkGray
                             Write-Color "  W","eapons" -Color Green,DarkGray
                             Write-Color "  N","othing for now." -Color Green,DarkGray
