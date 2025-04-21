@@ -29,7 +29,6 @@ ToDo
     - Game_Info [ongoing] an info page available after starting the game
         damage calculation = damage * (damage / (damage + armour)),
         crit chance,
-        ASCII art - https://asciiart.website/
     - consider changing mob crit rate/damage to from fixed 20%/20% to specific % for different mobs
 
 - KNOWN ISSUES
@@ -448,11 +447,14 @@ Function Game_Info {
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
                 Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
             }
-            r { # random
+            o { # random
                 Clear-Host
                 Game_Info_Banner
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
-                Write-Color "| Nothing here yet                                                                                                                     |" -Color DarkGray
+                Write-Color "| ","ASCII art:"," https://asciiart.website"," (arrows)                                                                                         |" -Color DarkGray,DarkYellow,Cyan,DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
+                Write-Color "| ","ASCII art:"," https://ascii.co.uk/art"," (RIP screens)                                                                                     |" -Color DarkGray,DarkYellow,Cyan,DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
                 Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
             }
             t { # tutorial
