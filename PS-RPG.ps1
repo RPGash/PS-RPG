@@ -27,8 +27,6 @@ ToDo
     - different message types for
         heals? kills? buffs etc.
     - Game_Info [ongoing] an info page available after starting the game
-        PSWriteColour module, uninstall module
-        GitHub, website,
         damage calculation = damage * (damage / (damage + armour)),
         crit chance,
         ASCII art - https://asciiart.website/
@@ -419,31 +417,34 @@ Function Game_Info {
                 $PSWriteColor_Description_Line2_Padding = " "*(113 - ($PSWriteColor_Description_Line2 | Measure-Object -Character).Characters)
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
                 Write-Color "| The PSWriteColor PowerShell module used by this game is written by Przemyslaw Klys and is required in order to play the game.        |" -Color DarkGray
-                Write-Color "| If you are seeing this message then it has installed and imported successfully.                                                      |" -Color DarkGray
+                Write-Color "| If you can see this message, then it has installed and imported successfully.                                                        |" -Color DarkGray
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
                 Write-Color "| ","Name             :"," $PSWriteColor_Name $PSWriteColor_Name_Padding|" -Color DarkGray,DarkYellow,DarkGray
                 Write-Color "| ","Author           :"," $PSWriteColor_Author $PSWriteColor_Author_Padding|" -Color DarkGray,DarkYellow,DarkGray
                 Write-Color "| ","Copyright        :"," $PSWriteColor_Copyright $PSWriteColor_Copyright_Padding|" -Color DarkGray,DarkYellow,DarkGray
                 Write-Color "| ","Description      :"," $PSWriteColor_Description_Line1 $PSWriteColor_Description_Line1_Padding|" -Color DarkGray,DarkYellow,DarkGray
                 Write-Color "|                    $PSWriteColor_Description_Line2 $PSWriteColor_Description_Line2_Padding|" -Color DarkGray
-                Write-Color "| ","Installed Path   :"," $PSWriteColor_ModuleBase $PSWriteColor_ModuleBase_Padding|" -Color DarkGray,DarkYellow,DarkGray
+                Write-Color "| ","Installed Path   :"," $PSWriteColor_ModuleBase $PSWriteColor_ModuleBase_Padding","|" -Color DarkGray,DarkYellow,Cyan,DarkGray
                 Write-Color "| ","Version          :"," $PSWriteColor_Version $PSWriteColor_Version_Padding|" -Color DarkGray,DarkYellow,DarkGray
-                Write-Color "| ","Project URI       :"," $PSWriteColor_ProjectURI $PSWriteColor_ProjectURI_Padding|" -Color DarkGray,DarkYellow,DarkGray
-                Write-Color "| ","PowerShell Gallery:"," https://www.powershellgallery.com/packages/PSWriteColor/1.0.1                                                    |" -Color DarkGray,DarkYellow,DarkGray
-                Write-Color "| ","More info at      :"," https://evotec.xyz/hub/scripts/pswritecolor                                                                      |" -Color DarkGray,DarkYellow,DarkGray
+                Write-Color "| ","Project URI       :"," $PSWriteColor_ProjectURI $PSWriteColor_ProjectURI_Padding","|" -Color DarkGray,DarkYellow,Cyan,DarkGray
+                Write-Color "| ","PowerShell Gallery:"," https://www.powershellgallery.com/packages/PSWriteColor/1.0.1","                                                    |" -Color DarkGray,DarkYellow,Cyan,DarkGray
+                Write-Color "| ","More info at      :"," https://evotec.xyz/hub/scripts/pswritecolor","                                                                      |" -Color DarkGray,DarkYellow,Cyan,DarkGray
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
                 Write-Color "| If you want to remove the PSWriteColor module from your system, quit the game, then run the following command in a console window:   |" -Color DarkGray
                 Write-Color "| ","Uninstall-Module -Name PSWriteColor","                                                                                                  |" -Color DarkGray,DarkCyan,DarkGray
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
+                Write-Color "| You can confirm if the module has been removed by running the below command. There should be no results when run.                    |" -Color DarkGray
+                Write-Color "| ","Get-Module -Name PSWriteColor -ListAvailable","                                                                                         |" -Color DarkGray,DarkCyan,DarkGray
+                Write-Color "|                                                                                                                                      |" -Color DarkGray
                 Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
             }
-            w { # web links
+            l { # my links
                 Clear-Host
                 Game_Info_Banner
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
-                Write-Color "| ","My GitHub PS-RPG URL:"," https://github.com/RPGash/PS-RPG                                                                               |" -Color DarkGray,DarkYellow,DarkGray
+                Write-Color "| ","My GitHub PS-RPG URL:"," https://github.com/RPGash/PS-RPG ","(make sure you downloaded it only from this link)                             |" -Color DarkGray,DarkYellow,Cyan,DarkGray
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
-                Write-Color "| ","My Website URL      :"," https://RPG-ash.online                                                                                         |" -Color DarkGray,DarkYellow,DarkGray
+                Write-Color "| ","My Website URL      :"," https://RPG-ash.online ","                                                                                        |" -Color DarkGray,DarkYellow,Cyan,DarkGray
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
                 Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
             }
