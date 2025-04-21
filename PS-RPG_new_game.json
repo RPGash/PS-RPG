@@ -8,11 +8,11 @@
         "The Forest": "F"
       },
       "LocationOptions": {
-        "Hunt": true,
-        "Travel": true,
+        "Hunt": false,
+        "Travel": false,
         "Visit": true,
-        "Quests": true,
-        "Inventory": true
+        "Quests": false,
+        "Inventory": false
       },
       "Mobs": [
         {
@@ -129,10 +129,14 @@
       ],
       "Buildings": {
         "Home": {
+          "Visited": 0,
+          "SlowIntro": true,
           "BuildingLetter": "H",
           "Owner": "PLAYER NAME"
         },
         "Tavern": {
+          "Visited": 0,
+          "SlowIntro": false,
           "BuildingLetter": "T",
           "Owner": "Elara",
           "Drinks": {
@@ -349,14 +353,15 @@
           }
         },
         "Anvil & Blade": {
+          "Visited": 0,
           "BuildingLetter": "A",
-          "Owner": "Draven",
-          "Visited": 0
+          "Owner": "Draven"
         },
         "Mend & Mana": {
+          "SlowIntro": false,
+          "Visited": 0,
           "BuildingLetter": "M",
-          "Owner": "Kaelen",
-          "Visited": 0
+          "Owner": "Kaelen"
         }
       }
     },
@@ -529,20 +534,20 @@
     }
   },
   "Character": {
-    "Name": "Burgiua",
+    "Name": "Banain",
     "Class": "Rogue",
     "Race": "Elf",
-    "Level": 14,
-    "Total_XP": 8241,
-    "XP_TNL": 514.0,
-    "Gold": 237.0,
+    "Level": 16,
+    "Total_XP": 10881,
+    "XP_TNL": 1134.0,
+    "Gold": 270.0,
     "Stats": {
-      "HealthCurrent": 60,
+      "HealthCurrent": 1,
       "HealthMax": 60,
       "HealthMaxUnBuffed": 0,
       "StaminaCurrent": 80,
       "StaminaMax": 80,
-      "ManaCurrent": 10,
+      "ManaCurrent": 30,
       "ManaMax": 30,
       "ManaMaxUnBuffed": 0,
       "Damage": 10,
@@ -573,7 +578,7 @@
   "Items": {
     "Lesser Health Potion": {
       "Name": "Lesser Health Potion",
-      "Quantity": 1,
+      "Quantity": 0,
       "Restores": 30,
       "GoldValue": 50,
       "IsJunk": false,
@@ -645,7 +650,7 @@
     },
     "Rook Feathers": {
       "Name": "Rook Feathers",
-      "Quantity": 0,
+      "Quantity": 3,
       "Info": "Junk",
       "GoldValue": 2,
       "IsJunk": true,
@@ -653,7 +658,7 @@
     },
     "Rook Claws": {
       "Name": "Rook Claws",
-      "Quantity": 0,
+      "Quantity": 3,
       "Info": "Junk",
       "GoldValue": 2,
       "IsJunk": true,
@@ -661,7 +666,7 @@
     },
     "Rat Tails": {
       "Name": "Rat Tails",
-      "Quantity": 0,
+      "Quantity": 1,
       "Info": "Junk",
       "GoldValue": 0,
       "IsJunk": true,
@@ -669,7 +674,7 @@
     },
     "Rat Guts": {
       "Name": "Rat Guts",
-      "Quantity": 0,
+      "Quantity": 1,
       "Info": "Junk",
       "GoldValue": 3,
       "IsJunk": true,
@@ -741,7 +746,7 @@
     },
     "Random Loot #1": {
       "Name": "Random Loot #1",
-      "Quantity": 2,
+      "Quantity": 6,
       "Info": "Junk",
       "GoldValue": 5,
       "IsJunk": true,
@@ -749,7 +754,7 @@
     },
     "Random Loot #2": {
       "Name": "Random Loot #2",
-      "Quantity": 4,
+      "Quantity": 8,
       "Info": "?????",
       "GoldValue": 3,
       "IsJunk": false,
@@ -757,7 +762,7 @@
     },
     "Random Loot #3": {
       "Name": "Random Loot #3",
-      "Quantity": 1,
+      "Quantity": 4,
       "Info": "Junk",
       "GoldValue": 4,
       "IsJunk": true,
@@ -765,7 +770,7 @@
     },
     "Random Loot #4": {
       "Name": "Random Loot #4",
-      "Quantity": 0,
+      "Quantity": 1,
       "Info": "Junk",
       "GoldValue": 3,
       "IsJunk": true,
@@ -773,7 +778,7 @@
     },
     "Random Loot #5": {
       "Name": "Random Loot #5",
-      "Quantity": 1,
+      "Quantity": 3,
       "Info": "?????",
       "GoldValue": 3,
       "IsJunk": false,
@@ -884,6 +889,7 @@
   },
   "Quests": {
     "Rat infestation": {
+      "SlowIntro": true,
       "Name": "Rat infestation",
       "QuestLetter": "R",
       "Description": "kill stuff",
@@ -896,16 +902,18 @@
         "Lesser Health Potion": 3,
         "Random Loot #2": 1
       },
-      "Progress": 7,
+      "Progress": 0,
       "ProgressMax": 2,
       "LevelRange": "1-5",
+      "TimesCompleted": 0,
       "Available": true,
       "InProgress": false,
       "Completed": false,
       "Repeatable": true,
-      "Status": "Hand In"
+      "Status": "Available"
     },
     "Sick Elder": {
+      "SlowIntro": false,
       "Name": "Sick Elder",
       "QuestLetter": "S",
       "Description": "Find a Healing Potion.",
@@ -916,13 +924,13 @@
       "GoldReward": 10,
       "ItemReward": false,
       "Progress": 0,
-      "ProgressMax": 1,
+      "ProgressMax": 0,
       "LevelRange": "1-5",
       "Available": false,
       "InProgress": true,
       "Completed": false,
       "Repeatable": false,
-      "Status": "In Progress"
+      "Status": "Available"
     }
   },
   "Game Information": {

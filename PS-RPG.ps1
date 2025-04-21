@@ -11,14 +11,26 @@ ToDo
     
     
 - NEXT
+    - exiting a building should keep you in the Home Town
+    - when Hunting, stay hunting until player chooses to leave, don't keep asking to hunt more?
+    - quest board "Home Town" yellow test not aligning correctly
+    - [started] add a "slow" introduction to: Travel, Visiting, Quests, Inventory, Hunting etc.?
+        Visit Home > Visit Tavern > accept a Quests > Hunt > Inventory > Quest hand-in > visit Mend & Mana > Travel
+        start at half health and mana > visit Home > recover >
+        visit Tavern > accept a quest >
+        go hunt > kill mobs > (inventory?)
+        visit Tavern > hand-in quest > get reward > inventory >
+        visit Mend & Mana > buy potions >
+        travel > visit location >
+        then open everything up?
+        add a "visited" flag to each building/location so they can only visit each place before allowing them all until above are complete
     - buy items in the Anvil & Blade shop
     - add spells
     - add item equipment drops from mob loot
     - add equipment that can be equipped?
         armour protection, stat bonuses/buffs etc.
-    - add somewhere to buy
     - add some quests in the Tavern
-        mob kill count - done
+        mob kills, fetch quest, item quest
         add more quests
     - add some quests in other locations
     - change "you are low on health/mana" message to
@@ -29,6 +41,7 @@ ToDo
     - consider changing mob crit rate/damage to from fixed 20%/20% to specific % for different mobs
     - Game_Info [ongoing] an info page available after starting the game. still to add...
         damage calculation = damage * (damage / (damage + armour)),
+        escape chance,
         crit chance,
 
 - KNOWN ISSUES
@@ -2351,13 +2364,14 @@ Function Visit_a_Building {
     $All_Building_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
     $All_Buildings_In_Current_Location_List = New-Object System.Collections.Generic.List[System.Object]
     Write-Color "  You can visit the following buildings:" -Color DarkGray
+    # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
     foreach ($Building_In_Current_Location in $All_Buildings_In_Current_Location) {
-        $All_Building_Letters_Array.Add($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.BuildingLetter) # grabs single character for that building
-        
-        Write-Color "  $($Building_In_Current_Location.Substring(0,1))","$($Building_In_Current_Location.Substring(1,$Building_In_Current_Location.Length-1))" -Color Green,DarkGray
-
-        $All_Buildings_In_Current_Location_List.Add($Building_In_Current_Location)
-        $All_Buildings_In_Current_Location_List.Add("`r`n ")
+        if ($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.SlowIntro -eq $true) {
+            $All_Building_Letters_Array.Add($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.BuildingLetter) # grabs single character for that building
+            Write-Color "  $($Building_In_Current_Location.Substring(0,1))","$($Building_In_Current_Location.Substring(1,$Building_In_Current_Location.Length-1))" -Color Green,DarkGray
+            $All_Buildings_In_Current_Location_List.Add($Building_In_Current_Location)
+            $All_Buildings_In_Current_Location_List.Add("`r`n ")
+        }
     }
     $All_Buildings_Letters_Array_String = $All_Building_Letters_Array -Join "/"
     $All_Buildings_Letters_Array_String = $All_Buildings_Letters_Array_String + "/E"
@@ -2414,7 +2428,6 @@ Function Visit_a_Building {
                     } else {
                         Write-Color "  You are now inside your ","Home","." -Color DarkGray,White,DarkGray
                         if (($Character_HealthCurrent -lt $Character_HealthMax) -or ($Character_ManaCurrent -lt $Character_ManaMax)) {
-                            
                             $Fully_Healed = "."
                             $Home_Choice_Letters_Array.Add("R")
                         } else {
@@ -2422,7 +2435,7 @@ Function Visit_a_Building {
                         }
                         $Home_Choice_Letters_Array.Add("E")
                         $Home_Choice_Letters_Array_String = $Home_Choice_Letters_Array -Join "/"
-                        Write-Color "  You can rest here and recover your ","health ","and ","mana","$($Fully_Healed)" -Color DarkGray,Green,DarkGray,Blue,DarkGray
+                        Write-Color "  You can rest here to recover your ","health ","and ","mana","$($Fully_Healed)" -Color DarkGray,Green,DarkGray,Blue,DarkGray
                     }
                     do {
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
@@ -2441,6 +2454,9 @@ Function Visit_a_Building {
                         $Script:Character_ManaCurrent = $Character_ManaMax
                         $Import_JSON.Character.Stats.HealthCurrent = $Character_HealthCurrent
                         $Import_JSON.Character.Stats.ManaCurrent = $Character_ManaCurrent
+                        # advance "slow" introduction to game
+                        $Import_JSON.Locations."Home Town".Buildings.Tavern.SlowIntro = $true
+                        Save_JSON
                     }
                 } until ($Home_Choice -ieq "e")
             }
@@ -2677,9 +2693,11 @@ Function Visit_a_Building {
                                 $Quest_Names = $Import_JSON.Quests.PSObject.Properties.Name
                                 foreach ($Quest_Name in $Quest_Names) {
                                     $Quest_Name = $Import_JSON.Quests.$Quest_Name
-                                    if ($Quest_Name.Available -eq $true -or $Quest_Name.Status -ieq "In Progress" -or $Quest_Name.Status -ieq "Hand In") {
-                                        Write-Color "  $($Quest_Name.QuestLetter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status)" -Color Green,DarkGray,DarkYellow
-                                        $Available_Quest_Letters_Array.Add($Quest_Name.QuestLetter)
+                                    if ($Quest_Name.SlowIntro -eq $true) {
+                                        if ($Quest_Name.Available -eq $true -or $Quest_Name.Status -ieq "In Progress" -or $Quest_Name.Status -ieq "Hand In") {
+                                            Write-Color "  $($Quest_Name.QuestLetter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status)" -Color Green,DarkGray,DarkYellow
+                                            $Available_Quest_Letters_Array.Add($Quest_Name.QuestLetter)
+                                        }
                                     }
                                 }
                                 $Available_Quest_Letters_Array_String = $Available_Quest_Letters_Array -Join "/"
@@ -2735,10 +2753,15 @@ Function Visit_a_Building {
                                     $Quest_Name.Status = "In Progress"
                                     $Quest_Name.InProgress = $true
                                     $Quest_Name.Available = $false
+                                    # advance "slow" introduction to game
+                                    $Import_JSON.Locations."Home Town".LocationOptions.Hunt = $true
+                                    $Import_JSON.Locations."Home Town".LocationOptions.Quests = $true
                                 }
                                 # hand in a quest
                                 if ($Tavern_Quest_Info_Choice -ieq "h") {
                                     do {
+                                        # advance "slow" introduction to game (from Rat quest)
+                                        $Import_JSON.Locations."Home Town".Buildings."Mend & Mana".SlowIntro = $true
                                         # reset quest
                                         $Quest_Name.Status = "Available"
                                         $Quest_Name.InProgress = $false
