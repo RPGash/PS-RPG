@@ -26,10 +26,10 @@ ToDo
         if 50% or above = "you are not at max health" (maybe?)
     - different message types for
         heals? kills? buffs etc.
-    - Game_Info [ongoing] an info page available after starting the game
+    - consider changing mob crit rate/damage to from fixed 20%/20% to specific % for different mobs
+    - Game_Info [ongoing] an info page available after starting the game. still to add...
         damage calculation = damage * (damage / (damage + armour)),
         crit chance,
-    - consider changing mob crit rate/damage to from fixed 20%/20% to specific % for different mobs
 
 - KNOWN ISSUES
     - On the Travel page, the available locations to travel to does not show the single character highlighted in Green as the choice for that location. e.g. if "Home Town" is listed, the letter "T" is not Green. All location names are White, but the question does show the correct highlighted characters for hat area.
@@ -278,8 +278,6 @@ Function Draw_Player_Window_and_Stats {
 }
 
 Function Game_Info_Banner {
-    # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
-    # Clear-Host
     Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
     Write-Color "| Game Information                                                                                                                     |" -Color DarkGray
     Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
