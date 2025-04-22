@@ -11,7 +11,6 @@ ToDo
     
     
 - NEXT
-    - exiting a building should keep you in the Home Town
     - when Hunting, stay hunting until player chooses to leave, don't keep asking to hunt more?
     - quest board "Home Town" yellow test not aligning correctly
     - [started] add a "slow" introduction to: Travel, Visiting, Quests, Inventory, Hunting etc.?
@@ -2355,680 +2354,652 @@ Function Draw_The_River_Map {
 # visit a shop in whatever location you are in
 #
 Function Visit_a_Building {
-    Clear-Host
-    Draw_Player_Window_and_Stats
-    $Script:Info_Banner = "Visit"
-    Draw_Info_Banner
-    # find all linked locations that you can travel to (not including your current location)
-    $All_Buildings_In_Current_Location = $Import_JSON.Locations.$Current_Location.Buildings.PSObject.Properties.Name
-    $All_Building_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
-    $All_Buildings_In_Current_Location_List = New-Object System.Collections.Generic.List[System.Object]
-    Write-Color "  You can visit the following buildings:" -Color DarkGray
-    # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
-    foreach ($Building_In_Current_Location in $All_Buildings_In_Current_Location) {
-        if ($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.SlowIntro -eq $true) {
-            $All_Building_Letters_Array.Add($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.BuildingLetter) # grabs single character for that building
-            Write-Color "  $($Building_In_Current_Location.Substring(0,1))","$($Building_In_Current_Location.Substring(1,$Building_In_Current_Location.Length-1))" -Color Green,DarkGray
-            $All_Buildings_In_Current_Location_List.Add($Building_In_Current_Location)
-            $All_Buildings_In_Current_Location_List.Add("`r`n ")
-        }
-    }
-    $All_Buildings_Letters_Array_String = $All_Building_Letters_Array -Join "/"
-    $All_Buildings_Letters_Array_String = $All_Buildings_Letters_Array_String + "/E"
-    # Write-Color "  $All_Buildings_In_Current_Location_List" -Color White
-    if ($Current_Location -ieq "Home Town") { Draw_Town_Map }
-    if ($Current_Location -ieq "The Forest") { Draw_The_Forest_Map }
-    if ($Current_Location -ieq "The River") { Draw_The_River_Map }
     do {
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-        Write-Color -NoNewLine "Which building do you want to visit? ", "[$All_Buildings_Letters_Array_String]" -Color DarkYellow,Green
-        $Building_Choice = Read-Host " "
-        $Building_Choice = $Building_Choice.Trim()
-    } until ($Building_Choice -ieq "e" -or $Building_Choice -in $All_Building_Letters_Array)
-    for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-    }
-    # set building name single characters to DarkYellow as they are no longer valid locations to visit
-    $host.UI.RawUI.ForegroundColor = "DarkYellow"
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("A") # Anvil & Blade
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("H") # Home
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("T") # Tavern
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("M") # Mend & Mana
-    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-    # switch choice for Home Town
-    if ($Current_Location -ieq "Home Town") {
-        switch ($Building_Choice) {
-            e { # exit
-                for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+        Clear-Host
+        Draw_Player_Window_and_Stats
+        $Script:Info_Banner = "Visit"
+        Draw_Info_Banner
+        # find all linked locations that you can travel to (not including your current location)
+        $All_Buildings_In_Current_Location = $Import_JSON.Locations.$Current_Location.Buildings.PSObject.Properties.Name
+        $All_Building_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
+        $All_Buildings_In_Current_Location_List = New-Object System.Collections.Generic.List[System.Object]
+        Write-Color "  You can visit the following buildings:" -Color DarkGray
+        # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
+        foreach ($Building_In_Current_Location in $All_Buildings_In_Current_Location) {
+            if ($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.SlowIntro -eq $true) {
+                $All_Building_Letters_Array.Add($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.BuildingLetter) # grabs single character for that building
+                Write-Color "  $($Building_In_Current_Location.Substring(0,1))","$($Building_In_Current_Location.Substring(1,$Building_In_Current_Location.Length-1))" -Color Green,DarkGray
+                $All_Buildings_In_Current_Location_List.Add($Building_In_Current_Location)
+                $All_Buildings_In_Current_Location_List.Add("`r`n ")
+            }
+        }
+        $All_Buildings_Letters_Array_String = $All_Building_Letters_Array -Join "/"
+        $All_Buildings_Letters_Array_String = $All_Buildings_Letters_Array_String + "/E"
+        # Write-Color "  $All_Buildings_In_Current_Location_List" -Color White
+        if ($Current_Location -ieq "Home Town") { Draw_Town_Map }
+        if ($Current_Location -ieq "The Forest") { Draw_The_Forest_Map }
+        if ($Current_Location -ieq "The River") { Draw_The_River_Map }
+        do {
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+            Write-Color -NoNewLine "Which building do you want to visit? ", "[$All_Buildings_Letters_Array_String]" -Color DarkYellow,Green
+            $Building_Choice = Read-Host " "
+            $Building_Choice = $Building_Choice.Trim()
+        } until ($Building_Choice -ieq "e" -or $Building_Choice -in $All_Building_Letters_Array)
+        for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+        }
+        # set building name single characters to DarkYellow as they are no longer valid locations to visit
+        $host.UI.RawUI.ForegroundColor = "DarkYellow"
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("A") # Anvil & Blade
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("H") # Home
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("T") # Tavern
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("M") # Mend & Mana
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
+        # switch choice for Home Town
+        if ($Current_Location -ieq "Home Town") {
+            switch ($Building_Choice) {
+                e { # exit
+                    for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                    }
                 }
-            }
-            h { # home
-                # update building words in location map. white to current building and reset location to dark yellow 
-                $host.UI.RawUI.ForegroundColor = "DarkYellow"
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
-                $host.UI.RawUI.ForegroundColor = "White"
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("Home")
-                do {
-                    $Script:Info_Banner = "Home"
-                    Draw_Info_Banner
-                    $Home_Choice_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
-                    if ($Home_Choice -ieq "r" ) { # rested (from choice below), so display fully rested message instead
-                        Save_JSON
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
-                        Draw_Player_Window_and_Stats
-                        for ($Position = 17; $Position -lt 19; $Position++) { # clear some lines from previous widow
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                        }
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                        Write-Color "  You are now fully rested. There is nothing else to do but leave." -Color DarkGray
-                        $Home_Choice_Letters_Array.Add("E") # array now only contains L
-                        $Home_Choice_Letters_Array_String = "E"
-                    } else {
-                        Write-Color "  You are now inside your ","Home","." -Color DarkGray,White,DarkGray
-                        if (($Character_HealthCurrent -lt $Character_HealthMax) -or ($Character_ManaCurrent -lt $Character_ManaMax)) {
-                            $Fully_Healed = "."
-                            $Home_Choice_Letters_Array.Add("R")
-                        } else {
-                            $Fully_Healed = ", but it looks like you are already fully rested."
-                        }
-                        $Home_Choice_Letters_Array.Add("E")
-                        $Home_Choice_Letters_Array_String = $Home_Choice_Letters_Array -Join "/"
-                        Write-Color "  You can rest here to recover your ","health ","and ","mana","$($Fully_Healed)" -Color DarkGray,Green,DarkGray,Blue,DarkGray
-                    }
+                h { # home
+                    # update building words in location map. white to current building and reset location to dark yellow 
+                    $host.UI.RawUI.ForegroundColor = "DarkYellow"
+                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
+                    $host.UI.RawUI.ForegroundColor = "White"
+                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("Home")
                     do {
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                        if ($Home_Choice_Letters_Array.Contains("R")) {
-                            Write-Color -NoNewLine "R","est or ","E","xit? ", "[$Home_Choice_Letters_Array_String]" -Color Green,DarkYellow,Green,DarkYellow,Green
-                        } else {
-                            Write-Color -NoNewLine "E","xit ", "[$Home_Choice_Letters_Array_String]" -Color Green,DarkYellow,Green
-                        }
-                        $Home_Choice = Read-Host " "
-                        $Home_Choice = $Home_Choice.Trim()
-                    } until ($Home_Choice -in $Home_Choice_Letters_Array -or $Home_Choice -ieq "info") # choice check against an array cannot be done after a -join
-                    
-                    if ($Home_Choice -ieq "r") {
-                        $Script:Character_HealthCurrent = $Character_HealthMax
-                        $Script:Character_ManaCurrent = $Character_ManaMax
-                        $Import_JSON.Character.Stats.HealthCurrent = $Character_HealthCurrent
-                        $Import_JSON.Character.Stats.ManaCurrent = $Character_ManaCurrent
-                        # advance "slow" introduction to game
-                        $Import_JSON.Locations."Home Town".Buildings.Tavern.SlowIntro = $true
-                        Save_JSON
-                    }
-                } until ($Home_Choice -ieq "e")
-            }
-            t { # tavern
-                # update building words in location map. white to current building and reset location to dark yellow 
-                $host.UI.RawUI.ForegroundColor = "DarkYellow"
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Home Town")
-                $host.UI.RawUI.ForegroundColor = "White"
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("Tavern")
-                $First_Time_Entered_Tavern = $true
-                $Exit_Drinks_Menu = $false
-                $Exit_Quest_Board = $false
-                $Drink_Purchased = $false
-                $Quest_Accepted = $false
-                do {
-                    $Script:Info_Banner = "Tavern"
-                    Draw_Info_Banner
-                    do {
-                        if ($First_Time_Entered_Tavern -eq $true) {
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                            Write-Color "  Welcome adventurer, I am ","$($Import_JSON.Locations."Home Town".Buildings.Tavern.Owner)",", the owner of this Tavern." -Color DarkGray,Blue,DarkGray
-                            Write-Color "  Would you like a ","D","rink? If not, maybe you can spare some time to look at the ","Q","uest board over there." -Color DarkGray,Green,DarkGray,Green,DarkGray
-                        }
-                        if ($First_Time_Entered_Tavern -eq $false) {
-                            for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                        $Script:Info_Banner = "Home"
+                        Draw_Info_Banner
+                        $Home_Choice_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
+                        if ($Home_Choice -ieq "r" ) { # rested (from choice below), so display fully rested message instead
+                            Save_JSON
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
+                            Draw_Player_Window_and_Stats
+                            for ($Position = 17; $Position -lt 19; $Position++) { # clear some lines from previous widow
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                             }
-                            if ($Exit_Drinks_Menu -eq $true -and $Import_JSON.Character.Buffs.DrinksPurchased -lt 2 -and $Drink_Purchased -eq $false) {
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                Write-Color "  Don't forget to check out the ","Q","uest board." -Color DarkGray,Green,DarkGray
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
+                            Write-Color "  You are now fully rested. There is nothing else to do but leave." -Color DarkGray
+                            $Home_Choice_Letters_Array.Add("E") # array now only contains L
+                            $Home_Choice_Letters_Array_String = "E"
+                        } else {
+                            Write-Color "  You are now inside your ","Home","." -Color DarkGray,White,DarkGray
+                            if (($Character_HealthCurrent -lt $Character_HealthMax) -or ($Character_ManaCurrent -lt $Character_ManaMax)) {
+                                $Fully_Healed = "."
+                                $Home_Choice_Letters_Array.Add("R")
+                            } else {
+                                $Fully_Healed = ", but it looks like you are already fully rested."
                             }
-                            if ($Exit_Drinks_Menu -eq $true -and $Drink_Purchased -eq $true) {
+                            $Home_Choice_Letters_Array.Add("E")
+                            $Home_Choice_Letters_Array_String = $Home_Choice_Letters_Array -Join "/"
+                            Write-Color "  You can rest here to recover your ","health ","and ","mana","$($Fully_Healed)" -Color DarkGray,Green,DarkGray,Blue,DarkGray
+                        }
+                        do {
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                            if ($Home_Choice_Letters_Array.Contains("R")) {
+                                Write-Color -NoNewLine "R","est or ","E","xit? ", "[$Home_Choice_Letters_Array_String]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                            } else {
+                                Write-Color -NoNewLine "E","xit ", "[$Home_Choice_Letters_Array_String]" -Color Green,DarkYellow,Green
+                            }
+                            $Home_Choice = Read-Host " "
+                            $Home_Choice = $Home_Choice.Trim()
+                        } until ($Home_Choice -in $Home_Choice_Letters_Array -or $Home_Choice -ieq "info") # choice check against an array cannot be done after a -join
+                        
+                        if ($Home_Choice -ieq "r") {
+                            $Script:Character_HealthCurrent = $Character_HealthMax
+                            $Script:Character_ManaCurrent = $Character_ManaMax
+                            $Import_JSON.Character.Stats.HealthCurrent = $Character_HealthCurrent
+                            $Import_JSON.Character.Stats.ManaCurrent = $Character_ManaCurrent
+                            # advance "slow" introduction to game
+                            $Import_JSON.Locations."Home Town".Buildings.Tavern.SlowIntro = $true
+                            Save_JSON
+                        }
+                    } until ($Home_Choice -ieq "e")
+                }
+                t { # tavern
+                    # update building words in location map. white to current building and reset location to dark yellow 
+                    $host.UI.RawUI.ForegroundColor = "DarkYellow"
+                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Home Town")
+                    $host.UI.RawUI.ForegroundColor = "White"
+                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("Tavern")
+                    $First_Time_Entered_Tavern = $true
+                    $Exit_Drinks_Menu = $false
+                    $Exit_Quest_Board = $false
+                    $Drink_Purchased = $false
+                    $Quest_Accepted = $false
+                    do {
+                        $Script:Info_Banner = "Tavern"
+                        Draw_Info_Banner
+                        do {
+                            if ($First_Time_Entered_Tavern -eq $true) {
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                Write-Color "  $($Import_JSON.Locations."Home Town".Buildings.Tavern.Owner) ","hands you a ","$Tavern_Drink","." -Color Blue,DarkGray,White,DarkGray
-                                Write-Color "  You feel strange. You temporarily have the following buffs." -Color DarkGray
-                                Write-Color ""
-                                if ($Tavern_Drink_Bonus_Name -ieq 'HealthMax') {
-                                    $Buff_Bonus_Colour = "Green"
-                                } elseif ($Tavern_Drink_Bonus_Name -ieq 'ManaMax') {
-                                    $Buff_Bonus_Colour = "Blue"
-                                } else {
-                                    $Buff_Bonus_Colour = "White"
+                                Write-Color "  Welcome adventurer, I am ","$($Import_JSON.Locations."Home Town".Buildings.Tavern.Owner)",", the owner of this Tavern." -Color DarkGray,Blue,DarkGray
+                                Write-Color "  Would you like a ","D","rink? If not, maybe you can spare some time to look at the ","Q","uest board over there." -Color DarkGray,Green,DarkGray,Green,DarkGray
+                            }
+                            if ($First_Time_Entered_Tavern -eq $false) {
+                                for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                 }
-                                Write-Color "  Buff Bonus ","+$($Bonus_Stat_Difference) $($Tavern_Drink_Bonus_Name)" -Color DarkGray,$Buff_Bonus_Colour
-                                $Drink_Purchased = $false
-                            } elseif ($Exit_Drinks_Menu -eq $true -and $Import_JSON.Character.Buffs.DrinksPurchased -eq 2) {
+                                if ($Exit_Drinks_Menu -eq $true -and $Import_JSON.Character.Buffs.DrinksPurchased -lt 2 -and $Drink_Purchased -eq $false) {
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                    Write-Color "  Don't forget to check out the ","Q","uest board." -Color DarkGray,Green,DarkGray
+                                }
+                                if ($Exit_Drinks_Menu -eq $true -and $Drink_Purchased -eq $true) {
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                    Write-Color "  $($Import_JSON.Locations."Home Town".Buildings.Tavern.Owner) ","hands you a ","$Tavern_Drink","." -Color Blue,DarkGray,White,DarkGray
+                                    Write-Color "  You feel strange. You temporarily have the following buffs." -Color DarkGray
+                                    Write-Color ""
+                                    if ($Tavern_Drink_Bonus_Name -ieq 'HealthMax') {
+                                        $Buff_Bonus_Colour = "Green"
+                                    } elseif ($Tavern_Drink_Bonus_Name -ieq 'ManaMax') {
+                                        $Buff_Bonus_Colour = "Blue"
+                                    } else {
+                                        $Buff_Bonus_Colour = "White"
+                                    }
+                                    Write-Color "  Buff Bonus ","+$($Bonus_Stat_Difference) $($Tavern_Drink_Bonus_Name)" -Color DarkGray,$Buff_Bonus_Colour
+                                    $Drink_Purchased = $false
+                                } elseif ($Exit_Drinks_Menu -eq $true -and $Import_JSON.Character.Buffs.DrinksPurchased -eq 2) {
+                                    for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                    }
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                    Write-Color "  $($Import_JSON.Locations."Home Town".Buildings.Tavern.Owner) ","says you've had too many and refuses to serve you until you sober up." -Color Blue,DarkGray
+                                }
+                                if ($Exit_Quest_Board -eq $true -and $Import_JSON.Character.Buffs.DrinksPurchased -lt 2) {
+                                    for ($Position = 17; $Position -lt 31; $Position++) { # clear some lines from previous widow
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                    }
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                    if ($Drink_Purchased -eq $true) {
+                                        Write-Color "  Maybe another ","D","rink before you leave?" -Color DarkGray,Green,DarkGray
+                                    }
+                                    Write-Color "  Maybe you'd like a ","D","rink before you leave?" -Color DarkGray,Green,DarkGray
+                                }
+                                if ($Exit_Quest_Board -eq $true -and $Import_JSON.Character.Buffs.DrinksPurchased -eq 2) {
+                                    Write-Color "  Stay safe out there, $($Character_Name)" -Color DarkGray,Green,DarkGray
+                                }
+                            }
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                            Write-Color -NoNewLine "D","rink, ","Q","uest board, or ", "E","xit ","[D/Q/E]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                            $Tavern_Choice = Read-Host " "
+                            $Tavern_Choice = $Tavern_Choice.Trim()
+                        } until ($Tavern_Choice -ieq "d" -or $Tavern_Choice -ieq "q" -or $Tavern_Choice -ieq "e")
+                        
+                        # drinks menu
+                        if ($Tavern_Choice -ieq "d") {
+                            do {
                                 for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                 }
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                Write-Color "  $($Import_JSON.Locations."Home Town".Buildings.Tavern.Owner) ","says you've had too many and refuses to serve you until you sober up." -Color Blue,DarkGray
-                            }
-                            if ($Exit_Quest_Board -eq $true -and $Import_JSON.Character.Buffs.DrinksPurchased -lt 2) {
-                                for ($Position = 17; $Position -lt 31; $Position++) { # clear some lines from previous widow
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                                }
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                if ($Drink_Purchased -eq $true) {
-                                    Write-Color "  Maybe another ","D","rink before you leave?" -Color DarkGray,Green,DarkGray
-                                }
-                                Write-Color "  Maybe you'd like a ","D","rink before you leave?" -Color DarkGray,Green,DarkGray
-                            }
-                            if ($Exit_Quest_Board -eq $true -and $Import_JSON.Character.Buffs.DrinksPurchased -eq 2) {
-                                Write-Color "  Stay safe out there, $($Character_Name)" -Color DarkGray,Green,DarkGray
-                            }
-                        }
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                        Write-Color -NoNewLine "D","rink, ","Q","uest board, or ", "E","xit ","[D/Q/E]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
-                        $Tavern_Choice = Read-Host " "
-                        $Tavern_Choice = $Tavern_Choice.Trim()
-                    } until ($Tavern_Choice -ieq "d" -or $Tavern_Choice -ieq "q" -or $Tavern_Choice -ieq "e")
-                    
-                    # drinks menu
-                    if ($Tavern_Choice -ieq "d") {
-                        do {
-                            for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                            }
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                            Write-Color "  Please choose from our selection of drinks from the menu." -Color DarkGray
-                            Write-Color "`r" -Color DarkGray
-                            $Tavern_Drinks_Categorys = $Import_JSON.Locations."Home Town".Buildings.Tavern.Drinks.PSObject.Properties.Name
-                            $Tavern_Drinks_Category_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
-                            foreach ($Tavern_Drinks_Category in $Tavern_Drinks_Categorys) {
-                                $Tavern_Drink_Category_First_Character = $Tavern_Drinks_Category.SubString(0,1)
-                                $Tavern_Drink_Category_Other_Character = $Tavern_Drinks_Category.SubString(1)
-                                $Tavern_Drinks_Category_Letters_Array.Add($Tavern_Drink_Category_First_Character)
-                                Write-Color "  $($Tavern_Drink_Category_First_Character)","$($Tavern_Drink_Category_Other_Character)" -Color Green,DarkGray
-                            }
-                            $Tavern_Drinks_Category_Letters_Array_String = $Tavern_Drinks_Category_Letters_Array -Join "/" # cannot query input choice against an array that has been joined
-                            $Tavern_Drinks_Category_Letters_Array_String = $Tavern_Drinks_Category_Letters_Array_String + "/E"
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                            Write-Color -NoNewLine "A","les, ","M","eads, ","S","pirits, ","N","on-Alcoholic, ","R","are, or ", "E","xit ","$Tavern_Drinks_Category_Letters_Array_String" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow
-                            $Tavern_Drinks_Choice = Read-Host " "
-                            $Tavern_Drinks_Choice = $Tavern_Drinks_Choice.Trim()
-                        } until ($Tavern_Drinks_Choice -ieq "e" -or $Tavern_Drinks_Choice -in $Tavern_Drinks_Category_Letters_Array)
-                        # drinks menu switch
-                        switch ($Tavern_Drinks_Choice) {
-                            e {
-                                $Drink_Purchased = $false
-                                Break # or exit?
-                            }
-                            $Tavern_Drinks_Choice {
-                                if ($Import_JSON.Character.Buffs.DrinksPurchased -lt 2) {
-                                    $Drink_Purchased = $true
-                                    $Import_JSON.Character.Buffs.DrinksPurchased += 1
-                                    for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
-                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                                    }
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                    foreach ($Tavern_Drinks_Category in $Tavern_Drinks_Categorys) {
-                                        if ($Tavern_Drinks_Category.SubString(0,1) -eq $Tavern_Drinks_Choice) {
-                                            $Tavern_Drinks_Category = $Tavern_Drinks_Category
-                                            Break
-                                        }
-                                    }
-                                    $Tavern_Drinks = $Import_JSON.Locations."Home Town".Buildings.Tavern.Drinks.$Tavern_Drinks_Category.PSObject.Properties.Name
-                                    $Tavern_Drink = Get-Random -Input $Tavern_Drinks
-                                    $Script:Tavern_Drink_Bonus_Name = $Import_JSON.Locations."Home Town".Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.Bonus.PSObject.Properties.Name
-                                    # update JSON Buffs.Duration based on drink category
-                                    $Import_JSON.Character.Buffs.Duration = $Import_JSON.Locations."Home Town".Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.BuffDuration
-                                    $Import_JSON.Character.Buffs.Dropped = $false
-                                    switch ($Tavern_Drink_Bonus_Name) {
-                                        $Tavern_Drink_Bonus_Name {
-                                            $Tavern_Drink_Bonus_Amount = ($Import_JSON.Locations."Home Town".Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.Bonus).$Tavern_Drink_Bonus_Name
-                                            $Character_Prefix = "Character_"
-                                            # gets current character stat bonus value (so difference can be calculated below)
-                                            $Bonus_Stat_Before = (Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value
-                                            $Script:UnBuffed = "UnBuffed"
-                                            # Set-Variable -Name "$($Character_Prefix)$Tavern_Drink_Bonus_Name$UnBuffed" -Value (Get-Variable -name "$($Character_Prefix)$Tavern_Drink_Bonus_Name").value
-                                            # sets the JSON character stat e.g. HealthMaxUnBuffed to the current HealthMax value so the current HealthMax value becomes the buffed value which then can be reverted when the buff drops
-                                            # but only if the UnBuffed stat is zero. otherwise if you get a buff, kill something, then get a second buff, the UnBuffed value gets added to again which was not the origianl stat value (e.g. a free perminant stat boost)
-                                            if ($Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name$UnBuffed" -eq '0') {
-                                                $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name$UnBuffed" = (Get-Variable -name "$($Character_Prefix)$Tavern_Drink_Bonus_Name").value
-                                            }
-                                            # sets e.g. the $Character_HealthMaxUnBuffed variable to what was in $Character_HealthMax so it can be retrieved when buff is lost
-                                            Set-Variable -Name "$($Character_Prefix)$Tavern_Drink_Bonus_Name" -Value ([Math]::Round((Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value * $Tavern_Drink_Bonus_Amount)) -Force
-                                            # gets the current buffed character stat so the difference can be displayed in Player Stats window
-                                            $Bonus_Stat_After = (Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value
-                                            $Bonus_Stat_Difference = $Bonus_Stat_After - $Bonus_Stat_Before
-                                            # sets the JSON character stat e.g. HealthMax to the current HealthMax value plus the difference (the bonus)
-                                            $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name" += $Bonus_Stat_Difference
-                                            Save_JSON
-                                            Set_Variables
-                                            Draw_Player_Window_and_Stats
-                                            switch ($Tavern_Drink_Bonus_Name) {
-                                                HealthMax {
-                                                    $host.UI.RawUI.ForegroundColor = "Green"
-                                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,3;$Host.UI.Write("(+$Bonus_Stat_Difference)")
-                                                }
-                                                ManaMax {
-                                                    $host.UI.RawUI.ForegroundColor = "Blue"
-                                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,5;$Host.UI.Write("(+$Bonus_Stat_Difference)")
-                                                }
-                                                Attack {
-                                                    $host.UI.RawUI.ForegroundColor = "White"
-                                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,6;$Host.UI.Write("(+$Bonus_Stat_Difference)")
-                                                }
-                                                Armour {
-                                                    $host.UI.RawUI.ForegroundColor = "White"
-                                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,8;$Host.UI.Write("(+$Bonus_Stat_Difference)")
-                                                }
-                                                Dodge {
-                                                    $host.UI.RawUI.ForegroundColor = "White"
-                                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,9;$Host.UI.Write("(+$Bonus_Stat_Difference)")
-                                                }
-                                                Default {}
-                                            }
-                                            $host.UI.RawUI.ForegroundColor = "Cyan"
-                                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 42,1;$Host.UI.Write("(Buff Bonus)")
-                                        }
-                                        Default {}
-                                    }
-                                }
-                            }
-                            Default {}
-                        }
-                        $Exit_Drinks_Menu = $true
-                        $Exit_Quest_Board = $false
-                    }
-                    # quest board
-                    if ($Tavern_Choice -ieq "q") {
-                        $First_Time_Looking_at_Quest_Board = $true
-                        do {
-                            $Script:Info_Banner = "Quest Board"
-                            Draw_Info_Banner
-                            do {
-                                for ($Position = 17; $Position -lt 25; $Position++) { # clear some lines from previous widow
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                                }
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                if ($First_Time_Looking_at_Quest_Board -eq $true) {
-                                    if ($Import_JSON.Character.Buffs.DrinksPurchased -gt 0) {
-                                        $Player_Walking_to_Quest_Board = @(
-                                            "You stagger over to the board, bumping into a few chairs along the way.",
-                                            "You stumble over to the board.",
-                                            "You make your way to the board and trip over your own feet."
-                                        )
-                                    } else {
-                                        $Player_Walking_to_Quest_Board = @(
-                                            "You walk to the board to see how many quests are available.",
-                                            "You stride over to the board to check if there are any quests available."
-                                        )
-                                    }
-                                    $Player_Walking_to_Quest_Board = Get-Random -Input $Player_Walking_to_Quest_Board
-                                    Write-Color "  $Player_Walking_to_Quest_Board" -Color DarkGray
-                                }
-                                if ($Quest_Accepted -eq $true) {
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                    for ($Position = 17; $Position -lt 31; $Position++) { # clear some lines from previous widow
-                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                                    }
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                    Write-Color "  $($Import_JSON.Locations."Home Town".Buildings.Tavern.Owner) ","thanks you for accepting the ","$($Quest_Name.Name)"," quest" -Color Blue,DarkGray,White,DarkGray
-                                    Write-Color "  and tells you she will let the person know you've accepted it." -Color DarkGray
-                                    Write-Color "  Don't forget, you can view quests you've accepted by choosing '","Q","' here or in most other menus." -Color DarkGray,Green,DarkGray
-                                    Write-Color ""
-                                    $Quest_Name = $($Quest_Name.Name)
-                                    $Import_JSON.Quests.$Quest_Name.Available = $false
-                                    $Import_JSON.Quests.$Quest_Name.InProgress = $true
-                                    $Import_JSON.Quests.$Quest_Name.Status = "In Progress"
-                                    Save_JSON
-                                } else {
-                                    for ($Position = 17; $Position -lt 31; $Position++) { # clear some lines from previous widow
-                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                                    }
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                }
-                                Write-Color "  The following quests are pinned to the board." -Color DarkGray
+                                Write-Color "  Please choose from our selection of drinks from the menu." -Color DarkGray
                                 Write-Color "`r" -Color DarkGray
-                                $Available_Quest_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
-                                $Quest_Names = $Import_JSON.Quests.PSObject.Properties.Name
-                                foreach ($Quest_Name in $Quest_Names) {
-                                    $Quest_Name = $Import_JSON.Quests.$Quest_Name
-                                    if ($Quest_Name.SlowIntro -eq $true) {
-                                        if ($Quest_Name.Available -eq $true -or $Quest_Name.Status -ieq "In Progress" -or $Quest_Name.Status -ieq "Hand In") {
-                                            Write-Color "  $($Quest_Name.QuestLetter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status)" -Color Green,DarkGray,DarkYellow
-                                            $Available_Quest_Letters_Array.Add($Quest_Name.QuestLetter)
-                                        }
-                                    }
+                                $Tavern_Drinks_Categorys = $Import_JSON.Locations."Home Town".Buildings.Tavern.Drinks.PSObject.Properties.Name
+                                $Tavern_Drinks_Category_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
+                                foreach ($Tavern_Drinks_Category in $Tavern_Drinks_Categorys) {
+                                    $Tavern_Drink_Category_First_Character = $Tavern_Drinks_Category.SubString(0,1)
+                                    $Tavern_Drink_Category_Other_Character = $Tavern_Drinks_Category.SubString(1)
+                                    $Tavern_Drinks_Category_Letters_Array.Add($Tavern_Drink_Category_First_Character)
+                                    Write-Color "  $($Tavern_Drink_Category_First_Character)","$($Tavern_Drink_Category_Other_Character)" -Color Green,DarkGray
                                 }
-                                $Available_Quest_Letters_Array_String = $Available_Quest_Letters_Array -Join "/"
-                                $Available_Quest_Letters_Array_String = $Available_Quest_Letters_Array_String + "/E"
+                                $Tavern_Drinks_Category_Letters_Array_String = $Tavern_Drinks_Category_Letters_Array -Join "/" # cannot query input choice against an array that has been joined
+                                $Tavern_Drinks_Category_Letters_Array_String = $Tavern_Drinks_Category_Letters_Array_String + "/E"
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                Write-Color -NoNewLine "View details about a quest, or ","E","xit ","[$Available_Quest_Letters_Array_String]" -Color DarkYellow,Green,DarkYellow,Green
-                                $Tavern_Quest_Board_Choice = Read-Host " "
-                                $Tavern_Quest_Board_Choice = $Tavern_Quest_Board_Choice.Trim()
-                            } until ($Tavern_Quest_Board_Choice -ieq "e" -or $Tavern_Quest_Board_Choice -in $Available_Quest_Letters_Array)
-                            if ($Tavern_Quest_Board_Choice -in $Available_Quest_Letters_Array) {
-                                do {
-                                    Draw_Inventory
-                                    for ($Position = 17; $Position -lt 28; $Position++) { # clear some lines from previous widow
-                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                                    }
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                    foreach ($Quest_Name in $Quest_Names) {
-                                        $Quest_Name = $Import_JSON.Quests.$Quest_Name
-                                        if ($Quest_Name.QuestLetter -ieq $Tavern_Quest_Board_Choice) {
-                                            Break
-                                        }
-                                    }
-                                    Write-Color "  Name        ",": $($Quest_Name.Name)" -Color White,DarkGray
-                                    Write-Color "  Description ",": $($Quest_Name.Description)" -Color White,DarkGray
-                                    Write-Color "  Reward      ",": $($Quest_Name.GoldReward)"," Gold" -Color White,DarkGray,DarkYellow
-                                    Write-Color "  Progress    ",": $($Quest_Name.Progress) of $($Quest_Name.ProgressMax)" -Color White,DarkGray
-                                    Write-Color "  Status      ",": $($Quest_Name.Status)" -Color White,DarkGray
-                                    Write-Color "  Location    ",": $($Quest_Name.HandInLocation)" -Color White,DarkGray
-                                    Write-Color "  Building    ",": $($Quest_Name.Building)" -Color White,DarkGray
-                                    Write-Color "  NPC         ",": $($Quest_Name.HandInNPC)" -Color White,DarkGray
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                    $Tavern_Quest_Info_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
-                                    if ($Quest_Name.Status -ieq "In Progress") {
-                                        Write-Color -NoNewLine "E","xit ","[E]" -Color Green,DarkYellow,Green
-                                        $Tavern_Quest_Info_Choice_Array = "E"
-                                    }
-                                    if ($Quest_Name.Status -ieq "Available") {
-                                        Write-Color -NoNewLine "A","ccept quest or ", "E","xit ","[A/E]" -Color Green,DarkYellow,Green,DarkYellow,Green
-                                        $Tavern_Quest_Info_Choice_Array = "A","E"
-                                    }
-                                    if ($Quest_Name.Status -ieq "Hand In") {
-                                        Write-Color -NoNewLine "H","and in quest or ", "E","xit ","[H/E]" -Color Green,DarkYellow,Green,DarkYellow,Green
-                                        $Tavern_Quest_Info_Choice_Array = "H","E"
-                                    }
-                                    $Tavern_Quest_Info_Choice = Read-Host " "
-                                    $Tavern_Quest_Info_Choice = $Tavern_Quest_Info_Choice.Trim()
-                                } until ($Tavern_Quest_Info_Choice -in $Tavern_Quest_Info_Choice_Array)
-                                # accept a quest
-                                if ($Tavern_Quest_Info_Choice -ieq "a") {
-                                    $Quest_Accepted = $true
-                                    $Quest_Name.Status = "In Progress"
-                                    $Quest_Name.InProgress = $true
-                                    $Quest_Name.Available = $false
-                                    # advance "slow" introduction to game
-                                    $Import_JSON.Locations."Home Town".LocationOptions.Hunt = $true
-                                    $Import_JSON.Locations."Home Town".LocationOptions.Quests = $true
+                                Write-Color -NoNewLine "A","les, ","M","eads, ","S","pirits, ","N","on-Alcoholic, ","R","are, or ", "E","xit ","$Tavern_Drinks_Category_Letters_Array_String" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow
+                                $Tavern_Drinks_Choice = Read-Host " "
+                                $Tavern_Drinks_Choice = $Tavern_Drinks_Choice.Trim()
+                            } until ($Tavern_Drinks_Choice -ieq "e" -or $Tavern_Drinks_Choice -in $Tavern_Drinks_Category_Letters_Array)
+                            # drinks menu switch
+                            switch ($Tavern_Drinks_Choice) {
+                                e {
+                                    $Drink_Purchased = $false
+                                    Break # or exit?
                                 }
-                                # hand in a quest
-                                if ($Tavern_Quest_Info_Choice -ieq "h") {
-                                    do {
-                                        # advance "slow" introduction to game (from Rat quest)
-                                        $Import_JSON.Locations."Home Town".Buildings."Mend & Mana".SlowIntro = $true
-                                        # reset quest
-                                        $Quest_Name.Status = "Available"
-                                        $Quest_Name.InProgress = $false
-                                        $Quest_Name.Available = $true
-                                        $Quest_Name.Progress = 0
-                                        # update gold
-                                        $Import_JSON.Character.Gold += $Quest_Name.GoldReward
-                                        $Script:Gold = $Import_JSON.Character.Gold
-                                        Draw_Player_Window_and_Stats
-                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,25;$Host.UI.Write("");" "*105
-                                        Write-Color "  Thank you for completing this quest ","$Character_Name",". Here is your reward." -Color DarkGray,Blue,DarkGray
-                                        Write-Color "  $($Quest_Name.GoldReward) Gold" -Color DarkYellow
-                                        # if there are reward items, update inventory
-                                        if (-not($Quest_Name.ItemReward -eq $false)) {
-                                            foreach ($Quest_Hand_In_Item in $Quest_Name.ItemReward.PSObject.Properties.Name) {
-                                                $Current_Item_Quantity = $Import_JSON.Items.$Quest_Hand_In_Item.Quantity
-                                                if ($Current_Item_Quantity + $Quest_Name.ItemReward.$Quest_Hand_In_Item -gt 99) {
-                                                    $Import_JSON.Items.$Quest_Hand_In_Item.Quantity = 99
-                                                    $Max_99_Items = "(MAX 99 items)"
-                                                } else {
-                                                    $Import_JSON.Items.$Quest_Hand_In_Item.Quantity += $Quest_Name.ItemReward.$Quest_Hand_In_Item
-                                                    $Max_99_Items = ""
-                                                }
-                                                Write-Color "  x$($Quest_Name.ItemReward.$Quest_Hand_In_Item) ","$Quest_Hand_In_Item $Max_99_Items" -Color White,DarkGray
+                                $Tavern_Drinks_Choice {
+                                    if ($Import_JSON.Character.Buffs.DrinksPurchased -lt 2) {
+                                        $Drink_Purchased = $true
+                                        $Import_JSON.Character.Buffs.DrinksPurchased += 1
+                                        for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                        }
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                        foreach ($Tavern_Drinks_Category in $Tavern_Drinks_Categorys) {
+                                            if ($Tavern_Drinks_Category.SubString(0,1) -eq $Tavern_Drinks_Choice) {
+                                                $Tavern_Drinks_Category = $Tavern_Drinks_Category
+                                                Break
                                             }
                                         }
-                                        Draw_Inventory
-                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                        Write-Color -NoNewLine "E","xit ","[E]" -Color Green,DarkYellow,Green
-                                        $Quest_Hand_In_Exit = Read-Host " "
-                                        $Quest_Hand_In_Exit = $Quest_Hand_In_Exit.Trim()
-                                    } until ($Quest_Hand_In_Exit -ieq "e")
+                                        $Tavern_Drinks = $Import_JSON.Locations."Home Town".Buildings.Tavern.Drinks.$Tavern_Drinks_Category.PSObject.Properties.Name
+                                        $Tavern_Drink = Get-Random -Input $Tavern_Drinks
+                                        $Script:Tavern_Drink_Bonus_Name = $Import_JSON.Locations."Home Town".Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.Bonus.PSObject.Properties.Name
+                                        # update JSON Buffs.Duration based on drink category
+                                        $Import_JSON.Character.Buffs.Duration = $Import_JSON.Locations."Home Town".Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.BuffDuration
+                                        $Import_JSON.Character.Buffs.Dropped = $false
+                                        switch ($Tavern_Drink_Bonus_Name) {
+                                            $Tavern_Drink_Bonus_Name {
+                                                $Tavern_Drink_Bonus_Amount = ($Import_JSON.Locations."Home Town".Buildings.Tavern.Drinks.$Tavern_Drinks_Category.$Tavern_Drink.Bonus).$Tavern_Drink_Bonus_Name
+                                                $Character_Prefix = "Character_"
+                                                # gets current character stat bonus value (so difference can be calculated below)
+                                                $Bonus_Stat_Before = (Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value
+                                                $Script:UnBuffed = "UnBuffed"
+                                                # Set-Variable -Name "$($Character_Prefix)$Tavern_Drink_Bonus_Name$UnBuffed" -Value (Get-Variable -name "$($Character_Prefix)$Tavern_Drink_Bonus_Name").value
+                                                # sets the JSON character stat e.g. HealthMaxUnBuffed to the current HealthMax value so the current HealthMax value becomes the buffed value which then can be reverted when the buff drops
+                                                # but only if the UnBuffed stat is zero. otherwise if you get a buff, kill something, then get a second buff, the UnBuffed value gets added to again which was not the origianl stat value (e.g. a free perminant stat boost)
+                                                if ($Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name$UnBuffed" -eq '0') {
+                                                    $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name$UnBuffed" = (Get-Variable -name "$($Character_Prefix)$Tavern_Drink_Bonus_Name").value
+                                                }
+                                                # sets e.g. the $Character_HealthMaxUnBuffed variable to what was in $Character_HealthMax so it can be retrieved when buff is lost
+                                                Set-Variable -Name "$($Character_Prefix)$Tavern_Drink_Bonus_Name" -Value ([Math]::Round((Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value * $Tavern_Drink_Bonus_Amount)) -Force
+                                                # gets the current buffed character stat so the difference can be displayed in Player Stats window
+                                                $Bonus_Stat_After = (Get-Variable character_* | Where-Object {$PSItem.Name -like "*$Tavern_Drink_Bonus_Name*"}).value
+                                                $Bonus_Stat_Difference = $Bonus_Stat_After - $Bonus_Stat_Before
+                                                # sets the JSON character stat e.g. HealthMax to the current HealthMax value plus the difference (the bonus)
+                                                $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name" += $Bonus_Stat_Difference
+                                                Save_JSON
+                                                Set_Variables
+                                                Draw_Player_Window_and_Stats
+                                                switch ($Tavern_Drink_Bonus_Name) {
+                                                    HealthMax {
+                                                        $host.UI.RawUI.ForegroundColor = "Green"
+                                                        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,3;$Host.UI.Write("(+$Bonus_Stat_Difference)")
+                                                    }
+                                                    ManaMax {
+                                                        $host.UI.RawUI.ForegroundColor = "Blue"
+                                                        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,5;$Host.UI.Write("(+$Bonus_Stat_Difference)")
+                                                    }
+                                                    Attack {
+                                                        $host.UI.RawUI.ForegroundColor = "White"
+                                                        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,6;$Host.UI.Write("(+$Bonus_Stat_Difference)")
+                                                    }
+                                                    Armour {
+                                                        $host.UI.RawUI.ForegroundColor = "White"
+                                                        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,8;$Host.UI.Write("(+$Bonus_Stat_Difference)")
+                                                    }
+                                                    Dodge {
+                                                        $host.UI.RawUI.ForegroundColor = "White"
+                                                        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 49,9;$Host.UI.Write("(+$Bonus_Stat_Difference)")
+                                                    }
+                                                    Default {}
+                                                }
+                                                $host.UI.RawUI.ForegroundColor = "Cyan"
+                                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 42,1;$Host.UI.Write("(Buff Bonus)")
+                                            }
+                                            Default {}
+                                        }
+                                    }
                                 }
-                                Save_JSON
+                                Default {}
                             }
-                            $Exit_Quest_Board = $true
-                            $Exit_Drinks_Menu = $false
-                            $First_Time_Looking_at_Quest_Board = $false
-                        } until ($Tavern_Quest_Board_Choice -ieq "e")
-                    }
-                    $First_Time_Entered_Tavern = $false
-                } until ($Tavern_Choice -ieq "e")
-            }
-            #
-            # Anvil & Blade
-            #
-            a {
-                # update building words in location map. white to current building and reset location to dark yellow 
-                $host.UI.RawUI.ForegroundColor = "DarkYellow"
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
-                $host.UI.RawUI.ForegroundColor = "White"
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("Anvil")
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,3;$Host.UI.Write("& Blade")
-                $First_Time_Entered_Anvil = $true
-                do {
-                    $Script:Info_Banner = "Anvil & Blade"
-                    Draw_Info_Banner
-                    Draw_Inventory
-                    do {
-                        if ($First_Time_Entered_Anvil -eq $false) {
-                            for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                            }
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                            if ($No_Items_To_Sell -eq $true) {
-                                Write-Color "  It doesn't look like you have any junk items you want to get rid off." -Color DarkGray
-                            }
-                            Write-Color "  Anything else i can interest you in?" -Color DarkGray
-                        } else {
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                            Write-Color "  Greetings adventurer." -Color DarkGray
-                            Write-Color "  I buy and sell Weapons and Armour if you are interested." -Color DarkGray
+                            $Exit_Drinks_Menu = $true
+                            $Exit_Quest_Board = $false
                         }
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                        Write-Color -NoNewLine "B","uy, ","S","ell, or ", "E","xit ","[B/S/E]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
-                        $Anvil_Choice = Read-Host " "
-                        $Anvil_Choice = $Anvil_Choice.Trim()
-                    } until ($Anvil_Choice -ieq "b" -or $Anvil_Choice -ieq "s" -or $Anvil_Choice -ieq "e")
-                    
-                    # if ($Anvil_Choice -ieq "b") {
-                        
-                    # }
-                    if ($Anvil_Choice -ieq "s") {
-                        do {
-                            for ($Position = 17; $Position -lt 19; $Position++) { # clear some lines from previous widow
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                            }
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                            Write-Color "  What do you want to get rid of?" -Color DarkGray
-                            Write-Color "  J","unk items" -Color Green,DarkGray
-                            Write-Color "  A","rmour" -Color Green,DarkGray
-                            Write-Color "  W","eapons" -Color Green,DarkGray
-                            Write-Color "  N","othing for now" -Color Green,DarkGray
-                            Write-Color "  E","xit the Anvil & Blade" -Color Green,DarkGray
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                            Write-Color -NoNewLine "J","unk, ","A","rmour, ","W","eapons, or ", "E","xit ","[J/A/W/N/E]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
-                            $Anvil_Sell_Choice = Read-Host " "
-                            $Anvil_Sell_Choice = $Anvil_Sell_Choice.Trim()
-                        } until ($Anvil_Sell_Choice -ieq "j" -or $Anvil_Sell_Choice -ieq "a" -or $Anvil_Sell_Choice -ieq "w" -or $Anvil_Sell_Choice -ieq "n" -or $Anvil_Sell_Choice -ieq "e")
-                        if ($Anvil_Sell_Choice -ieq "j") {
-                            $Anvil_Choice_Sell_Junk_Array = New-Object System.Collections.Generic.List[System.Object]
-                            $Script:Anvil_Choice_Sell_Junk_Quantity = 0 # reset variables so they don't increase next time
-                            $Script:Anvil_Choice_Sell_Junk_GoldValue = 0 # reset variables so they don't increase next time
-                            $Script:Selectable_ID_Search = "Junk"
-                            Draw_Inventory
-                            if ($Anvil_Choice_Sell_Junk_Quantity -gt 0) {
+                        # quest board
+                        if ($Tavern_Choice -ieq "q") {
+                            $First_Time_Looking_at_Quest_Board = $true
+                            do {
+                                $Script:Info_Banner = "Quest Board"
+                                Draw_Info_Banner
                                 do {
-                                    for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                                    for ($Position = 17; $Position -lt 25; $Position++) { # clear some lines from previous widow
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                     }
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                    Write-Color "  You have ","$($Script:Anvil_Choice_Sell_Junk_Quantity) ","junk items." -Color DarkGray,DarkCyan,DarkGray
-                                    Write-Color "  I will give you ","$($Script:Anvil_Choice_Sell_Junk_GoldValue) ","gold for them." -Color DarkGray,DarkYellow,DarkGray
+                                    if ($First_Time_Looking_at_Quest_Board -eq $true) {
+                                        if ($Import_JSON.Character.Buffs.DrinksPurchased -gt 0) {
+                                            $Player_Walking_to_Quest_Board = @(
+                                                "You stagger over to the board, bumping into a few chairs along the way.",
+                                                "You stumble over to the board.",
+                                                "You make your way to the board and trip over your own feet."
+                                            )
+                                        } else {
+                                            $Player_Walking_to_Quest_Board = @(
+                                                "You walk to the board to see how many quests are available.",
+                                                "You stride over to the board to check if there are any quests available."
+                                            )
+                                        }
+                                        $Player_Walking_to_Quest_Board = Get-Random -Input $Player_Walking_to_Quest_Board
+                                        Write-Color "  $Player_Walking_to_Quest_Board" -Color DarkGray
+                                    }
+                                    if ($Quest_Accepted -eq $true) {
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                        for ($Position = 17; $Position -lt 31; $Position++) { # clear some lines from previous widow
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                        }
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                        Write-Color "  $($Import_JSON.Locations."Home Town".Buildings.Tavern.Owner) ","thanks you for accepting the ","$($Quest_Name.Name)"," quest" -Color Blue,DarkGray,White,DarkGray
+                                        Write-Color "  and tells you she will let the person know you've accepted it." -Color DarkGray
+                                        Write-Color "  Don't forget, you can view quests you've accepted by choosing '","Q","' here or in most other menus." -Color DarkGray,Green,DarkGray
+                                        Write-Color ""
+                                        $Quest_Name = $($Quest_Name.Name)
+                                        $Import_JSON.Quests.$Quest_Name.Available = $false
+                                        $Import_JSON.Quests.$Quest_Name.InProgress = $true
+                                        $Import_JSON.Quests.$Quest_Name.Status = "In Progress"
+                                        Save_JSON
+                                    } else {
+                                        for ($Position = 17; $Position -lt 31; $Position++) { # clear some lines from previous widow
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                        }
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                    }
+                                    Write-Color "  The following quests are pinned to the board." -Color DarkGray
+                                    Write-Color "`r" -Color DarkGray
+                                    $Available_Quest_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
+                                    $Quest_Names = $Import_JSON.Quests.PSObject.Properties.Name
+                                    foreach ($Quest_Name in $Quest_Names) {
+                                        $Quest_Name = $Import_JSON.Quests.$Quest_Name
+                                        if ($Quest_Name.SlowIntro -eq $true) {
+                                            if ($Quest_Name.Available -eq $true -or $Quest_Name.Status -ieq "In Progress" -or $Quest_Name.Status -ieq "Hand In") {
+                                                Write-Color "  $($Quest_Name.QuestLetter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status)" -Color Green,DarkGray,DarkYellow
+                                                $Available_Quest_Letters_Array.Add($Quest_Name.QuestLetter)
+                                            }
+                                        }
+                                    }
+                                    $Available_Quest_Letters_Array_String = $Available_Quest_Letters_Array -Join "/"
+                                    $Available_Quest_Letters_Array_String = $Available_Quest_Letters_Array_String + "/E"
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                    Write-Color -NoNewLine "Do you agree? ","Y","es or ", "N","o ","[Y/N]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
-                                    $Anvil_Sell_Junk_Choice = Read-Host " "
-                                    $Anvil_Sell_Junk_Choice = $Anvil_Sell_Junk_Choice.Trim()
-                                } until ($Anvil_Sell_Junk_Choice -ieq "y" -or $Anvil_Sell_Junk_Choice -ieq "n")
-                            } else {
-                                $No_Items_To_Sell = $true
-                            }
+                                    Write-Color -NoNewLine "View details about a quest, or ","E","xit ","[$Available_Quest_Letters_Array_String]" -Color DarkYellow,Green,DarkYellow,Green
+                                    $Tavern_Quest_Board_Choice = Read-Host " "
+                                    $Tavern_Quest_Board_Choice = $Tavern_Quest_Board_Choice.Trim()
+                                } until ($Tavern_Quest_Board_Choice -ieq "e" -or $Tavern_Quest_Board_Choice -in $Available_Quest_Letters_Array)
+                                if ($Tavern_Quest_Board_Choice -in $Available_Quest_Letters_Array) {
+                                    do {
+                                        Draw_Inventory
+                                        for ($Position = 17; $Position -lt 28; $Position++) { # clear some lines from previous widow
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                        }
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                        foreach ($Quest_Name in $Quest_Names) {
+                                            $Quest_Name = $Import_JSON.Quests.$Quest_Name
+                                            if ($Quest_Name.QuestLetter -ieq $Tavern_Quest_Board_Choice) {
+                                                Break
+                                            }
+                                        }
+                                        Write-Color "  Name        ",": $($Quest_Name.Name)" -Color White,DarkGray
+                                        Write-Color "  Description ",": $($Quest_Name.Description)" -Color White,DarkGray
+                                        Write-Color "  Reward      ",": $($Quest_Name.GoldReward)"," Gold" -Color White,DarkGray,DarkYellow
+                                        Write-Color "  Progress    ",": $($Quest_Name.Progress) of $($Quest_Name.ProgressMax)" -Color White,DarkGray
+                                        Write-Color "  Status      ",": $($Quest_Name.Status)" -Color White,DarkGray
+                                        Write-Color "  Location    ",": $($Quest_Name.HandInLocation)" -Color White,DarkGray
+                                        Write-Color "  Building    ",": $($Quest_Name.Building)" -Color White,DarkGray
+                                        Write-Color "  NPC         ",": $($Quest_Name.HandInNPC)" -Color White,DarkGray
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                        $Tavern_Quest_Info_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
+                                        if ($Quest_Name.Status -ieq "In Progress") {
+                                            Write-Color -NoNewLine "E","xit ","[E]" -Color Green,DarkYellow,Green
+                                            $Tavern_Quest_Info_Choice_Array = "E"
+                                        }
+                                        if ($Quest_Name.Status -ieq "Available") {
+                                            Write-Color -NoNewLine "A","ccept quest or ", "E","xit ","[A/E]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                                            $Tavern_Quest_Info_Choice_Array = "A","E"
+                                        }
+                                        if ($Quest_Name.Status -ieq "Hand In") {
+                                            Write-Color -NoNewLine "H","and in quest or ", "E","xit ","[H/E]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                                            $Tavern_Quest_Info_Choice_Array = "H","E"
+                                        }
+                                        $Tavern_Quest_Info_Choice = Read-Host " "
+                                        $Tavern_Quest_Info_Choice = $Tavern_Quest_Info_Choice.Trim()
+                                    } until ($Tavern_Quest_Info_Choice -in $Tavern_Quest_Info_Choice_Array)
+                                    # accept a quest
+                                    if ($Tavern_Quest_Info_Choice -ieq "a") {
+                                        $Quest_Accepted = $true
+                                        $Quest_Name.Status = "In Progress"
+                                        $Quest_Name.InProgress = $true
+                                        $Quest_Name.Available = $false
+                                        # advance "slow" introduction to game
+                                        $Import_JSON.Locations."Home Town".LocationOptions.Hunt = $true
+                                        $Import_JSON.Locations."Home Town".LocationOptions.Quests = $true
+                                    }
+                                    # hand in a quest
+                                    if ($Tavern_Quest_Info_Choice -ieq "h") {
+                                        do {
+                                            # advance "slow" introduction to game (from Rat quest)
+                                            $Import_JSON.Locations."Home Town".Buildings."Mend & Mana".SlowIntro = $true
+                                            # reset quest
+                                            $Quest_Name.Status = "Available"
+                                            $Quest_Name.InProgress = $false
+                                            $Quest_Name.Available = $true
+                                            $Quest_Name.Progress = 0
+                                            # update gold
+                                            $Import_JSON.Character.Gold += $Quest_Name.GoldReward
+                                            $Script:Gold = $Import_JSON.Character.Gold
+                                            Draw_Player_Window_and_Stats
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,25;$Host.UI.Write("");" "*105
+                                            Write-Color "  Thank you for completing this quest ","$Character_Name",". Here is your reward." -Color DarkGray,Blue,DarkGray
+                                            Write-Color "  $($Quest_Name.GoldReward) Gold" -Color DarkYellow
+                                            # if there are reward items, update inventory
+                                            if (-not($Quest_Name.ItemReward -eq $false)) {
+                                                foreach ($Quest_Hand_In_Item in $Quest_Name.ItemReward.PSObject.Properties.Name) {
+                                                    $Current_Item_Quantity = $Import_JSON.Items.$Quest_Hand_In_Item.Quantity
+                                                    if ($Current_Item_Quantity + $Quest_Name.ItemReward.$Quest_Hand_In_Item -gt 99) {
+                                                        $Import_JSON.Items.$Quest_Hand_In_Item.Quantity = 99
+                                                        $Max_99_Items = "(MAX 99 items)"
+                                                    } else {
+                                                        $Import_JSON.Items.$Quest_Hand_In_Item.Quantity += $Quest_Name.ItemReward.$Quest_Hand_In_Item
+                                                        $Max_99_Items = ""
+                                                    }
+                                                    Write-Color "  x$($Quest_Name.ItemReward.$Quest_Hand_In_Item) ","$Quest_Hand_In_Item $Max_99_Items" -Color White,DarkGray
+                                                }
+                                            }
+                                            Draw_Inventory
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                            Write-Color -NoNewLine "E","xit ","[E]" -Color Green,DarkYellow,Green
+                                            $Quest_Hand_In_Exit = Read-Host " "
+                                            $Quest_Hand_In_Exit = $Quest_Hand_In_Exit.Trim()
+                                        } until ($Quest_Hand_In_Exit -ieq "e")
+                                    }
+                                    Save_JSON
+                                }
+                                $Exit_Quest_Board = $true
+                                $Exit_Drinks_Menu = $false
+                                $First_Time_Looking_at_Quest_Board = $false
+                            } until ($Tavern_Quest_Board_Choice -ieq "e")
                         }
-                        if ($Anvil_Sell_Junk_Choice -ieq "y") { # sells all junk
-                            $Import_JSON.Character.Gold = $Import_JSON.Character.Gold + $Anvil_Choice_Sell_Junk_GoldValue
-                            foreach (${JunkItem} in ${Anvil_Choice_Sell_Junk_Array}) {
-                                $Import_JSON.Items.$JunkItem.Quantity = 0
-                            }
-                            Save_JSON
-                            Clear-Host
-                            Set_Variables
-                            Draw_Player_Window_and_Stats
-                            Draw_Town_Map
-                            # update building words in location map. white to current building and reset location to dark yellow 
-                            $host.UI.RawUI.ForegroundColor = "DarkYellow"
-                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
-                            $host.UI.RawUI.ForegroundColor = "White"
-                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("Anvil")
-                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,3;$Host.UI.Write("& Blade")
-                            Draw_Info_Banner
-                            Draw_Inventory
-                            $host.UI.RawUI.ForegroundColor = "DarkYellow"
-                            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 18,10;$Host.UI.Write("(+$($Script:Anvil_Choice_Sell_Junk_GoldValue))")
-                        }
-                        $Script:Selectable_ID_Search = "not_set"
-                        $First_Time_Entered_Anvil = $false
-                        if ($Anvil_Sell_Choice -ieq "e") { # leaves the Anvil & Blade
-                            Break
-                        }
-                    }
-                    
-                } until ($Anvil_Choice -ieq "e")
-            }
-            m { # Mend & Mana
-                # update building words in location map. white to current building and reset location to dark yellow 
-                $host.UI.RawUI.ForegroundColor = "DarkYellow"
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
-                $host.UI.RawUI.ForegroundColor = "White"
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("Mend")
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,10;$Host.UI.Write("& Mana")
-                $First_Time_Entered_Elixir_Emporium = $true
-                do {
-                    $Script:Info_Banner = "Mend & Mana"
-                    Draw_Info_Banner
-                    Draw_Inventory
+                        $First_Time_Entered_Tavern = $false
+                    } until ($Tavern_Choice -ieq "e")
+                }
+                #
+                # Anvil & Blade
+                #
+                a {
+                    # update building words in location map. white to current building and reset location to dark yellow 
+                    $host.UI.RawUI.ForegroundColor = "DarkYellow"
+                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
+                    $host.UI.RawUI.ForegroundColor = "White"
+                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("Anvil")
+                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,3;$Host.UI.Write("& Blade")
+                    $First_Time_Entered_Anvil = $true
                     do {
-                        if ($First_Time_Entered_Elixir_Emporium -eq $false) {
-                            for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                            }
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                            Write-Color "  Maybe there is something else you might like?" -Color DarkGray
-                        } else {
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                            Write-Color "  Welcome adventurer." -Color DarkGray
-                            Write-Color "  I deal in all kinds of potions. If you are interested, take a look at what i have to offer." -Color DarkGray
-                        }
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                        Write-Color -NoNewLine "P","urchase, ","S","ell, or ", "E","xit ","[P/S/E]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
-                        $Elixir_Emporium_Choice = Read-Host " "
-                        $Elixir_Emporium_Choice = $Elixir_Emporium_Choice.Trim()
-                    } until ($Elixir_Emporium_Choice -ieq "p" -or $Elixir_Emporium_Choice -ieq "s" -or $Elixir_Emporium_Choice -ieq "e")
-                    if ($Elixir_Emporium_Choice -ieq "p") {
-                        $First_Time_Entered_Elixir_Emporium = $true
-                        $Script:Info_Banner = "Mend & Mana - Purchase"
+                        $Script:Info_Banner = "Anvil & Blade"
                         Draw_Info_Banner
+                        Draw_Inventory
                         do {
+                            if ($First_Time_Entered_Anvil -eq $false) {
+                                for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                }
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                if ($No_Items_To_Sell -eq $true) {
+                                    Write-Color "  It doesn't look like you have any junk items you want to get rid off." -Color DarkGray
+                                }
+                                Write-Color "  Anything else i can interest you in?" -Color DarkGray
+                            } else {
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                Write-Color "  Greetings adventurer." -Color DarkGray
+                                Write-Color "  I buy and sell Weapons and Armour if you are interested." -Color DarkGray
+                            }
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                            Write-Color -NoNewLine "B","uy, ","S","ell, or ", "E","xit ","[B/S/E]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                            $Anvil_Choice = Read-Host " "
+                            $Anvil_Choice = $Anvil_Choice.Trim()
+                        } until ($Anvil_Choice -ieq "b" -or $Anvil_Choice -ieq "s" -or $Anvil_Choice -ieq "e")
+                        
+                        # if ($Anvil_Choice -ieq "b") {
+                            
+                        # }
+                        if ($Anvil_Choice -ieq "s") {
                             do {
                                 for ($Position = 17; $Position -lt 19; $Position++) { # clear some lines from previous widow
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                 }
-                                # $Elixir_Emporium_Potion_Name_Array = New-Object System.Collections.Generic.List[System.Object]
-                                $Elixir_Emporium_Potion_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
-                                # $Elixir_Emporium_Choice_Sell_GoldValue = New-Object System.Collections.Generic.List[System.Object]
-                                $Inventory_Item_Names = $Import_JSON.Items.PSObject.Properties.Name | Sort-Object
-                                $Script:Selectable_ID_Search = "HealthMana"
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                Write-Color "  What do you want to get rid of?" -Color DarkGray
+                                Write-Color "  J","unk items" -Color Green,DarkGray
+                                Write-Color "  A","rmour" -Color Green,DarkGray
+                                Write-Color "  W","eapons" -Color Green,DarkGray
+                                Write-Color "  N","othing for now" -Color Green,DarkGray
+                                Write-Color "  E","xit the Anvil & Blade" -Color Green,DarkGray
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                Write-Color -NoNewLine "J","unk, ","A","rmour, ","W","eapons, or ", "E","xit ","[J/A/W/N/E]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                                $Anvil_Sell_Choice = Read-Host " "
+                                $Anvil_Sell_Choice = $Anvil_Sell_Choice.Trim()
+                            } until ($Anvil_Sell_Choice -ieq "j" -or $Anvil_Sell_Choice -ieq "a" -or $Anvil_Sell_Choice -ieq "w" -or $Anvil_Sell_Choice -ieq "n" -or $Anvil_Sell_Choice -ieq "e")
+                            if ($Anvil_Sell_Choice -ieq "j") {
+                                $Anvil_Choice_Sell_Junk_Array = New-Object System.Collections.Generic.List[System.Object]
+                                $Script:Anvil_Choice_Sell_Junk_Quantity = 0 # reset variables so they don't increase next time
+                                $Script:Anvil_Choice_Sell_Junk_GoldValue = 0 # reset variables so they don't increase next time
+                                $Script:Selectable_ID_Search = "Junk"
+                                Draw_Inventory
+                                if ($Anvil_Choice_Sell_Junk_Quantity -gt 0) {
+                                    do {
+                                        for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                        }
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                        Write-Color "  You have ","$($Script:Anvil_Choice_Sell_Junk_Quantity) ","junk items." -Color DarkGray,DarkCyan,DarkGray
+                                        Write-Color "  I will give you ","$($Script:Anvil_Choice_Sell_Junk_GoldValue) ","gold for them." -Color DarkGray,DarkYellow,DarkGray
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                        Write-Color -NoNewLine "Do you agree? ","Y","es or ", "N","o ","[Y/N]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                                        $Anvil_Sell_Junk_Choice = Read-Host " "
+                                        $Anvil_Sell_Junk_Choice = $Anvil_Sell_Junk_Choice.Trim()
+                                    } until ($Anvil_Sell_Junk_Choice -ieq "y" -or $Anvil_Sell_Junk_Choice -ieq "n")
+                                } else {
+                                    $No_Items_To_Sell = $true
+                                }
+                            }
+                            if ($Anvil_Sell_Junk_Choice -ieq "y") { # sells all junk
+                                $Import_JSON.Character.Gold = $Import_JSON.Character.Gold + $Anvil_Choice_Sell_Junk_GoldValue
+                                foreach (${JunkItem} in ${Anvil_Choice_Sell_Junk_Array}) {
+                                    $Import_JSON.Items.$JunkItem.Quantity = 0
+                                }
+                                Save_JSON
                                 Clear-Host
+                                Set_Variables
                                 Draw_Player_Window_and_Stats
                                 Draw_Town_Map
                                 # update building words in location map. white to current building and reset location to dark yellow 
                                 $host.UI.RawUI.ForegroundColor = "DarkYellow"
                                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
                                 $host.UI.RawUI.ForegroundColor = "White"
-                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("Mend")
-                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,10;$Host.UI.Write("& Mana")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("Anvil")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,3;$Host.UI.Write("& Blade")
                                 Draw_Info_Banner
                                 Draw_Inventory
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                Draw_Shop_Potions
-                                $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array -Join "/"
-                                $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array_String + "/E"
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                Write-Color -NoNewLine "Which potion do you want to purchase? ","ID ","numbers or ", "E","xit ","[$Elixir_Emporium_Potion_Letters_Array_String]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
-                                $Elixir_Emporium_Purchase_Choice = Read-Host " "
-                                $Elixir_Emporium_Purchase_Choice = $Elixir_Emporium_Purchase_Choice.Trim()
-                            } until ($Elixir_Emporium_Purchase_Choice -ieq "e" -or $Elixir_Emporium_Purchase_Choice -in $Elixir_Emporium_Potion_Letters_Array)
+                                $host.UI.RawUI.ForegroundColor = "DarkYellow"
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 18,10;$Host.UI.Write("(+$($Script:Anvil_Choice_Sell_Junk_GoldValue))")
+                            }
                             $Script:Selectable_ID_Search = "not_set"
-                            $First_Time_Entered_Elixir_Emporium = $false
-                            if ($Elixir_Emporium_Purchase_Choice -ieq "e") {
+                            $First_Time_Entered_Anvil = $false
+                            if ($Anvil_Sell_Choice -ieq "e") { # leaves the Anvil & Blade
                                 Break
                             }
-                            # ID number chosen
-                            switch ($Elixir_Emporium_Purchase_Choice) {
-                                $Elixir_Emporium_Purchase_Choice {
-                                    foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
-                                        if ($Import_JSON.Items.$Inventory_Item_Name.ID -ieq $Elixir_Emporium_Purchase_Choice) {
-                                            $Elixir_Emporium_Purchase_Choice_Potion_Name = $Import_JSON.Items.$Inventory_Item_Name.Name
-                                            $Elixir_Emporium_Purchase_Choice_Potion_Quantity = $Import_JSON.Items.$Inventory_Item_Name.Quantity
-                                            $Elixir_Emporium_Purchase_Choice_Potion_GoldValue = $Import_JSON.Items.$Inventory_Item_Name.GoldValue
-                                            $Elixir_Emporium_Purchase_Choice_Potion_Quantity_Max = 99 - $Elixir_Emporium_Purchase_Choice_Potion_Quantity
-                                        }
+                        }
+                        
+                    } until ($Anvil_Choice -ieq "e")
+                }
+                m { # Mend & Mana
+                    # update building words in location map. white to current building and reset location to dark yellow 
+                    $host.UI.RawUI.ForegroundColor = "DarkYellow"
+                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
+                    $host.UI.RawUI.ForegroundColor = "White"
+                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("Mend")
+                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,10;$Host.UI.Write("& Mana")
+                    $First_Time_Entered_Elixir_Emporium = $true
+                    do {
+                        $Script:Info_Banner = "Mend & Mana"
+                        Draw_Info_Banner
+                        Draw_Inventory
+                        do {
+                            if ($First_Time_Entered_Elixir_Emporium -eq $false) {
+                                for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                }
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                Write-Color "  Maybe there is something else you might like?" -Color DarkGray
+                            } else {
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                Write-Color "  Welcome adventurer." -Color DarkGray
+                                Write-Color "  I deal in all kinds of potions. If you are interested, take a look at what i have to offer." -Color DarkGray
+                            }
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                            Write-Color -NoNewLine "P","urchase, ","S","ell, or ", "E","xit ","[P/S/E]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                            $Elixir_Emporium_Choice = Read-Host " "
+                            $Elixir_Emporium_Choice = $Elixir_Emporium_Choice.Trim()
+                        } until ($Elixir_Emporium_Choice -ieq "p" -or $Elixir_Emporium_Choice -ieq "s" -or $Elixir_Emporium_Choice -ieq "e")
+                        if ($Elixir_Emporium_Choice -ieq "p") {
+                            $First_Time_Entered_Elixir_Emporium = $true
+                            $Script:Info_Banner = "Mend & Mana - Purchase"
+                            Draw_Info_Banner
+                            do {
+                                do {
+                                    for ($Position = 17; $Position -lt 19; $Position++) { # clear some lines from previous widow
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                     }
-                                    # check if quantity of potion is already at max, display you cannot carry any more
-                                    if ($Elixir_Emporium_Purchase_Choice_Potion_Quantity -eq 99) {
-                                        do {
-                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                            Write-Color -NoNewLine "You cannot carry any more ","$Elixir_Emporium_Purchase_Choice_Potion_Name","'s ", "E","xit ","[E]" -Color DarkYellow,DarkCyan,DarkYellow,Green,DarkYellow,Green
-                                            $Elixir_Emporium_Purchase_Potion_Quantity_Choice = Read-Host " "
-                                            $Elixir_Emporium_Purchase_Potion_Quantity_Choice = $Elixir_Emporium_Purchase_Potion_Quantity_Choice.Trim()
-                                        } until ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -ieq "E")
-                                    } else { # otherwise ask for quantity
-                                        do {
-                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                            Write-Color -NoNewLine "How many ","$Elixir_Emporium_Purchase_Choice_Potion_Name","'s do you want to purchase? Quantity or ", "E","xit ","[1-$Elixir_Emporium_Purchase_Choice_Potion_Quantity_Max/E]" -Color DarkYellow,DarkCyan,DarkYellow,Green,DarkYellow,Green
-                                            # Write-Color -NoNewLine "Quantity or ", "E","xit ","[1-$Potion_Quantity/E]" -Color DarkYellow,Green,DarkYellow,Green
-                                            $Elixir_Emporium_Purchase_Potion_Quantity_Choice = Read-Host " "
-                                            $Elixir_Emporium_Purchase_Potion_Quantity_Choice = $Elixir_Emporium_Purchase_Potion_Quantity_Choice.Trim()
-                                            # check if input is a number or E
-                                            if ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -match "^[0-9]+$") {
-                                                $Elixir_Emporium_Purchase_Potion_Quantity_Choice = [int]$Elixir_Emporium_Purchase_Potion_Quantity_Choice
+                                    # $Elixir_Emporium_Potion_Name_Array = New-Object System.Collections.Generic.List[System.Object]
+                                    $Elixir_Emporium_Potion_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
+                                    # $Elixir_Emporium_Choice_Sell_GoldValue = New-Object System.Collections.Generic.List[System.Object]
+                                    $Inventory_Item_Names = $Import_JSON.Items.PSObject.Properties.Name | Sort-Object
+                                    $Script:Selectable_ID_Search = "HealthMana"
+                                    Clear-Host
+                                    Draw_Player_Window_and_Stats
+                                    Draw_Town_Map
+                                    # update building words in location map. white to current building and reset location to dark yellow 
+                                    $host.UI.RawUI.ForegroundColor = "DarkYellow"
+                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
+                                    $host.UI.RawUI.ForegroundColor = "White"
+                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("Mend")
+                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,10;$Host.UI.Write("& Mana")
+                                    Draw_Info_Banner
+                                    Draw_Inventory
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                    Draw_Shop_Potions
+                                    $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array -Join "/"
+                                    $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array_String + "/E"
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                    Write-Color -NoNewLine "Which potion do you want to purchase? ","ID ","numbers or ", "E","xit ","[$Elixir_Emporium_Potion_Letters_Array_String]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                                    $Elixir_Emporium_Purchase_Choice = Read-Host " "
+                                    $Elixir_Emporium_Purchase_Choice = $Elixir_Emporium_Purchase_Choice.Trim()
+                                } until ($Elixir_Emporium_Purchase_Choice -ieq "e" -or $Elixir_Emporium_Purchase_Choice -in $Elixir_Emporium_Potion_Letters_Array)
+                                $Script:Selectable_ID_Search = "not_set"
+                                $First_Time_Entered_Elixir_Emporium = $false
+                                if ($Elixir_Emporium_Purchase_Choice -ieq "e") {
+                                    Break
+                                }
+                                # ID number chosen
+                                switch ($Elixir_Emporium_Purchase_Choice) {
+                                    $Elixir_Emporium_Purchase_Choice {
+                                        foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
+                                            if ($Import_JSON.Items.$Inventory_Item_Name.ID -ieq $Elixir_Emporium_Purchase_Choice) {
+                                                $Elixir_Emporium_Purchase_Choice_Potion_Name = $Import_JSON.Items.$Inventory_Item_Name.Name
+                                                $Elixir_Emporium_Purchase_Choice_Potion_Quantity = $Import_JSON.Items.$Inventory_Item_Name.Quantity
+                                                $Elixir_Emporium_Purchase_Choice_Potion_GoldValue = $Import_JSON.Items.$Inventory_Item_Name.GoldValue
+                                                $Elixir_Emporium_Purchase_Choice_Potion_Quantity_Max = 99 - $Elixir_Emporium_Purchase_Choice_Potion_Quantity
                                             }
-                                            if ($null -eq $Elixir_Emporium_Purchase_Potion_Quantity_Choice -or $Elixir_Emporium_Purchase_Potion_Quantity_Choice -eq ""){# sets to null if not a number or E which stops allowing no input
-                                                $Elixir_Emporium_Purchase_Potion_Quantity_Choice = "not_set"
-                                            }
-                                        } until ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -ieq "E" -or $Elixir_Emporium_Purchase_Potion_Quantity_Choice -le ($Elixir_Emporium_Purchase_Choice_Potion_Quantity_Max))
-                                        if ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -ieq "E") { # exit
-                                            Break
                                         }
-                                        $Elixir_Emporium_Purchase_Choice_Potion_GoldValue = $Elixir_Emporium_Purchase_Potion_Quantity_Choice * $Elixir_Emporium_Purchase_Choice_Potion_GoldValue
-                                        # if already at max quantity, disply you cannot carry any more
+                                        # check if quantity of potion is already at max, display you cannot carry any more
                                         if ($Elixir_Emporium_Purchase_Choice_Potion_Quantity -eq 99) {
                                             do {
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
@@ -3037,223 +3008,253 @@ Function Visit_a_Building {
                                                 $Elixir_Emporium_Purchase_Potion_Quantity_Choice = Read-Host " "
                                                 $Elixir_Emporium_Purchase_Potion_Quantity_Choice = $Elixir_Emporium_Purchase_Potion_Quantity_Choice.Trim()
                                             } until ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -ieq "E")
-                                        } elseif ($Elixir_Emporium_Purchase_Choice_Potion_GoldValue -gt $Import_JSON.Character.Gold) { # check if player has enough gold
-                                            $Elixir_Emporium_Purchase_Need_x_More_Gold = $Elixir_Emporium_Purchase_Choice_Potion_GoldValue - $Import_JSON.Character.Gold
-                                            if ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -eq 1) {
-                                                $Single_or_Multiple = ""
-                                            } else {
-                                                $Single_or_Multiple = "'s"
-                                            }
+                                        } else { # otherwise ask for quantity
                                             do {
-                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("");" "*105
-                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                                Write-Color "  You don't have enough gold to purchase ","$Elixir_Emporium_Purchase_Potion_Quantity_Choice"," $Elixir_Emporium_Purchase_Choice_Potion_Name","$Single_or_Multiple. You need ","$Elixir_Emporium_Purchase_Need_x_More_Gold"," more gold." -Color DarkGray,white,Blue,DarkGray,DarkYellow,DarkGray
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                                Write-Color -NoNewLine "E","xit ","[E]" -Color Green,DarkYellow,Green
+                                                Write-Color -NoNewLine "How many ","$Elixir_Emporium_Purchase_Choice_Potion_Name","'s do you want to purchase? Quantity or ", "E","xit ","[1-$Elixir_Emporium_Purchase_Choice_Potion_Quantity_Max/E]" -Color DarkYellow,DarkCyan,DarkYellow,Green,DarkYellow,Green
+                                                # Write-Color -NoNewLine "Quantity or ", "E","xit ","[1-$Potion_Quantity/E]" -Color DarkYellow,Green,DarkYellow,Green
                                                 $Elixir_Emporium_Purchase_Potion_Quantity_Choice = Read-Host " "
                                                 $Elixir_Emporium_Purchase_Potion_Quantity_Choice = $Elixir_Emporium_Purchase_Potion_Quantity_Choice.Trim()
-                                            } until ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -ieq "E")
-                                        } else { # otherwise confirm quantity
-                                            do {
-                                                # displaying correct grammar for singular or plural potion
-                                                if ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -eq 1) {
-                                                    $Single_or_Multiple = " is"
-                                                } else {
-                                                    $Single_or_Multiple = "'s are"
+                                                # check if input is a number or E
+                                                if ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -match "^[0-9]+$") {
+                                                    $Elixir_Emporium_Purchase_Potion_Quantity_Choice = [int]$Elixir_Emporium_Purchase_Potion_Quantity_Choice
                                                 }
-                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("");" "*105
+                                                if ($null -eq $Elixir_Emporium_Purchase_Potion_Quantity_Choice -or $Elixir_Emporium_Purchase_Potion_Quantity_Choice -eq ""){# sets to null if not a number or E which stops allowing no input
+                                                    $Elixir_Emporium_Purchase_Potion_Quantity_Choice = "not_set"
+                                                }
+                                            } until ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -ieq "E" -or $Elixir_Emporium_Purchase_Potion_Quantity_Choice -le ($Elixir_Emporium_Purchase_Choice_Potion_Quantity_Max))
+                                            if ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -ieq "E") { # exit
+                                                Break
+                                            }
+                                            $Elixir_Emporium_Purchase_Choice_Potion_GoldValue = $Elixir_Emporium_Purchase_Potion_Quantity_Choice * $Elixir_Emporium_Purchase_Choice_Potion_GoldValue
+                                            # if already at max quantity, disply you cannot carry any more
+                                            if ($Elixir_Emporium_Purchase_Choice_Potion_Quantity -eq 99) {
+                                                do {
+                                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                                    Write-Color -NoNewLine "You cannot carry any more ","$Elixir_Emporium_Purchase_Choice_Potion_Name","'s ", "E","xit ","[E]" -Color DarkYellow,DarkCyan,DarkYellow,Green,DarkYellow,Green
+                                                    $Elixir_Emporium_Purchase_Potion_Quantity_Choice = Read-Host " "
+                                                    $Elixir_Emporium_Purchase_Potion_Quantity_Choice = $Elixir_Emporium_Purchase_Potion_Quantity_Choice.Trim()
+                                                } until ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -ieq "E")
+                                            } elseif ($Elixir_Emporium_Purchase_Choice_Potion_GoldValue -gt $Import_JSON.Character.Gold) { # check if player has enough gold
+                                                $Elixir_Emporium_Purchase_Need_x_More_Gold = $Elixir_Emporium_Purchase_Choice_Potion_GoldValue - $Import_JSON.Character.Gold
+                                                if ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -eq 1) {
+                                                    $Single_or_Multiple = ""
+                                                } else {
+                                                    $Single_or_Multiple = "'s"
+                                                }
+                                                do {
+                                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("");" "*105
+                                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                                    Write-Color "  You don't have enough gold to purchase ","$Elixir_Emporium_Purchase_Potion_Quantity_Choice"," $Elixir_Emporium_Purchase_Choice_Potion_Name","$Single_or_Multiple. You need ","$Elixir_Emporium_Purchase_Need_x_More_Gold"," more gold." -Color DarkGray,white,Blue,DarkGray,DarkYellow,DarkGray
+                                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                                    Write-Color -NoNewLine "E","xit ","[E]" -Color Green,DarkYellow,Green
+                                                    $Elixir_Emporium_Purchase_Potion_Quantity_Choice = Read-Host " "
+                                                    $Elixir_Emporium_Purchase_Potion_Quantity_Choice = $Elixir_Emporium_Purchase_Potion_Quantity_Choice.Trim()
+                                                } until ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -ieq "E")
+                                            } else { # otherwise confirm quantity
+                                                do {
+                                                    # displaying correct grammar for singular or plural potion
+                                                    if ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -eq 1) {
+                                                        $Single_or_Multiple = " is"
+                                                    } else {
+                                                        $Single_or_Multiple = "'s are"
+                                                    }
+                                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("");" "*105
+                                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                                    Write-Color "  $Elixir_Emporium_Purchase_Potion_Quantity_Choice ","$Elixir_Emporium_Purchase_Choice_Potion_Name","$Single_or_Multiple worth ","$Elixir_Emporium_Purchase_Choice_Potion_GoldValue Gold",", do you want to purchase?" -Color White,DarkCyan,DarkGray,DarkYellow,DarkGray
+                                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                                    Write-Color -NoNewLine "Y","es or ", "N","o ","[Y/N]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                                                    $Elixir_Emporium_Purchase_Potion_Confirm_Choice = Read-Host " "
+                                                    $Elixir_Emporium_Purchase_Potion_Confirm_Choice = $Elixir_Emporium_Purchase_Potion_Confirm_Choice.Trim()
+                                                } until ($Elixir_Emporium_Purchase_Potion_Confirm_Choice -ieq "Y" -or $Elixir_Emporium_Purchase_Potion_Confirm_Choice -ieq "N")
+                                                if ($Elixir_Emporium_Purchase_Potion_Confirm_Choice -ieq "Y") {
+                                                    # update items in invenroty and gold
+                                                    $Import_JSON.Items.$Elixir_Emporium_Purchase_Choice_Potion_Name.Quantity += $Elixir_Emporium_Purchase_Potion_Quantity_Choice
+                                                    $Import_JSON.Character.Gold -= $Elixir_Emporium_Purchase_Choice_Potion_GoldValue
+                                                    Save_JSON
+                                                    Set_Variables
+                                                }
+                                            }
+                                        }
+                                    }
+                                    # Default {}
+                                }
+                            } until ($Elixir_Emporium_Purchase_Choice -ieq "e")
+                        }
+                        if ($Elixir_Emporium_Choice -ieq "s") {
+                            $First_Time_Entered_Elixir_Emporium = $true
+                            $Script:Info_Banner = "Mend & Mana - Sell"
+                            Draw_Info_Banner
+                            do {
+                                do {
+                                    for ($Position = 17; $Position -lt 19; $Position++) { # clear some lines from previous widow
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                    }
+                                    $Elixir_Emporium_Potion_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
+                                    $Inventory_Item_Names = $Import_JSON.Items.PSObject.Properties.Name | Sort-Object
+                                    $Script:Selectable_ID_Search = "HealthMana"
+                                    Clear-Host
+                                    Draw_Player_Window_and_Stats
+                                    Draw_Town_Map
+                                    # update building words in location map. white to current building and reset location to dark yellow 
+                                    $host.UI.RawUI.ForegroundColor = "DarkYellow"
+                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
+                                    $host.UI.RawUI.ForegroundColor = "White"
+                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("Mend")
+                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,10;$Host.UI.Write("& Mana")
+                                    Draw_Info_Banner
+                                    Draw_Inventory
+                                    foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
+                                        # if there are potions in inventory, add them to the array
+                                        if ($Import_JSON.Items.$Inventory_Item_Name.Name -like "*mana potion*" -or $Import_JSON.Items.$Inventory_Item_Name.Name -like "*health potion*" -and $Import_JSON.Items.$Inventory_Item_Name.Quantity -gt 0) {
+                                            $Elixir_Emporium_Potion_Letters_Array.Add($Import_JSON.Items.$Inventory_Item_Name.ID)
+                                            # $Elixir_Emporium_Choice_Sell_Quantity.Add($Import_JSON.Items.$Inventory_Item_Name.Quantity)
+                                            # $Elixir_Emporium_Choice_Sell_GoldValue.Add($Import_JSON.Items.$Inventory_Item_Name.GoldValue)
+                                            $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array -Join "/"
+                                            $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array_String + "/E"
+                                        }
+                                    }
+                                    if ($Elixir_Emporium_Potion_Letters_Array.Count -gt 0) { # potions in inventory
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                        Write-Color "  Which potion do you want to sell?" -Color DarkGray
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                        Write-Color -NoNewLine "ID ","numbers or ", "E","xit ","[$Elixir_Emporium_Potion_Letters_Array_String]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                                    } else { # no potions so only "E" (no slash)
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                        if ($First_Time_Entered_Elixir_Emporium -eq $true) {
+                                            Write-Color "  It doesn't look like you have any potions to sell." -Color DarkGray
+                                        } else {
+                                            Write-Color "  It doesn't look like you have any more potions to sell." -Color DarkGray
+                                        }
+                                        $Elixir_Emporium_Potion_Letters_Array_String = "E"
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                        Write-Color -NoNewLine "E","xit ","[$Elixir_Emporium_Potion_Letters_Array_String]" -Color Green,DarkYellow,Green
+                                    }
+                                    $Elixir_Emporium_Sell_Choice = Read-Host " "
+                                    $Elixir_Emporium_Sell_Choice = $Elixir_Emporium_Sell_Choice.Trim()
+                                } until ($Elixir_Emporium_Sell_Choice -ieq "e" -or $Elixir_Emporium_Sell_Choice -in $Elixir_Emporium_Potion_Letters_Array)
+                                $Script:Selectable_ID_Search = "not_set"
+                                $First_Time_Entered_Elixir_Emporium = $false
+                                if ($Elixir_Emporium_Sell_Choice -ieq "e") {
+                                    Break
+                                }
+                                # ID number chosen
+                                switch ($Elixir_Emporium_Sell_Choice) {
+                                    $Elixir_Emporium_Sell_Choice {
+                                        foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
+                                            if ($Import_JSON.Items.$Inventory_Item_Name.ID -eq $Elixir_Emporium_Sell_Choice) {
+                                                $Potion_Quantity = $Import_JSON.Items.$Inventory_Item_Name.Quantity
+                                                $Potion_GoldValue = $Import_JSON.Items.$Inventory_Item_Name.GoldValue
+                                                Break
+                                            }
+                                        }
+                                        do {
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                            Write-Color "  How many ","$Inventory_Item_Name's"," do you want to sell?" -Color DarkGray,Blue,DarkGray
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                            Write-Color -NoNewLine "Quantity or ", "E","xit ","[1-$Potion_Quantity/E]" -Color DarkYellow,Green,DarkYellow,Green
+                                            $Elixir_Emporium_Sell_Potion_Quantity_Choice = Read-Host " "
+                                            $Elixir_Emporium_Sell_Potion_Quantity_Choice = $Elixir_Emporium_Sell_Potion_Quantity_Choice.Trim()
+                                            # check if input is a number or E
+                                            if ($Elixir_Emporium_Sell_Potion_Quantity_Choice -match "^[0-9]+$") {
+                                                $Elixir_Emporium_Sell_Potion_Quantity_Choice = [int]$Elixir_Emporium_Sell_Potion_Quantity_Choice
+                                            }
+                                            if ($null -eq $Elixir_Emporium_Sell_Potion_Quantity_Choice -or $Elixir_Emporium_Sell_Potion_Quantity_Choice -eq ""){# sets to null if not a number or E which stops allowing no input
+                                                $Elixir_Emporium_Sell_Potion_Quantity_Choice = "not_set"
+                                            }
+                                        } until ($Elixir_Emporium_Sell_Potion_Quantity_Choice -ieq "E" -or $Elixir_Emporium_Sell_Potion_Quantity_Choice -le $Potion_Quantity)
+                                        if ($Elixir_Emporium_Sell_Potion_Quantity_Choice -ieq "E") { # exit
+                                            Break
+                                        } else { # quantity confirm
+                                            do {
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                                Write-Color "  $Elixir_Emporium_Purchase_Potion_Quantity_Choice ","$Elixir_Emporium_Purchase_Choice_Potion_Name","$Single_or_Multiple worth ","$Elixir_Emporium_Purchase_Choice_Potion_GoldValue Gold",", do you want to purchase?" -Color White,DarkCyan,DarkGray,DarkYellow,DarkGray
+                                                # displaying correct grammar for singular or plural potion
+                                                if ($Elixir_Emporium_Sell_Potion_Quantity_Choice -eq 1) {
+                                                    $Single_or_Multiple = ""
+                                                } else {
+                                                    $Single_or_Multiple = "'s"
+                                                }
+                                                Write-Color "  $Elixir_Emporium_Sell_Potion_Quantity_Choice ","$($Import_JSON.Items.$Inventory_Item_Name.Name)$Single_or_Multiple"," are worth ","$($Potion_GoldValue*$Elixir_Emporium_Sell_Potion_Quantity_Choice) Gold",", do you want to sell them?" -Color White,DarkCyan,DarkGray,DarkYellow,DarkGray
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                                                 Write-Color -NoNewLine "Y","es or ", "N","o ","[Y/N]" -Color Green,DarkYellow,Green,DarkYellow,Green
-                                                $Elixir_Emporium_Purchase_Potion_Confirm_Choice = Read-Host " "
-                                                $Elixir_Emporium_Purchase_Potion_Confirm_Choice = $Elixir_Emporium_Purchase_Potion_Confirm_Choice.Trim()
-                                            } until ($Elixir_Emporium_Purchase_Potion_Confirm_Choice -ieq "Y" -or $Elixir_Emporium_Purchase_Potion_Confirm_Choice -ieq "N")
-                                            if ($Elixir_Emporium_Purchase_Potion_Confirm_Choice -ieq "Y") {
+                                                $Elixir_Emporium_Sell_Potion_Confirm_Choice = Read-Host " "
+                                                $Elixir_Emporium_Sell_Potion_Confirm_Choice = $Elixir_Emporium_Sell_Potion_Confirm_Choice.Trim()
+                                            } until ($Elixir_Emporium_Sell_Potion_Confirm_Choice -ieq "Y" -or $Elixir_Emporium_Sell_Potion_Confirm_Choice -ieq "N")
+                                            if ($Elixir_Emporium_Sell_Potion_Confirm_Choice -ieq "Y") {
                                                 # update items in invenroty and gold
-                                                $Import_JSON.Items.$Elixir_Emporium_Purchase_Choice_Potion_Name.Quantity += $Elixir_Emporium_Purchase_Potion_Quantity_Choice
-                                                $Import_JSON.Character.Gold -= $Elixir_Emporium_Purchase_Choice_Potion_GoldValue
+                                                $Import_JSON.Items.$Inventory_Item_Name.Quantity -= $Elixir_Emporium_Sell_Potion_Quantity_Choice
+                                                $Import_JSON.Character.Gold += $Potion_GoldValue * $Elixir_Emporium_Sell_Potion_Quantity_Choice
                                                 Save_JSON
                                                 Set_Variables
                                             }
                                         }
                                     }
+                                    # Default {}
                                 }
-                                # Default {}
-                            }
-                        } until ($Elixir_Emporium_Purchase_Choice -ieq "e")
+                            } until ($Elixir_Emporium_Sell_Choice -ieq "e")
+                            #
+                        }
+                    } until ($Elixir_Emporium_Choice -ieq "e")
+                }
+                # Default {}
+            }
+        }
+        # switch choice for The Forest
+        if ($Current_Location -ieq "The Forest") {
+            switch ($Building_Choice) {
+                e { # exit
+                    for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                     }
-                    if ($Elixir_Emporium_Choice -ieq "s") {
-                        $First_Time_Entered_Elixir_Emporium = $true
-                        $Script:Info_Banner = "Mend & Mana - Sell"
-                        Draw_Info_Banner
-                        do {
-                            do {
-                                for ($Position = 17; $Position -lt 19; $Position++) { # clear some lines from previous widow
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                                }
-                                $Elixir_Emporium_Potion_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
-                                $Inventory_Item_Names = $Import_JSON.Items.PSObject.Properties.Name | Sort-Object
-                                $Script:Selectable_ID_Search = "HealthMana"
-                                Clear-Host
-                                Draw_Player_Window_and_Stats
-                                Draw_Town_Map
-                                # update building words in location map. white to current building and reset location to dark yellow 
-                                $host.UI.RawUI.ForegroundColor = "DarkYellow"
-                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
-                                $host.UI.RawUI.ForegroundColor = "White"
-                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("Mend")
-                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,10;$Host.UI.Write("& Mana")
-                                Draw_Info_Banner
-                                Draw_Inventory
-                                foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
-                                    # if there are potions in inventory, add them to the array
-                                    if ($Import_JSON.Items.$Inventory_Item_Name.Name -like "*mana potion*" -or $Import_JSON.Items.$Inventory_Item_Name.Name -like "*health potion*" -and $Import_JSON.Items.$Inventory_Item_Name.Quantity -gt 0) {
-                                        $Elixir_Emporium_Potion_Letters_Array.Add($Import_JSON.Items.$Inventory_Item_Name.ID)
-                                        # $Elixir_Emporium_Choice_Sell_Quantity.Add($Import_JSON.Items.$Inventory_Item_Name.Quantity)
-                                        # $Elixir_Emporium_Choice_Sell_GoldValue.Add($Import_JSON.Items.$Inventory_Item_Name.GoldValue)
-                                        $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array -Join "/"
-                                        $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array_String + "/E"
-                                    }
-                                }
-                                if ($Elixir_Emporium_Potion_Letters_Array.Count -gt 0) { # potions in inventory
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                    Write-Color "  Which potion do you want to sell?" -Color DarkGray
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                    Write-Color -NoNewLine "ID ","numbers or ", "E","xit ","[$Elixir_Emporium_Potion_Letters_Array_String]" -Color Green,DarkYellow,Green,DarkYellow,Green
-                                } else { # no potions so only "E" (no slash)
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                    if ($First_Time_Entered_Elixir_Emporium -eq $true) {
-                                        Write-Color "  It doesn't look like you have any potions to sell." -Color DarkGray
-                                    } else {
-                                        Write-Color "  It doesn't look like you have any more potions to sell." -Color DarkGray
-                                    }
-                                    $Elixir_Emporium_Potion_Letters_Array_String = "E"
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                    Write-Color -NoNewLine "E","xit ","[$Elixir_Emporium_Potion_Letters_Array_String]" -Color Green,DarkYellow,Green
-                                }
-                                $Elixir_Emporium_Sell_Choice = Read-Host " "
-                                $Elixir_Emporium_Sell_Choice = $Elixir_Emporium_Sell_Choice.Trim()
-                            } until ($Elixir_Emporium_Sell_Choice -ieq "e" -or $Elixir_Emporium_Sell_Choice -in $Elixir_Emporium_Potion_Letters_Array)
-                            $Script:Selectable_ID_Search = "not_set"
-                            $First_Time_Entered_Elixir_Emporium = $false
-                            if ($Elixir_Emporium_Sell_Choice -ieq "e") {
-                                Break
-                            }
-                            # ID number chosen
-                            switch ($Elixir_Emporium_Sell_Choice) {
-                                $Elixir_Emporium_Sell_Choice {
-                                    foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
-                                        if ($Import_JSON.Items.$Inventory_Item_Name.ID -eq $Elixir_Emporium_Sell_Choice) {
-                                            $Potion_Quantity = $Import_JSON.Items.$Inventory_Item_Name.Quantity
-                                            $Potion_GoldValue = $Import_JSON.Items.$Inventory_Item_Name.GoldValue
-                                            Break
-                                        }
-                                    }
-                                    do {
-                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                        Write-Color "  How many ","$Inventory_Item_Name's"," do you want to sell?" -Color DarkGray,Blue,DarkGray
-                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                        Write-Color -NoNewLine "Quantity or ", "E","xit ","[1-$Potion_Quantity/E]" -Color DarkYellow,Green,DarkYellow,Green
-                                        $Elixir_Emporium_Sell_Potion_Quantity_Choice = Read-Host " "
-                                        $Elixir_Emporium_Sell_Potion_Quantity_Choice = $Elixir_Emporium_Sell_Potion_Quantity_Choice.Trim()
-                                        # check if input is a number or E
-                                        if ($Elixir_Emporium_Sell_Potion_Quantity_Choice -match "^[0-9]+$") {
-                                            $Elixir_Emporium_Sell_Potion_Quantity_Choice = [int]$Elixir_Emporium_Sell_Potion_Quantity_Choice
-                                        }
-                                        if ($null -eq $Elixir_Emporium_Sell_Potion_Quantity_Choice -or $Elixir_Emporium_Sell_Potion_Quantity_Choice -eq ""){# sets to null if not a number or E which stops allowing no input
-                                            $Elixir_Emporium_Sell_Potion_Quantity_Choice = "not_set"
-                                        }
-                                    } until ($Elixir_Emporium_Sell_Potion_Quantity_Choice -ieq "E" -or $Elixir_Emporium_Sell_Potion_Quantity_Choice -le $Potion_Quantity)
-                                    if ($Elixir_Emporium_Sell_Potion_Quantity_Choice -ieq "E") { # exit
-                                        Break
-                                    } else { # quantity confirm
-                                        do {
-                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                            # displaying correct grammar for singular or plural potion
-                                            if ($Elixir_Emporium_Sell_Potion_Quantity_Choice -eq 1) {
-                                                $Single_or_Multiple = ""
-                                            } else {
-                                                $Single_or_Multiple = "'s"
-                                            }
-                                            Write-Color "  $Elixir_Emporium_Sell_Potion_Quantity_Choice ","$($Import_JSON.Items.$Inventory_Item_Name.Name)$Single_or_Multiple"," are worth ","$($Potion_GoldValue*$Elixir_Emporium_Sell_Potion_Quantity_Choice) Gold",", do you want to sell them?" -Color White,DarkCyan,DarkGray,DarkYellow,DarkGray
-                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                            Write-Color -NoNewLine "Y","es or ", "N","o ","[Y/N]" -Color Green,DarkYellow,Green,DarkYellow,Green
-                                            $Elixir_Emporium_Sell_Potion_Confirm_Choice = Read-Host " "
-                                            $Elixir_Emporium_Sell_Potion_Confirm_Choice = $Elixir_Emporium_Sell_Potion_Confirm_Choice.Trim()
-                                        } until ($Elixir_Emporium_Sell_Potion_Confirm_Choice -ieq "Y" -or $Elixir_Emporium_Sell_Potion_Confirm_Choice -ieq "N")
-                                        if ($Elixir_Emporium_Sell_Potion_Confirm_Choice -ieq "Y") {
-                                            # update items in invenroty and gold
-                                            $Import_JSON.Items.$Inventory_Item_Name.Quantity -= $Elixir_Emporium_Sell_Potion_Quantity_Choice
-                                            $Import_JSON.Character.Gold += $Potion_GoldValue * $Elixir_Emporium_Sell_Potion_Quantity_Choice
-                                            Save_JSON
-                                            Set_Variables
-                                        }
-                                    }
-                                }
-                                # Default {}
-                            }
-                        } until ($Elixir_Emporium_Sell_Choice -ieq "e")
-                        #
+                }
+                h { # Hut
+                    for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                     }
-                } until ($Elixir_Emporium_Choice -ieq "e")
+                }
+                t { # Tree House
+                    for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                    }
+                }
+                s { # Secret Location
+                    for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                    }
+                }
+                # Default {}
             }
-            # Default {}
         }
-    }
-    # switch choice for The Forest
-    if ($Current_Location -ieq "The Forest") {
-        switch ($Building_Choice) {
-            e { # exit
-                for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+        # switch choice for The River
+        if ($Current_Location -ieq "The River") {
+            switch ($Building_Choice) {
+                e { # exit
+                    for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                    }
                 }
-            }
-            h { # Hut
-                for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                c { # Camp
+                    for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                    }
                 }
+                # Default {}
             }
-            t { # Tree House
-                for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                }
-            }
-            s { # Secret Location
-                for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                }
-            }
-            # Default {}
         }
-    }
-    # switch choice for The River
-    if ($Current_Location -ieq "The River") {
-        switch ($Building_Choice) {
-            e { # exit
-                for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                }
-            }
-            c { # Camp
-                for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                }
-            }
-            # Default {}
-        }
-    }
-    # below is run if Q quit is chosen in any location
-    Save_JSON
-    Clear-Host
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
-    Draw_Player_Window_and_Stats
+        # below is run if Q quit is chosen in any location
+        Save_JSON
+        Clear-Host
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
+        Draw_Player_Window_and_Stats
+    } until ($Building_Choice -ieq "e")
 }
 
 #
