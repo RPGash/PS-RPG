@@ -3444,10 +3444,14 @@ do {
                 do {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                    Write-Color -NoNewLine "H","unt or ","T","ravel back to Town? ", "[H/T]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                    Write-Color -NoNewLine "H","unt, ","T","ravel back to Town or view your ","Q","uest log? ", "[H/T/Q]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
                     $Finish_Combat = Read-Host " "
                     $Finish_Combat = $Finish_Combat.Trim()
-                } until ($Finish_Combat -ieq "H" -or $Finish_Combat -ieq "T")
+                } until ($Finish_Combat -ieq "H" -or $Finish_Combat -ieq "T" -or $Finish_Combat -ieq "Q")
+                if ($Finish_Combat -ieq "Q") {
+                    Draw_Quest_Log
+                    $Script:Continue_Fighting = $true
+                }
                 if ($Finish_Combat -ieq "H") {
                     $Script:Continue_Fighting = $true
                 }
