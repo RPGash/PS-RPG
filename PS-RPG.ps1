@@ -21,6 +21,7 @@ ToDo
         travel > visit location >
         then open everything up?
         add a "visited" flag to each building/location so they can only visit each place before allowing them all until above are complete
+        add a "slow" introduction window showing above points marked when completed as a reminder
     - buy items in the Anvil & Blade shop
     - add spells
     - add item equipment drops from mob loot
