@@ -18,7 +18,7 @@
         {
           "Name": "Chicken",
           "Level": 1,
-          "Health": 1000,
+          "Health": 10,
           "Stamina": 50,
           "Mana": 50,
           "Attack": 5,
@@ -537,10 +537,10 @@
     "Name": "Banain",
     "Class": "Rogue",
     "Race": "Elf",
-    "Level": 16,
-    "Total_XP": 10881,
+    "Level": 1,
+    "Total_XP": 100881,
     "XP_TNL": 1134.0,
-    "Gold": 270.0,
+    "Gold": 0.0,
     "Stats": {
       "HealthCurrent": 1,
       "HealthMax": 60,
