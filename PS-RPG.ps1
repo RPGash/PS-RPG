@@ -11,7 +11,6 @@ ToDo
     
     
 - NEXT
-    - quest board "Home Town" yellow test not aligning correctly
     - [started] add a "slow" introduction to: Travel, Visiting, Quests, Inventory, Hunting etc.?
         Visit Home > Visit Tavern > accept a Quests > Hunt > Inventory > Quest hand-in > visit Mend & Mana > Travel
         start at half health and mana > visit Home > recover >
@@ -2451,7 +2450,7 @@ Function Visit_a_Building {
                 t { # tavern
                     # update building words in location map. white to current building and reset location to dark yellow 
                     $host.UI.RawUI.ForegroundColor = "DarkYellow"
-                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 78,1;$Host.UI.Write("Home Town")
+                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
                     $host.UI.RawUI.ForegroundColor = "White"
                     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("Tavern")
                     $First_Time_Entered_Tavern = $true
