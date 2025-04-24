@@ -3,7 +3,9 @@ ToDo
 ----
 
 - BUGS
-    - 
+    - purchasing a potion in the Mend & Mana does not open up the Travel option in the Introduction Tasks
+    - if part way through Introduction Tasks and quit, restarting blanks out completed tasks
+    - viewing Inventory Introduction Tasks not updating when Inventory opens on mob loot
     
     
 - TEST
@@ -1324,6 +1326,61 @@ do {
 }
 
 #
+# "slow" introduction tasks
+#
+Function Draw_Introduction_Tasks {
+    if (-not($Script:Introduction_Tasks -eq $True)) {
+        $Tick = ([char]8730)
+        if ($Tick_Visit_Home -eq $true)                 { $Tick_Visit_Home              = $Tick }
+        if ($Tick_Recover_Health_and_Mana -eq $true)    { $Tick_Recover_Health_and_Mana = $Tick }
+        if ($Tick_Visit_the_Tavern -eq $true)           { $Tick_Visit_the_Tavern        = $Tick }
+        if ($Tick_Accept_a_Quest -eq $true)             { $Tick_Accept_a_Quest          = $Tick }
+        if ($Tick_Go_Hunting -eq $true)                 { $Tick_Go_Hunting              = $Tick }
+        if ($Tick_Kill_2_Rats -eq $true)                { $Tick_Kill_2_Rats             = $Tick }
+        if ($Tick_View_Inventory -eq $true)             { $Tick_View_Inventory          = $Tick }
+        if ($Tick_Hand_in_Completed_Quest -eq $true)    { $Tick_Hand_in_Completed_Quest = $Tick }
+        if ($Tick_Visit_Mend_and_Mana -eq $true)        { $Tick_Visit_Mend_and_Mana     = $Tick }
+        if ($Tick_Purchase_a_Potion -eq $true)          { $Tick_Purchase_a_Potion       = $Tick }
+        if ($Tick_Travel_to_another_Location -eq $true) {
+            $Tick_Travel_to_another_Location = $Tick
+            $Introduction_Tasks = $True
+        } else { $Tick_Travel_to_another_Location = " " }
+        $host.UI.RawUI.ForegroundColor = "DarkGray"
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,21;$Host.UI.Write("+----------------------------------+")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,22;$Host.UI.Write("|                                  |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,23;$Host.UI.Write("+----------------------------------+")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,24;$Host.UI.Write("| [ ] Visit Home                   |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,25;$Host.UI.Write("| [ ] Recover Health and Mana      |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,26;$Host.UI.Write("| [ ] Visit the Tavern             |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,27;$Host.UI.Write("| [ ] Accept a Quest               |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,28;$Host.UI.Write("| [ ] Go Hunting                   |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,29;$Host.UI.Write("| [ ] Kill 2 Rats                  |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,30;$Host.UI.Write("| [ ] View your Inventory          |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,31;$Host.UI.Write("| [ ] Hand in your completed Quest |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,32;$Host.UI.Write("| [ ] Visit the Mend & Mana        |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,33;$Host.UI.Write("| [ ] Purchase a Potion            |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,34;$Host.UI.Write("| [ ] Travel to another Location   |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,35;$Host.UI.Write("| [ ]                              |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,36;$Host.UI.Write("+----------------------------------+")
+        $host.UI.RawUI.ForegroundColor = "White"
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 108,22;$Host.UI.Write("Introduction Tasks")
+        $host.UI.RawUI.ForegroundColor = "Green"
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,24;$Host.UI.Write("$Tick_Visit_Home")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,25;$Host.UI.Write("$Tick_Recover_Health_and_Mana")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,26;$Host.UI.Write("$Tick_Visit_the_Tavern")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,27;$Host.UI.Write("$Tick_Accept_a_Quest")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,28;$Host.UI.Write("$Tick_Go_Hunting")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,29;$Host.UI.Write("$Tick_Kill_2_Rats")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,30;$Host.UI.Write("$Tick_View_Inventory")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,31;$Host.UI.Write("$Tick_Hand_in_Completed_Quest")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,32;$Host.UI.Write("$Tick_Visit_Mend_and_Mana")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,33;$Host.UI.Write("$Tick_Purchase_a_Potion")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,34;$Host.UI.Write("$Tick_Travel_to_another_Location")
+    }
+}
+
+
+#
 # draw mob stats
 #
 Function Draw_Mob_Window_and_Stats {
@@ -1837,6 +1894,10 @@ Function Fight_or_Run {
     $First_Turn = $true
     do {
         Clear-Host
+        # update introduction task and update Introduction Tasks window
+        $Script:Tick_Go_Hunting = $true
+        Draw_Introduction_Tasks
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
         Draw_Player_Window_and_Stats
         Draw_Mob_Window_and_Stats
         $Script:Info_Banner = "Combat"
@@ -2006,6 +2067,23 @@ Function Fight_or_Run {
             }
             # if mob health is zero, display you killed mob message
             if ($Selected_Mob_HealthCurrent -eq 0) {
+                # update mob killed count in JSON
+                $Current_Location_Mobs = $Import_JSON.Locations.$Current_Location.Mobs
+                foreach ($Current_Location_Mob in $Current_Location_Mobs) {
+                    if ($Current_Location_Mob.Name -ilike $Selected_Mob.Name) {
+                        $Current_Location_Mob.Killed += 1
+                    }
+                    Save_JSON
+                    # if killed mob is a rat (for Introduction task)
+                    if ($Current_Location_Mob.Name -ilike "rat") {
+                        if ($Current_Location_Mob.Killed -eq 2) {
+                            # update introduction task and update Introduction Tasks window (if 2 rat kills)
+                            $Script:Tick_Kill_2_Rats = $true
+                            Draw_Introduction_Tasks
+                        }
+                    }
+                }
+                Save_JSON
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,20;$Host.UI.Write("")
                 Write-Color "  You killed the ","$($Selected_Mob.Name) ","and gained ","$($Selected_Mob.XP) XP","!" -Color DarkGray,Blue,DarkGray,Cyan,DarkGray
                 # Write-Output "Total XP before : $($Import_JSON.Character.Total_XP)"
@@ -2098,6 +2176,8 @@ Function Fight_or_Run {
                 $Random_Escape_100 = Get-Random -Minimum 1 -Maximum 101
                 if ($Random_Escape_100 -le [Math]::Round($Character_Quickness/($Character_Quickness+($Selected_Mob_Quickness/3))*100)) {
                     Clear-Host
+                    Draw_Introduction_Tasks
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                     Draw_Player_Window_and_Stats
                     $Script:Info_Banner = "Combat"
                     Draw_Info_Banner
@@ -2154,6 +2234,8 @@ Function Fight_or_Run {
 
 Function Travel {
     Clear-Host
+    Draw_Introduction_Tasks
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
     Draw_Player_Window_and_Stats
     $Script:Info_Banner = "Travel"
     Draw_Info_Banner
@@ -2216,12 +2298,12 @@ Function Travel {
         $Travel_Choice = $Travel_Choice.Trim()
     } until ($Travel_Choice -eq "E" -or $All_Linked_Locations_Letters_Array -match $Travel_Choice)
     switch ($Travel_Choice) {
-        e {
+        e { # exit
             for ($Position = 14; $Position -lt 35; $Position++) { # clear some lines from previous widow
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
             }
         }
-        t {
+        t { # Home Town
             $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
             $Script:Current_Location = "Home Town"
             $Import_JSON.Locations."Home Town".CurrentLocation = $true
@@ -2230,7 +2312,11 @@ Function Travel {
             }
             Save_JSON
         }
-        f {
+        f { # The Forst
+            # update introduction task and update Introduction Tasks window
+            $Script:Tick_Travel_to_another_Location = $true
+            Draw_Introduction_Tasks
+            # Introduction Tasks window drawn on exit of switch statement below
             $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
             $Script:Current_Location = "The Forest"
             $Import_JSON.Locations."The Forest".CurrentLocation = $true
@@ -2238,7 +2324,7 @@ Function Travel {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
             }
         }
-        r {
+        r { # The River
             $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
             $Script:Current_Location = "The River"
             $Import_JSON.Locations."The River".CurrentLocation = $true
@@ -2344,6 +2430,8 @@ Function Draw_The_River_Map {
 Function Visit_a_Building {
     do {
         Clear-Host
+        Draw_Introduction_Tasks
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
         Draw_Player_Window_and_Stats
         $Script:Info_Banner = "Visit"
         Draw_Info_Banner
@@ -2404,6 +2492,9 @@ Function Visit_a_Building {
                         $Home_Choice_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
                         if ($Home_Choice -ieq "r" ) { # rested (from choice below), so display fully rested message instead
                             Save_JSON
+                            # update introduction task and update Introduction Tasks window
+                            $Script:Tick_Recover_Health_and_Mana = $true
+                            Draw_Introduction_Tasks
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                             Draw_Player_Window_and_Stats
                             for ($Position = 17; $Position -lt 19; $Position++) { # clear some lines from previous widow
@@ -2426,6 +2517,9 @@ Function Visit_a_Building {
                             Write-Color "  You can rest here to recover your ","health ","and ","mana","$($Fully_Healed)" -Color DarkGray,Green,DarkGray,Blue,DarkGray
                         }
                         do {
+                            # update introduction task and update Introduction Tasks window
+                            $Script:Tick_Visit_Home = $true
+                            Draw_Introduction_Tasks
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                             if ($Home_Choice_Letters_Array.Contains("R")) {
@@ -2511,6 +2605,9 @@ Function Visit_a_Building {
                                     Write-Color "  Stay safe out there, $($Character_Name)" -Color DarkGray,Green,DarkGray
                                 }
                             }
+                            # update introduction task and update Introduction Tasks window
+                            $Script:Tick_Visit_the_Tavern = $true
+                            Draw_Introduction_Tasks
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                             Write-Color -NoNewLine "D","rink, ","Q","uest board, or ", "E","xit ","[D/Q/E]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
@@ -2655,6 +2752,9 @@ Function Visit_a_Building {
                                         Write-Color "  $Player_Walking_to_Quest_Board" -Color DarkGray
                                     }
                                     if ($Quest_Accepted -eq $true) {
+                                        # update introduction task and update Introduction Tasks window
+                                        $Script:Tick_Accept_a_Quest = $true
+                                        Draw_Introduction_Tasks
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                         for ($Position = 17; $Position -lt 31; $Position++) { # clear some lines from previous widow
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
@@ -2750,6 +2850,10 @@ Function Visit_a_Building {
                                         do {
                                             # advance "slow" introduction to game (from Rat quest)
                                             $Import_JSON.Locations."Home Town".Buildings."Mend & Mana".SlowIntro = $true
+                                            # update introduction task and update Introduction Tasks window
+                                            $Script:Tick_View_Inventory = $true
+                                            $Script:Tick_Hand_in_Completed_Quest = $true
+                                            Draw_Introduction_Tasks
                                             # reset quest
                                             $Quest_Name.Status = "Available"
                                             $Quest_Name.InProgress = $false
@@ -2758,6 +2862,7 @@ Function Visit_a_Building {
                                             # update gold
                                             $Import_JSON.Character.Gold += $Quest_Name.GoldReward
                                             $Script:Gold = $Import_JSON.Character.Gold
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("");" "*105
                                             Draw_Player_Window_and_Stats
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,25;$Host.UI.Write("");" "*105
                                             Write-Color "  Thank you for completing this quest ","$Character_Name",". Here is your reward." -Color DarkGray,Blue,DarkGray
@@ -2884,6 +2989,8 @@ Function Visit_a_Building {
                                 Save_JSON
                                 Clear-Host
                                 Set_Variables
+                                Draw_Introduction_Tasks
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                                 Draw_Player_Window_and_Stats
                                 Draw_Town_Map
                                 # update building words in location map. white to current building and reset location to dark yellow 
@@ -2930,6 +3037,9 @@ Function Visit_a_Building {
                                 Write-Color "  Welcome adventurer." -Color DarkGray
                                 Write-Color "  I deal in all kinds of potions. If you are interested, take a look at what i have to offer." -Color DarkGray
                             }
+                            # update introduction task and update Introduction Tasks window
+                            $Script:Tick_Visit_Mend_and_Mana = $true
+                            Draw_Introduction_Tasks
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                             Write-Color -NoNewLine "P","urchase, ","S","ell, or ", "E","xit ","[P/S/E]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
@@ -2951,6 +3061,8 @@ Function Visit_a_Building {
                                     $Inventory_Item_Names = $Import_JSON.Items.PSObject.Properties.Name | Sort-Object
                                     $Script:Selectable_ID_Search = "HealthMana"
                                     Clear-Host
+                                    Draw_Introduction_Tasks
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                                     Draw_Player_Window_and_Stats
                                     Draw_Town_Map
                                     # update building words in location map. white to current building and reset location to dark yellow 
@@ -3065,6 +3177,9 @@ Function Visit_a_Building {
                                                     $Import_JSON.Character.Gold -= $Elixir_Emporium_Purchase_Choice_Potion_GoldValue
                                                     Save_JSON
                                                     Set_Variables
+                                                    # update introduction task and update Introduction Tasks window
+                                                    $Script:Tick_Purchase_a_Potion = $true
+                                                    # Introdution Tasks window updated on next loop above
                                                 }
                                             }
                                         }
@@ -3086,6 +3201,8 @@ Function Visit_a_Building {
                                     $Inventory_Item_Names = $Import_JSON.Items.PSObject.Properties.Name | Sort-Object
                                     $Script:Selectable_ID_Search = "HealthMana"
                                     Clear-Host
+                                    Draw_Introduction_Tasks
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                                     Draw_Player_Window_and_Stats
                                     Draw_Town_Map
                                     # update building words in location map. white to current building and reset location to dark yellow 
@@ -3240,6 +3357,7 @@ Function Visit_a_Building {
         # below is run if Q quit is chosen in any location
         Save_JSON
         Clear-Host
+        Draw_Introduction_Tasks
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
         Draw_Player_Window_and_Stats
     } until ($Building_Choice -ieq "e")
@@ -3413,6 +3531,8 @@ do {
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,$Position;$Host.UI.Write("");" "*49
         }
         # Clear-Host # clears previous combat messages and mob window
+        Draw_Introduction_Tasks
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
         Draw_Player_Window_and_Stats
         $Script:Info_Banner = "$Current_Location"
         Draw_Info_Banner
@@ -3439,6 +3559,7 @@ do {
     switch ($Main_Loop_Choice) {
         h {
             do {
+                Draw_Introduction_Tasks
                 Save_JSON
                 Random_Mob
                 Fight_or_Run
