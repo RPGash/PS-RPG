@@ -3,7 +3,6 @@ ToDo
 ----
 
 - BUGS
-    - update Inventory after looting mob, nut just when handing in a quest
     - if part way through Introduction Tasks and quit, restarting blanks out completed tasks
     - viewing Inventory Introduction Tasks not updating when Inventory opens on mob loot
     
@@ -1330,7 +1329,8 @@ do {
 # "slow" introduction tasks
 #
 Function Draw_Introduction_Tasks {
-    if (-not($Script:Introduction_Tasks -eq $true)) {
+    # only draw if not fully completed all tasks
+    if ($Import_JSON.SlowIntro -eq $true) {
         $Tick = ([char]8730)
         if ($Tick_Visit_Home -eq $true)                 { $Tick_Visit_Home              = $Tick }
         if ($Tick_Recover_Health_and_Mana -eq $true)    { $Tick_Recover_Health_and_Mana = $Tick }
@@ -1344,7 +1344,8 @@ Function Draw_Introduction_Tasks {
         if ($Tick_Purchase_a_Potion -eq $true)          { $Tick_Purchase_a_Potion       = $Tick }
         if ($Tick_Travel_to_another_Location -eq $true) {
             $Tick_Travel_to_another_Location = $Tick
-            $Introduction_Tasks = $True
+            $Import_JSON.SlowIntro -eq $false
+            Save_JSON
         } else { $Tick_Travel_to_another_Location = " " }
         $host.UI.RawUI.ForegroundColor = "DarkGray"
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,21;$Host.UI.Write("+----------------------------------+")
@@ -2327,8 +2328,6 @@ Function Travel {
             $Script:Tick_Travel_to_another_Location = $true
             Draw_Introduction_Tasks
             # Introduction Tasks window drawn on exit of switch statement below
-            # set $Import_JSON.SlowIntro to false to complete the slow intro
-            $Import_JSON.SlowIntro = $false
             # update old current location to false
             $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
             $Script:Current_Location = "The Forest"
