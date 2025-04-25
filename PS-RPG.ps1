@@ -4,7 +4,6 @@ ToDo
 
 - BUGS
     - if part way through Introduction Tasks and quit, restarting blanks out completed tasks
-    - viewing Inventory Introduction Tasks not updating when Inventory opens on mob loot
     
     
 - TEST
