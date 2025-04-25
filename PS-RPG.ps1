@@ -3,7 +3,7 @@ ToDo
 ----
 
 - BUGS
-    - purchasing a potion in the Mend & Mana does not open up the Travel option in the Introduction Tasks
+    - update Inventory after looting mob, nut just when handing in a quest
     - if part way through Introduction Tasks and quit, restarting blanks out completed tasks
     - viewing Inventory Introduction Tasks not updating when Inventory opens on mob loot
     
@@ -1330,15 +1330,15 @@ do {
 # "slow" introduction tasks
 #
 Function Draw_Introduction_Tasks {
-    if (-not($Script:Introduction_Tasks -eq $True)) {
+    if (-not($Script:Introduction_Tasks -eq $true)) {
         $Tick = ([char]8730)
         if ($Tick_Visit_Home -eq $true)                 { $Tick_Visit_Home              = $Tick }
         if ($Tick_Recover_Health_and_Mana -eq $true)    { $Tick_Recover_Health_and_Mana = $Tick }
         if ($Tick_Visit_the_Tavern -eq $true)           { $Tick_Visit_the_Tavern        = $Tick }
         if ($Tick_Accept_a_Quest -eq $true)             { $Tick_Accept_a_Quest          = $Tick }
         if ($Tick_Go_Hunting -eq $true)                 { $Tick_Go_Hunting              = $Tick }
-        if ($Tick_Kill_2_Rats -eq $true)                { $Tick_Kill_2_Rats             = $Tick }
         if ($Tick_View_Inventory -eq $true)             { $Tick_View_Inventory          = $Tick }
+        if ($Tick_Kill_2_Rats -eq $true)                { $Tick_Kill_2_Rats             = $Tick }
         if ($Tick_Hand_in_Completed_Quest -eq $true)    { $Tick_Hand_in_Completed_Quest = $Tick }
         if ($Tick_Visit_Mend_and_Mana -eq $true)        { $Tick_Visit_Mend_and_Mana     = $Tick }
         if ($Tick_Purchase_a_Potion -eq $true)          { $Tick_Purchase_a_Potion       = $Tick }
@@ -1355,14 +1355,13 @@ Function Draw_Introduction_Tasks {
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,26;$Host.UI.Write("| [ ] Visit the Tavern             |")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,27;$Host.UI.Write("| [ ] Accept a Quest               |")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,28;$Host.UI.Write("| [ ] Go Hunting                   |")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,29;$Host.UI.Write("| [ ] Kill 2 Rats                  |")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,30;$Host.UI.Write("| [ ] View your Inventory          |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,29;$Host.UI.Write("| [ ] View your Inventory          |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,30;$Host.UI.Write("| [ ] Kill 2 Rats                  |")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,31;$Host.UI.Write("| [ ] Hand in your completed Quest |")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,32;$Host.UI.Write("| [ ] Visit the Mend & Mana        |")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,33;$Host.UI.Write("| [ ] Purchase a Potion            |")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,34;$Host.UI.Write("| [ ] Travel to another Location   |")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,35;$Host.UI.Write("| [ ]                              |")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,36;$Host.UI.Write("+----------------------------------+")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,35;$Host.UI.Write("+----------------------------------+")
         $host.UI.RawUI.ForegroundColor = "White"
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 108,22;$Host.UI.Write("Introduction Tasks")
         $host.UI.RawUI.ForegroundColor = "Green"
@@ -1371,8 +1370,8 @@ Function Draw_Introduction_Tasks {
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,26;$Host.UI.Write("$Tick_Visit_the_Tavern")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,27;$Host.UI.Write("$Tick_Accept_a_Quest")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,28;$Host.UI.Write("$Tick_Go_Hunting")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,29;$Host.UI.Write("$Tick_Kill_2_Rats")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,30;$Host.UI.Write("$Tick_View_Inventory")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,29;$Host.UI.Write("$Tick_View_Inventory")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,30;$Host.UI.Write("$Tick_Kill_2_Rats")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,31;$Host.UI.Write("$Tick_Hand_in_Completed_Quest")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,32;$Host.UI.Write("$Tick_Visit_Mend_and_Mana")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,33;$Host.UI.Write("$Tick_Purchase_a_Potion")
@@ -2112,6 +2111,7 @@ Function Fight_or_Run {
                                 # update gold in inventory
                                 $Script:Import_JSON.Character.Gold = $Import_JSON.Character.Gold + $Looted_Gold
                                 $Script:Gold = $Import_JSON.Character.Gold + $Looted_Gold
+                                
                             } else { # add non-gold loot
                                 # update non-gold items in inventory
                                 $Current_Item_Quantity = $Import_JSON.Items.$Loot_Item.Quantity
@@ -2131,6 +2131,11 @@ Function Fight_or_Run {
                         Write-Color "  The ", "$($Selected_Mob.Name) ", "dropped the following items:" -Color DarkGray,Blue,DarkGray
                         Write-Color "  $($Looted_Items)" -Color DarkGray
                         Draw_Inventory
+                        # if SlowIntro is still in progress, update the slow intro window Inventory with a tick
+                        if ($Import_JSON.SlowIntro -eq $true) {
+                            $Script:Tick_View_Inventory = $true
+                            Draw_Introduction_Tasks
+                        }
                     } else {
                         Write-Color "  The ", "$($Selected_Mob.Name) ", "did not drop any loot." -Color DarkGray,Blue,DarkGray
                     }
@@ -2146,6 +2151,10 @@ Function Fight_or_Run {
                         }
                     }
                 }
+                # update player stats before level up to update gold and XP
+                Set_Variables
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
+                Draw_Player_Window_and_Stats
                 # level up check
                 if ($XP_TNL -lt 0) {
                     $Script:XP_Difference = $XP_TNL
@@ -2153,10 +2162,10 @@ Function Fight_or_Run {
                 if ($XP_TNL -le 0) {
                     Level_Up
                 }
+                # update player stats after level up to show stat buffs
                 Save_JSON
                 Import-JSON
                 Set_Variables
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                 # mob killed so break out of Fight_or_Run loop (back down to main loop)
                 Break
             }
@@ -2313,13 +2322,17 @@ Function Travel {
             }
             Save_JSON
         }
-        f { # The Forst
+        f { # The Forest
             # update introduction task and update Introduction Tasks window
             $Script:Tick_Travel_to_another_Location = $true
             Draw_Introduction_Tasks
             # Introduction Tasks window drawn on exit of switch statement below
+            # set $Import_JSON.SlowIntro to false to complete the slow intro
+            $Import_JSON.SlowIntro = $false
+            # update old current location to false
             $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
             $Script:Current_Location = "The Forest"
+            # update new current location to true
             $Import_JSON.Locations."The Forest".CurrentLocation = $true
             for ($Position = 14; $Position -lt 35; $Position++) { # clear some lines from previous widow
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
@@ -2441,9 +2454,16 @@ Function Visit_a_Building {
         $All_Building_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
         $All_Buildings_In_Current_Location_List = New-Object System.Collections.Generic.List[System.Object]
         Write-Color "  You can visit the following buildings:" -Color DarkGray
-        # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
+        # only show Home or Tavern when their SlowIntro value is set to true
         foreach ($Building_In_Current_Location in $All_Buildings_In_Current_Location) {
-            if ($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.SlowIntro -eq $true) {
+            if ($Import_JSON.SlowIntro -eq $true) {
+                if ($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.SlowIntro -eq $true) {
+                    $All_Building_Letters_Array.Add($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.BuildingLetter) # grabs single character for that building
+                    Write-Color "  $($Building_In_Current_Location.Substring(0,1))","$($Building_In_Current_Location.Substring(1,$Building_In_Current_Location.Length-1))" -Color Green,DarkGray
+                    $All_Buildings_In_Current_Location_List.Add($Building_In_Current_Location)
+                    $All_Buildings_In_Current_Location_List.Add("`r`n ")
+                }
+            } else { # otherwise show all buildings in current location after SlowIntro is complete and set to false
                 $All_Building_Letters_Array.Add($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.BuildingLetter) # grabs single character for that building
                 Write-Color "  $($Building_In_Current_Location.Substring(0,1))","$($Building_In_Current_Location.Substring(1,$Building_In_Current_Location.Length-1))" -Color Green,DarkGray
                 $All_Buildings_In_Current_Location_List.Add($Building_In_Current_Location)
@@ -2537,7 +2557,7 @@ Function Visit_a_Building {
                             $Script:Character_ManaCurrent = $Character_ManaMax
                             $Import_JSON.Character.Stats.HealthCurrent = $Character_HealthCurrent
                             $Import_JSON.Character.Stats.ManaCurrent = $Character_ManaCurrent
-                            # advance "slow" introduction to game
+                            # advance "slow" introduction to game ()
                             $Import_JSON.Locations."Home Town".Buildings.Tavern.SlowIntro = $true
                             Save_JSON
                         }
@@ -2560,7 +2580,7 @@ Function Visit_a_Building {
                         do {
                             if ($First_Time_Entered_Tavern -eq $true) {
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                Write-Color "  Welcome adventurer, I am ","$($Import_JSON.Locations."Home Town".Buildings.Tavern.Owner)",", the owner of this Tavern." -Color DarkGray,Blue,DarkGray
+                                Write-Color "  Welcome adventurer, my name is ","$($Import_JSON.Locations."Home Town".Buildings.Tavern.Owner)",", and i am the owner of this Tavern." -Color DarkGray,Blue,DarkGray
                                 Write-Color "  Would you like a ","D","rink? If not, maybe you can spare some time to look at the ","Q","uest board over there." -Color DarkGray,Green,DarkGray,Green,DarkGray
                             }
                             if ($First_Time_Entered_Tavern -eq $false) {
@@ -2782,7 +2802,13 @@ Function Visit_a_Building {
                                     $Quest_Names = $Import_JSON.Quests.PSObject.Properties.Name
                                     foreach ($Quest_Name in $Quest_Names) {
                                         $Quest_Name = $Import_JSON.Quests.$Quest_Name
-                                        if ($Quest_Name.SlowIntro -eq $true) {
+                                        # if SlowIntro is active, only show the Rat quest
+                                        if ($Import_JSON.SlowIntro -eq $true) {
+                                            if ($Quest_Name.SlowIntro -eq $true) {
+                                                Write-Color "  $($Quest_Name.QuestLetter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status)" -Color Green,DarkGray,DarkYellow
+                                                $Available_Quest_Letters_Array.Add($Quest_Name.QuestLetter)
+                                            }
+                                        } else { # else show all quests
                                             if ($Quest_Name.Available -eq $true -or $Quest_Name.Status -ieq "In Progress" -or $Quest_Name.Status -ieq "Hand In") {
                                                 Write-Color "  $($Quest_Name.QuestLetter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status)" -Color Green,DarkGray,DarkYellow
                                                 $Available_Quest_Letters_Array.Add($Quest_Name.QuestLetter)
@@ -3178,9 +3204,11 @@ Function Visit_a_Building {
                                                     $Import_JSON.Character.Gold -= $Elixir_Emporium_Purchase_Choice_Potion_GoldValue
                                                     Save_JSON
                                                     Set_Variables
-                                                    # update introduction task and update Introduction Tasks window
+                                                    # update introduction task tick
                                                     $Script:Tick_Purchase_a_Potion = $true
                                                     # Introdution Tasks window updated on next loop above
+                                                    # advance "slow" introduction to game (opens up Travel)
+                                                    $Import_JSON.Locations."Home Town".LocationOptions.Travel = $true
                                                 }
                                             }
                                         }

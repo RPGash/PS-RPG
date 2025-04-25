@@ -1,6 +1,7 @@
 {
   "CharacterCreation": true,
   "TutorialComplete": true,
+  "SlowIntro": true,
   "Locations": {
     "Home Town": {
       "CurrentLocation": true,
@@ -102,7 +103,7 @@
           "Attack": 5,
           "Damage": 5,
           "Armour": 10,
-          "Dodge": 10,
+          "Dodge": 5,
           "Quickness": 5,
           "Spells": 50,
           "Healing": 50,
@@ -534,20 +535,20 @@
     }
   },
   "Character": {
-    "Name": "Banain",
+    "Name": "Finrandan",
     "Class": "Rogue",
     "Race": "Elf",
     "Level": 1,
-    "Total_XP": 100881,
-    "XP_TNL": 1134.0,
-    "Gold": 0.0,
+    "Total_XP": 101521,
+    "XP_TNL": 494.0,
+    "Gold": 13.0,
     "Stats": {
-      "HealthCurrent": 1,
+      "HealthCurrent": 60,
       "HealthMax": 60,
       "HealthMaxUnBuffed": 0,
       "StaminaCurrent": 80,
       "StaminaMax": 80,
-      "ManaCurrent": 30,
+      "ManaCurrent": 10,
       "ManaMax": 30,
       "ManaMaxUnBuffed": 0,
       "Damage": 10,
@@ -578,7 +579,7 @@
   "Items": {
     "Lesser Health Potion": {
       "Name": "Lesser Health Potion",
-      "Quantity": 0,
+      "Quantity": 3,
       "Restores": 30,
       "GoldValue": 50,
       "IsJunk": false,
@@ -588,7 +589,7 @@
     },
     "Mana Potion": {
       "Name": "Mana Potion",
-      "Quantity": 0,
+      "Quantity": 1,
       "Restores": 20,
       "GoldValue": 10,
       "IsJunk": true,
@@ -666,7 +667,7 @@
     },
     "Rat Tails": {
       "Name": "Rat Tails",
-      "Quantity": 1,
+      "Quantity": 3,
       "Info": "Junk",
       "GoldValue": 0,
       "IsJunk": true,
@@ -674,7 +675,7 @@
     },
     "Rat Guts": {
       "Name": "Rat Guts",
-      "Quantity": 1,
+      "Quantity": 2,
       "Info": "Junk",
       "GoldValue": 3,
       "IsJunk": true,
@@ -746,7 +747,7 @@
     },
     "Random Loot #1": {
       "Name": "Random Loot #1",
-      "Quantity": 6,
+      "Quantity": 7,
       "Info": "Junk",
       "GoldValue": 5,
       "IsJunk": true,
@@ -754,7 +755,7 @@
     },
     "Random Loot #2": {
       "Name": "Random Loot #2",
-      "Quantity": 8,
+      "Quantity": 9,
       "Info": "?????",
       "GoldValue": 3,
       "IsJunk": false,
@@ -762,7 +763,7 @@
     },
     "Random Loot #3": {
       "Name": "Random Loot #3",
-      "Quantity": 4,
+      "Quantity": 5,
       "Info": "Junk",
       "GoldValue": 4,
       "IsJunk": true,
@@ -770,7 +771,7 @@
     },
     "Random Loot #4": {
       "Name": "Random Loot #4",
-      "Quantity": 1,
+      "Quantity": 3,
       "Info": "Junk",
       "GoldValue": 3,
       "IsJunk": true,
@@ -778,7 +779,7 @@
     },
     "Random Loot #5": {
       "Name": "Random Loot #5",
-      "Quantity": 3,
+      "Quantity": 5,
       "Info": "?????",
       "GoldValue": 3,
       "IsJunk": false,
@@ -913,7 +914,6 @@
       "Status": "Available"
     },
     "Sick Elder": {
-      "SlowIntro": false,
       "Name": "Sick Elder",
       "QuestLetter": "S",
       "Description": "Find a Healing Potion.",
@@ -926,8 +926,8 @@
       "Progress": 0,
       "ProgressMax": 0,
       "LevelRange": "1-5",
-      "Available": false,
-      "InProgress": true,
+      "Available": true,
+      "InProgress": false,
       "Completed": false,
       "Repeatable": false,
       "Status": "Available"
