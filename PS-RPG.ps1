@@ -1337,8 +1337,8 @@ Function Draw_Introduction_Tasks {
         if ($Import_JSON.IntroductionTasks.Tick_Accept_a_Quest -eq $true)             { $Tick_Accept_a_Quest          = $Tick }
         if ($Import_JSON.IntroductionTasks.Tick_Go_Hunting -eq $true)                 { $Tick_Go_Hunting              = $Tick }
         if ($Import_JSON.IntroductionTasks.Tick_Kill_2_Rats -eq $true)                { $Tick_Kill_2_Rats             = $Tick }
-        if ($Import_JSON.IntroductionTasks.Tick_View_Inventory -eq $true)             { $Tick_View_Inventory          = $Tick }
         if ($Import_JSON.IntroductionTasks.Tick_Hand_in_Completed_Quest -eq $true)    { $Tick_Hand_in_Completed_Quest = $Tick }
+        if ($Import_JSON.IntroductionTasks.Tick_View_Inventory -eq $true)             { $Tick_View_Inventory          = $Tick }
         if ($Import_JSON.IntroductionTasks.Tick_Visit_Mend_and_Mana -eq $true)        { $Tick_Visit_Mend_and_Mana     = $Tick }
         if ($Import_JSON.IntroductionTasks.Tick_Purchase_a_Potion -eq $true)          { $Tick_Purchase_a_Potion       = $Tick }
         if ($Import_JSON.IntroductionTasks.Tick_Travel_to_another_Location -eq $true) {
@@ -1356,8 +1356,8 @@ Function Draw_Introduction_Tasks {
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,27;$Host.UI.Write("| [ ] Accept a Quest               |")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,28;$Host.UI.Write("| [ ] Go Hunting                   |")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,29;$Host.UI.Write("| [ ] Kill 2 Rats                  |")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,30;$Host.UI.Write("| [ ] View your Inventory          |")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,31;$Host.UI.Write("| [ ] Hand in your completed Quest |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,30;$Host.UI.Write("| [ ] Hand in your completed Quest |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,31;$Host.UI.Write("| [ ] View your Inventory          |")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,32;$Host.UI.Write("| [ ] Visit the Mend & Mana        |")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,33;$Host.UI.Write("| [ ] Purchase a Potion            |")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,34;$Host.UI.Write("| [ ] Travel to another Location   |")
@@ -1375,8 +1375,8 @@ Function Draw_Introduction_Tasks {
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,27;$Host.UI.Write("$Tick_Accept_a_Quest")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,28;$Host.UI.Write("$Tick_Go_Hunting")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,29;$Host.UI.Write("$Tick_Kill_2_Rats")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,30;$Host.UI.Write("$Tick_View_Inventory")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,31;$Host.UI.Write("$Tick_Hand_in_Completed_Quest")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,30;$Host.UI.Write("$Tick_Hand_in_Completed_Quest")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,31;$Host.UI.Write("$Tick_View_Inventory")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,32;$Host.UI.Write("$Tick_Visit_Mend_and_Mana")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,33;$Host.UI.Write("$Tick_Purchase_a_Potion")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,34;$Host.UI.Write("$Tick_Travel_to_another_Location")
@@ -1444,7 +1444,7 @@ Function Draw_Info_Banner {
 # displays inventory (top right)
 #
 Function Draw_Inventory {
-    if ($Import_JSON.IntroductionTasks.Tick_Accept_a_Quest -eq $true -and $Import_JSON.IntroductionTasks.Tick_View_Inventory -eq $false) {
+    if ($Import_JSON.Locations.'Home Town'.LocationOptions.Travel -eq $true -and $Import_JSON.IntroductionTasks.Tick_Accept_a_Quest -eq $true -and $Import_JSON.IntroductionTasks.Tick_View_Inventory -eq $false) {
         $Import_JSON.IntroductionTasks.Tick_View_Inventory = $true
         Draw_Introduction_Tasks
         Save_JSON
@@ -2102,7 +2102,7 @@ Function Fight_or_Run {
                 $Script:XP_TNL = $XP_TNL - $Selected_Mob.XP
                 # loot chance
                 $Random_100 = Get-Random -Minimum 1 -Maximum 101
-                if ($Random_100 -le 99) { # no loot at all (20% chance)
+                if ($Random_100 -le 20) { # no loot at all (20% chance)
                     Write-Color "  The ", "$($Selected_Mob.Name) ", "did not drop any loot." -Color DarkGray,Blue,DarkGray
                 } else { # possible loot (80% chance per item)
                     $Looted_Items = New-Object System.Collections.Generic.List[System.Object]
@@ -2896,7 +2896,7 @@ Function Visit_a_Building {
                                             # update gold
                                             $Import_JSON.Character.Gold += $Quest_Name.GoldReward
                                             $Script:Gold = $Import_JSON.Character.Gold
-                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("");" "*105
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                                             Draw_Player_Window_and_Stats
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,25;$Host.UI.Write("");" "*105
                                             Write-Color "  Thank you for completing this quest ","$Character_Name",". Here is your reward." -Color DarkGray,Blue,DarkGray
@@ -3512,6 +3512,7 @@ if (Test-Path -Path .\PS-RPG.json) {
         Set_Variables
         Draw_Player_Window_and_Stats
         Draw_Inventory
+        Draw_Introduction_Tasks
         do {
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
