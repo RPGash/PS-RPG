@@ -11,6 +11,7 @@ ToDo
     
     
 - NEXT
+    - add "no quests" message if no quests have been accepted yet
     - [started] add a introduction to: Travel, Visiting, Quests, Inventory, Hunting etc.?
         Visit Home > Visit Tavern > accept a Quests > Hunt > Inventory > Quest hand-in > visit Mend & Mana > Travel
         start at half health and mana > visit Home > recover >
@@ -1329,7 +1330,7 @@ do {
 #
 Function Draw_Introduction_Tasks {
     # only draw if not fully completed all tasks
-    if ($Import_JSON.SlowIntro -eq $true) {
+    if ($Import_JSON.IntroductionTasks.InProgress -eq $true) {
         $Tick = ([char]8730)
         if ($Import_JSON.IntroductionTasks.Tick_Visit_Home -eq $true)                 { $Tick_Visit_Home              = $Tick }
         if ($Import_JSON.IntroductionTasks.Tick_Recover_Health_and_Mana -eq $true)    { $Tick_Recover_Health_and_Mana = $Tick }
@@ -1343,7 +1344,7 @@ Function Draw_Introduction_Tasks {
         if ($Import_JSON.IntroductionTasks.Tick_Purchase_a_Potion -eq $true)          { $Tick_Purchase_a_Potion       = $Tick }
         if ($Import_JSON.IntroductionTasks.Tick_Travel_to_another_Location -eq $true) {
             $Tick_Travel_to_another_Location = $Tick
-            $Import_JSON.SlowIntro = $false
+            $Import_JSON.IntroductionTasks.InProgress = $false
             Save_JSON
         } else { $Tick_Travel_to_another_Location = " " }
         $host.UI.RawUI.ForegroundColor = "DarkGray"
@@ -1364,7 +1365,7 @@ Function Draw_Introduction_Tasks {
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,35;$Host.UI.Write("+----------------------------------+")
         $host.UI.RawUI.ForegroundColor = "White"
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 108,22;$Host.UI.Write("Introduction Tasks")
-        if ($Import_JSON.SlowIntro -eq $false) {
+        if ($Import_JSON.IntroductionTasks.InProgress -eq $false) {
             $host.UI.RawUI.ForegroundColor = "Green"
             $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 127,22;$Host.UI.Write([char]8730+" Complete")
         }
@@ -2140,8 +2141,8 @@ Function Fight_or_Run {
                         Write-Color "  The ", "$($Selected_Mob.Name) ", "dropped the following items:" -Color DarkGray,Blue,DarkGray
                         Write-Color "  $($Looted_Items)" -Color DarkGray
                         Draw_Inventory
-                        # if SlowIntro is still in progress, update the slow intro window Inventory with a tick
-                        if ($Import_JSON.SlowIntro -eq $true) {
+                        # if Introduction Tasks are still in progress, update the slow intro window Inventory with a tick
+                        if ($Import_JSON.IntroductionTasks.InProgress -eq $true) {
                             $Import_JSON.IntroductionTasks.Tick_View_Inventory = $true
                             Draw_Introduction_Tasks
                         }
@@ -2457,16 +2458,16 @@ Function Visit_a_Building {
         $All_Building_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
         $All_Buildings_In_Current_Location_List = New-Object System.Collections.Generic.List[System.Object]
         Write-Color "  You can visit the following buildings:" -Color DarkGray
-        # only show Home or Tavern when their SlowIntro value is set to true
+        # only show Home or Tavern when their Introduction Tasks value is set to true
         foreach ($Building_In_Current_Location in $All_Buildings_In_Current_Location) {
-            if ($Import_JSON.SlowIntro -eq $true) {
-                if ($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.SlowIntro -eq $true) {
+            if ($Import_JSON.IntroductionTasks.InProgress -eq $true) {
+                if ($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.IntroductionTask -eq $true) {
                     $All_Building_Letters_Array.Add($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.BuildingLetter) # grabs single character for that building
                     Write-Color "  $($Building_In_Current_Location.Substring(0,1))","$($Building_In_Current_Location.Substring(1,$Building_In_Current_Location.Length-1))" -Color Green,DarkGray
                     $All_Buildings_In_Current_Location_List.Add($Building_In_Current_Location)
                     $All_Buildings_In_Current_Location_List.Add("`r`n ")
                 }
-            } else { # otherwise show all buildings in current location after SlowIntro is complete and set to false
+            } else { # otherwise show all buildings in current location after Introduction Tasks is complete and set to false
                 $All_Building_Letters_Array.Add($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.BuildingLetter) # grabs single character for that building
                 Write-Color "  $($Building_In_Current_Location.Substring(0,1))","$($Building_In_Current_Location.Substring(1,$Building_In_Current_Location.Length-1))" -Color Green,DarkGray
                 $All_Buildings_In_Current_Location_List.Add($Building_In_Current_Location)
@@ -2563,7 +2564,7 @@ Function Visit_a_Building {
                             $Import_JSON.Character.Stats.HealthCurrent = $Character_HealthCurrent
                             $Import_JSON.Character.Stats.ManaCurrent = $Character_ManaCurrent
                             # advance introduction to game ()
-                            $Import_JSON.Locations."Home Town".Buildings.Tavern.SlowIntro = $true
+                            $Import_JSON.Locations."Home Town".Buildings.Tavern.IntroductionTask = $true
                             Save_JSON
                         }
                     } until ($Home_Choice -ieq "e")
@@ -2808,9 +2809,9 @@ Function Visit_a_Building {
                                     $Quest_Names = $Import_JSON.Quests.PSObject.Properties.Name
                                     foreach ($Quest_Name in $Quest_Names) {
                                         $Quest_Name = $Import_JSON.Quests.$Quest_Name
-                                        # if SlowIntro is active, only show the Rat quest
-                                        if ($Import_JSON.SlowIntro -eq $true) {
-                                            if ($Quest_Name.SlowIntro -eq $true) {
+                                        # if Introduction Tasks are active, only show the Rat quest
+                                        if ($Import_JSON.IntroductionTasks.InProgress -eq $true) {
+                                            if ($Quest_Name.IntroductionTask -eq $true) {
                                                 Write-Color "  $($Quest_Name.QuestLetter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status)" -Color Green,DarkGray,DarkYellow
                                                 $Available_Quest_Letters_Array.Add($Quest_Name.QuestLetter)
                                             }
@@ -2882,7 +2883,7 @@ Function Visit_a_Building {
                                     if ($Tavern_Quest_Info_Choice -ieq "h") {
                                         do {
                                             # advance introduction to game (from Rat quest)
-                                            $Import_JSON.Locations."Home Town".Buildings."Mend & Mana".SlowIntro = $true
+                                            $Import_JSON.Locations."Home Town".Buildings."Mend & Mana".IntroductionTask = $true
                                             # update introduction task and update Introduction Tasks window
                                             $Import_JSON.IntroductionTasks.Tick_View_Inventory = $true
                                             $Import_JSON.IntroductionTasks.Tick_Hand_in_Completed_Quest = $true
@@ -3570,8 +3571,8 @@ do {
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,$Position;$Host.UI.Write("");" "*49
         }
 
-            # show congrats message on completion of all tasks, but only if SlowIntro is still in progress
-            if ($Current_Location -eq "The Forest" -and $Import_JSON.SlowIntro -eq $true) {
+            # show congrats message on completion of all tasks, but only if Introduction Tasks are still in progress
+            if ($Current_Location -eq "The Forest" -and $Import_JSON.IntroductionTasks.InProgress -eq $true) {
                 # update introduction task and update Introduction Tasks window
                 $Import_JSON.IntroductionTasks.Tick_Travel_to_another_Location = $true
                 Draw_Introduction_Tasks

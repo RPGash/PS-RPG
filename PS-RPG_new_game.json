@@ -1,7 +1,6 @@
 {
   "CharacterCreation": true,
   "TutorialComplete": true,
-  "SlowIntro": true,
   "Locations": {
     "Home Town": {
       "CurrentLocation": true,
@@ -131,13 +130,13 @@
       "Buildings": {
         "Home": {
           "Visited": 0,
-          "SlowIntro": true,
+          "IntroductionTask": true,
           "BuildingLetter": "H",
           "Owner": "PLAYER NAME"
         },
         "Tavern": {
           "Visited": 0,
-          "SlowIntro": false,
+          "IntroductionTask": false,
           "BuildingLetter": "T",
           "Owner": "Elara",
           "Drinks": {
@@ -359,7 +358,7 @@
           "Owner": "Draven"
         },
         "Mend & Mana": {
-          "SlowIntro": false,
+          "IntroductionTask": false,
           "Visited": 0,
           "BuildingLetter": "M",
           "Owner": "Kaelen"
@@ -890,7 +889,7 @@
   },
   "Quests": {
     "Rat infestation": {
-      "SlowIntro": true,
+      "IntroductionTask": true,
       "Name": "Rat infestation",
       "QuestLetter": "R",
       "Description": "kill stuff",
@@ -934,6 +933,7 @@
     }
   },
   "IntroductionTasks": {
+    "InProgress": true,
     "Tick_Visit_Home": false,
     "Tick_Recover_Health_and_Mana": false,
     "Tick_Visit_the_Tavern": false,
