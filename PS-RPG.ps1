@@ -31,6 +31,7 @@ ToDo
         damage calculation = damage * (damage / (damage + armour)),
         escape chance,
         crit chance,
+    - validate JSON file on load to check for missing or incorrect data
 
 - KNOWN ISSUES
     - if a player purchases one drink and gains its buff, kills mobs until one kill left before it drops (not necessarily one but the closer to zero the better the exploit), they can go buy a second drink (buff) and it will extend the original buff for another full duration rather than the first buff expiring after one more fight. both buffs last the full duration. in other words getting a "free" buff.
