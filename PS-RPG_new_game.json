@@ -4,7 +4,7 @@
   "SlowIntro": true,
   "Locations": {
     "Home Town": {
-      "CurrentLocation": true,
+      "CurrentLocation": false,
       "LinkedLocations": {
         "The Forest": "F"
       },
@@ -137,7 +137,7 @@
         },
         "Tavern": {
           "Visited": 0,
-          "SlowIntro": false,
+          "SlowIntro": true,
           "BuildingLetter": "T",
           "Owner": "Elara",
           "Drinks": {
@@ -359,7 +359,7 @@
           "Owner": "Draven"
         },
         "Mend & Mana": {
-          "SlowIntro": false,
+          "SlowIntro": true,
           "Visited": 0,
           "BuildingLetter": "M",
           "Owner": "Kaelen"
@@ -367,7 +367,7 @@
       }
     },
     "The Forest": {
-      "CurrentLocation": false,
+      "CurrentLocation": true,
       "LinkedLocations": {
         "Home Town": "T",
         "The River": "R"
@@ -393,7 +393,7 @@
           "Quickness": 5,
           "Spells": 50,
           "Healing": 50,
-          "Killed": 0,
+          "Killed": 6,
           "Rare": "No",
           "Boss": "No",
           "XP": 160,
@@ -414,7 +414,7 @@
           "Quickness": 5,
           "Spells": 50,
           "Healing": 50,
-          "Killed": 0,
+          "Killed": 1,
           "Rare": "Yes",
           "Boss": "No",
           "XP": 160,
@@ -535,32 +535,32 @@
     }
   },
   "Character": {
-    "Name": "Finrandan",
+    "Name": "y",
     "Class": "Rogue",
     "Race": "Elf",
-    "Level": 1,
-    "Total_XP": 101521,
-    "XP_TNL": 494.0,
-    "Gold": 13.0,
+    "Level": 12,
+    "Total_XP": 106281,
+    "XP_TNL": 949.0,
+    "Gold": 1537.0,
     "Stats": {
-      "HealthCurrent": 60,
-      "HealthMax": 60,
+      "HealthCurrent": 52.0,
+      "HealthMax": 115,
       "HealthMaxUnBuffed": 0,
       "StaminaCurrent": 80,
-      "StaminaMax": 80,
-      "ManaCurrent": 10,
-      "ManaMax": 30,
+      "StaminaMax": 157,
+      "ManaCurrent": 30,
+      "ManaMax": 85,
       "ManaMaxUnBuffed": 0,
-      "Damage": 10,
-      "Attack": 10,
+      "Damage": 109,
+      "Attack": 109,
       "AttackUnBuffed": 0,
-      "Armour": 6,
+      "Armour": 50,
       "ArmourUnBuffed": 0,
-      "Dodge": 10,
+      "Dodge": 120,
       "DodgeUnBuffed": 0,
-      "Quickness": 10,
-      "Spells": 1,
-      "Healing": 4
+      "Quickness": 120,
+      "Spells": 56,
+      "Healing": 92
     },
     "Buffs": {
       "Duration": 0,
@@ -579,7 +579,7 @@
   "Items": {
     "Lesser Health Potion": {
       "Name": "Lesser Health Potion",
-      "Quantity": 3,
+      "Quantity": 9,
       "Restores": 30,
       "GoldValue": 50,
       "IsJunk": false,
@@ -589,7 +589,7 @@
     },
     "Mana Potion": {
       "Name": "Mana Potion",
-      "Quantity": 1,
+      "Quantity": 3,
       "Restores": 20,
       "GoldValue": 10,
       "IsJunk": true,
@@ -667,7 +667,7 @@
     },
     "Rat Tails": {
       "Name": "Rat Tails",
-      "Quantity": 3,
+      "Quantity": 4,
       "Info": "Junk",
       "GoldValue": 0,
       "IsJunk": true,
@@ -675,7 +675,7 @@
     },
     "Rat Guts": {
       "Name": "Rat Guts",
-      "Quantity": 2,
+      "Quantity": 3,
       "Info": "Junk",
       "GoldValue": 3,
       "IsJunk": true,
@@ -755,7 +755,7 @@
     },
     "Random Loot #2": {
       "Name": "Random Loot #2",
-      "Quantity": 9,
+      "Quantity": 11,
       "Info": "?????",
       "GoldValue": 3,
       "IsJunk": false,
@@ -763,7 +763,7 @@
     },
     "Random Loot #3": {
       "Name": "Random Loot #3",
-      "Quantity": 5,
+      "Quantity": 6,
       "Info": "Junk",
       "GoldValue": 4,
       "IsJunk": true,
@@ -771,7 +771,7 @@
     },
     "Random Loot #4": {
       "Name": "Random Loot #4",
-      "Quantity": 3,
+      "Quantity": 5,
       "Info": "Junk",
       "GoldValue": 3,
       "IsJunk": true,
@@ -779,7 +779,7 @@
     },
     "Random Loot #5": {
       "Name": "Random Loot #5",
-      "Quantity": 5,
+      "Quantity": 7,
       "Info": "?????",
       "GoldValue": 3,
       "IsJunk": false,
@@ -933,12 +933,25 @@
       "Status": "Available"
     }
   },
+  "IntroductionTasks": {
+    "Tick_Visit_Home": false,
+    "Tick_Recover_Health_and_Mana": false,
+    "Tick_Visit_the_Tavern": false,
+    "Tick_Accept_a_Quest": false,
+    "Tick_Go_Hunting": false,
+    "Tick_Kill_2_Rats": false,
+    "Tick_View_Inventory": false,
+    "Tick_Hand_in_Completed_Quest": false,
+    "Tick_Visit_Mend_and_Mana": false,
+    "Tick_Purchase_a_Potion": false,
+    "Tick_Travel_to_another_Location": false
+  },
   "Game Information": {
     "Info": "I",
     "Stats": "S",
     "PSWriteColor": "P",
     "My Links": "L",
     "Other": "O",
-    "Start Turorial": "T"
+    "Start Tutorial": "T"
   }
 }
