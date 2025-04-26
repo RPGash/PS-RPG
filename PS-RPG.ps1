@@ -10,7 +10,6 @@ ToDo
     
     
 - NEXT
-    - add "no quests" message if no quests have been accepted yet
     - change JSON mobs to the same as Items (adding the mob name as the PSObject name)
     - buy items in the Anvil & Blade shop
     - add spells
