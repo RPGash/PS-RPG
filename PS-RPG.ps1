@@ -16,13 +16,14 @@ ToDo
     - add item equipment drops from mob loot
     - add equipment that can be equipped?
         armour protection, stat bonuses/buffs etc.
+    - add types of damage  e.g. physical, elemental etc.
     - add some quests in the Tavern
         mob kills, fetch quest, item quest
         add more quests
     - add some quests in other locations
     - change "you are low on health/mana" message to
         if less than 25%/50% = "you are running low/very low on health/mana"
-        if 50% or above = "you are not at max health" (maybe?)
+        if 50% or above = no message?
     - different message types for
         heals? kills? buffs etc.
     - consider changing mob crit rate/damage to from fixed 20%/20% to specific % for different mobs
@@ -32,8 +33,7 @@ ToDo
         crit chance,
 
 - KNOWN ISSUES
-    - On the Travel page, the available locations to travel to does not show the single character highlighted in Green as the choice for that location. e.g. if "Home Town" is listed, the letter "T" is not Green. All location names are White, but the question does show the correct highlighted characters for hat area.
-    - if a player purchases one drink and gains its buff, kills mobs until one kill left before it drops (not necessarily one but the closer to zero the better the exploit), they can go buy a second buff and it will extend the original buff for another full duration rather than the first buff expiring after one more fight. both buffs last the full duration. in other words getting a "free" buff.
+    - if a player purchases one drink and gains its buff, kills mobs until one kill left before it drops (not necessarily one but the closer to zero the better the exploit), they can go buy a second drink (buff) and it will extend the original buff for another full duration rather than the first buff expiring after one more fight. both buffs last the full duration. in other words getting a "free" buff.
 #>
 
 # write errors out to log file
@@ -101,7 +101,7 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
     do {
         Clear-Host
         Write-Color "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" -Color DarkYellow
-        for ($i = 0; $i -lt 36; $i++) {
+        for ($index = 0; $index -lt 36; $index++) {
             Write-Color "+                                                                                                                                                              +" -Color DarkYellow
         }
         Write-Color "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" -Color DarkYellow
@@ -188,7 +188,7 @@ if (Test-Path -Path .\PS-RPG.json) {
 #
 # import JSON game info
 #
-Function Import-JSON {
+Function Import_JSON {
     $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
 }
 
@@ -584,7 +584,7 @@ Function Level_Up {
         }
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 13,12;$Host.UI.Write("");" "*6 # clears the TNL value because it shows a negative value while updating
         Save_JSON
-        Import-JSON
+        Import_JSON
         Set_Variables
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
         Draw_Player_Window_and_Stats
@@ -636,7 +636,7 @@ Function Level_Up {
 #
 Function Create_Character {
     Copy-Item -Path .\PS-RPG_new_game.json -Destination .\PS-RPG.json
-    Import-JSON
+    Import_JSON
     do {
         $Character_Class = $false
         $Character_Class_Confirm = $false
@@ -971,7 +971,7 @@ Function Create_Character {
     }
     $Import_JSON.CharacterCreation = $true
     Save_JSON
-    Import-JSON
+    Import_JSON
     Set_Variables
     Clear-Host
     Draw_Player_Window_and_Stats
@@ -1806,7 +1806,7 @@ Function Inventory_Choice{
                     $Import_JSON.Character.Stats.ManaCurrent = $Character_ManaCurrent
                 }
                 Save_JSON
-                Import-JSON
+                Import_JSON
                 Set_Variables
                 Draw_Player_Window_and_Stats # redraws play stats to update health or mana values
                 
@@ -1885,7 +1885,7 @@ Function Random_Mob {
 #
 Function Fight_or_Run {
     # import JSON game info
-    Import-JSON
+    Import_JSON
     $Continue_Fight = $false
     $First_Turn = $true
     do {
@@ -2161,7 +2161,7 @@ Function Fight_or_Run {
                 }
                 # update player stats after level up to show stat buffs
                 Save_JSON
-                Import-JSON
+                Import_JSON
                 Set_Variables
                 # mob killed so break out of Fight_or_Run loop (back down to main loop)
                 Break
@@ -3419,7 +3419,7 @@ Function Draw_Quest_Log {
             }
         }
         $Quest_Log_Extra_Blank_Lines = 10 - $Quest_In_Progress_Count
-        for ($i = 0; $i -lt $Quest_Log_Extra_Blank_Lines; $i++) {
+        for ($index = 0; $index -lt $Quest_Log_Extra_Blank_Lines; $index++) {
             $Position += 1
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,$Position;$Host.UI.Write("")
             Write-Color "|                                 |             |" -Color DarkGray
@@ -3492,7 +3492,7 @@ Function Draw_Quest_Log {
 #
 # if the save file has the CharacterCreation flag set to false, deletes JSON file
 if (Test-Path -Path .\PS-RPG.json) {
-    Import-JSON
+    Import_JSON
     if ($Import_JSON.CharacterCreation -eq $false) {
         Remove-Item -Path .\PS-RPG.json
     }
@@ -3502,7 +3502,7 @@ if (Test-Path -Path .\PS-RPG.json) {
     do {
         Clear-Host
         # display current saved file info
-        Import-JSON
+        Import_JSON
         Set_Variables
         Draw_Player_Window_and_Stats
         Draw_Inventory
@@ -3519,7 +3519,7 @@ if (Test-Path -Path .\PS-RPG.json) {
             Exit
         }
         if ($Load_Save_Data_Choice -ieq "y") {
-            # Import-JSON
+            # Import_JSON
             # Set_Variables
             Clear-Host
             Draw_Player_Window_and_Stats
@@ -3590,7 +3590,7 @@ do {
                                 }
                                 # update player stats after level up to show stat buffs
                                 Save_JSON
-                                Import-JSON
+                                Import_JSON
                                 Set_Variables
                 
                 $host.UI.RawUI.ForegroundColor = "Cyan"
