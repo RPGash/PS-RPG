@@ -3,7 +3,6 @@ ToDo
 ----
 
 - BUGS
-    - if part way through Introduction Tasks and quit, restarting blanks out completed tasks
     
     
 - TEST
@@ -12,17 +11,6 @@ ToDo
     
 - NEXT
     - add "no quests" message if no quests have been accepted yet
-    - [started] add a introduction to: Travel, Visiting, Quests, Inventory, Hunting etc.?
-        Visit Home > Visit Tavern > accept a Quests > Hunt > Inventory > Quest hand-in > visit Mend & Mana > Travel
-        start at half health and mana > visit Home > recover >
-        visit Tavern > accept a quest >
-        go hunt > kill mobs > (inventory?)
-        visit Tavern > hand-in quest > get reward > inventory >
-        visit Mend & Mana > buy potions >
-        travel > visit location >
-        then open everything up?
-        add a "visited" flag to each building/location so they can only visit each place before allowing them all until above are complete
-        add a introduction window showing above points marked when completed as a reminder
     - change JSON mobs to the same as Items (adding the mob name as the PSObject name)
     - buy items in the Anvil & Blade shop
     - add spells
