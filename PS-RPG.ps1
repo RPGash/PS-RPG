@@ -3,7 +3,7 @@ ToDo
 ----
 
 - BUGS
-    
+    -
     
 - TEST
     - 
@@ -3419,13 +3419,19 @@ Function Draw_Quest_Log {
                 $Available_Quest_Letters_Array.Add($Quest_Name.QuestLetter)
             }
         }
-        $In_Progress_Quest_Letters_Array_String = $Available_Quest_Letters_Array -Join "/"
-        $In_Progress_Quest_Letters_Array_String = $In_Progress_Quest_Letters_Array_String + "/E"
         $Quest_Log_Extra_Blank_Lines = 10 - $Quest_In_Progress_Count
         for ($i = 0; $i -lt $Quest_Log_Extra_Blank_Lines; $i++) {
             $Position += 1
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,$Position;$Host.UI.Write("")
             Write-Color "|                                 |             |" -Color DarkGray
+        }
+        # if there are no quests, only add "E" to letters string array so it's the only choice
+        if ($Quest_Log_Extra_Blank_Lines -eq 10) {
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 58,3;$Host.UI.Write("Quest Log Empty")
+            $In_Progress_Quest_Letters_Array_String = $Available_Quest_Letters_Array + "E"
+        } else { # or join all the letters together with slashes and add "E" to the end
+            $In_Progress_Quest_Letters_Array_String = $Available_Quest_Letters_Array -Join "/"
+            $In_Progress_Quest_Letters_Array_String = $In_Progress_Quest_Letters_Array_String + "/E"
         }
         $Position += 1
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,$Position;$Host.UI.Write("")
