@@ -137,7 +137,7 @@
         },
         "Tavern": {
           "Visited": 0,
-          "SlowIntro": true,
+          "SlowIntro": false,
           "BuildingLetter": "T",
           "Owner": "Elara",
           "Drinks": {
@@ -359,7 +359,7 @@
           "Owner": "Draven"
         },
         "Mend & Mana": {
-          "SlowIntro": true,
+          "SlowIntro": false,
           "Visited": 0,
           "BuildingLetter": "M",
           "Owner": "Kaelen"
@@ -538,10 +538,10 @@
     "Name": "y",
     "Class": "Rogue",
     "Race": "Elf",
-    "Level": 12,
-    "Total_XP": 106281,
-    "XP_TNL": 949.0,
-    "Gold": 1537.0,
+    "Level": 1,
+    "Total_XP": 0,
+    "XP_TNL": 100.0,
+    "Gold": 0.0,
     "Stats": {
       "HealthCurrent": 52.0,
       "HealthMax": 115,
