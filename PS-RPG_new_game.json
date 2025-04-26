@@ -4,7 +4,7 @@
   "SlowIntro": true,
   "Locations": {
     "Home Town": {
-      "CurrentLocation": false,
+      "CurrentLocation": true,
       "LinkedLocations": {
         "The Forest": "F"
       },
@@ -367,7 +367,7 @@
       }
     },
     "The Forest": {
-      "CurrentLocation": true,
+      "CurrentLocation": false,
       "LinkedLocations": {
         "Home Town": "T",
         "The River": "R"
