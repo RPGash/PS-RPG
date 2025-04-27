@@ -36,20 +36,6 @@ ToDo
     - if a player purchases one drink and gains its buff, kills mobs until one kill left before it drops (not necessarily one but the closer to zero the better the exploit), they can go buy a second drink (buff) and it will extend the original buff for another full duration rather than the first buff expiring after one more fight. both buffs last the full duration. in other words getting a "free" buff.
 #>
 
-# write errors out to log file
-Trap {
-    $Time = Get-Date -Format "HH:mm:ss"
-    Add-Content -Path .\error.log -value "-Trap Error $Time ----------------------------------"
-    Add-Content -Path .\error.log -value "$PSItem"
-    Add-Content -Path .\error.log -value "------------------------------------------------------"
-}
-
-Clear-Host
-if (Test-Path ".\PS-RPG_version.txt") {
-    $PSRPG_Version = Get-Content ".\PS-RPG_version.txt" -Raw
-} else {
-    $PSRPG_Version = "<version file`r`n           missing>"
-}
 
 
 Function Install_PSWriteColor {
@@ -93,97 +79,6 @@ Function Install_PSWriteColor {
     }
 }
 
-#
-# Pre-requisite checks and install / import PSWriteColor module
-#
-if (-not(Test-Path -Path .\PS-RPG.json)) {
-    # adjust window size
-    do {
-        Clear-Host
-        Write-Color "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" -Color DarkYellow
-        for ($index = 0; $index -lt 36; $index++) {
-            Write-Color "+                                                                                                                                                              +" -Color DarkYellow
-        }
-        Write-Color "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" -Color DarkYellow
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 20,10;$Host.UI.Write( "Using the CTRL + mouse scroll wheel forward and back,")
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 20,11;$Host.UI.Write( "adjust the font size to make sure the yellow box fits within the screen.")
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-        Write-Color -NoNewLine "+ Adjust font size with ","CTRL + mouse scroll wheel",", then confirm with 'go' and Enter" -Color DarkYellow,Green,DarkYellow
-        $Adjust_Font_Size = Read-Host " "
-        $Adjust_Font_Size = $Adjust_Font_Size.Trim()
-    } until ($Adjust_Font_Size -ieq "go")
-    Clear-Host
-    Write-Host "Pre-requisite checks" -ForegroundColor Red
-    Write-Host "--------------------" -ForegroundColor Red
-    Write-Output "`r`nChecking if PSWriteColor module is installed."
-    $PSWriteModule_Install_Check = Get-Module -Name "PSWriteColor" -ListAvailable
-    if ($PSWriteModule_Install_Check) {
-        Write-Host "PSWriteColor module is installed." -ForegroundColor Green
-        $PSWriteModule_Install_Check
-        Write-Output "`r`nImporting PSWriteColor module."
-        Import-Module -Name "PSWriteColor"
-        $Import_PSWriteColor_Module_Check = Get-Module -Name "PSWriteColor"
-        if ($Import_PSWriteColor_Module_Check) {
-            Write-Host "PSWriteColor module imported." -ForegroundColor Green
-        } else {
-            Write-Host "PSWriteColor module not imported." -ForegroundColor Red
-            Break
-        }
-        Start-Sleep -Seconds 3 # leave in
-    } else {
-        Install_PSWriteColor
-    }
-    #
-    # game info
-    #
-    Write-Host -NoNewLine "`r`nPress any key to continue."
-    $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
-    Clear-Host
-    Write-Color "`r`nInfo" -Color Green
-    Write-Color "----" -Color Green
-    Write-Color "`r`nWelcome to ", "PS-RPG", ", my 1st RPG text adventure written in PowerShell." -Color DarkGray,Magenta,DarkGray
-    Write-Color "`r`nAs previously mentioned, the PSWriteColor PowerShell module written by Przemyslaw Klys" -Color DarkGray
-    Write-Color "is required which if you are seeing this message then it has installed and imported successfully." -Color DarkGray
-    Write-Color "`r`nAbsolutely ", "NO ", "info personal or otherwise is collected or sent anywhere or to anybody. " -Color DarkGray,Red,DarkGray
-    Write-Color "`r`nAll the ", "PS-RPG ", "games files are stored your ", "$PSScriptRoot"," folder which is where you have run the game from. They include:" -Color DarkGray,Magenta,DarkGray,Cyan,DarkGray
-    Write-Color "The main PowerShell script            : ", "PS-RPG.ps1" -Color DarkGray,Cyan
-    Write-Color "ASCII art for death messages          : ", "ASCII.txt" -Color DarkGray,Cyan
-    Write-Color "A JSON file that stores all game info : ", "PS-RPG.json ", "(Locations, Mobs, NPCs and Character Stats etc.)" -Color DarkGray,Cyan,DarkGray
-    Write-Color "`r`nPlayer input options appear in ","Green ", "e.g. ", "[Y/N/E/I] ", "would be ", "yes/no/exit/inventory", "." -Color DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray
-    Write-Color "Enter the single character then hit Enter to confirm the choice." -Color DarkGray
-    Write-Color "`r`nWARNING - Quitting the game unexpectedly may cause lose of data." -Color Cyan
-    Write-Color "`r`nYou are now ready to play", " PS-RPG", "." -Color DarkGray,Magenta,DarkGray
-    do {
-        do {
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-            Write-Color -NoNewLine "No save file found. Are you ready to start playing ", "PS-RPG", "?"," [Y/N/E]" -Color DarkYellow,Magenta,DarkYellow,Green
-            $Ready_To_Play_PSRPG = Read-Host " "
-            $Ready_To_Play_PSRPG = $Ready_To_Play_PSRPG.Trim()
-        } until ($Ready_To_Play_PSRPG -ieq "y" -or $Ready_To_Play_PSRPG -ieq "n" -or $Ready_To_Play_PSRPG -ieq "e")
-        if ($Ready_To_Play_PSRPG -ieq "n" -or $Ready_To_Play_PSRPG -ieq "e") {
-            do {
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                Write-Color -NoNewLine "Do you want to quit ", "PS-RPG", "?"," [Y/N]" -Color DarkYellow,Magenta,DarkYellow,Green
-                $Quit_Game = Read-Host " "
-                $Quit_Game = $Quit_Game.Trim()
-            } until ($Quit_Game -ieq "y" -or $Quit_Game -ieq "n")
-            if ($Quit_Game -ieq "y") {
-                Write-Color -NoNewLine "Exiting ","PS-RPG","." -Color DarkYellow,Magenta,DarkYellow
-                Exit
-            }
-        }
-    } until ($Ready_To_Play_PSRPG -ieq "y")
-}
-# double check module is still installed if JSON file has previously been created, just in case the module has been removed.
-if (Test-Path -Path .\PS-RPG.json) {
-    $PSWriteModule_Install_Check = Get-Module -Name "PSWriteColor" -ListAvailable
-    if ($PSWriteModule_Install_Check) {
-        Import-Module -Name "PSWriteColor"
-    } else {
-        Install_PSWriteColor
-    }
-}
 
 #
 # import JSON game info
@@ -2240,8 +2135,9 @@ Function Fight_or_Run {
     $Script:In_Combat = $false
 }
 
-
-
+#
+# Travel
+#
 Function Travel {
     Clear-Host
     Draw_Introduction_Tasks
@@ -3490,18 +3386,145 @@ Function Draw_Quest_Log {
 # PLACE FUNCTIONS ABOVE HERE
 #
 
+Clear-Host
+
+# write any errors out to error.log file
+Trap {
+    $Time = Get-Date -Format "HH:mm:ss"
+    Add-Content -Path .\error.log -value "-Trap Error $Time ----------------------------------"
+    Add-Content -Path .\error.log -value "$PSItem"
+    Add-Content -Path .\error.log -value "------------------------------------------------------"
+}
+
+# get version of PS-RPG from PS-RPG_version.txt (updated via GitHub commits)
+if (Test-Path ".\PS-RPG_version.txt") {
+    $PSRPG_Version = Get-Content ".\PS-RPG_version.txt" -Raw
+} else {
+    $PSRPG_Version = "<version file`r`n           missing>"
+}
+
+#
+# Pre-requisite checks and install / import PSWriteColor module
+#
+if (-not(Test-Path -Path .\PS-RPG.json)) {
+    # adjust window size
+    do {
+        Clear-Host
+        Write-Color "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" -Color DarkYellow
+        for ($index = 0; $index -lt 36; $index++) {
+            Write-Color "+                                                                                                                                                              +" -Color DarkYellow
+        }
+        Write-Color "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" -Color DarkYellow
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 20,10;$Host.UI.Write( "Using the CTRL + mouse scroll wheel forward and back,")
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 20,11;$Host.UI.Write( "adjust the font size to make sure the yellow box fits within the screen.")
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+        Write-Color -NoNewLine "+ Adjust font size with ","CTRL + mouse scroll wheel",", then confirm with 'go' and Enter" -Color DarkYellow,Green,DarkYellow
+        $Adjust_Font_Size = Read-Host " "
+        $Adjust_Font_Size = $Adjust_Font_Size.Trim()
+    } until ($Adjust_Font_Size -ieq "go")
+    Clear-Host
+    Write-Host "Pre-requisite checks" -ForegroundColor Red
+    Write-Host "--------------------" -ForegroundColor Red
+    Write-Output "`r`nChecking if PSWriteColor module is installed."
+    $PSWriteModule_Install_Check = Get-Module -Name "PSWriteColor" -ListAvailable
+    if ($PSWriteModule_Install_Check) {
+        Write-Host "PSWriteColor module is installed." -ForegroundColor Green
+        $PSWriteModule_Install_Check
+        Write-Output "`r`nImporting PSWriteColor module."
+        Import-Module -Name "PSWriteColor"
+        $Import_PSWriteColor_Module_Check = Get-Module -Name "PSWriteColor"
+        if ($Import_PSWriteColor_Module_Check) {
+            Write-Host "PSWriteColor module imported." -ForegroundColor Green
+        } else {
+            Write-Host "PSWriteColor module not imported." -ForegroundColor Red
+            Break
+        }
+        Start-Sleep -Seconds 3 # leave in
+    } else {
+        Install_PSWriteColor
+    }
+    #
+    # game info
+    #
+    Write-Host -NoNewLine "`r`nPress any key to continue."
+    $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+    Clear-Host
+    Write-Color "`r`nInfo" -Color Green
+    Write-Color "----" -Color Green
+    Write-Color "`r`nWelcome to ", "PS-RPG", ", my 1st RPG text adventure written in PowerShell." -Color DarkGray,Magenta,DarkGray
+    Write-Color "`r`nAs previously mentioned, the PSWriteColor PowerShell module written by Przemyslaw Klys" -Color DarkGray
+    Write-Color "is required which if you are seeing this message then it has installed and imported successfully." -Color DarkGray
+    Write-Color "`r`nAbsolutely ", "NO ", "info personal or otherwise is collected or sent anywhere or to anybody. " -Color DarkGray,Red,DarkGray
+    Write-Color "`r`nAll the ", "PS-RPG ", "games files are stored your ", "$PSScriptRoot"," folder which is where you have run the game from. They include:" -Color DarkGray,Magenta,DarkGray,Cyan,DarkGray
+    Write-Color "The main PowerShell script            : ", "PS-RPG.ps1" -Color DarkGray,Cyan
+    Write-Color "ASCII art for death messages          : ", "ASCII.txt" -Color DarkGray,Cyan
+    Write-Color "A JSON file that stores all game info : ", "PS-RPG.json ", "(Locations, Mobs, NPCs and Character Stats etc.)" -Color DarkGray,Cyan,DarkGray
+    Write-Color "`r`nPlayer input options appear in ","Green ", "e.g. ", "[Y/N/E/I] ", "would be ", "yes/no/exit/inventory", "." -Color DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray
+    Write-Color "Enter the single character then hit Enter to confirm the choice." -Color DarkGray
+    Write-Color "`r`nWARNING - Quitting the game unexpectedly may cause lose of data." -Color Cyan
+    Write-Color "`r`nYou are now ready to play", " PS-RPG", "." -Color DarkGray,Magenta,DarkGray
+    do {
+        do {
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+            Write-Color -NoNewLine "No save file found. Are you ready to start playing ", "PS-RPG", "?"," [Y/N/E]" -Color DarkYellow,Magenta,DarkYellow,Green
+            $Ready_To_Play_PSRPG = Read-Host " "
+            $Ready_To_Play_PSRPG = $Ready_To_Play_PSRPG.Trim()
+        } until ($Ready_To_Play_PSRPG -ieq "y" -or $Ready_To_Play_PSRPG -ieq "n" -or $Ready_To_Play_PSRPG -ieq "e")
+        if ($Ready_To_Play_PSRPG -ieq "n" -or $Ready_To_Play_PSRPG -ieq "e") {
+            do {
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                Write-Color -NoNewLine "Do you want to quit ", "PS-RPG", "?"," [Y/N]" -Color DarkYellow,Magenta,DarkYellow,Green
+                $Quit_Game = Read-Host " "
+                $Quit_Game = $Quit_Game.Trim()
+            } until ($Quit_Game -ieq "y" -or $Quit_Game -ieq "n")
+            if ($Quit_Game -ieq "y") {
+                Write-Color -NoNewLine "Exiting ","PS-RPG","." -Color DarkYellow,Magenta,DarkYellow
+                Exit
+            }
+        }
+    } until ($Ready_To_Play_PSRPG -ieq "y")
+}
+
+# double check module is still installed if JSON file has previously been created, just in case the module has been removed.
+if (Test-Path -Path .\PS-RPG.json) {
+    $PSWriteModule_Install_Check = Get-Module -Name "PSWriteColor" -ListAvailable
+    if ($PSWriteModule_Install_Check) {
+        Import-Module -Name "PSWriteColor"
+    } else {
+        Install_PSWriteColor
+    }
+}
+
 #
 # check for JSON save file
 #
-# if the save file has the CharacterCreation flag set to false, deletes JSON file
+# if the save file has the CharacterCreation flag set to false, deletes JSON file (i.e. if character creation was cancelled or not fully completed - safe to delete file)
 if (Test-Path -Path .\PS-RPG.json) {
     Import_JSON
     if ($Import_JSON.CharacterCreation -eq $false) {
         Remove-Item -Path .\PS-RPG.json
     }
 }
-# loads save file
+# loads save file and validate JSON file is on PowerShell Core edition
 if (Test-Path -Path .\PS-RPG.json) {
+    # check for powershell core or desktop then validate json data file
+    if ($PSVersionTable.PSEdition -ieq "Desktop") { # unable to validata JSON file in PowerShell Desktop edition
+        Write-Color -LinesBefore 1 "Unable to validate JSON file because ","PS-RPG.ps1 ","is running under PowerShell 'Desktop' edition." -Color DarkYellow,Magenta,DarkYellow
+        Write-Color "Continuing." -Color DarkYellow
+        Start-Sleep -Seconds 6
+    }
+    if ($PSVersionTable.PSEdition -ieq "Core") { # check if JSON file is valid under PowerShell Core edition
+        $JSON_File_Valid = Test-Json -Path .\PS-RPG.json
+        if ($JSON_File_Valid -eq $false) {
+            Write-Color -LinesBefore 1 "Invalid ","PS-RPG.json"," file. Please download JSON file again from ","https://github.com/RPGash/PS-RPG ","Exiting." -Color Red,Magenta,Red,Magenta,Red,DarkCyan
+            Write-Color "Exiting ","PS-RPG.ps1" -Color Red,Magenta
+            Exit
+        } else {
+            Write-Color "PS-RPG.json"," file is ","valid." -Color Magenta,DarkYellow,Green
+            Start-Sleep -Seconds 2
+        }
+    }
     do {
         Clear-Host
         # display current saved file info
@@ -3566,7 +3589,6 @@ do {
         for ($Position = 0; $Position -lt 14; $Position++) {
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,$Position;$Host.UI.Write("");" "*49
         }
-
             # show congrats message on completion of all tasks, but only if Introduction Tasks are still in progress
             if ($Current_Location -eq "The Forest" -and $Import_JSON.IntroductionTasks.InProgress -eq $true) {
                 # update introduction task and update Introduction Tasks window
@@ -3579,23 +3601,22 @@ do {
                 # update gold in inventory
                 $Script:Import_JSON.Character.Gold = $Import_JSON.Character.Gold + 500
                 $Script:Gold = $Import_JSON.Character.Gold + 500
-                                # update xp
-                                $Import_JSON.Character.Total_XP += 1000
-                                $Total_XP = $Total_XP + 1000
-                                $Import_JSON.Character.XP_TNL -= 1000
-                                $Script:XP_TNL = $XP_TNL - 1000
-                                # level up check
-                                if ($XP_TNL -lt 0) {
-                                    $Script:XP_Difference = $XP_TNL
-                                }
-                                if ($XP_TNL -le 0) {
-                                    Level_Up
-                                }
-                                # update player stats after level up to show stat buffs
-                                Save_JSON
-                                Import_JSON
-                                Set_Variables
-                
+                # update xp
+                $Import_JSON.Character.Total_XP += 1000
+                $Total_XP = $Total_XP + 1000
+                $Import_JSON.Character.XP_TNL -= 1000
+                $Script:XP_TNL = $XP_TNL - 1000
+                # level up check
+                if ($XP_TNL -lt 0) {
+                    $Script:XP_Difference = $XP_TNL
+                }
+                if ($XP_TNL -le 0) {
+                    Level_Up
+                }
+                # update player stats after level up to show stat buffs
+                Save_JSON
+                Import_JSON
+                Set_Variables
                 $host.UI.RawUI.ForegroundColor = "Cyan"
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 84,20;$Host.UI.Write("                .")
                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 84,21;$Host.UI.Write(" .. ............;;.")
