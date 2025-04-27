@@ -10,7 +10,6 @@ ToDo
     
     
 - NEXT
-    - change JSON mobs to the same as Items (adding the mob name as the PSObject name)
     - buy items in the Anvil & Blade shop
     - add spells
     - add item equipment drops from mob loot
@@ -1836,16 +1835,18 @@ Function You_Died {
 # random mob from current Location with 10 percentage chance of rare mob
 #
 Function Random_Mob {
+    # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
     if ($TutorialMob -eq $true) {
-        $Current_Location_Mobs = $Import_JSON.Locations."Home Town".Mobs
+        $Current_Location_Mobs = $Import_JSON.Locations."Home Town".Mobs.PSObject.Properties.Name
     } else {
-        $Current_Location_Mobs = $Import_JSON.Locations.$Current_Location.Mobs
+        $Current_Location_Mobs = $Import_JSON.Locations.$Current_Location.Mobs.PSObject.Properties.Name
     }
     $Random_100 = Get-Random -Minimum 1 -Maximum 101
     if ($Random_100 -le 10) { # rare mob (10% of the time)
         $All_Rare_Mobs_In_Current_Location = @()
         $All_Rare_Mobs_In_Current_Location = New-Object System.Collections.Generic.List[System.Object]
         foreach ($Current_Location_Mob in $Current_Location_Mobs) {
+            $Current_Location_Mob = $Import_JSON.Locations.$Current_Location.Mobs.$Current_Location_Mob
             if ($Current_Location_Mob.Rare -ieq "yes") {
                 $All_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob)
             }
@@ -1856,6 +1857,7 @@ Function Random_Mob {
         $All_None_Rare_Mobs_In_Current_Location = @()
         $All_None_Rare_Mobs_In_Current_Location = New-Object System.Collections.Generic.List[System.Object]
         foreach ($Current_Location_Mob in $Current_Location_Mobs) {
+            $Current_Location_Mob = $Import_JSON.Locations."Home Town".Mobs.$Current_Location_Mob
             if ($Current_Location_Mob.Rare -ieq "no") {
                 $All_None_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob)
             }

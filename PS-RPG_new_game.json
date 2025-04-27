@@ -8,14 +8,14 @@
         "The Forest": "F"
       },
       "LocationOptions": {
-        "Hunt": false,
-        "Travel": false,
+        "Hunt": true,
+        "Travel": true,
         "Visit": true,
-        "Quests": false,
+        "Quests": true,
         "Inventory": false
       },
-      "Mobs": [
-        {
+      "Mobs": {
+        "Chicken": {
           "Name": "Chicken",
           "Level": 1,
           "Health": 10,
@@ -41,7 +41,7 @@
             "Random Loot #4": 1
           }
         },
-        {
+        "Rook": {
           "Name": "Rook",
           "Level": 3,
           "Health": 30,
@@ -67,7 +67,7 @@
             "Random Loot #3": 1
           }
         },
-        {
+        "Beetle": {
           "Name": "Beetle",
           "Level": 2,
           "Health": 10,
@@ -93,7 +93,7 @@
             "Random Loot #5": 1
           }
         },
-        {
+        "Rat": {
           "Name": "Rat",
           "Level": 2,
           "Health": 20,
@@ -106,7 +106,7 @@
           "Quickness": 5,
           "Spells": 50,
           "Healing": 50,
-          "Killed": 0,
+          "Killed": 2,
           "Rare": "No",
           "Boss": "No",
           "XP": 160,
@@ -121,7 +121,7 @@
             "Random Loot #5": 1
           }
         }
-      ],
+      },
       "NPCs": [
         {
           "Name": "Nobody"
@@ -136,7 +136,7 @@
         },
         "Tavern": {
           "Visited": 0,
-          "IntroductionTask": false,
+          "IntroductionTask": true,
           "BuildingLetter": "T",
           "Owner": "Elara",
           "Drinks": {
@@ -358,7 +358,7 @@
           "Owner": "Draven"
         },
         "Mend & Mana": {
-          "IntroductionTask": false,
+          "IntroductionTask": true,
           "Visited": 0,
           "BuildingLetter": "M",
           "Owner": "Kaelen"
@@ -534,32 +534,32 @@
     }
   },
   "Character": {
-    "Name": "y",
+    "Name": "Conga",
     "Class": "Rogue",
     "Race": "Elf",
-    "Level": 1,
-    "Total_XP": 0,
-    "XP_TNL": 100.0,
-    "Gold": 0.0,
+    "Level": 8,
+    "Total_XP": 1520,
+    "XP_TNL": 409.0,
+    "Gold": 501.0,
     "Stats": {
-      "HealthCurrent": 52.0,
-      "HealthMax": 115,
+      "HealthCurrent": 56.0,
+      "HealthMax": 95,
       "HealthMaxUnBuffed": 0,
       "StaminaCurrent": 80,
-      "StaminaMax": 157,
+      "StaminaMax": 129,
       "ManaCurrent": 30,
-      "ManaMax": 85,
+      "ManaMax": 65,
       "ManaMaxUnBuffed": 0,
-      "Damage": 109,
-      "Attack": 109,
+      "Damage": 73,
+      "Attack": 73,
       "AttackUnBuffed": 0,
-      "Armour": 50,
+      "Armour": 34,
       "ArmourUnBuffed": 0,
-      "Dodge": 120,
+      "Dodge": 80,
       "DodgeUnBuffed": 0,
-      "Quickness": 120,
-      "Spells": 56,
-      "Healing": 92
+      "Quickness": 80,
+      "Spells": 36,
+      "Healing": 60
     },
     "Buffs": {
       "Duration": 0,
@@ -578,7 +578,7 @@
   "Items": {
     "Lesser Health Potion": {
       "Name": "Lesser Health Potion",
-      "Quantity": 9,
+      "Quantity": 12,
       "Restores": 30,
       "GoldValue": 50,
       "IsJunk": false,
@@ -588,7 +588,7 @@
     },
     "Mana Potion": {
       "Name": "Mana Potion",
-      "Quantity": 3,
+      "Quantity": 4,
       "Restores": 20,
       "GoldValue": 10,
       "IsJunk": true,
@@ -666,7 +666,7 @@
     },
     "Rat Tails": {
       "Name": "Rat Tails",
-      "Quantity": 4,
+      "Quantity": 5,
       "Info": "Junk",
       "GoldValue": 0,
       "IsJunk": true,
@@ -674,7 +674,7 @@
     },
     "Rat Guts": {
       "Name": "Rat Guts",
-      "Quantity": 3,
+      "Quantity": 4,
       "Info": "Junk",
       "GoldValue": 3,
       "IsJunk": true,
@@ -746,7 +746,7 @@
     },
     "Random Loot #1": {
       "Name": "Random Loot #1",
-      "Quantity": 7,
+      "Quantity": 9,
       "Info": "Junk",
       "GoldValue": 5,
       "IsJunk": true,
@@ -754,7 +754,7 @@
     },
     "Random Loot #2": {
       "Name": "Random Loot #2",
-      "Quantity": 11,
+      "Quantity": 14,
       "Info": "?????",
       "GoldValue": 3,
       "IsJunk": false,
@@ -762,7 +762,7 @@
     },
     "Random Loot #3": {
       "Name": "Random Loot #3",
-      "Quantity": 6,
+      "Quantity": 8,
       "Info": "Junk",
       "GoldValue": 4,
       "IsJunk": true,
@@ -770,7 +770,7 @@
     },
     "Random Loot #4": {
       "Name": "Random Loot #4",
-      "Quantity": 5,
+      "Quantity": 7,
       "Info": "Junk",
       "GoldValue": 3,
       "IsJunk": true,
@@ -778,7 +778,7 @@
     },
     "Random Loot #5": {
       "Name": "Random Loot #5",
-      "Quantity": 7,
+      "Quantity": 8,
       "Info": "?????",
       "GoldValue": 3,
       "IsJunk": false,
@@ -906,11 +906,11 @@
       "ProgressMax": 2,
       "LevelRange": "1-5",
       "TimesCompleted": 0,
-      "Available": true,
-      "InProgress": false,
+      "Available": false,
+      "InProgress": true,
       "Completed": false,
       "Repeatable": true,
-      "Status": "Available"
+      "Status": "In Progress"
     },
     "Sick Elder": {
       "Name": "Sick Elder",
@@ -933,18 +933,18 @@
     }
   },
   "IntroductionTasks": {
-    "InProgress": true,
-    "Tick_Visit_Home": false,
-    "Tick_Recover_Health_and_Mana": false,
-    "Tick_Visit_the_Tavern": false,
-    "Tick_Accept_a_Quest": false,
-    "Tick_Go_Hunting": false,
-    "Tick_Kill_2_Rats": false,
-    "Tick_View_Inventory": false,
-    "Tick_Hand_in_Completed_Quest": false,
-    "Tick_Visit_Mend_and_Mana": false,
-    "Tick_Purchase_a_Potion": false,
-    "Tick_Travel_to_another_Location": false
+    "InProgress": false,
+    "Tick_Visit_Home": true,
+    "Tick_Recover_Health_and_Mana": true,
+    "Tick_Visit_the_Tavern": true,
+    "Tick_Accept_a_Quest": true,
+    "Tick_Go_Hunting": true,
+    "Tick_Kill_2_Rats": true,
+    "Tick_View_Inventory": true,
+    "Tick_Hand_in_Completed_Quest": true,
+    "Tick_Visit_Mend_and_Mana": true,
+    "Tick_Purchase_a_Potion": true,
+    "Tick_Travel_to_another_Location": true
   },
   "Game Information": {
     "Info": "I",
