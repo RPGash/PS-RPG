@@ -25,12 +25,11 @@ ToDo
         if 50% or above = no message?
     - different message types for
         heals? kills? buffs etc.
-    - consider changing mob crit rate/damage to from fixed 20%/20% to specific % for different mobs
+    - consider changing mob critical rate/damage to from fixed 20%/20% to specific % for different mobs
     - Game_Info [ongoing] an info page available after starting the game. still to add...
         damage calculation = damage * (damage / (damage + armour)),
         escape chance,
-        crit chance,
-    - validate JSON file on load to check for missing or incorrect data
+        critical hit chance,
 
 - KNOWN ISSUES
     - if a player purchases one drink and gains its buff, kills mobs until one kill left before it drops (not necessarily one but the closer to zero the better the exploit), they can go buy a second drink (buff) and it will extend the original buff for another full duration rather than the first buff expiring after one more fight. both buffs last the full duration. in other words getting a "free" buff.
@@ -1851,10 +1850,10 @@ Function Fight_or_Run {
                         $Character_Hit_Damage = $Character_Damage*$Random_PlusMinus10/100+$Character_Damage
                         # damage done formula = damage * (damage / (damage + armour))
                         $Character_Hit_Damage = [Math]::Round($Character_Hit_Damage*($Character_Hit_Damage/($Character_Hit_Damage+$Selected_Mob_Armour)))
-                        # player crit
+                        # player critically hits
                         $Random_Crit_Chance = Get-Random -Minimum 1 -Maximum 101
                         $Crit_Hit = ""
-                        if ($Random_Crit_Chance -le 20) { # chance of crit 20%
+                        if ($Random_Crit_Chance -le 20) { # chance of critical hit - less than 20%
                             $Crit_Hit = $true
                             $Character_Hit_Damage = [Math]::Round($Character_Hit_Damage*20/100+$Character_Hit_Damage)
                             $Crit_Hit = "critically "
@@ -1919,10 +1918,10 @@ Function Fight_or_Run {
                     $Selected_Mob_Hit_Damage = $Selected_Mob.Damage*$Random_PlusMinus10/100+$Selected_Mob.Damage
                     # damage done = damage * (damage / (damage + armour))
                     $Selected_Mob_Hit_Damage = [Math]::Round($Selected_Mob_Hit_Damage*($Selected_Mob_Hit_Damage/($Selected_Mob_Hit_Damage+$Import_JSON.Character.Stats.Armour)))
-                    # mob crit
+                    # mob critically hits
                     $Random_Crit_Chance = Get-Random -Minimum 1 -Maximum 101
                     $Crit_Hit = ""
-                    if ($Random_Crit_Chance -le 20) { # chance of crit 20%
+                    if ($Random_Crit_Chance -le 20) { # chance of critical hit - less than 20%
                         $Crit_Hit = $true
                         $Selected_Mob_Hit_Damage = [Math]::Round($Selected_Mob_Hit_Damage*20/100+$Selected_Mob_Hit_Damage)
                         $Crit_Hit = "critically "
