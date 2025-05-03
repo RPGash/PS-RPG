@@ -15,6 +15,28 @@
         "Inventory": false
       },
       "Mobs": {
+        "Rat": {
+          "Name": "Rat",
+          "Level": 2,
+          "Health": 20,
+          "Stamina": 50,
+          "Mana": 50,
+          "Attack": 5,
+          "Damage": 5,
+          "Armour": 10,
+          "Dodge": 5,
+          "Quickness": 5,
+          "Spells": 50,
+          "Healing": 50,
+          "Killed": 2,
+          "Rare": "No",
+          "Boss": "No",
+          "XP": 160,
+          "Loot": {
+            "Gold": 10,
+            "Rat Tails": 1
+          }
+        },
         "Chicken": {
           "Name": "Chicken",
           "Level": 1,
@@ -86,34 +108,6 @@
           "XP": 160,
           "Loot": {
             "Gold": 10,
-            "Random Loot #1": 1,
-            "Random Loot #2": 1,
-            "Random Loot #3": 1,
-            "Random Loot #4": 1,
-            "Random Loot #5": 1
-          }
-        },
-        "Rat": {
-          "Name": "Rat",
-          "Level": 2,
-          "Health": 20,
-          "Stamina": 50,
-          "Mana": 50,
-          "Attack": 5,
-          "Damage": 5,
-          "Armour": 10,
-          "Dodge": 5,
-          "Quickness": 5,
-          "Spells": 50,
-          "Healing": 50,
-          "Killed": 2,
-          "Rare": "No",
-          "Boss": "No",
-          "XP": 160,
-          "Loot": {
-            "Gold": 10,
-            "Rat Tails": 1,
-            "Rat Guts": 1,
             "Random Loot #1": 1,
             "Random Loot #2": 1,
             "Random Loot #3": 1,
@@ -350,6 +344,178 @@
                 }
               }
             }
+          },
+          "Cellar": {
+            "Mobs": {
+              "Rat": {
+                "Name": "Rat",
+                "Level": 2,
+                "Health": 20,
+                "Stamina": 50,
+                "Mana": 50,
+                "Attack": 5,
+                "Damage": 5,
+                "Armour": 10,
+                "Dodge": 5,
+                "Quickness": 5,
+                "Spells": 50,
+                "Healing": 50,
+                "Killed": 2,
+                "Rare": "No",
+                "Boss": "No",
+                "XP": 160,
+                "Loot": {
+                  "Gold": 10,
+                  "Rat Tails": 1
+                }
+              },
+              "Drunk Rat": {
+                "Name": "Drunk Rat",
+                "Level": 2,
+                "Health": 20,
+                "Stamina": 50,
+                "Mana": 50,
+                "Attack": 5,
+                "Damage": 10,
+                "Armour": 5,
+                "Dodge": 2,
+                "Quickness": 2,
+                "Spells": 50,
+                "Healing": 50,
+                "Killed": 0,
+                "Rare": "No",
+                "Boss": "No",
+                "XP": 80,
+                "Loot": {
+                  "Gold": 5,
+                  "Rat Guts": 1
+                }
+              },
+              "King Rat": {
+                "Name": "King Rat",
+                "Level": 5,
+                "Health": 50,
+                "Stamina": 50,
+                "Mana": 50,
+                "Attack": 10,
+                "Damage": 10,
+                "Armour": 10,
+                "Dodge": 10,
+                "Quickness": 10,
+                "Spells": 50,
+                "Healing": 50,
+                "Killed": 0,
+                "Rare": "Yes",
+                "Boss": "Yes",
+                "XP": 250,
+                "Loot": {
+                  "Gold": 50,
+                  "Rat Tails": 1,
+                  "Rat Guts": 1
+                }
+              }
+            },
+            "CellarQuest": {
+              "Room1": {
+                "Room": "1",
+                "CurrentLocation": false,
+                "Visited": true,
+                "LinkedRooms": {
+                  "Room2": "E"
+                }
+              },
+              "Room2": {
+                "Room": "2",
+                "CurrentLocation": false,
+                "Visited": true,
+                "LinkedRooms": {
+                  "Room1": "W",
+                  "Room7": "S"
+                }
+              },
+              "Room3": {
+                "Room": "3",
+                "CurrentLocation": false,
+                "Visited": false,
+                "LinkedRooms": {
+                  "Room4": "E",
+                  "Room9": "S"
+                }
+              },
+              "Room4": {
+                "Room": "4",
+                "CurrentLocation": false,
+                "Visited": false,
+                "LinkedRooms": {
+                  "Room3": "W",
+                  "Room5": "E"
+                }
+              },
+              "Room5": {
+                "Room": "5",
+                "CurrentLocation": false,
+                "Visited": false,
+                "LinkedRooms": {
+                  "Room4": "W",
+                  "Room11": "S"
+                }
+              },
+              "Room6": {
+                "Room": "6",
+                "CurrentLocation": false,
+                "Visited": true,
+                "LinkedRooms": {
+                  "Room7": "E"
+                }
+              },
+              "Room7": {
+                "Room": "7",
+                "CurrentLocation": false,
+                "Visited": true,
+                "LinkedRooms": {
+                  "Room2": "N",
+                  "Room6": "W",
+                  "Room8": "S"
+                }
+              },
+              "Room8": {
+                "Room": "8",
+                "CurrentLocation": true,
+                "Visited": true,
+                "LinkedRooms": {
+                  "Room7": "N",
+                  "Room9": "E"
+                }
+              },
+              "Room9": {
+                "Room": "9",
+                "CurrentLocation": false,
+                "Visited": false,
+                "LinkedRooms": {
+                  "Room3": "N",
+                  "Room8": "W",
+                  "Room10": "E"
+                }
+              },
+              "Room10": {
+                "Room": "10",
+                "CurrentLocation": false,
+                "Visited": false,
+                "LinkedRooms": {
+                  "Room9": "W",
+                  "Room11": "E"
+                }
+              },
+              "Room11": {
+                "Room": "11",
+                "CurrentLocation": false,
+                "Visited": false,
+                "LinkedRooms": {
+                  "Room5": "N",
+                  "Room10": "W"
+                }
+              }
+            }
           }
         },
         "Anvil & Blade": {
@@ -538,11 +704,11 @@
     "Class": "Rogue",
     "Race": "Elf",
     "Level": 8,
-    "Total_XP": 1520,
-    "XP_TNL": 409.0,
-    "Gold": 501.0,
+    "Total_XP": 1840,
+    "XP_TNL": 89.0,
+    "Gold": 538.0,
     "Stats": {
-      "HealthCurrent": 60,
+      "HealthCurrent": 56.0,
       "HealthMax": 60,
       "HealthMaxUnBuffed": 0,
       "StaminaCurrent": 80,
@@ -578,7 +744,7 @@
   "Items": {
     "Lesser Health Potion": {
       "Name": "Lesser Health Potion",
-      "Quantity": 12,
+      "Quantity": 15,
       "Restores": 30,
       "GoldValue": 50,
       "IsJunk": false,
@@ -666,7 +832,7 @@
     },
     "Rat Tails": {
       "Name": "Rat Tails",
-      "Quantity": 5,
+      "Quantity": 6,
       "Info": "Junk",
       "GoldValue": 0,
       "IsJunk": true,
@@ -754,7 +920,7 @@
     },
     "Random Loot #2": {
       "Name": "Random Loot #2",
-      "Quantity": 14,
+      "Quantity": 15,
       "Info": "?????",
       "GoldValue": 3,
       "IsJunk": false,
@@ -888,7 +1054,7 @@
     }
   },
   "Quests": {
-    "Rat infestation": {
+    "Rat Infestation": {
       "IntroductionTask": true,
       "Name": "Rat infestation",
       "QuestLetter": "R",
