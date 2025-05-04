@@ -3055,9 +3055,8 @@ Function Visit_a_Building {
                                         Write-Color -LinesBefore 1 "  Use the four main cardinal directions of a compass to move about in the cellar. ","N",", ","S",", ","E ","and ","W","." -Color DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray
                                         Write-Color "  Look for the ","Green ","line (","-"," or ","|",") on the edges of the room walls which indicates a joning room."-Color DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray
                                         Write-Color -LinesBefore 1 "  Note:"," to exit the Cellar, move back to this room and enter '","X","' (not the usual 'E')." -Color Red,DarkGray,Green,DarkGray
-                                        
                                         # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
-                                        $Cellar_Quest_Room_Direction = New-Object System.Collections.Generic.List[System.Object]
+                                        $Cellar_Quest_Room_Direction_Array = New-Object System.Collections.Generic.List[System.Object]
                                         # loop through all Cellar quest rooms
                                         foreach ($Cellar_Quest_Room in $Cellar_Quest_Rooms) {
                                             Add-Content -Path .\error.log -value "--------------------------------------------------"
@@ -3065,8 +3064,9 @@ Function Visit_a_Building {
                                             # get current cellar quest room as an object
                                             $Cellar_Quest_Room_Object = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.$Cellar_Quest_Room
                                             Add-Content -Path .\error.log -value "Cellar_Quest_Room_Object: $Cellar_Quest_Room_Object"
-                                            
                                             foreach ($Cellar_Quest_Room_Current_Location in $Cellar_Quest_Room_Object) {
+                                                Add-Content -Path .\error.log -value "_Current_Location.Room: $($Cellar_Quest_Room_Current_Location.Room)"
+                                                Add-Content -Path .\error.log -value "_Current_Location.CurrentLocation: $($Cellar_Quest_Room_Current_Location.CurrentLocation)"
                                                 if ($Cellar_Quest_Room_Current_Location.CurrentLocation -eq $true) {
                                                     # get all LinkedLocations room names and loop through all
                                                     foreach ($Cellar_Quest_Room_Name in $Cellar_Quest_Room_Object.LinkedRooms.PSObject.Properties.Name) {
@@ -3074,18 +3074,18 @@ Function Visit_a_Building {
                                                         $Cellar_Quest_Room_Name_Letter = $Cellar_Quest_Room_Object.LinkedRooms.$Cellar_Quest_Room_Name
                                                         Add-Content -Path .\error.log -value "Cellar_Quest_Room_Name_Letter: $Cellar_Quest_Room_Name_Letter"
                                                         # add each LinkedLocations letter (direction) to array
-                                                        $Cellar_Quest_Room_Direction.Add($Cellar_Quest_Room_Name_Letter)
-                                                        Add-Content -Path .\error.log -value "Cellar_Quest_Room_Direction: $Cellar_Quest_Room_Direction"
+                                                        $Cellar_Quest_Room_Direction_Array.Add($Cellar_Quest_Room_Name_Letter)
+                                                        Add-Content -Path .\error.log -value "Cellar_Quest_Room_Direction: $Cellar_Quest_Room_Direction_Array"
                                                     }
                                                 }
                                             }
-                                            $Cellar_Quest_Room_Direction_String = $Cellar_Quest_Room_Direction -Join "/"
-                                            # if current location is true, break out of loop so to stop processing any more rooms
-                                            # but also if current room is room 6 (entrance/exit), add /eXit to the choice string (new "exit" command only in this location, usually "E")
-                                            if ($Cellar_Quest_Room_Current_Location.CurrentLocation -eq $true) {
-                                                $Cellar_Quest_Room_Direction_String = $Cellar_Quest_Room_Direction_String + "/X"
+                                            # check if current location is room 6 (the exit) and if Room6's "CurrentLocation" is $true. if it is, add the "X" choice to the array, then break out of the loop
+                                            if ($Cellar_Quest_Room_Current_Location.Room -eq "6" -and $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.Room6.CurrentLocation -eq $true) {
+                                                $Cellar_Quest_Room_Direction_Array.Add("X")
+                                                $Cellar_Quest_Room_Direction_Array_String = $Cellar_Quest_Room_Direction_Array -Join "/"
                                                 Break
                                             }
+                                            $Cellar_Quest_Room_Direction_Array_String = $Cellar_Quest_Room_Direction_Array -Join "/"
                                             
 
                                             # if ($Cellar_Quest_Room.Visited -eq $true) {
@@ -3110,10 +3110,10 @@ Function Visit_a_Building {
                                         
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                        Write-Color -NoNewLine "Compass direction or e","X","it ","[$Cellar_Quest_Room_Direction_String]" -Color DarkYellow,Green,DarkYellow,Green
+                                        Write-Color -NoNewLine "Compass direction or e","X","it ","[$Cellar_Quest_Room_Direction_Array_String]" -Color DarkYellow,Green,DarkYellow,Green
                                         $Cellar_Direction = Read-Host " "
                                         $Cellar_Direction = $Cellar_Direction.Trim()
-                                    } until ($Cellar_Direction -in $Cellar_Quest_Room_Direction_String)
+                                    } until ($Cellar_Direction -in $Cellar_Quest_Room_Direction_Array_String)
                                     # do {
                                     # } until ($Cellar_Continue -eq "c")
                                 } until ($exit -eq "e")
