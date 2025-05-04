@@ -2306,17 +2306,27 @@ Function Draw_Cellar_Map {
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 56,13;$Host.UI.Write("+-----------------------------------------------+")
     $host.UI.RawUI.ForegroundColor = "White"
     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 74,1;$Host.UI.Write("Tavern Cellar") # Tavern Cellar
-    $Cellar_Quest_Rooms = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.PSObject.Properties.Name
     # Function for all rooms ecause they are called twice so not duplicating code
     Function Draw_Cellar_Quest_Room_1 {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 57,2;$Host.UI.Write("+-----+ ") # room 1
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 57,3;$Host.UI.Write("|  1  +-")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 57,4;$Host.UI.Write("+-----+ ")
+        if ($Cellar_Quest_Current_Room -eq "1") {
+            $host.UI.RawUI.ForegroundColor = "Green"
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 64,3;$Host.UI.Write("-") # door East
+        }
+
     }
     Function Draw_Cellar_Quest_Room_2 {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 64,2;$Host.UI.Write(" +-----+ ") # room 2
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 64,3;$Host.UI.Write("-+  2  |")
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 64,3;$Host.UI.Write("-+  2  | ")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 64,4;$Host.UI.Write(" +-----+ ")
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 64,5;$Host.UI.Write("    |    ")
+        if ($Cellar_Quest_Current_Room -eq "2") {
+            $host.UI.RawUI.ForegroundColor = "Green"
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 64,3;$Host.UI.Write("-") # door West
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 68,5;$Host.UI.Write("|") # door South
+        }
     }
     Function Draw_Cellar_Quest_Room_3 {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 72,2;$Host.UI.Write(" +-----+ ") # room 3
@@ -2327,26 +2337,45 @@ Function Draw_Cellar_Map {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 72,7;$Host.UI.Write(" |     | ")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 72,8;$Host.UI.Write(" +--+--+ ")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 72,9;$Host.UI.Write("    |    ")
+        if ($Cellar_Quest_Current_Room -eq "3") {
+            $host.UI.RawUI.ForegroundColor = "Green"
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 80,3;$Host.UI.Write("-") # door East
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 82,9;$Host.UI.Write("|") # door South
+        }
     }
     Function Draw_Cellar_Quest_Room_4 {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 80,2;$Host.UI.Write(" +-----+ ") # room 4
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 80,3;$Host.UI.Write("-+  4  +-")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 80,4;$Host.UI.Write(" +-----+ ")
+        if ($Cellar_Quest_Current_Room -eq "4") {
+            $host.UI.RawUI.ForegroundColor = "Green"
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 80,3;$Host.UI.Write("-") # door West
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 88,3;$Host.UI.Write("-") # door East
+        }
     }
     Function Draw_Cellar_Quest_Room_5 {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 88,2;$Host.UI.Write( " +-------------+") # room 5
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 88,3;$Host.UI.Write( "-+          5  |")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 88,4;$Host.UI.Write( " +-------+     |")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 97,5;$Host.UI.Write(          "|     |")
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 97,6;$Host.UI.Write(         "|     |")
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 97,7;$Host.UI.Write(         "|     |")
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 97,8;$Host.UI.Write(         "+--+--+")
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 97,9;$Host.UI.Write(         "   |   ")
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 97,6;$Host.UI.Write(          "|     |")
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 97,7;$Host.UI.Write(          "|     |")
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 97,8;$Host.UI.Write(          "+--+--+")
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 97,9;$Host.UI.Write(          "   |   ")
+        if ($Cellar_Quest_Current_Room -eq "5") {
+            $host.UI.RawUI.ForegroundColor = "Green"
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 88,3;$Host.UI.Write( "-") # door West
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 100,9;$Host.UI.Write("|") # door South
+        }
     }
     Function Draw_Cellar_Quest_Room_6 {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 57,6;$Host.UI.Write("+-----+ ") # room 6
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 57,7;$Host.UI.Write("|Exit +-")
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 57,7;$Host.UI.Write("|eXit +-")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 57,8;$Host.UI.Write("+-----+ ")
+        if ($Cellar_Quest_Current_Room -eq "6") {
+            $host.UI.RawUI.ForegroundColor = "Green"
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 64,7;$Host.UI.Write("-") # door East
+        }
     }
     Function Draw_Cellar_Quest_Room_7 {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 64,5;$Host.UI.Write("    |   ") # room 7
@@ -2354,18 +2383,35 @@ Function Draw_Cellar_Map {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 64,7;$Host.UI.Write("-+  7  |")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 64,8;$Host.UI.Write(" +--+--+")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 64,9;$Host.UI.Write("    |   ")
+        if ($Cellar_Quest_Current_Room -eq "7") {
+            $host.UI.RawUI.ForegroundColor = "Green"
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 68,5;$Host.UI.Write("|") # door North
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 64,7;$Host.UI.Write("-") # door West
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 68,9;$Host.UI.Write("|") # door South
+        }
     }
     Function Draw_Cellar_Quest_Room_8 {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 64,9;$Host.UI.Write( "    |    ") # room 8
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 64,10;$Host.UI.Write(" +--+--+ ")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 64,11;$Host.UI.Write(" |  8  +-")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 64,12;$Host.UI.Write(" +-----+ ")
+        if ($Cellar_Quest_Current_Room -eq "8") {
+            $host.UI.RawUI.ForegroundColor = "Green"
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 68,9;$Host.UI.Write( "|") # door North
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 72,11;$Host.UI.Write("-") # door East
+        }
     }
     Function Draw_Cellar_Quest_Room_9 {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 72,9;$Host.UI.Write( "    |    ") # room 9
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 72,10;$Host.UI.Write(" +--+--+ ")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 72,11;$Host.UI.Write("-+  9  +-")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 72,12;$Host.UI.Write(" +-----+ ")
+        if ($Cellar_Quest_Current_Room -eq "9") {
+            $host.UI.RawUI.ForegroundColor = "Green"
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 76,9;$Host.UI.Write( "|") # door North
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 72,11;$Host.UI.Write("-") # door West
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 80,11;$Host.UI.Write("-") # door East
+        }
     }
     Function Draw_Cellar_Quest_Room_10 {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 80,6;$Host.UI.Write( " +-------------+ ") # room 10
@@ -2375,18 +2421,28 @@ Function Draw_Cellar_Map {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 80,10;$Host.UI.Write(" |             | ")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 80,11;$Host.UI.Write("-+             +-")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 80,12;$Host.UI.Write(" +-------------+ ")
+        if ($Cellar_Quest_Current_Room -eq "10") {
+            $host.UI.RawUI.ForegroundColor = "Green"
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 80,11;$Host.UI.Write("-") # door West
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 96,11;$Host.UI.Write("-") # door East
+        }
     }
     Function Draw_Cellar_Quest_Room_11 {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 96,9;$Host.UI.Write( "    |   ") # room 11
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 96,10;$Host.UI.Write(" +--+--+")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 96,11;$Host.UI.Write("-+  11 |")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 96,12;$Host.UI.Write(" +-----+")
+        if ($Cellar_Quest_Current_Room -eq "11") {
+            $host.UI.RawUI.ForegroundColor = "Green"
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 100,9;$Host.UI.Write("|") # door North
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 96,11;$Host.UI.Write("-") # door West
+        }
     }
     # loop through all cellar rooms, draw all rooms that have been visited in DarkGray, also find current room to draw that room last in DarkCyan
     foreach ($Cellar_Quest_Room in $Cellar_Quest_Rooms) {
         $Cellar_Quest_Room = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.$Cellar_Quest_Room
         if ($Cellar_Quest_Room.CurrentLocation -eq $true) {
-            $Cellar_Quest_Current_Room = $Cellar_Quest_Room.Room
+            $Script:Cellar_Quest_Current_Room = $Cellar_Quest_Room.Room
         }
         if ($Cellar_Quest_Room.Visited -eq $true) {
             $host.UI.RawUI.ForegroundColor = "DarkGray"
@@ -2407,7 +2463,7 @@ Function Draw_Cellar_Map {
         }
     }
     # draw current room last in DarkCyan which displays connecting room lines correctly rather than getting overritten by a room drawn after current room
-    $host.UI.RawUI.ForegroundColor = "DarkCyan"
+    $host.UI.RawUI.ForegroundColor = "White"
     switch ($Cellar_Quest_Current_Room) {
         1 { Draw_Cellar_Quest_Room_1 }
         2 { Draw_Cellar_Quest_Room_2 }
@@ -2987,6 +3043,7 @@ Function Visit_a_Building {
                                 do {
                                     $Script:Info_Banner = "Tavern Cellar"
                                     Draw_Info_Banner
+                                    $Script:Cellar_Quest_Rooms = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.PSObject.Properties.Name
                                     Draw_Cellar_Map
                                     do {
                                         for ($Position = 17; $Position -lt 25; $Position++) { # clear some lines from previous widow
@@ -2995,15 +3052,70 @@ Function Visit_a_Building {
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                         Write-Color "  You walk down the stone cellar steps being careful not to slip on the mold and rat droppings." -Color DarkGray
                                         Write-Color "  It's damp and dark. Your torch barly makes a difference down here." -Color DarkGray
+                                        Write-Color -LinesBefore 1 "  Use the four main cardinal directions of a compass to move about in the cellar. ","N",", ","S",", ","E ","and ","W","." -Color DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray
+                                        Write-Color "  Look for the ","Green ","line (","-"," or ","|",") on the edges of the room walls which indicates a joning room."-Color DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray
+                                        Write-Color -LinesBefore 1 "  Note:"," to exit the Cellar, move back to this room and enter '","X","' (not the usual 'E')." -Color Red,DarkGray,Green,DarkGray
+                                        
+                                        # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
+                                        $Cellar_Quest_Room_Direction = New-Object System.Collections.Generic.List[System.Object]
+                                        # loop through all Cellar quest rooms
+                                        foreach ($Cellar_Quest_Room in $Cellar_Quest_Rooms) {
+                                            Add-Content -Path .\error.log -value "--------------------------------------------------"
+                                            Add-Content -Path .\error.log -value "Cellar_Quest_Room: $Cellar_Quest_Room"
+                                            # get current cellar quest room as an object
+                                            $Cellar_Quest_Room_Object = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.$Cellar_Quest_Room
+                                            Add-Content -Path .\error.log -value "Cellar_Quest_Room_Object: $Cellar_Quest_Room_Object"
+                                            
+                                            foreach ($Cellar_Quest_Room_Current_Location in $Cellar_Quest_Room_Object) {
+                                                if ($Cellar_Quest_Room_Current_Location.CurrentLocation -eq $true) {
+                                                    # get all LinkedLocations room names and loop through all
+                                                    foreach ($Cellar_Quest_Room_Name in $Cellar_Quest_Room_Object.LinkedRooms.PSObject.Properties.Name) {
+                                                        Add-Content -Path .\error.log -value "Cellar_Quest_Room_Name: $Cellar_Quest_Room_Name"
+                                                        $Cellar_Quest_Room_Name_Letter = $Cellar_Quest_Room_Object.LinkedRooms.$Cellar_Quest_Room_Name
+                                                        Add-Content -Path .\error.log -value "Cellar_Quest_Room_Name_Letter: $Cellar_Quest_Room_Name_Letter"
+                                                        # add each LinkedLocations letter (direction) to array
+                                                        $Cellar_Quest_Room_Direction.Add($Cellar_Quest_Room_Name_Letter)
+                                                        Add-Content -Path .\error.log -value "Cellar_Quest_Room_Direction: $Cellar_Quest_Room_Direction"
+                                                    }
+                                                }
+                                            }
+                                            $Cellar_Quest_Room_Direction_String = $Cellar_Quest_Room_Direction -Join "/"
+                                            # if current location is true, break out of loop so to stop processing any more rooms
+                                            # but also if current room is room 6 (entrance/exit), add /eXit to the choice string (new "exit" command only in this location, usually "E")
+                                            if ($Cellar_Quest_Room_Current_Location.CurrentLocation -eq $true) {
+                                                $Cellar_Quest_Room_Direction_String = $Cellar_Quest_Room_Direction_String + "/X"
+                                                Break
+                                            }
+                                            
+
+                                            # if ($Cellar_Quest_Room.Visited -eq $true) {
+                                            #     $host.UI.RawUI.ForegroundColor = "DarkGray"
+                                            #     switch ($Cellar_Quest_Room.Room) {
+                                            #         1 { Draw_Cellar_Quest_Room_1 }
+                                            #         2 { Draw_Cellar_Quest_Room_2 }
+                                            #         3 { Draw_Cellar_Quest_Room_3 }
+                                            #         4 { Draw_Cellar_Quest_Room_4 }
+                                            #         5 { Draw_Cellar_Quest_Room_5 }
+                                            #         6 { Draw_Cellar_Quest_Room_6 }
+                                            #         7 { Draw_Cellar_Quest_Room_7 }
+                                            #         8 { Draw_Cellar_Quest_Room_8 }
+                                            #         9 { Draw_Cellar_Quest_Room_9 }
+                                            #         10 { Draw_Cellar_Quest_Room_10 }
+                                            #         11 { Draw_Cellar_Quest_Room_11 }
+                                            #         Default {}
+                                            #     }
+                                            # }
+                                        }
+
+                                        
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                        Write-Color -NoNewLine "C","ontinue ","[C]" -Color Green,DarkYellow,Green
-                                        $Cellar_Continue = Read-Host " "
-                                        $Cellar_Continue = $Cellar_Continue.Trim()
-                                    } until ($Cellar_Continue -ieq "c")
-                                    do {
-                                        
-                                    } until ($Cellar_Continue -eq "c")
+                                        Write-Color -NoNewLine "Compass direction or e","X","it ","[$Cellar_Quest_Room_Direction_String]" -Color DarkYellow,Green,DarkYellow,Green
+                                        $Cellar_Direction = Read-Host " "
+                                        $Cellar_Direction = $Cellar_Direction.Trim()
+                                    } until ($Cellar_Direction -in $Cellar_Quest_Room_Direction_String)
+                                    # do {
+                                    # } until ($Cellar_Continue -eq "c")
                                 } until ($exit -eq "e")
                             }
                             Default {}
