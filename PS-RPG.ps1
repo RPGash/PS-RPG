@@ -2340,7 +2340,7 @@ Function Draw_Cellar_Map {
         if ($Cellar_Quest_Current_Room -eq "3") {
             $host.UI.RawUI.ForegroundColor = "Green"
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 80,3;$Host.UI.Write("-") # door East
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 82,9;$Host.UI.Write("|") # door South
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 76,9;$Host.UI.Write("|") # door South
         }
     }
     Function Draw_Cellar_Quest_Room_4 {
@@ -3044,7 +3044,6 @@ Function Visit_a_Building {
                                     $Script:Info_Banner = "Tavern Cellar"
                                     Draw_Info_Banner
                                     $Script:Cellar_Quest_Rooms = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.PSObject.Properties.Name
-                                    Draw_Cellar_Map
                                     do {
                                         for ($Position = 17; $Position -lt 25; $Position++) { # clear some lines from previous widow
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
@@ -3055,27 +3054,28 @@ Function Visit_a_Building {
                                         Write-Color -LinesBefore 1 "  Use the four main cardinal directions of a compass to move about in the cellar. ","N",", ","S",", ","E ","and ","W","." -Color DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray
                                         Write-Color "  Look for the ","Green ","line (","-"," or ","|",") on the edges of the room walls which indicates a joning room."-Color DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray
                                         Write-Color -LinesBefore 1 "  Note:"," to exit the Cellar, move back to this room and enter '","X","' (not the usual 'E')." -Color Red,DarkGray,Green,DarkGray
-                                        # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
                                         $Cellar_Quest_Room_Direction_Array = New-Object System.Collections.Generic.List[System.Object]
                                         # loop through all Cellar quest rooms
                                         foreach ($Cellar_Quest_Room in $Cellar_Quest_Rooms) {
-                                            Add-Content -Path .\error.log -value "--------------------------------------------------"
-                                            Add-Content -Path .\error.log -value "Cellar_Quest_Room: $Cellar_Quest_Room"
+                                            # Add-Content -Path .\error.log -value "--------------------------------------------------"
+                                            # Add-Content -Path .\error.log -value "Cellar_Quest_Room: $Cellar_Quest_Room"
                                             # get current cellar quest room as an object
                                             $Cellar_Quest_Room_Object = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.$Cellar_Quest_Room
-                                            Add-Content -Path .\error.log -value "Cellar_Quest_Room_Object: $Cellar_Quest_Room_Object"
+                                            # Add-Content -Path .\error.log -value "Cellar_Quest_Room_Object: $Cellar_Quest_Room_Object"
                                             foreach ($Cellar_Quest_Room_Current_Location in $Cellar_Quest_Room_Object) {
-                                                Add-Content -Path .\error.log -value "_Current_Location.Room: $($Cellar_Quest_Room_Current_Location.Room)"
-                                                Add-Content -Path .\error.log -value "_Current_Location.CurrentLocation: $($Cellar_Quest_Room_Current_Location.CurrentLocation)"
+                                                # Add-Content -Path .\error.log -value "_Current_Location.Room: $($Cellar_Quest_Room_Current_Location.Room)"
+                                                # Add-Content -Path .\error.log -value "_Current_Location.CurrentLocation: $($Cellar_Quest_Room_Current_Location.CurrentLocation)"
                                                 if ($Cellar_Quest_Room_Current_Location.CurrentLocation -eq $true) {
-                                                    # get all LinkedLocations room names and loop through all
+                                                    # get all LinkedLocations room names and loop through 
+                                                    $Cellar_Quest_Current_Room_Number_Object = $Cellar_Quest_Room_Current_Location
+                                                    # Add-Content -Path .\error.log -value "Cellar_Quest_Current_Room_Number_object: $Cellar_Quest_Current_Room_Number_Object"
                                                     foreach ($Cellar_Quest_Room_Name in $Cellar_Quest_Room_Object.LinkedRooms.PSObject.Properties.Name) {
-                                                        Add-Content -Path .\error.log -value "Cellar_Quest_Room_Name: $Cellar_Quest_Room_Name"
+                                                        # Add-Content -Path .\error.log -value "Cellar_Quest_Room_Name: $Cellar_Quest_Room_Name"
                                                         $Cellar_Quest_Room_Name_Letter = $Cellar_Quest_Room_Object.LinkedRooms.$Cellar_Quest_Room_Name
-                                                        Add-Content -Path .\error.log -value "Cellar_Quest_Room_Name_Letter: $Cellar_Quest_Room_Name_Letter"
+                                                        # Add-Content -Path .\error.log -value "Cellar_Quest_Room_Name_Letter: $Cellar_Quest_Room_Name_Letter"
                                                         # add each LinkedLocations letter (direction) to array
                                                         $Cellar_Quest_Room_Direction_Array.Add($Cellar_Quest_Room_Name_Letter)
-                                                        Add-Content -Path .\error.log -value "Cellar_Quest_Room_Direction: $Cellar_Quest_Room_Direction_Array"
+                                                        # Add-Content -Path .\error.log -value "Cellar_Quest_Room_Direction: $Cellar_Quest_Room_Direction_Array"
                                                     }
                                                 }
                                             }
@@ -3086,37 +3086,46 @@ Function Visit_a_Building {
                                                 Break
                                             }
                                             $Cellar_Quest_Room_Direction_Array_String = $Cellar_Quest_Room_Direction_Array -Join "/"
-                                            
-
-                                            # if ($Cellar_Quest_Room.Visited -eq $true) {
-                                            #     $host.UI.RawUI.ForegroundColor = "DarkGray"
-                                            #     switch ($Cellar_Quest_Room.Room) {
-                                            #         1 { Draw_Cellar_Quest_Room_1 }
-                                            #         2 { Draw_Cellar_Quest_Room_2 }
-                                            #         3 { Draw_Cellar_Quest_Room_3 }
-                                            #         4 { Draw_Cellar_Quest_Room_4 }
-                                            #         5 { Draw_Cellar_Quest_Room_5 }
-                                            #         6 { Draw_Cellar_Quest_Room_6 }
-                                            #         7 { Draw_Cellar_Quest_Room_7 }
-                                            #         8 { Draw_Cellar_Quest_Room_8 }
-                                            #         9 { Draw_Cellar_Quest_Room_9 }
-                                            #         10 { Draw_Cellar_Quest_Room_10 }
-                                            #         11 { Draw_Cellar_Quest_Room_11 }
-                                            #         Default {}
-                                            #     }
-                                            # }
                                         }
-
-                                        
+                                        Draw_Cellar_Map
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                                         Write-Color -NoNewLine "Compass direction or e","X","it ","[$Cellar_Quest_Room_Direction_Array_String]" -Color DarkYellow,Green,DarkYellow,Green
                                         $Cellar_Direction = Read-Host " "
                                         $Cellar_Direction = $Cellar_Direction.Trim()
-                                    } until ($Cellar_Direction -in $Cellar_Quest_Room_Direction_Array_String)
+                                    } until ($Cellar_Direction -in $Cellar_Quest_Room_Direction_Array)
                                     # do {
-                                    # } until ($Cellar_Continue -eq "c")
-                                } until ($exit -eq "e")
+                                        # when direction choice has been made
+                                        # change current location to that directions room name
+                                        # update CurrentLocation (in both "CurrentLocation" and the room being moved too)
+                                        switch ($Cellar_Direction) {
+                                            $Cellar_Direction {
+                                                if ($Cellar_Direction -ieq "x") {
+                                                    Break
+                                                }
+                                                # Add-Content -Path .\error.log -value "================================================"
+                                                $Cellar_Quest_Current_Room_Linked_Rooms = $Cellar_Quest_Current_Room_Number_Object.LinkedRooms.PSObject.Properties.Name
+                                                foreach ($Cellar_Quest_Current_Room_Linked_Room in $Cellar_Quest_Current_Room_Linked_Rooms) {
+                                                    # Add-Content -Path .\error.log -value "Cellar_Quest_LinkedRoom: $Cellar_Quest_Current_Room_Linked_Room"
+                                                    # $Cellar_Quest_LinkedRoom_Name = $Cellar_Quest_Current_Room_Number_Object.LinkedRooms
+                                                    if ($Cellar_Quest_Current_Room_Number_Object.LinkedRooms.$Cellar_Quest_Current_Room_Linked_Room -ieq "$Cellar_Direction") {
+                                                        # Add-Content -Path .\error.log -value "linkedRoom match: $($Cellar_Quest_Current_Room_Number_Object.LinkedRooms.$Cellar_Quest_Current_Room_Linked_Room)"
+                                                        # set current room to false
+                                                        $Cellar_Quest_Current_Room_Number_Object.CurrentLocation = $false
+                                                        # update new room to current room
+                                                        $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.$Cellar_Quest_Current_Room_Linked_Room.CurrentLocation = $true
+                                                        $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.$Cellar_Quest_Current_Room_Linked_Room.Visited = $true
+                                                        Save_JSON
+                                                    } else {
+                                                        # Add-Content -Path .\error.log -value "linkedRoom NO match: $($Cellar_Quest_Current_Room_Number_Object.LinkedRooms.$Cellar_Quest_Current_Room_Linked_Room)"
+                                                    }
+                                                }
+                                                Draw_Cellar_Map
+                                            }
+                                            Default {}
+                                        }
+                                    # } until ($Cellar_Direction -eq "c")
+                                } until ($Cellar_Direction -ieq "x")
                             }
                             Default {}
                         }
@@ -3815,7 +3824,7 @@ if (Test-Path -Path .\PS-RPG.json) {
     if ($PSVersionTable.PSEdition -ieq "Desktop") { # unable to validata JSON file in PowerShell Desktop edition
         Write-Color -LinesBefore 1 "Unable to validate JSON file because ","PS-RPG.ps1 ","is running under PowerShell 'Desktop' edition." -Color DarkYellow,Magenta,DarkYellow
         Write-Color "Continuing." -Color DarkYellow
-        Start-Sleep -Seconds 6
+        Start-Sleep -Seconds 6 # leave in
     }
     if ($PSVersionTable.PSEdition -ieq "Core") { # check if JSON file is valid under PowerShell Core edition
         $JSON_File_Valid = Test-Json -Path .\PS-RPG.json

@@ -419,7 +419,7 @@
               "Room1": {
                 "Room": "1",
                 "CurrentLocation": false,
-                "Visited": true,
+                "Visited": false,
                 "LinkedRooms": {
                   "Room2": "E"
                 }
@@ -427,7 +427,7 @@
               "Room2": {
                 "Room": "2",
                 "CurrentLocation": false,
-                "Visited": true,
+                "Visited": false,
                 "LinkedRooms": {
                   "Room1": "W",
                   "Room7": "S"
@@ -462,7 +462,7 @@
               },
               "Room6": {
                 "Room": "6",
-                "CurrentLocation": false,
+                "CurrentLocation": true,
                 "Visited": true,
                 "LinkedRooms": {
                   "Room7": "E"
@@ -471,7 +471,7 @@
               "Room7": {
                 "Room": "7",
                 "CurrentLocation": false,
-                "Visited": true,
+                "Visited": false,
                 "LinkedRooms": {
                   "Room2": "N",
                   "Room6": "W",
@@ -480,8 +480,8 @@
               },
               "Room8": {
                 "Room": "8",
-                "CurrentLocation": true,
-                "Visited": true,
+                "CurrentLocation": false,
+                "Visited": false,
                 "LinkedRooms": {
                   "Room7": "N",
                   "Room9": "E"
