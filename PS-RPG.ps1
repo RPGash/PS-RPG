@@ -2727,6 +2727,16 @@ Function Visit_a_Building {
                                     Write-Color "  Stay safe out there, $($Character_Name)" -Color DarkGray,Green,DarkGray
                                 }
                             }
+                            if ($First_Time_Entered_Cellar -eq $true) {
+                                Draw_Town_Map # re-draw town map after exiting cellar
+                                for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                }
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                if ($Import_JSON.Quests.'Rat Infestation'.InProgress -eq $true) {
+                                    Write-Color "  $Character_Name",", you have retured from my cellar, how did you get on with those pesky rats?" -Color Blue,DarkGray
+                                }
+                            }
                             $Tavern_Choice_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
                             Write-Color -LinesBefore 1 "  Purchase a ","D","rink" -Color DarkGray,Green,DarkGray
                             Write-Color "  Look at the ","Q","uest board" -Color DarkGray,Green,DarkGray
@@ -2858,6 +2868,7 @@ Function Visit_a_Building {
                                 }
                                 $Exit_Drinks_Menu = $true
                                 $Exit_Quest_Board = $false
+                                $First_Time_Entered_Cellar = $false
                             }
                             # quest board
                             q {
@@ -3036,10 +3047,21 @@ Function Visit_a_Building {
                                     $Exit_Quest_Board = $true
                                     $Exit_Drinks_Menu = $false
                                     $First_Time_Looking_at_Quest_Board = $false
+                                    $First_Time_Entered_Cellar = $false
                                 } until ($Tavern_Quest_Board_Choice -ieq "e")
                             }
                             # enter the Cellar (rat quest)
                             c {
+                                $First_Time_Entered_Cellar = $true
+                                # reset cellar rooms visited (resets every time cellar is entered)
+                                $Cellar_Quest_Room_Names = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.PSObject.Properties.Name
+                                foreach ($Cellar_Quest_Room_Name in $Cellar_Quest_Room_Names) {
+                                    $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.$Cellar_Quest_Room_Name.Visited = $false
+                                    $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.$Cellar_Quest_Room_Name.CurrentLocation = $false
+                                }
+                                $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.Room6.Visited = $true
+                                $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.Room6.CurrentLocation = $true
+                                Save_JSON
                                 do {
                                     $Script:Info_Banner = "Tavern Cellar"
                                     Draw_Info_Banner
