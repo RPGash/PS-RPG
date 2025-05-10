@@ -2187,7 +2187,7 @@ Function Fight_or_Run {
             Set_Variables
             Draw_Player_Window_and_Stats
         }
-    } 
+    }
     if ($Fight_or_Escape -ieq "e") { # Escape before combat starts
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
         Write-Output "  You escaped from the $($Selected_Mob.Name)! (no combat)"
