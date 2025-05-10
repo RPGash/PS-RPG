@@ -12,8 +12,7 @@
         "Travel": false,
         "Visit": true,
         "Quests": false,
-        "Inventory": false,
-        "Info": true
+        "Inventory": false
       },
       "Mobs": {
         "Chicken": {

@@ -2188,7 +2188,7 @@ Function Fight_or_Run {
             Set_Variables
             Draw_Player_Window_and_Stats
         }
-    } 
+    }
     if ($Fight_or_Escape -ieq "e") { # Escape before combat starts
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
         Write-Output "  You escaped from the $($Selected_Mob.Name)! (no combat)"
@@ -2629,6 +2629,7 @@ Function Visit_a_Building {
                 $All_Buildings_In_Current_Location_List.Add("`r`n ")
             }
         }
+        Write-Color "  E","xit" -Color Green,DarkGray
         $All_Buildings_Letters_Array_String = $All_Building_Letters_Array -Join "/"
         $All_Buildings_Letters_Array_String = $All_Buildings_Letters_Array_String + "/E"
         # Write-Color "  $All_Buildings_In_Current_Location_List" -Color White
@@ -4091,6 +4092,7 @@ do {
                     # display all choice options in location
                     $LocationOptions = $Import_JSON.Locations.$Current_Location.LocationOptions.PSObject.Properties.Name
                     $Main_Loop_Choice_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
                     Write-Color -LinesBefore 1 "  Available options:" -Color DarkGray
                     foreach ($LocationOption in $LocationOptions) {
                         if ($Import_JSON.Locations.$Current_Location.LocationOptions.$LocationOption -eq $true) {
@@ -4105,7 +4107,7 @@ do {
                     Write-Color -NoNewLine "What would you like to do? ", "[H/T/Q/INFO]" -Color DarkYellow,Green
                     $Finish_Combat = Read-Host " "
                     $Finish_Combat = $Finish_Combat.Trim()
-                } until ($Finish_Combat -ieq "H" -or $Finish_Combat -ieq "T" -or $Finish_Combat -ieq "Q" -or $Finish_Combat -ieq "INFO")
+                } until ($Finish_Combat -ieq "H" -or $Finish_Combat -ieq "T" -or $Finish_Combat -ieq "Q" -or $Finish_Combat -ieq "INFO" -or $Finish_Combat -ieq "V")
                 if ($Finish_Combat -ieq "Q") {
                     Draw_Quest_Log
                     $Script:Continue_Fighting = $true
@@ -4114,6 +4116,11 @@ do {
                     $Script:Continue_Fighting = $true
                 }
                 if ($Finish_Combat -ieq "T"){
+                    $Script:Continue_Fighting = $false
+                    Break
+                }
+                if ($Finish_Combat -ieq "V") {
+                    Visit_a_Building
                     $Script:Continue_Fighting = $false
                     Break
                 }
