@@ -10,6 +10,7 @@ ToDo
     
     
 - NEXT
+    - change "Select a Quest for more info" from question choice to a menu
     - move Go Hunting introduction task to the end
     - add Exit to "You can visit the following buildings"
     - change "You escaped from the Rook! (no combat)" and all choice options in question line,
@@ -4087,12 +4088,24 @@ do {
                 Random_Mob
                 Fight_or_Run
                 do {
+                    # display all choice options in location
+                    $LocationOptions = $Import_JSON.Locations.$Current_Location.LocationOptions.PSObject.Properties.Name
+                    $Main_Loop_Choice_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
+                    Write-Color -LinesBefore 1 "  Available options:" -Color DarkGray
+                    foreach ($LocationOption in $LocationOptions) {
+                        if ($Import_JSON.Locations.$Current_Location.LocationOptions.$LocationOption -eq $true) {
+                            Write-Color "  $($LocationOption.Substring(0,1))","$($LocationOption.Substring(1,$LocationOption.Length-1))" -Color Green,DarkGray
+                            $Main_Loop_Choice_Letters_Array.Add($LocationOption.Substring(0,1))
+                        }
+                    }
+                    $Main_Loop_Choice_Letters_Array.Add("INFO")
+                    $Main_Loop_Choice_Letters_Array_String = $Main_Loop_Choice_Letters_Array -Join "/"
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                    Write-Color -NoNewLine "H","unt, ","T","ravel back to Town or view your ","Q","uest log? ", "[H/T/Q]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                    Write-Color -NoNewLine "What would you like to do? ", "[H/T/Q/INFO]" -Color DarkYellow,Green
                     $Finish_Combat = Read-Host " "
                     $Finish_Combat = $Finish_Combat.Trim()
-                } until ($Finish_Combat -ieq "H" -or $Finish_Combat -ieq "T" -or $Finish_Combat -ieq "Q")
+                } until ($Finish_Combat -ieq "H" -or $Finish_Combat -ieq "T" -or $Finish_Combat -ieq "Q" -or $Finish_Combat -ieq "INFO")
                 if ($Finish_Combat -ieq "Q") {
                     Draw_Quest_Log
                     $Script:Continue_Fighting = $true
@@ -4101,6 +4114,11 @@ do {
                     $Script:Continue_Fighting = $true
                 }
                 if ($Finish_Combat -ieq "T"){
+                    $Script:Continue_Fighting = $false
+                    Break
+                }
+                if ($Finish_Combat -ieq "INFO") {
+                    Game_Info
                     $Script:Continue_Fighting = $false
                     Break
                 }
