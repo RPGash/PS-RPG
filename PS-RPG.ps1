@@ -10,6 +10,9 @@ ToDo
     
     
 - NEXT
+    - change "kill 2 rats" to "kill 2 rats in the cellar"
+    - move Go Hunting introduction task to the end
+    - add "Exit" to the INFO menu
     - add Exit to "You can visit the following buildings"
     - change "You escaped from the Rook! (no combat)" and all choice options in question line,
         to a menu with the options to choose from

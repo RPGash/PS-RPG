@@ -1,6 +1,6 @@
 {
-  "CharacterCreation": true,
-  "TutorialComplete": true,
+  "CharacterCreation": false,
+  "TutorialComplete": false,
   "Locations": {
     "Home Town": {
       "CurrentLocation": true,
@@ -8,35 +8,13 @@
         "The Forest": "F"
       },
       "LocationOptions": {
-        "Hunt": true,
-        "Travel": true,
+        "Hunt": false,
+        "Travel": false,
         "Visit": true,
-        "Quests": true,
+        "Quests": false,
         "Inventory": false
       },
       "Mobs": {
-        "Rat": {
-          "Name": "Rat",
-          "Level": 2,
-          "Health": 20,
-          "Stamina": 50,
-          "Mana": 50,
-          "Attack": 5,
-          "Damage": 5,
-          "Armour": 10,
-          "Dodge": 5,
-          "Quickness": 5,
-          "Spells": 50,
-          "Healing": 50,
-          "Killed": 2,
-          "Rare": "No",
-          "Boss": "No",
-          "XP": 160,
-          "Loot": {
-            "Gold": 10,
-            "Rat Tails": 1
-          }
-        },
         "Chicken": {
           "Name": "Chicken",
           "Level": 1,
@@ -130,7 +108,7 @@
         },
         "Tavern": {
           "Visited": 0,
-          "IntroductionTask": true,
+          "IntroductionTask": false,
           "BuildingLetter": "T",
           "Owner": "Elara",
           "Drinks": {
@@ -383,7 +361,7 @@
                 "Spells": 50,
                 "Healing": 50,
                 "Killed": 0,
-                "Rare": "No",
+                "Rare": "Yes",
                 "Boss": "No",
                 "XP": 80,
                 "Loot": {
@@ -416,103 +394,106 @@
               }
             },
             "CellarQuest": {
-              "Room1": {
-                "Room": "1",
-                "CurrentLocation": false,
-                "Visited": false,
-                "LinkedRooms": {
-                  "Room2": "E"
-                }
-              },
-              "Room2": {
-                "Room": "2",
-                "CurrentLocation": false,
-                "Visited": false,
-                "LinkedRooms": {
-                  "Room1": "W",
-                  "Room7": "S"
-                }
-              },
-              "Room3": {
-                "Room": "3",
-                "CurrentLocation": false,
-                "Visited": false,
-                "LinkedRooms": {
-                  "Room4": "E",
-                  "Room9": "S"
-                }
-              },
-              "Room4": {
-                "Room": "4",
-                "CurrentLocation": false,
-                "Visited": false,
-                "LinkedRooms": {
-                  "Room3": "W",
-                  "Room5": "E"
-                }
-              },
-              "Room5": {
-                "Room": "5",
-                "CurrentLocation": false,
-                "Visited": false,
-                "LinkedRooms": {
-                  "Room4": "W",
-                  "Room11": "S"
-                }
-              },
-              "Room6": {
-                "Room": "6",
-                "CurrentLocation": true,
-                "Visited": true,
-                "LinkedRooms": {
-                  "Room7": "E"
-                }
-              },
-              "Room7": {
-                "Room": "7",
-                "CurrentLocation": false,
-                "Visited": false,
-                "LinkedRooms": {
-                  "Room2": "N",
-                  "Room6": "W",
-                  "Room8": "S"
-                }
-              },
-              "Room8": {
-                "Room": "8",
-                "CurrentLocation": false,
-                "Visited": false,
-                "LinkedRooms": {
-                  "Room7": "N",
-                  "Room9": "E"
-                }
-              },
-              "Room9": {
-                "Room": "9",
-                "CurrentLocation": false,
-                "Visited": false,
-                "LinkedRooms": {
-                  "Room3": "N",
-                  "Room8": "W",
-                  "Room10": "E"
-                }
-              },
-              "Room10": {
-                "Room": "10",
-                "CurrentLocation": false,
-                "Visited": false,
-                "LinkedRooms": {
-                  "Room9": "W",
-                  "Room11": "E"
-                }
-              },
-              "Room11": {
-                "Room": "11",
-                "CurrentLocation": false,
-                "Visited": false,
-                "LinkedRooms": {
-                  "Room5": "N",
-                  "Room10": "W"
+              "IsActive": false,
+              "Rooms": {
+                "Room1": {
+                  "Room": "1",
+                  "CurrentLocation": false,
+                  "Visited": false,
+                  "LinkedRooms": {
+                    "Room2": "E"
+                  }
+                },
+                "Room2": {
+                  "Room": "2",
+                  "CurrentLocation": false,
+                  "Visited": false,
+                  "LinkedRooms": {
+                    "Room1": "W",
+                    "Room7": "S"
+                  }
+                },
+                "Room3": {
+                  "Room": "3",
+                  "CurrentLocation": false,
+                  "Visited": false,
+                  "LinkedRooms": {
+                    "Room4": "E",
+                    "Room9": "S"
+                  }
+                },
+                "Room4": {
+                  "Room": "4",
+                  "CurrentLocation": false,
+                  "Visited": false,
+                  "LinkedRooms": {
+                    "Room3": "W",
+                    "Room5": "E"
+                  }
+                },
+                "Room5": {
+                  "Room": "5",
+                  "CurrentLocation": false,
+                  "Visited": false,
+                  "LinkedRooms": {
+                    "Room4": "W",
+                    "Room11": "S"
+                  }
+                },
+                "Room6": {
+                  "Room": "6",
+                  "CurrentLocation": true,
+                  "Visited": true,
+                  "LinkedRooms": {
+                    "Room7": "E"
+                  }
+                },
+                "Room7": {
+                  "Room": "7",
+                  "CurrentLocation": false,
+                  "Visited": false,
+                  "LinkedRooms": {
+                    "Room2": "N",
+                    "Room6": "W",
+                    "Room8": "S"
+                  }
+                },
+                "Room8": {
+                  "Room": "8",
+                  "CurrentLocation": false,
+                  "Visited": false,
+                  "LinkedRooms": {
+                    "Room7": "N",
+                    "Room9": "E"
+                  }
+                },
+                "Room9": {
+                  "Room": "9",
+                  "CurrentLocation": false,
+                  "Visited": false,
+                  "LinkedRooms": {
+                    "Room3": "N",
+                    "Room8": "W",
+                    "Room10": "E"
+                  }
+                },
+                "Room10": {
+                  "Room": "10",
+                  "CurrentLocation": false,
+                  "Visited": false,
+                  "LinkedRooms": {
+                    "Room9": "W",
+                    "Room11": "E"
+                  }
+                },
+                "Room11": {
+                  "Room": "11",
+                  "CurrentLocation": false,
+                  "Visited": false,
+                  "LinkedRooms": {
+                    "Room5": "N",
+                    "Room10": "W"
+                  }
                 }
               }
             }
@@ -524,7 +505,7 @@
           "Owner": "Draven"
         },
         "Mend & Mana": {
-          "IntroductionTask": true,
+          "IntroductionTask": false,
           "Visited": 0,
           "BuildingLetter": "M",
           "Owner": "Kaelen"
@@ -544,8 +525,8 @@
         "Quests": true,
         "Inventory": true
       },
-      "Mobs": [
-        {
+      "Mobs": {
+        "Worm": {
           "Name": "Worm",
           "Level": 5,
           "Health": 40,
@@ -566,7 +547,7 @@
             "Gold": 2
           }
         },
-        {
+        "Mouse": {
           "Name": "Mouse",
           "Level": 6,
           "Health": 40,
@@ -588,7 +569,7 @@
             "Mouse Tails": 1
           }
         }
-      ],
+      },
       "NPC": [
         {
           "Name": "Bob"
@@ -614,8 +595,8 @@
       "LinkedLocations": {
         "The Forest": "F"
       },
-      "Mobs": [
-        {
+      "Mobs": {
+        "Wolf": {
           "Name": "Wolf",
           "Level": 15,
           "Health": 40,
@@ -638,7 +619,7 @@
             "Wolf Teeth": 1
           }
         },
-        {
+        "Boar": {
           "Name": "Boar",
           "Level": 10,
           "Health": 40,
@@ -662,7 +643,7 @@
             "Broken Boar Teeth": 1
           }
         },
-        {
+        "Crazy Cat": {
           "Name": "Crazy Cat",
           "Level": 11,
           "Health": 40,
@@ -685,7 +666,7 @@
             "Sharp Cat Teeth": 1
           }
         }
-      ],
+      },
       "NPC": [
         {
           "Name": "Nobody"
@@ -703,29 +684,29 @@
     "Name": "Aldon",
     "Class": "Rogue",
     "Race": "Elf",
-    "Level": 8,
-    "Total_XP": 1840,
-    "XP_TNL": 89.0,
-    "Gold": 538.0,
+    "Level": 1,
+    "Total_XP": 0,
+    "XP_TNL": 100.0,
+    "Gold": 0.0,
     "Stats": {
-      "HealthCurrent": 56.0,
-      "HealthMax": 60,
+      "HealthCurrent": 54.0,
+      "HealthMax": 65,
       "HealthMaxUnBuffed": 0,
       "StaminaCurrent": 80,
-      "StaminaMax": 80,
+      "StaminaMax": 87,
       "ManaCurrent": 10,
-      "ManaMax": 30,
+      "ManaMax": 35,
       "ManaMaxUnBuffed": 0,
-      "Damage": 10,
-      "Attack": 10,
+      "Damage": 19,
+      "Attack": 19,
       "AttackUnBuffed": 0,
-      "Armour": 6,
+      "Armour": 10,
       "ArmourUnBuffed": 0,
-      "Dodge": 10,
+      "Dodge": 20,
       "DodgeUnBuffed": 0,
-      "Quickness": 10,
-      "Spells": 1,
-      "Healing": 4
+      "Quickness": 20,
+      "Spells": 6,
+      "Healing": 12
     },
     "Buffs": {
       "Duration": 0,
@@ -744,7 +725,7 @@
   "Items": {
     "Lesser Health Potion": {
       "Name": "Lesser Health Potion",
-      "Quantity": 15,
+      "Quantity": 0,
       "Restores": 30,
       "GoldValue": 50,
       "IsJunk": false,
@@ -754,7 +735,7 @@
     },
     "Mana Potion": {
       "Name": "Mana Potion",
-      "Quantity": 4,
+      "Quantity": 0,
       "Restores": 20,
       "GoldValue": 10,
       "IsJunk": true,
@@ -774,7 +755,7 @@
     },
     "Lesser Mana Potion": {
       "Name": "Lesser Mana Potion",
-      "Quantity": 90,
+      "Quantity": 0,
       "Restores": 10,
       "Info": "Restores 10",
       "GoldValue": 20,
@@ -816,7 +797,7 @@
     },
     "Rook Feathers": {
       "Name": "Rook Feathers",
-      "Quantity": 3,
+      "Quantity": 0,
       "Info": "Junk",
       "GoldValue": 2,
       "IsJunk": true,
@@ -824,7 +805,7 @@
     },
     "Rook Claws": {
       "Name": "Rook Claws",
-      "Quantity": 3,
+      "Quantity": 0,
       "Info": "Junk",
       "GoldValue": 2,
       "IsJunk": true,
@@ -832,7 +813,7 @@
     },
     "Rat Tails": {
       "Name": "Rat Tails",
-      "Quantity": 6,
+      "Quantity": 0,
       "Info": "Junk",
       "GoldValue": 0,
       "IsJunk": true,
@@ -840,7 +821,7 @@
     },
     "Rat Guts": {
       "Name": "Rat Guts",
-      "Quantity": 4,
+      "Quantity": 0,
       "Info": "Junk",
       "GoldValue": 3,
       "IsJunk": true,
@@ -864,7 +845,7 @@
     },
     "Wolf Teeth": {
       "Name": "Wolf Teeth",
-      "Quantity": 1,
+      "Quantity": 0,
       "Info": "???",
       "GoldValue": 3,
       "IsJunk": false,
@@ -912,7 +893,7 @@
     },
     "Random Loot #1": {
       "Name": "Random Loot #1",
-      "Quantity": 9,
+      "Quantity": 0,
       "Info": "Junk",
       "GoldValue": 5,
       "IsJunk": true,
@@ -920,7 +901,7 @@
     },
     "Random Loot #2": {
       "Name": "Random Loot #2",
-      "Quantity": 15,
+      "Quantity": 0,
       "Info": "?????",
       "GoldValue": 3,
       "IsJunk": false,
@@ -928,7 +909,7 @@
     },
     "Random Loot #3": {
       "Name": "Random Loot #3",
-      "Quantity": 8,
+      "Quantity": 0,
       "Info": "Junk",
       "GoldValue": 4,
       "IsJunk": true,
@@ -936,7 +917,7 @@
     },
     "Random Loot #4": {
       "Name": "Random Loot #4",
-      "Quantity": 7,
+      "Quantity": 0,
       "Info": "Junk",
       "GoldValue": 3,
       "IsJunk": true,
@@ -944,7 +925,7 @@
     },
     "Random Loot #5": {
       "Name": "Random Loot #5",
-      "Quantity": 8,
+      "Quantity": 0,
       "Info": "?????",
       "GoldValue": 3,
       "IsJunk": false,
@@ -1072,11 +1053,11 @@
       "ProgressMax": 2,
       "LevelRange": "1-5",
       "TimesCompleted": 0,
-      "Available": false,
-      "InProgress": true,
+      "Available": true,
+      "InProgress": false,
       "Completed": false,
       "Repeatable": true,
-      "Status": "In Progress"
+      "Status": "Available"
     },
     "Sick Elder": {
       "Name": "Sick Elder",
@@ -1099,18 +1080,18 @@
     }
   },
   "IntroductionTasks": {
-    "InProgress": false,
-    "Tick_Visit_Home": true,
-    "Tick_Recover_Health_and_Mana": true,
-    "Tick_Visit_the_Tavern": true,
-    "Tick_Accept_a_Quest": true,
-    "Tick_Go_Hunting": true,
-    "Tick_Kill_2_Rats": true,
-    "Tick_View_Inventory": true,
-    "Tick_Hand_in_Completed_Quest": true,
-    "Tick_Visit_Mend_and_Mana": true,
-    "Tick_Purchase_a_Potion": true,
-    "Tick_Travel_to_another_Location": true
+    "InProgress": true,
+    "Tick_Visit_Home": false,
+    "Tick_Recover_Health_and_Mana": false,
+    "Tick_Visit_the_Tavern": false,
+    "Tick_Accept_a_Quest": false,
+    "Tick_Go_Hunting": false,
+    "Tick_Kill_2_Rats": false,
+    "Tick_View_Inventory": false,
+    "Tick_Hand_in_Completed_Quest": false,
+    "Tick_Visit_Mend_and_Mana": false,
+    "Tick_Purchase_a_Potion": false,
+    "Tick_Travel_to_another_Location": false
   },
   "Game Information": {
     "Info": "I",
