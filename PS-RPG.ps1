@@ -12,7 +12,6 @@ ToDo
 - NEXT
     - change "kill 2 rats" to "kill 2 rats in the cellar"
     - move Go Hunting introduction task to the end
-    - add "Exit" to the INFO menu
     - add Exit to "You can visit the following buildings"
     - change "You escaped from the Rook! (no combat)" and all choice options in question line,
         to a menu with the options to choose from
@@ -210,8 +209,7 @@ Function Game_Info_Banner {
         $Game_Info_Tab_Array.Add($Game_Info_Letter)
     }
     Write-Color "`n+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-    $Game_Info_Tab_Array_String = $Game_Info_Tab_Array -join "/"
-    $Script:Game_Info_Tab_Array_String = $Game_Info_Tab_Array_String + "/E"
+    $Script:Game_Info_Tab_Array_String = $Game_Info_Tab_Array -join "/"
 }
 
 Function Game_Info {
