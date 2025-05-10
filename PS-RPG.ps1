@@ -1222,12 +1222,12 @@ Function Draw_Introduction_Tasks {
         if ($Import_JSON.IntroductionTasks.Tick_Recover_Health_and_Mana -eq $true)    { $Tick_Recover_Health_and_Mana = $Tick }
         if ($Import_JSON.IntroductionTasks.Tick_Visit_the_Tavern -eq $true)           { $Tick_Visit_the_Tavern        = $Tick }
         if ($Import_JSON.IntroductionTasks.Tick_Accept_a_Quest -eq $true)             { $Tick_Accept_a_Quest          = $Tick }
-        if ($Import_JSON.IntroductionTasks.Tick_Go_Hunting -eq $true)                 { $Tick_Go_Hunting              = $Tick }
         if ($Import_JSON.IntroductionTasks.Tick_Kill_2_Rats -eq $true)                { $Tick_Kill_2_Rats             = $Tick }
         if ($Import_JSON.IntroductionTasks.Tick_Hand_in_Completed_Quest -eq $true)    { $Tick_Hand_in_Completed_Quest = $Tick }
         if ($Import_JSON.IntroductionTasks.Tick_View_Inventory -eq $true)             { $Tick_View_Inventory          = $Tick }
         if ($Import_JSON.IntroductionTasks.Tick_Visit_Mend_and_Mana -eq $true)        { $Tick_Visit_Mend_and_Mana     = $Tick }
         if ($Import_JSON.IntroductionTasks.Tick_Purchase_a_Potion -eq $true)          { $Tick_Purchase_a_Potion       = $Tick }
+        if ($Import_JSON.IntroductionTasks.Tick_Go_Hunting -eq $true)                 { $Tick_Go_Hunting              = $Tick }
         if ($Import_JSON.IntroductionTasks.Tick_Travel_to_another_Location -eq $true) {
             $Tick_Travel_to_another_Location = $Tick
             $Import_JSON.IntroductionTasks.InProgress = $false
@@ -1241,12 +1241,12 @@ Function Draw_Introduction_Tasks {
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,25;$Host.UI.Write("| [ ] Recover Health and Mana      |")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,26;$Host.UI.Write("| [ ] Visit the Tavern             |")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,27;$Host.UI.Write("| [ ] Accept a Quest               |")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,28;$Host.UI.Write("| [ ] Go Hunting                   |")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,29;$Host.UI.Write("| [ ] Kill 2 Rats (Cellar quest)   |")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,30;$Host.UI.Write("| [ ] Hand in your completed Quest |")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,31;$Host.UI.Write("| [ ] View your Inventory          |")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,32;$Host.UI.Write("| [ ] Visit the Mend & Mana        |")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,33;$Host.UI.Write("| [ ] Purchase a Potion            |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,28;$Host.UI.Write("| [ ] Kill 2 Rats (Cellar quest)   |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,29;$Host.UI.Write("| [ ] Hand in your completed Quest |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,30;$Host.UI.Write("| [ ] View your Inventory          |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,31;$Host.UI.Write("| [ ] Visit the Mend & Mana        |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,32;$Host.UI.Write("| [ ] Purchase a Potion            |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,33;$Host.UI.Write("| [ ] Go Hunting                   |")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,34;$Host.UI.Write("| [ ] Travel to another Location   |")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,35;$Host.UI.Write("+----------------------------------+")
         $host.UI.RawUI.ForegroundColor = "White"
@@ -1260,12 +1260,12 @@ Function Draw_Introduction_Tasks {
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,25;$Host.UI.Write("$Tick_Recover_Health_and_Mana")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,26;$Host.UI.Write("$Tick_Visit_the_Tavern")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,27;$Host.UI.Write("$Tick_Accept_a_Quest")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,28;$Host.UI.Write("$Tick_Go_Hunting")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,29;$Host.UI.Write("$Tick_Kill_2_Rats")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,30;$Host.UI.Write("$Tick_Hand_in_Completed_Quest")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,31;$Host.UI.Write("$Tick_View_Inventory")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,32;$Host.UI.Write("$Tick_Visit_Mend_and_Mana")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,33;$Host.UI.Write("$Tick_Purchase_a_Potion")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,28;$Host.UI.Write("$Tick_Kill_2_Rats")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,29;$Host.UI.Write("$Tick_Hand_in_Completed_Quest")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,30;$Host.UI.Write("$Tick_View_Inventory")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,31;$Host.UI.Write("$Tick_Visit_Mend_and_Mana")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,32;$Host.UI.Write("$Tick_Purchase_a_Potion")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,33;$Host.UI.Write("$Tick_Go_Hunting")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,34;$Host.UI.Write("$Tick_Travel_to_another_Location")
     }
 }
@@ -2628,6 +2628,7 @@ Function Visit_a_Building {
                 $All_Buildings_In_Current_Location_List.Add("`r`n ")
             }
         }
+        Write-Color "  E","xit" -Color Green,DarkGray
         $All_Buildings_Letters_Array_String = $All_Building_Letters_Array -Join "/"
         $All_Buildings_Letters_Array_String = $All_Buildings_Letters_Array_String + "/E"
         # Write-Color "  $All_Buildings_In_Current_Location_List" -Color White
@@ -3390,6 +3391,9 @@ Function Visit_a_Building {
                             # update introduction task and update Introduction Tasks window
                             $Import_JSON.IntroductionTasks.Tick_Visit_Mend_and_Mana = $true
                             Save_JSON
+                            Write-Color -LinesBefore 1 "  P","urchase some postions" -Color Green,DarkYellow
+                            Write-Color "  S","ell some postions" -Color Green,DarkYellow
+                            Write-Color "  E","xit" -Color Green,DarkYellow
                             Draw_Introduction_Tasks
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -3428,9 +3432,12 @@ Function Visit_a_Building {
                                     Draw_Shop_Potions
                                     $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array -Join "/"
                                     $Elixir_Emporium_Potion_Letters_Array_String = $Elixir_Emporium_Potion_Letters_Array_String + "/E"
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("");" "*105
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                    Write-Color -NoNewLine "  Which potion do you want to purchase? " -Color DarkYellow
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                    Write-Color -NoNewLine "Which potion do you want to purchase? ","ID ","numbers or ", "E","xit ","[$Elixir_Emporium_Potion_Letters_Array_String]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                                    Write-Color -NoNewLine "ID ","numbers or ", "E","xit ","[$Elixir_Emporium_Potion_Letters_Array_String]" -Color Green,DarkYellow,Green,DarkYellow,Green
                                     $Elixir_Emporium_Purchase_Choice = Read-Host " "
                                     $Elixir_Emporium_Purchase_Choice = $Elixir_Emporium_Purchase_Choice.Trim()
                                 } until ($Elixir_Emporium_Purchase_Choice -ieq "e" -or $Elixir_Emporium_Purchase_Choice -in $Elixir_Emporium_Potion_Letters_Array)
@@ -3461,9 +3468,12 @@ Function Visit_a_Building {
                                             } until ($Elixir_Emporium_Purchase_Potion_Quantity_Choice -ieq "E")
                                         } else { # otherwise ask for quantity
                                             do {
+                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("");" "*105
+                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                                Write-Color -NoNewLine "  How many ","$Elixir_Emporium_Purchase_Choice_Potion_Name","'s do you want to purchase?" -Color DarkYellow,DarkCyan,DarkYellow
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                                Write-Color -NoNewLine "How many ","$Elixir_Emporium_Purchase_Choice_Potion_Name","'s do you want to purchase? Quantity or ", "E","xit ","[1-$Elixir_Emporium_Purchase_Choice_Potion_Quantity_Max/E]" -Color DarkYellow,DarkCyan,DarkYellow,Green,DarkYellow,Green
+                                                Write-Color -NoNewLine "Quantity or ", "E","xit ","[1-$Elixir_Emporium_Purchase_Choice_Potion_Quantity_Max/E]" -Color DarkYellow,Green,DarkYellow,Green
                                                 # Write-Color -NoNewLine "Quantity or ", "E","xit ","[1-$Potion_Quantity/E]" -Color DarkYellow,Green,DarkYellow,Green
                                                 $Elixir_Emporium_Purchase_Potion_Quantity_Choice = Read-Host " "
                                                 $Elixir_Emporium_Purchase_Potion_Quantity_Choice = $Elixir_Emporium_Purchase_Potion_Quantity_Choice.Trim()
