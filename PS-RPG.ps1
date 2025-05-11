@@ -1743,7 +1743,7 @@ Function Random_Mob {
     } elseif ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
         $Current_Location = "Home Town"
         $Current_Location_Mobs = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.PSObject.Properties.Name
-        # Add-Content -Path .\error.log -value "cellar mob names: $Current_Location_Mobs"
+        Add-Content -Path .\error.log -value "cellar mob names: $Current_Location_Mobs"
     } else { # get mob from current location
         $Current_Location_Mobs = $Import_JSON.Locations.$Current_Location.Mobs.PSObject.Properties.Name
         # Add-Content -Path .\error.log -value "hunt mob names: $($Import_JSON.Locations.$Current_Location.Mobs.PSObject.Properties.Name)"
@@ -1758,8 +1758,8 @@ Function Random_Mob {
             if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
                 $Current_Location_Mob = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob
                 $Current_Location_Mob_Name = $Current_Location_Mob.Name
-                # Add-Content -Path .\error.log -value "cellar mob object name: $Current_Location_Mob"
-                # Add-Content -Path .\error.log -value "cellar mob name: $Current_Location_Mob_Name"
+                Add-Content -Path .\error.log -value "cellar mob object name: $Current_Location_Mob"
+                Add-Content -Path .\error.log -value "cellar mob name: $Current_Location_Mob_Name"
             } else {
                 $Current_Location_Mob = $Import_JSON.Locations.$Current_Location.Mobs.$Current_Location_Mob
                 $Current_Location_Mob_Name = $Current_Location_Mob.Name
@@ -1768,7 +1768,7 @@ Function Random_Mob {
             if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
                 if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob_Name.Rare -ieq "yes") {
                     $All_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob_Name)
-                    # Add-Content -Path .\error.log -value "mob name celler array: $All_Rare_Mobs_In_Current_Location"
+                    Add-Content -Path .\error.log -value "mob name celler array: $All_Rare_Mobs_In_Current_Location"
                 }
             } else {
                 if ($Import_JSON.Locations.$Current_Location.Mobs.$Current_Location_Mob_Name.Rare -ieq "yes") {
@@ -1777,25 +1777,25 @@ Function Random_Mob {
                 }
             }
         }
-        # Add-Content -Path .\error.log -value "Current_Location_Mob: $Current_Location_Mob_Name"
-        # Add-Content -Path .\error.log -value "All_Rare_Mobs_In_Current_Location: $All_Rare_Mobs_In_Current_Location"
+        Add-Content -Path .\error.log -value "Current_Location_Mob: $Current_Location_Mob_Name"
+        Add-Content -Path .\error.log -value "All_Rare_Mobs_In_Current_Location: $All_Rare_Mobs_In_Current_Location"
         $Random_Rare_Mob_In_Current_Location_ID = Get-Random -Minimum 0 -Maximum ($All_Rare_Mobs_In_Current_Location | Measure-Object).count # measure-object added because incorrect number when there is only one rare mob
         $Random_Rare_Mob_In_Current_Location_ID -= 1
-        # Add-Content -Path .\error.log -value "All_Rare_Mobs_In_Current_Location count: $(($All_Rare_Mobs_In_Current_Location | Measure-Object).count)"
+        Add-Content -Path .\error.log -value "All_Rare_Mobs_In_Current_Location count: $(($All_Rare_Mobs_In_Current_Location | Measure-Object).count)"
         $Script:Selected_Mob = $All_Rare_Mobs_In_Current_Location[$Random_Rare_Mob_In_Current_Location_ID]
-        # Add-Content -Path .\error.log -value "Selected_Mob: $Selected_Mob"
+        Add-Content -Path .\error.log -value "Selected_Mob: $Selected_Mob"
         $Script:Selected_Mob = $Import_JSON.Locations.$Current_Location.Mobs.$Selected_Mob
     } else { # "normal" mob (90% of the time)
         $All_None_Rare_Mobs_In_Current_Location = @()
         $All_None_Rare_Mobs_In_Current_Location = New-Object System.Collections.Generic.List[System.Object]
         foreach ($Current_Location_Mob in $Current_Location_Mobs) {
-            # Add-Content -Path .\error.log -value "---non-rare mob loop---"
-            # Add-Content -Path .\error.log -value "mob name: $Current_Location_Mob"
+            Add-Content -Path .\error.log -value "---non-rare mob loop---"
+            Add-Content -Path .\error.log -value "mob name: $Current_Location_Mob"
             if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
                 $Current_Location_Mob = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob
                 $Current_Location_Mob_Name = $Current_Location_Mob.Name
-                # Add-Content -Path .\error.log -value "cellar mob object name: $Current_Location_Mob"
-                # Add-Content -Path .\error.log -value "cellar mob name: $Current_Location_Mob_Name"
+                Add-Content -Path .\error.log -value "cellar mob object name: $Current_Location_Mob"
+                Add-Content -Path .\error.log -value "cellar mob name: $Current_Location_Mob_Name"
             } else {
                 $Current_Location_Mob = $Import_JSON.Locations.$Current_Location.Mobs.$Current_Location_Mob
                 $Current_Location_Mob_Name = $Current_Location_Mob.Name
@@ -1804,7 +1804,7 @@ Function Random_Mob {
             if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
                 if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob_Name.Rare -ieq "no") {
                     $All_None_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob_Name)
-                    # Add-Content -Path .\error.log -value "mob name celler array: $All_None_Rare_Mobs_In_Current_Location"
+                    Add-Content -Path .\error.log -value "mob name celler array: $All_None_Rare_Mobs_In_Current_Location"
                 }
             } else {
                 if ($Import_JSON.Locations.$Current_Location.Mobs.$Current_Location_Mob_Name.Rare -ieq "no") {
@@ -1813,12 +1813,12 @@ Function Random_Mob {
                 }
             }
         }
-        # Add-Content -Path .\error.log -value "All_None_Rare_Mobs_In_Current_Location: $All_None_Rare_Mobs_In_Current_Location"
+        Add-Content -Path .\error.log -value "All_None_Rare_Mobs_In_Current_Location: $All_None_Rare_Mobs_In_Current_Location"
         $Random_None_Rare_Mob_In_Current_Location_ID = Get-Random -Minimum 0 -Maximum ($All_None_Rare_Mobs_In_Current_Location | Measure-Object).count # measure-object added because incorrect number when there is only one rare mob
         $Random_None_Rare_Mob_In_Current_Location_ID -= 1
         $Script:Selected_Mob = $All_None_Rare_Mobs_In_Current_Location[$Random_None_Rare_Mob_In_Current_Location_ID]
-        # Add-Content -Path .\error.log -value "Selected_Mob: $Selected_Mob"
-        $Script:Selected_Mob = $Import_JSON.Locations.$Current_Location.Mobs.$Selected_Mob
+        Add-Content -Path .\error.log -value "Selected_Mob: $Selected_Mob"
+        $Script:Selected_Mob = $Import_JSON.Locations.$Current_Location.Mobs.$Selected_Mob # get mob object from JSON
     }
     $Script:Selected_Mob_Name           = $Selected_Mob.Name
     $Script:Selected_Mob_Level          = $Selected_Mob.Level
@@ -2121,6 +2121,13 @@ Function Fight_or_Run {
                 Save_JSON
                 Import_JSON
                 Set_Variables
+                do {
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                    Write-Color -NoNewLine "C","ontinue ","[C]" -Color Green,DarkYellow,Green
+                    $Continue_After_Fighting = Read-Host " "
+                    $Continue_After_Fighting = $Continue_After_Fighting.Trim()
+                } until ($Continue_After_Fighting -ieq "c")
                 # mob killed so break out of Fight_or_Run loop (back down to main loop)
                 Break
             }
@@ -2188,9 +2195,11 @@ Function Fight_or_Run {
             Draw_Player_Window_and_Stats
         }
     }
+    $Script:Escaped_from_Mob = $false
     if ($Fight_or_Escape -ieq "e") { # Escape before combat starts
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
         Write-Output "  You escaped from the $($Selected_Mob.Name)! (no combat)"
+        $Script:Escaped_from_Mob = $true
     }
     $Script:In_Combat = $false
 }
@@ -3190,23 +3199,6 @@ Function Visit_a_Building {
                                                 # Add-Content -Path .\error.log -value "Cellar_Quest_Current_Room_Number: $Cellar_Quest_Current_Room_Number"
                                                 Write-Color "  Cellar_Quest_Current_Room_Number: $Cellar_Quest_Current_Room_Number" -Color DarkGray
                                                 Write-Color "  all other rooms" -Color DarkGray
-                                                Random_Mob
-                                                # Add-Content -Path .\error.log -value "$Selected_Mob_Name"
-                                                # Add-Content -Path .\error.log -value "$Selected_Mob_Level)"
-                                                # Add-Content -Path .\error.log -value "$Selected_Mob_Health)"
-                                                # Add-Content -Path .\error.log -value "$Selected_Mob_Health)"
-                                                # Add-Content -Path .\error.log -value "$Selected_Mob_Stamina)"
-                                                # Add-Content -Path .\error.log -value "$Selected_Mob_Stamina)"
-                                                # Add-Content -Path .\error.log -value "$Selected_Mob_Mana)"
-                                                # Add-Content -Path .\error.log -value "$Selected_Mob_Mana)"
-                                                # Add-Content -Path .\error.log -value "$Selected_Mob_Attack)"
-                                                # Add-Content -Path .\error.log -value "$Selected_Mob_Damage)"
-                                                # Add-Content -Path .\error.log -value "$Selected_Mob_Armour)"
-                                                # Add-Content -Path .\error.log -value "$Selected_Mob_Dodge)"
-                                                # Add-Content -Path .\error.log -value "$Selected_Mob_Quickness)"
-                                                # Add-Content -Path .\error.log -value "$Selected_Mob_Spells)"
-                                                # Add-Content -Path .\error.log -value "$Selected_Mob_Healing)"
-                                                # Add-Content -Path .\error.log -value "$Selected_Mob_Rare)"
                                             }
                                             $Cellar_Quest_Room_Direction_Array_String = $Cellar_Quest_Room_Direction_Array -Join "/"
                                         }
@@ -3217,7 +3209,6 @@ Function Visit_a_Building {
                                         $Cellar_Direction = Read-Host " "
                                         $Cellar_Direction = $Cellar_Direction.Trim()
                                     } until ($Cellar_Direction -in $Cellar_Quest_Room_Direction_Array)
-                                    # do {
                                         switch ($Cellar_Direction) {
                                             $Cellar_Direction {
                                                 # if in room 6 (cellar exit), move back into Tavern (only available if in room 6)
@@ -3239,10 +3230,14 @@ Function Visit_a_Building {
                                                     }
                                                 }
                                                 Draw_Cellar_Map
+                                                Random_Mob
+                                                Add-Content -Path .\error.log -value "Selected_Mob      : $Selected_Mob"
+                                                Add-Content -Path .\error.log -value "Selected_Mob_Name : $Selected_Mob_Name"
+                                                Fight_or_Run
+                                                
                                             }
                                             Default {}
                                         }
-                                    # } until ($Cellar_Direction -eq "c")
                                 } until ($Cellar_Direction -ieq "x")
                             }
                             Default {}
@@ -3818,7 +3813,12 @@ Function Draw_Quest_Log {
     } until ($Quest_Log_Choice -ieq "e")
 }
 
-
+# clears mob window
+Function Clear_Mob_Window {
+    for ($Position = 0; $Position -lt 14; $Position++) {
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,$Position;$Host.UI.Write("");" "*49
+    }
+}
 
 
 #
@@ -4024,57 +4024,62 @@ do {
         for ($Position = 17; $Position -lt 36; $Position++) {
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
         }
-        # clears mob window
-        for ($Position = 0; $Position -lt 14; $Position++) {
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,$Position;$Host.UI.Write("");" "*49
-        }
-            # show congrats message on completion of all tasks, but only if Introduction Tasks are still in progress
-            if ($Current_Location -eq "The Forest" -and $Import_JSON.IntroductionTasks.InProgress -eq $true) {
-                # update introduction task and update Introduction Tasks window
-                $Import_JSON.IntroductionTasks.Tick_Travel_to_another_Location = $true
-                Draw_Introduction_Tasks
-                # Introduction Tasks window drawn on exit of switch statement below            
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,23;$Host.UI.Write("")
-                Write-Color "  Congratulations, you have complete all of the Introduction Tasks" -Color Cyan
-                Write-Color "  You have gained ","1000xp ","and ","500 Gold","." -Color Cyan,White,Cyan,DarkYellow,Cyan
-                # update gold in inventory
-                $Script:Import_JSON.Character.Gold = $Import_JSON.Character.Gold + 500
-                $Script:Gold = $Import_JSON.Character.Gold + 500
-                # update xp
-                $Import_JSON.Character.Total_XP += 1000
-                $Total_XP = $Total_XP + 1000
-                $Import_JSON.Character.XP_TNL -= 1000
-                $Script:XP_TNL = $XP_TNL - 1000
-                # level up check
-                if ($XP_TNL -lt 0) {
-                    $Script:XP_Difference = $XP_TNL
-                }
-                if ($XP_TNL -le 0) {
-                    Level_Up
-                }
-                # update player stats after level up to show stat buffs
-                Save_JSON
-                Import_JSON
-                Set_Variables
-                $host.UI.RawUI.ForegroundColor = "Cyan"
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 84,20;$Host.UI.Write("                .")
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 84,21;$Host.UI.Write(" .. ............;;.")
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 84,22;$Host.UI.Write("  ..::::::::::::;;;;.")
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 84,23;$Host.UI.Write(". . ::::::::::::;;:'")
-                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 84,24;$Host.UI.Write("                :'")
-            } else {
-                Draw_Introduction_Tasks
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
-                Draw_Player_Window_and_Stats
+        Clear_Mob_Window
+        # show congrats message on completion of all tasks, but only if Introduction Tasks are still in progress
+        if ($Current_Location -eq "The Forest" -and $Import_JSON.IntroductionTasks.InProgress -eq $true) {
+            # update introduction task and update Introduction Tasks window
+            $Import_JSON.IntroductionTasks.Tick_Travel_to_another_Location = $true
+            Draw_Introduction_Tasks
+            # Introduction Tasks window drawn on exit of switch statement below            
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,23;$Host.UI.Write("")
+            Write-Color "  Congratulations, you have complete all of the Introduction Tasks" -Color Cyan
+            Write-Color "  You have gained ","1000xp ","and ","500 Gold","." -Color Cyan,White,Cyan,DarkYellow,Cyan
+            # update gold in inventory
+            $Script:Import_JSON.Character.Gold = $Import_JSON.Character.Gold + 500
+            $Script:Gold = $Import_JSON.Character.Gold + 500
+            # update xp
+            $Import_JSON.Character.Total_XP += 1000
+            $Total_XP = $Total_XP + 1000
+            $Import_JSON.Character.XP_TNL -= 1000
+            $Script:XP_TNL = $XP_TNL - 1000
+            # level up check
+            if ($XP_TNL -lt 0) {
+                $Script:XP_Difference = $XP_TNL
             }
-        $Script:Info_Banner = "$Current_Location"
+            if ($XP_TNL -le 0) {
+                Level_Up
+            }
+            # update player stats after level up to show stat buffs
+            Save_JSON
+            Import_JSON
+            Set_Variables
+            $host.UI.RawUI.ForegroundColor = "Cyan"
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 84,20;$Host.UI.Write("                .")
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 84,21;$Host.UI.Write(" .. ............;;.")
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 84,22;$Host.UI.Write("  ..::::::::::::;;;;.")
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 84,23;$Host.UI.Write(". . ::::::::::::;;:'")
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 84,24;$Host.UI.Write("                :'")
+        } else {
+            Draw_Introduction_Tasks
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
+            Draw_Player_Window_and_Stats
+            for ($Position = 17; $Position -lt 36; $Position++) { # clear some lines from previous widow
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+            }
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+        }
+        Clear_Mob_Window
+        $Script:Info_Banner = "Available Options"
         Draw_Info_Banner
         Save_JSON
+        for ($Position = 17; $Position -lt 36; $Position++) { # clear some lines from previous widow
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+        }
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-        Write-Color "  Available options:" -Color DarkGray
         # display all choice options in location
         $LocationOptions = $Import_JSON.Locations.$Current_Location.LocationOptions.PSObject.Properties.Name
         $Main_Loop_Choice_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
+        # Write-Color ""
         foreach ($LocationOption in $LocationOptions) {
             if ($Import_JSON.Locations.$Current_Location.LocationOptions.$LocationOption -eq $true) {
                 Write-Color "  $($LocationOption.Substring(0,1))","$($LocationOption.Substring(1,$LocationOption.Length-1))" -Color Green,DarkGray
@@ -4085,7 +4090,7 @@ do {
         $Main_Loop_Choice_Letters_Array_String = $Main_Loop_Choice_Letters_Array -Join "/"
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-        Write-Color -NoNewLine "What do you want to do? ", "[$Main_Loop_Choice_Letters_Array_String]" -Color DarkYellow,Green
+        Write-Color -NoNewLine "What do you want to do? 1 ", "[$Main_Loop_Choice_Letters_Array_String]" -Color DarkYellow,Green
         $Main_Loop_Choice = Read-Host " "
         $Main_Loop_Choice = $Main_Loop_Choice.Trim()
     } until ($Main_Loop_Choice -in $Main_Loop_Choice_Letters_Array)
@@ -4097,12 +4102,34 @@ do {
                 Random_Mob
                 Fight_or_Run
                 do {
+                    Clear_Mob_Window
+                    $Script:Info_Banner = "Available Options"
+                    Draw_Info_Banner
+                    if ($Escaped_from_Mob -eq $true) {
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,20;$Host.UI.Write("")
+                    } else {
+                        for ($Position = 17; $Position -lt 36; $Position++) { # clear some lines from previous widow
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                        }
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                    }
+                    # display all choice options in location
+                    $LocationOptions = $Import_JSON.Locations.$Current_Location.LocationOptions.PSObject.Properties.Name
+                    $Main_Loop_Choice_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
+                    foreach ($LocationOption in $LocationOptions) {
+                        if ($Import_JSON.Locations.$Current_Location.LocationOptions.$LocationOption -eq $true) {
+                            Write-Color "  $($LocationOption.Substring(0,1))","$($LocationOption.Substring(1,$LocationOption.Length-1))" -Color Green,DarkGray
+                            $Main_Loop_Choice_Letters_Array.Add($LocationOption.Substring(0,1))
+                        }
+                    }
+                    $Main_Loop_Choice_Letters_Array.Add("INFO")
+                    $Main_Loop_Choice_Letters_Array_String = $Main_Loop_Choice_Letters_Array -Join "/"
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                    Write-Color -NoNewLine "H","unt, ","T","ravel back to Town or view your ","Q","uest log? ", "[H/T/Q]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                    Write-Color -NoNewLine "What would you like to do? 2 ", "[H/T/Q/INFO]" -Color DarkYellow,Green
                     $Finish_Combat = Read-Host " "
                     $Finish_Combat = $Finish_Combat.Trim()
-                } until ($Finish_Combat -ieq "H" -or $Finish_Combat -ieq "T" -or $Finish_Combat -ieq "Q")
+                } until ($Finish_Combat -ieq "H" -or $Finish_Combat -ieq "T" -or $Finish_Combat -ieq "Q" -or $Finish_Combat -ieq "INFO" -or $Finish_Combat -ieq "V")
                 if ($Finish_Combat -ieq "Q") {
                     Draw_Quest_Log
                     $Script:Continue_Fighting = $true
@@ -4111,6 +4138,16 @@ do {
                     $Script:Continue_Fighting = $true
                 }
                 if ($Finish_Combat -ieq "T"){
+                    $Script:Continue_Fighting = $false
+                    Break
+                }
+                if ($Finish_Combat -ieq "V") {
+                    Visit_a_Building
+                    $Script:Continue_Fighting = $false
+                    Break
+                }
+                if ($Finish_Combat -ieq "INFO") {
+                    Game_Info
                     $Script:Continue_Fighting = $false
                     Break
                 }
