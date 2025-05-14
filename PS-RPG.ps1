@@ -10,7 +10,7 @@ ToDo
     
     
 - NEXT
-    - add a heck to see if there is an update to PSWriteColor module and ask to update it
+    - add a check to see if there is an update to PSWriteColor module and ask to update it
     - move Go Hunting introduction task to the end
     - add Exit to "You can visit the following buildings"
     - change "You escaped from the Rook! (no combat)" and all choice options in question line,
