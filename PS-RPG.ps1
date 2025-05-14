@@ -10,6 +10,7 @@ ToDo
     
     
 - NEXT
+    - add a heck to see if there is an update to PSWriteColor module and ask to update it
     - move Go Hunting introduction task to the end
     - add Exit to "You can visit the following buildings"
     - change "You escaped from the Rook! (no combat)" and all choice options in question line,
@@ -105,15 +106,15 @@ Function Save_JSON {
         try {
             ($Script:Import_JSON | ConvertTo-Json -depth 32) | Set-Content ".\PS-RPG.json" -ErrorAction Stop
             # If successful, Break out of the loop
-            # Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error.log" -value "Success attempt #$($retry)"
+            # Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error.log" -value "Success attempt #$($retry)" # leave in
             Break
         } catch {
-            Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error.log" -value "Error attempt #$($retry) $($_.Exception.Message)"
+            Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error.log" -value "Error attempt #$($retry) $($_.Exception.Message)" # leave in
             if ($retry -lt $maxRetries) {
-                Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error.log" -value "Retrying $($retryDelaySeconds)s"
+                Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error.log" -value "Retrying $($retryDelaySeconds)s" # leave in
                 Start-Sleep -Seconds $retryDelaySeconds # leave in
             } else {
-                Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error.log" -value "Failed $($maxRetries) attempts"
+                Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error.log" -value "Failed $($maxRetries) attempts" # leave in
                 # Optionally, take further action like exiting the script or prompting the user
                 # Exit 1 # Exit with a non-zero code
             }
@@ -1735,90 +1736,96 @@ Function You_Died {
 #
 Function Random_Mob {
     # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
-    # Add-Content -Path .\error.log -value "---------------------------------------------------"
-    # Add-Content -Path .\error.log -value "Current_Location: $Current_Location"
+
+
     if ($TutorialMob -eq $true) { # tutorial example mob
         $Current_Location_Mobs = $Import_JSON.Locations."Home Town".Mobs.PSObject.Properties.Name
-        # Add-Content -Path .\error.log -value "tut mob names: $($Import_JSON.Locations."Home Town".Mobs.PSObject.Properties.Name)"
+
+
     } elseif ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
         $Current_Location = "Home Town"
         $Current_Location_Mobs = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.PSObject.Properties.Name
-        Add-Content -Path .\error.log -value "cellar mob names: $Current_Location_Mobs"
+
     } else { # get mob from current location
         $Current_Location_Mobs = $Import_JSON.Locations.$Current_Location.Mobs.PSObject.Properties.Name
-        # Add-Content -Path .\error.log -value "hunt mob names: $($Import_JSON.Locations.$Current_Location.Mobs.PSObject.Properties.Name)"
+
     }
     $Random_100 = Get-Random -Minimum 1 -Maximum 101
     if ($Random_100 -le 11) { # rare mob (10% of the time)
         $All_Rare_Mobs_In_Current_Location = @()
         $All_Rare_Mobs_In_Current_Location = New-Object System.Collections.Generic.List[System.Object]
-        # Add-Content -Path .\error.log -value "---rare mob loop---"
+
         foreach ($Current_Location_Mob in $Current_Location_Mobs) {
-            # Add-Content -Path .\error.log -value "mob name: $Current_Location_Mob"
+
             if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
                 $Current_Location_Mob = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob
                 $Current_Location_Mob_Name = $Current_Location_Mob.Name
-                Add-Content -Path .\error.log -value "cellar mob object name: $Current_Location_Mob"
-                Add-Content -Path .\error.log -value "cellar mob name: $Current_Location_Mob_Name"
+
+
             } else {
                 $Current_Location_Mob = $Import_JSON.Locations.$Current_Location.Mobs.$Current_Location_Mob
                 $Current_Location_Mob_Name = $Current_Location_Mob.Name
-                # Add-Content -Path .\error.log -value "hunt mob name: $Current_Location_Mob_Name"
+
             }
             if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
                 if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob_Name.Rare -ieq "yes") {
                     $All_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob_Name)
-                    Add-Content -Path .\error.log -value "mob name celler array: $All_Rare_Mobs_In_Current_Location"
+
                 }
             } else {
                 if ($Import_JSON.Locations.$Current_Location.Mobs.$Current_Location_Mob_Name.Rare -ieq "yes") {
                     $All_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob_Name)
-                    # Add-Content -Path .\error.log -value "mob name hunt array: $All_Rare_Mobs_In_Current_Location"
+
                 }
             }
         }
-        Add-Content -Path .\error.log -value "Current_Location_Mob: $Current_Location_Mob_Name"
-        Add-Content -Path .\error.log -value "All_Rare_Mobs_In_Current_Location: $All_Rare_Mobs_In_Current_Location"
+
+
         $Random_Rare_Mob_In_Current_Location_ID = Get-Random -Minimum 0 -Maximum ($All_Rare_Mobs_In_Current_Location | Measure-Object).count # measure-object added because incorrect number when there is only one rare mob
         $Random_Rare_Mob_In_Current_Location_ID -= 1
-        Add-Content -Path .\error.log -value "All_Rare_Mobs_In_Current_Location count: $(($All_Rare_Mobs_In_Current_Location | Measure-Object).count)"
+
         $Script:Selected_Mob = $All_Rare_Mobs_In_Current_Location[$Random_Rare_Mob_In_Current_Location_ID]
-        Add-Content -Path .\error.log -value "Selected_Mob: $Selected_Mob"
+
         $Script:Selected_Mob = $Import_JSON.Locations.$Current_Location.Mobs.$Selected_Mob
     } else { # "normal" mob (90% of the time)
         $All_None_Rare_Mobs_In_Current_Location = @()
         $All_None_Rare_Mobs_In_Current_Location = New-Object System.Collections.Generic.List[System.Object]
         foreach ($Current_Location_Mob in $Current_Location_Mobs) {
-            Add-Content -Path .\error.log -value "---non-rare mob loop---"
-            Add-Content -Path .\error.log -value "mob name: $Current_Location_Mob"
+
+
             if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
                 $Current_Location_Mob = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob
                 $Current_Location_Mob_Name = $Current_Location_Mob.Name
-                Add-Content -Path .\error.log -value "cellar mob object name: $Current_Location_Mob"
-                Add-Content -Path .\error.log -value "cellar mob name: $Current_Location_Mob_Name"
+
+
             } else {
                 $Current_Location_Mob = $Import_JSON.Locations.$Current_Location.Mobs.$Current_Location_Mob
                 $Current_Location_Mob_Name = $Current_Location_Mob.Name
-                # Add-Content -Path .\error.log -value "hunt mob name: $Current_Location_Mob_Name"
+
             }
             if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
                 if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob_Name.Rare -ieq "no") {
                     $All_None_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob_Name)
-                    Add-Content -Path .\error.log -value "mob name celler array: $All_None_Rare_Mobs_In_Current_Location"
+
                 }
             } else {
                 if ($Import_JSON.Locations.$Current_Location.Mobs.$Current_Location_Mob_Name.Rare -ieq "no") {
                     $All_None_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob_Name)
-                    # Add-Content -Path .\error.log -value "mob name hunt array: $All_None_Rare_Mobs_In_Current_Location"
+
                 }
             }
         }
-        Add-Content -Path .\error.log -value "All_None_Rare_Mobs_In_Current_Location: $All_None_Rare_Mobs_In_Current_Location"
+
         $Random_None_Rare_Mob_In_Current_Location_ID = Get-Random -Minimum 0 -Maximum ($All_None_Rare_Mobs_In_Current_Location | Measure-Object).count # measure-object added because incorrect number when there is only one rare mob
         $Random_None_Rare_Mob_In_Current_Location_ID -= 1
         $Script:Selected_Mob = $All_None_Rare_Mobs_In_Current_Location[$Random_None_Rare_Mob_In_Current_Location_ID]
-        Add-Content -Path .\error.log -value "Selected_Mob: $Selected_Mob"
-        $Script:Selected_Mob = $Import_JSON.Locations.$Current_Location.Mobs.$Selected_Mob # get mob object from JSON
+
+
+        if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) {
+            $Script:Selected_Mob = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Selected_Mob # get cellar mob object from JSON
+        } else {
+            $Script:Selected_Mob = $Import_JSON.Locations.$Current_Location.Mobs.$Selected_Mob # get current location mob object from JSON
+        }
     }
     $Script:Selected_Mob_Name           = $Selected_Mob.Name
     $Script:Selected_Mob_Level          = $Selected_Mob.Level
@@ -1836,6 +1843,43 @@ Function Random_Mob {
     $Script:Selected_Mob_Spells         = $Selected_Mob.Spells
     $Script:Selected_Mob_Healing        = $Selected_Mob.Healing
     $Script:Selected_Mob_Rare           = $Selected_Mob.Rare
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 #
@@ -3145,26 +3189,26 @@ Function Visit_a_Building {
                                         $Cellar_Quest_Room_Direction_Array = New-Object System.Collections.Generic.List[System.Object]
                                         # loop through all Cellar quest rooms and get room direction letters for current room
                                         foreach ($Cellar_Quest_Room in $Cellar_Quest_Rooms) {
-                                            # Add-Content -Path .\error.log -value "--------------------------------------------------"
-                                            # Add-Content -Path .\error.log -value "Cellar_Quest_Room: $Cellar_Quest_Room"
+
+
                                             # get current cellar quest room as an object
                                             $Cellar_Quest_Room_Object = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.Rooms.$Cellar_Quest_Room
-                                            # Add-Content -Path .\error.log -value "Cellar_Quest_Room_Object: $Cellar_Quest_Room_Object"
+
                                             foreach ($Cellar_Quest_Room_Current_Location in $Cellar_Quest_Room_Object) {
-                                                # Add-Content -Path .\error.log -value "_Current_Location.Room: $($Cellar_Quest_Room_Current_Location.Room)"
-                                                # Add-Content -Path .\error.log -value "_Current_Location.CurrentLocation: $($Cellar_Quest_Room_Current_Location.CurrentLocation)"
+
+
                                                 if ($Cellar_Quest_Room_Current_Location.CurrentLocation -eq $true) {
                                                     $Cellar_Quest_Current_Room_Number = $Cellar_Quest_Room_Current_Location.Room
                                                     # get all LinkedLocations room names and loop through 
                                                     $Cellar_Quest_Current_Room_Number_Object = $Cellar_Quest_Room_Current_Location
-                                                    # Add-Content -Path .\error.log -value "Cellar_Quest_Current_Room_Number_object: $Cellar_Quest_Current_Room_Number_Object"
+
                                                     foreach ($Cellar_Quest_Room_Name in $Cellar_Quest_Room_Object.LinkedRooms.PSObject.Properties.Name) {
-                                                        # Add-Content -Path .\error.log -value "Cellar_Quest_Room_Name: $Cellar_Quest_Room_Name"
+
                                                         $Cellar_Quest_Room_Name_Letter = $Cellar_Quest_Room_Object.LinkedRooms.$Cellar_Quest_Room_Name
-                                                        # Add-Content -Path .\error.log -value "Cellar_Quest_Room_Name_Letter: $Cellar_Quest_Room_Name_Letter"
+
                                                         # add each LinkedLocations letter (direction) to array
                                                         $Cellar_Quest_Room_Direction_Array.Add($Cellar_Quest_Room_Name_Letter)
-                                                        # Add-Content -Path .\error.log -value "Cellar_Quest_Room_Direction: $Cellar_Quest_Room_Direction_Array"
+
                                                     }
                                                 }
                                             }
@@ -3196,7 +3240,7 @@ Function Visit_a_Building {
                                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                                 }
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                                # Add-Content -Path .\error.log -value "Cellar_Quest_Current_Room_Number: $Cellar_Quest_Current_Room_Number"
+
                                                 Write-Color "  Cellar_Quest_Current_Room_Number: $Cellar_Quest_Current_Room_Number" -Color DarkGray
                                                 Write-Color "  all other rooms" -Color DarkGray
                                             }
@@ -3231,8 +3275,48 @@ Function Visit_a_Building {
                                                 }
                                                 Draw_Cellar_Map
                                                 Random_Mob
-                                                Add-Content -Path .\error.log -value "Selected_Mob      : $Selected_Mob"
-                                                Add-Content -Path .\error.log -value "Selected_Mob_Name : $Selected_Mob_Name"
+                                                # what's the difference between when a mob is called from Hunt vs. when it's called from the Cellar?
+                                                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                                 Fight_or_Run
                                                 
                                             }
@@ -3830,9 +3914,9 @@ Clear-Host
 # write any errors out to error.log file
 Trap {
     $Time = Get-Date -Format "HH:mm:ss"
-    Add-Content -Path .\error.log -value "-Trap Error $Time ----------------------------------"
-    Add-Content -Path .\error.log -value "$PSItem"
-    Add-Content -Path .\error.log -value "------------------------------------------------------"
+    Add-Content -Path .\error.log -value "-Trap Error $Time ----------------------------------" # leave in
+    Add-Content -Path .\error.log -value "$PSItem" # leave in
+    Add-Content -Path .\error.log -value "------------------------------------------------------" # leave in
 }
 
 # get version of PS-RPG from PS-RPG_version.txt (updated via GitHub commits)
