@@ -43,6 +43,8 @@ ToDo
 
 
 Function Install_PSWriteColor {
+    $PSWriteColor_Version_Check = Find-Module -Name PSWriteColor
+
     Write-Host "PSWriteColor module is not installed." -ForegroundColor Red
     Write-Output "`r`nThis game requires a PowerShell module called PSWriteColor to be installed."
     Write-Output "It allows the game to use coloured console output text for a better experience."
@@ -50,7 +52,7 @@ Function Install_PSWriteColor {
     Write-Output "`r`nMore info about the module can be found from the below links if you"
     Write-Output "wish to research it before deciding to install it on your system."
     Write-Output "`r`nAuthor              - Przemyslaw Klys"
-    Write-Output "PowerShell Gallery  - https://www.powershellgallery.com/packages/PSWriteColor/1.0.1"
+    Write-Output "PowerShell Gallery  - https://www.powershellgallery.com/packages/PSWriteColor/$($PSWriteColor_Version_Check.Version)"
     Write-Output "GitHub project site - https://github.com/EvotecIT/PSWriteColor"
     Write-Output "More info           - https://evotec.xyz/hub/scripts/pswritecolor/"
     $Install_Module_Check = Read-Host "`r`nDo you want to allow the PSWriteColor module to be installed? [Y/N]"
@@ -61,8 +63,9 @@ Function Install_PSWriteColor {
         Exit
     }
     Write-Output "`r`nAttempting to install PSWriteColor module."
-    Write-Output "Install path will be $ENV:USERPROFILE\Documents\WindowsPowerShell\Modules\."
+    Write-Output "Install path will be $ENV:USERPROFILE\Documents\WindowsPowerShell\Modules\"
     Write-Host "Accept the install prompt with either 'Y' or 'A' then Enter to install." -ForegroundColor Green
+    Write-Host "Press 'N' then Enter to cancel the install." -ForegroundColor Red
     Install-Module -Name "PSWriteColor" -Scope CurrentUser
     $PSWriteModule_Install_Check = Get-Module -Name "PSWriteColor" -ListAvailable
     if ($PSWriteModule_Install_Check) {
@@ -70,7 +73,7 @@ Function Install_PSWriteColor {
         $PSWriteModule_Install_Check
         Write-Output "`r`nImporting PSWriteColor module."
         Import-Module -Name "PSWriteColor"
-        $Import_PSWriteColor_Module_Check = Get-Module -Name "PSWriteColor"
+        $Import_PSWriteColor_Module_Check = Get-Module -Name "PSWriteColor" -ListAvailable
         if ($Import_PSWriteColor_Module_Check) {
             Write-Host "PSWriteColor module imported." -ForegroundColor Green
         } else {
@@ -293,6 +296,7 @@ Function Game_Info {
             p { # PSWriteColor
                 Clear-Host
                 Game_Info_Banner
+                $PSWriteColor_Version_Check = Find-Module -Name PSWriteColor
                 $PSWriteColor_Name = (Get-Module -Name "PSWriteColor" -ListAvailable | Select-Object Name).Name
                 $PSWriteColor_Name_Padding = " "*(113 - ($PSWriteColor_Name | Measure-Object -Character).Characters)
                 $PSWriteColor_Author = (Get-Module -Name "PSWriteColor" -ListAvailable | Select-Object Author).Author
@@ -322,7 +326,7 @@ Function Game_Info {
                 Write-Color "| ","Installed Path   :"," $PSWriteColor_ModuleBase $PSWriteColor_ModuleBase_Padding","|" -Color DarkGray,DarkYellow,Cyan,DarkGray
                 Write-Color "| ","Version          :"," $PSWriteColor_Version $PSWriteColor_Version_Padding|" -Color DarkGray,DarkYellow,DarkGray
                 Write-Color "| ","Project URI       :"," $PSWriteColor_ProjectURI $PSWriteColor_ProjectURI_Padding","|" -Color DarkGray,DarkYellow,Cyan,DarkGray
-                Write-Color "| ","PowerShell Gallery:"," https://www.powershellgallery.com/packages/PSWriteColor/1.0.1","                                                    |" -Color DarkGray,DarkYellow,Cyan,DarkGray
+                Write-Color "| ","PowerShell Gallery:"," https://www.powershellgallery.com/packages/PSWriteColor/$($PSWriteColor_Version_Check.Version)","                                                    |" -Color DarkGray,DarkYellow,Cyan,DarkGray
                 Write-Color "| ","More info at      :"," https://evotec.xyz/hub/scripts/pswritecolor","                                                                      |" -Color DarkGray,DarkYellow,Cyan,DarkGray
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
                 Write-Color "| If you want to remove the PSWriteColor module from your system, quit the game, then run the following command in a console window:   |" -Color DarkGray
@@ -1569,7 +1573,7 @@ Function Draw_Shop_Potions {
 #
 # sets and asks if a potion should be used
 #
-Function Inventory_Choice{
+Function Inventory_Choice {
     $Script:Selectable_ID_Search = "not_set"
     $Script:Potion_IDs_Array = New-Object System.Collections.Generic.List[System.Object]
     $Potion_IDs_Array.Clear()
@@ -1736,91 +1740,64 @@ Function You_Died {
 #
 Function Random_Mob {
     # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
-
-
     if ($TutorialMob -eq $true) { # tutorial example mob
         $Current_Location_Mobs = $Import_JSON.Locations."Home Town".Mobs.PSObject.Properties.Name
-
-
     } elseif ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
         $Current_Location = "Home Town"
         $Current_Location_Mobs = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.PSObject.Properties.Name
-
     } else { # get mob from current location
         $Current_Location_Mobs = $Import_JSON.Locations.$Current_Location.Mobs.PSObject.Properties.Name
-
     }
     $Random_100 = Get-Random -Minimum 1 -Maximum 101
     if ($Random_100 -le 11) { # rare mob (10% of the time)
         $All_Rare_Mobs_In_Current_Location = @()
         $All_Rare_Mobs_In_Current_Location = New-Object System.Collections.Generic.List[System.Object]
-
         foreach ($Current_Location_Mob in $Current_Location_Mobs) {
-
             if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
                 $Current_Location_Mob = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob
                 $Current_Location_Mob_Name = $Current_Location_Mob.Name
-
-
             } else {
                 $Current_Location_Mob = $Import_JSON.Locations.$Current_Location.Mobs.$Current_Location_Mob
                 $Current_Location_Mob_Name = $Current_Location_Mob.Name
-
             }
             if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
                 if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob_Name.Rare -ieq "yes") {
                     $All_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob_Name)
-
                 }
             } else {
                 if ($Import_JSON.Locations.$Current_Location.Mobs.$Current_Location_Mob_Name.Rare -ieq "yes") {
                     $All_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob_Name)
-
                 }
             }
         }
-
-
         $Random_Rare_Mob_In_Current_Location_ID = Get-Random -Minimum 0 -Maximum ($All_Rare_Mobs_In_Current_Location | Measure-Object).count # measure-object added because incorrect number when there is only one rare mob
         $Random_Rare_Mob_In_Current_Location_ID -= 1
-
         $Script:Selected_Mob = $All_Rare_Mobs_In_Current_Location[$Random_Rare_Mob_In_Current_Location_ID]
-
         $Script:Selected_Mob = $Import_JSON.Locations.$Current_Location.Mobs.$Selected_Mob
     } else { # "normal" mob (90% of the time)
         $All_None_Rare_Mobs_In_Current_Location = @()
         $All_None_Rare_Mobs_In_Current_Location = New-Object System.Collections.Generic.List[System.Object]
         foreach ($Current_Location_Mob in $Current_Location_Mobs) {
-
-
             if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
                 $Current_Location_Mob = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob
                 $Current_Location_Mob_Name = $Current_Location_Mob.Name
-
-
             } else {
                 $Current_Location_Mob = $Import_JSON.Locations.$Current_Location.Mobs.$Current_Location_Mob
                 $Current_Location_Mob_Name = $Current_Location_Mob.Name
-
             }
             if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
                 if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob_Name.Rare -ieq "no") {
                     $All_None_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob_Name)
-
                 }
             } else {
                 if ($Import_JSON.Locations.$Current_Location.Mobs.$Current_Location_Mob_Name.Rare -ieq "no") {
                     $All_None_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob_Name)
-
                 }
             }
         }
-
         $Random_None_Rare_Mob_In_Current_Location_ID = Get-Random -Minimum 0 -Maximum ($All_None_Rare_Mobs_In_Current_Location | Measure-Object).count # measure-object added because incorrect number when there is only one rare mob
         $Random_None_Rare_Mob_In_Current_Location_ID -= 1
         $Script:Selected_Mob = $All_None_Rare_Mobs_In_Current_Location[$Random_None_Rare_Mob_In_Current_Location_ID]
-
-
         if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) {
             $Script:Selected_Mob = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Selected_Mob # get cellar mob object from JSON
         } else {
@@ -1843,43 +1820,6 @@ Function Random_Mob {
     $Script:Selected_Mob_Spells         = $Selected_Mob.Spells
     $Script:Selected_Mob_Healing        = $Selected_Mob.Healing
     $Script:Selected_Mob_Rare           = $Selected_Mob.Rare
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 #
@@ -2427,7 +2367,6 @@ Function Draw_Cellar_Map {
             $host.UI.RawUI.ForegroundColor = "Green"
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 64,3;$Host.UI.Write("-") # door East
         }
-
     }
     Function Draw_Cellar_Quest_Room_2 {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 64,2;$Host.UI.Write(" +-----+ ") # room 2
@@ -3189,26 +3128,17 @@ Function Visit_a_Building {
                                         $Cellar_Quest_Room_Direction_Array = New-Object System.Collections.Generic.List[System.Object]
                                         # loop through all Cellar quest rooms and get room direction letters for current room
                                         foreach ($Cellar_Quest_Room in $Cellar_Quest_Rooms) {
-
-
                                             # get current cellar quest room as an object
                                             $Cellar_Quest_Room_Object = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.Rooms.$Cellar_Quest_Room
-
                                             foreach ($Cellar_Quest_Room_Current_Location in $Cellar_Quest_Room_Object) {
-
-
                                                 if ($Cellar_Quest_Room_Current_Location.CurrentLocation -eq $true) {
                                                     $Cellar_Quest_Current_Room_Number = $Cellar_Quest_Room_Current_Location.Room
                                                     # get all LinkedLocations room names and loop through 
                                                     $Cellar_Quest_Current_Room_Number_Object = $Cellar_Quest_Room_Current_Location
-
                                                     foreach ($Cellar_Quest_Room_Name in $Cellar_Quest_Room_Object.LinkedRooms.PSObject.Properties.Name) {
-
                                                         $Cellar_Quest_Room_Name_Letter = $Cellar_Quest_Room_Object.LinkedRooms.$Cellar_Quest_Room_Name
-
                                                         # add each LinkedLocations letter (direction) to array
                                                         $Cellar_Quest_Room_Direction_Array.Add($Cellar_Quest_Room_Name_Letter)
-
                                                     }
                                                 }
                                             }
@@ -3240,7 +3170,6 @@ Function Visit_a_Building {
                                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                                 }
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-
                                                 Write-Color "  Cellar_Quest_Current_Room_Number: $Cellar_Quest_Current_Room_Number" -Color DarkGray
                                                 Write-Color "  all other rooms" -Color DarkGray
                                             }
@@ -3276,49 +3205,7 @@ Function Visit_a_Building {
                                                 Draw_Cellar_Map
                                                 Random_Mob
                                                 # what's the difference between when a mob is called from Hunt vs. when it's called from the Cellar?
-                                                
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                                
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                                 Fight_or_Run
-                                                
                                             }
                                             Default {}
                                         }
@@ -3365,9 +3252,7 @@ Function Visit_a_Building {
                             $Anvil_Choice = Read-Host " "
                             $Anvil_Choice = $Anvil_Choice.Trim()
                         } until ($Anvil_Choice -ieq "b" -or $Anvil_Choice -ieq "s" -or $Anvil_Choice -ieq "e")
-                        
                         # if ($Anvil_Choice -ieq "b") {
-                            
                         # }
                         if ($Anvil_Choice -ieq "s") {
                             do {
@@ -3933,15 +3818,15 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
     # adjust window size
     do {
         Clear-Host
-        Write-Color "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" -Color DarkYellow
+        Write-Host "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" -ForegroundColor DarkYellow
         for ($index = 0; $index -lt 36; $index++) {
-            Write-Color "+                                                                                                                                                              +" -Color DarkYellow
+            Write-Host "+                                                                                                                                                              +" -ForegroundColor DarkYellow
         }
-        Write-Color "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" -Color DarkYellow
+        Write-Host "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" -ForegroundColor DarkYellow
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 20,10;$Host.UI.Write( "Using the CTRL + mouse scroll wheel forward and back,")
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 20,11;$Host.UI.Write( "adjust the font size to make sure the yellow box fits within the screen.")
-        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-        Write-Color -NoNewLine "+ Adjust font size with ","CTRL + mouse scroll wheel",", then confirm with 'go' and Enter" -Color DarkYellow,Green,DarkYellow
+        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 2,36;$Host.UI.Write("")
+        Write-Host -NoNewline "Adjust font size with CTRL + mouse scroll wheel, then confirm with 'go' and Enter"
         $Adjust_Font_Size = Read-Host " "
         $Adjust_Font_Size = $Adjust_Font_Size.Trim()
     } until ($Adjust_Font_Size -ieq "go")
@@ -3950,9 +3835,48 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
     Write-Host "--------------------" -ForegroundColor Red
     Write-Output "`r`nChecking if PSWriteColor module is installed."
     $PSWriteModule_Install_Check = Get-Module -Name "PSWriteColor" -ListAvailable
+    # PSWriteColor is installed so import it
     if ($PSWriteModule_Install_Check) {
         Write-Host "PSWriteColor module is installed." -ForegroundColor Green
         $PSWriteModule_Install_Check
+        $PSWriteModule_Version_Installed = $PSWriteModule_Install_Check.Version
+        Add-Content -Path .\error.log -value "PSWriteModule_Version_Installed: $PSWriteModule_Version_Installed"
+
+        Write-Output "`r`nChecing if there is a new version of PSWriteColor."
+        $PSWriteColor_Version_Check = Find-Module -Name PSWriteColor
+        if ($PSWriteModule_Version_Installed -lt $PSWriteColor_Version_Check.Version) {
+            Write-Host "Version available: $($PSWriteColor_Version_Check.Version)" -ForegroundColor Green
+            Write-Host "Version installed: $($PSWriteModule_Version_Installed)"
+            do {
+                Write-Host -NoNewline "`r`nDo you want to update to version $($PSWriteColor_Version_Check.Version)? [Y/N]"
+                $Update_PSWriteColor_Choice = Read-Host " "
+                $Update_PSWriteColor_Choice = $Update_PSWriteColor_Choice.Trim()
+            } until ($Update_PSWriteColor_Choice -ieq "y" -or $Update_PSWriteColor_Choice -ieq "n")
+            if ($Update_PSWriteColor_Choice -ieq "y") {
+                Write-Output "Updating PSWriteColor module."
+                Write-Output "Install path will be $ENV:USERPROFILE\Documents\WindowsPowerShell\Modules\"
+                Write-Host "Accept the install prompt with either 'Y' or 'A' then Enter to install." -ForegroundColor Green
+                Write-Host "Press 'N' then Enter to cancel the install." -ForegroundColor Red
+                Update-Module -Name PSWriteColor
+                Add-Content -Path .\error.log -value "LASTEXITCODE: $LASTEXITCODE"
+                $exitcode = $LASTEXITCODE
+                Add-Content -Path .\error.log -value "exitcode    : $exitcode"
+                $PSWriteModule_Install_Check = Get-Module -Name "PSWriteColor" -ListAvailable
+                Write-Output ""
+                if ($PSWriteModule_Install_Check.Version -eq $PSWriteColor_Version_Check.Version) {
+                    Write-Host "PSWriteColor module updated." -ForegroundColor Green
+                    $PSWriteModule_Install_Check
+                }
+            }
+            if ($Update_PSWriteColor_Choice -ieq "n") {
+                Write-Output "Not updating PSWriteColor module."
+            }
+        } else {
+            Write-Output "`r`nPSWriteColor module is up-to-date."
+        }
+
+
+
         Write-Output "`r`nImporting PSWriteColor module."
         Import-Module -Name "PSWriteColor"
         $Import_PSWriteColor_Module_Check = Get-Module -Name "PSWriteColor"
@@ -3963,7 +3887,7 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
             Break
         }
         Start-Sleep -Seconds 3 # leave in
-    } else {
+    } else { # otherwise ask for module to be installed
         Install_PSWriteColor
     }
     #
@@ -4045,7 +3969,7 @@ if (Test-Path -Path .\PS-RPG.json) {
             Exit
         } else {
             Write-Color "PS-RPG.json"," file is ","valid." -Color Magenta,DarkYellow,Green
-            # Start-Sleep -Seconds 2
+            Start-Sleep -Seconds 2
         }
     }
     do {
