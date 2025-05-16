@@ -43,7 +43,7 @@ ToDo
 
 
 Function Install_PSWriteColor {
-    $PSWriteColor_Version_Check = Find-Module -Name PSWriteColor
+    $PSWriteColor_Version_Check = Get-Module -Name "PSWriteColor" -ListAvailable
 
     Write-Host "PSWriteColor module is not installed." -ForegroundColor Red
     Write-Output "`r`nThis game requires a PowerShell module called PSWriteColor to be installed."
@@ -296,7 +296,7 @@ Function Game_Info {
             p { # PSWriteColor
                 Clear-Host
                 Game_Info_Banner
-                $PSWriteColor_Version_Check = Find-Module -Name PSWriteColor
+                $PSWriteColor_Version_Check = Get-Module -Name "PSWriteColor" -ListAvailable
                 $PSWriteColor_Name = (Get-Module -Name "PSWriteColor" -ListAvailable | Select-Object Name).Name
                 $PSWriteColor_Name_Padding = " "*(113 - ($PSWriteColor_Name | Measure-Object -Character).Characters)
                 $PSWriteColor_Author = (Get-Module -Name "PSWriteColor" -ListAvailable | Select-Object Author).Author
@@ -3969,7 +3969,7 @@ if (Test-Path -Path .\PS-RPG.json) {
             Exit
         } else {
             Write-Color "PS-RPG.json"," file is ","valid." -Color Magenta,DarkYellow,Green
-            Start-Sleep -Seconds 2
+            Start-Sleep -Seconds 1
         }
     }
     do {
