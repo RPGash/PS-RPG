@@ -43,7 +43,7 @@ ToDo
 
 
 Function Install_PSWriteColor {
-    $PSWriteColor_Version_Check = Get-Module -Name "PSWriteColor" -ListAvailable
+    $PSWriteColor_Online_Version = Find-Module -Name "PSWriteColor"
 
     Write-Host "PSWriteColor module is not installed." -ForegroundColor Red
     Write-Output "`r`nThis game requires a PowerShell module called PSWriteColor to be installed."
@@ -52,7 +52,7 @@ Function Install_PSWriteColor {
     Write-Output "`r`nMore info about the module can be found from the below links if you"
     Write-Output "wish to research it before deciding to install it on your system."
     Write-Output "`r`nAuthor              - Przemyslaw Klys"
-    Write-Output "PowerShell Gallery  - https://www.powershellgallery.com/packages/PSWriteColor/$($PSWriteColor_Version_Check.Version)"
+    Write-Output "PowerShell Gallery  - https://www.powershellgallery.com/packages/PSWriteColor/$($PSWriteColor_Online_Version.Version)"
     Write-Output "GitHub project site - https://github.com/EvotecIT/PSWriteColor"
     Write-Output "More info           - https://evotec.xyz/hub/scripts/pswritecolor/"
     $Install_Module_Check = Read-Host "`r`nDo you want to allow the PSWriteColor module to be installed? [Y/N]"
@@ -62,20 +62,20 @@ Function Install_PSWriteColor {
         Write-Host ""
         Exit
     }
-    Write-Output "`r`nAttempting to install PSWriteColor module."
+    Write-Host "Installing PSWriteColor module version $($PSWriteColor_Online_Version.Version)"
     Write-Output "Install path will be $ENV:USERPROFILE\Documents\WindowsPowerShell\Modules\"
-    Write-Host "Accept the install prompt with either 'Y' or 'A' then Enter to install." -ForegroundColor Green
-    Write-Host "Press 'N' then Enter to cancel the install." -ForegroundColor Red
-    Install-Module -Name "PSWriteColor" -Scope CurrentUser
-    $PSWriteModule_Install_Check = Get-Module -Name "PSWriteColor" -ListAvailable
-    if ($PSWriteModule_Install_Check) {
+    # Write-Host "Accept the install prompt with either 'Y' or 'A' then Enter to install." -ForegroundColor Green
+    # Write-Host "Press 'N' then Enter to cancel the install and continue." -ForegroundColor Red
+    Install-Module -Name PSWriteColor -Scope CurrentUser -AllowClobber -Confirm:$false -Force
+    $PSWriteColor_Installed = Get-Module -Name "PSWriteColor" -ListAvailable
+    if ($PSWriteColor_Installed) {
         Write-Host "PSWriteColor module is installed." -ForegroundColor Green
-        $PSWriteModule_Install_Check
+        $PSWriteColor_Installed
         Write-Output "`r`nImporting PSWriteColor module."
         Import-Module -Name "PSWriteColor"
-        $Import_PSWriteColor_Module_Check = Get-Module -Name "PSWriteColor" -ListAvailable
-        if ($Import_PSWriteColor_Module_Check) {
-            Write-Host "PSWriteColor module imported." -ForegroundColor Green
+        $PSWriteColor_Installed_Version = Get-Module -Name "PSWriteColor" -ListAvailable
+        if ($PSWriteColor_Installed_Version) {
+            Write-Host "PSWriteColor module version $($PSWriteColor_Installed_Version.Version) imported." -ForegroundColor Green
         } else {
             Write-Host "PSWriteColor module not imported." -ForegroundColor Red
             Break
@@ -296,7 +296,7 @@ Function Game_Info {
             p { # PSWriteColor
                 Clear-Host
                 Game_Info_Banner
-                $PSWriteColor_Version_Check = Get-Module -Name "PSWriteColor" -ListAvailable
+                $PSWriteColor_Online_Version = Get-Module -Name "PSWriteColor" -ListAvailable
                 $PSWriteColor_Name = (Get-Module -Name "PSWriteColor" -ListAvailable | Select-Object Name).Name
                 $PSWriteColor_Name_Padding = " "*(113 - ($PSWriteColor_Name | Measure-Object -Character).Characters)
                 $PSWriteColor_Author = (Get-Module -Name "PSWriteColor" -ListAvailable | Select-Object Author).Author
@@ -326,7 +326,7 @@ Function Game_Info {
                 Write-Color "| ","Installed Path   :"," $PSWriteColor_ModuleBase $PSWriteColor_ModuleBase_Padding","|" -Color DarkGray,DarkYellow,Cyan,DarkGray
                 Write-Color "| ","Version          :"," $PSWriteColor_Version $PSWriteColor_Version_Padding|" -Color DarkGray,DarkYellow,DarkGray
                 Write-Color "| ","Project URI       :"," $PSWriteColor_ProjectURI $PSWriteColor_ProjectURI_Padding","|" -Color DarkGray,DarkYellow,Cyan,DarkGray
-                Write-Color "| ","PowerShell Gallery:"," https://www.powershellgallery.com/packages/PSWriteColor/$($PSWriteColor_Version_Check.Version)","                                                    |" -Color DarkGray,DarkYellow,Cyan,DarkGray
+                Write-Color "| ","PowerShell Gallery:"," https://www.powershellgallery.com/packages/PSWriteColor/$($PSWriteColor_Online_Version.Version)","                                                    |" -Color DarkGray,DarkYellow,Cyan,DarkGray
                 Write-Color "| ","More info at      :"," https://evotec.xyz/hub/scripts/pswritecolor","                                                                      |" -Color DarkGray,DarkYellow,Cyan,DarkGray
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
                 Write-Color "| If you want to remove the PSWriteColor module from your system, quit the game, then run the following command in a console window:   |" -Color DarkGray
@@ -3834,38 +3834,47 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
     Write-Host "Pre-requisite checks" -ForegroundColor Red
     Write-Host "--------------------" -ForegroundColor Red
     Write-Output "`r`nChecking if PSWriteColor module is installed."
-    $PSWriteModule_Install_Check = Get-Module -Name "PSWriteColor" -ListAvailable
+    $PSWriteColor_Installed = Get-Module -Name "PSWriteColor" -ListAvailable
     # PSWriteColor is installed so import it
-    if ($PSWriteModule_Install_Check) {
+    if ($PSWriteColor_Installed) {
         Write-Host "PSWriteColor module is installed." -ForegroundColor Green
-        $PSWriteModule_Install_Check
-        $PSWriteModule_Version_Installed = $PSWriteModule_Install_Check.Version
-        Add-Content -Path .\error.log -value "PSWriteModule_Version_Installed: $PSWriteModule_Version_Installed"
+        $PSWriteColor_Installed
+        $PSWriteColor_Installed_Version = $PSWriteColor_Installed.Version
+        Add-Content -Path .\error.log -value "PSWriteColor_Installed_Version: $PSWriteColor_Installed_Version"
 
         Write-Output "`r`nChecing if there is a new version of PSWriteColor."
-        $PSWriteColor_Version_Check = Find-Module -Name PSWriteColor
-        if ($PSWriteModule_Version_Installed -lt $PSWriteColor_Version_Check.Version) {
-            Write-Host "Version available: $($PSWriteColor_Version_Check.Version)" -ForegroundColor Green
-            Write-Host "Version installed: $($PSWriteModule_Version_Installed)"
+        $PSWriteColor_Online_Version = Find-Module -Name PSWriteColor
+        if ($PSWriteColor_Installed_Version -lt $PSWriteColor_Online_Version.Version) {
+            Write-Host "Version available: $($PSWriteColor_Online_Version.Version)" -ForegroundColor Green
+            Write-Host "Version installed: $($PSWriteColor_Installed_Version)"
             do {
-                Write-Host -NoNewline "`r`nDo you want to update to version $($PSWriteColor_Version_Check.Version)? [Y/N]"
+                Write-Host -NoNewline "`r`nDo you want to update to version $($PSWriteColor_Online_Version.Version)? [Y/N]"
                 $Update_PSWriteColor_Choice = Read-Host " "
                 $Update_PSWriteColor_Choice = $Update_PSWriteColor_Choice.Trim()
             } until ($Update_PSWriteColor_Choice -ieq "y" -or $Update_PSWriteColor_Choice -ieq "n")
             if ($Update_PSWriteColor_Choice -ieq "y") {
                 Write-Output "Updating PSWriteColor module."
                 Write-Output "Install path will be $ENV:USERPROFILE\Documents\WindowsPowerShell\Modules\"
-                Write-Host "Accept the install prompt with either 'Y' or 'A' then Enter to install." -ForegroundColor Green
-                Write-Host "Press 'N' then Enter to cancel the install." -ForegroundColor Red
-                Update-Module -Name PSWriteColor
-                Add-Content -Path .\error.log -value "LASTEXITCODE: $LASTEXITCODE"
-                $exitcode = $LASTEXITCODE
-                Add-Content -Path .\error.log -value "exitcode    : $exitcode"
-                $PSWriteModule_Install_Check = Get-Module -Name "PSWriteColor" -ListAvailable
-                Write-Output ""
-                if ($PSWriteModule_Install_Check.Version -eq $PSWriteColor_Version_Check.Version) {
-                    Write-Host "PSWriteColor module updated." -ForegroundColor Green
-                    $PSWriteModule_Install_Check
+                Write-Host "Uninstalling PSWriteColor module Version $PSWriteColor_Installed_Version"
+                Uninstall-Module -Name PSWriteColor # no confirmation prompt
+                # Write-Host "Accept the install prompt with either 'Y' or 'A' then Enter to install." -ForegroundColor Green
+                # Write-Host "Press 'N' then Enter to cancel the install and continue." -ForegroundColor Red
+                Write-Host "Installing PSWriteColor module version $($PSWriteColor_Online_Version.Version)"
+                Install-Module -Name PSWriteColor -Scope CurrentUser -Confirm:$false -Force
+                $Install_PSWrite_Color_ExitCode = $?
+                if ($Install_PSWrite_Color_ExitCode -eq $true) {
+                    $PSWriteColor_Installed = Get-Module -Name "PSWriteColor" -ListAvailable
+                    if ($PSWriteColor_Installed.Version -eq $PSWriteColor_Online_Version.Version) {
+                        $PSWriteColor_Installed = Get-Module -Name PSWriteColor -ListAvailable
+                        Write-Host "PSWriteColor module version $($PSWriteColor_Installed.Version) installed." -ForegroundColor Green
+                        $PSWriteColor_Installed | Format-Table
+                    } else {
+                        Write-Host "`r`nNo PSWriteColor module installed. Please re-run PS-RPG.ps1" -ForegroundColor Red
+                        Exit
+                    }
+                } else {
+                    Write-Host "PSWriteColor module version $($PSWriteColor_Online_Version.Version) FAILED to install. Please re-run PS-RPG.ps1" -ForegroundColor Red
+                    Exit
                 }
             }
             if ($Update_PSWriteColor_Choice -ieq "n") {
@@ -3874,14 +3883,11 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
         } else {
             Write-Output "`r`nPSWriteColor module is up-to-date."
         }
-
-
-
         Write-Output "`r`nImporting PSWriteColor module."
         Import-Module -Name "PSWriteColor"
-        $Import_PSWriteColor_Module_Check = Get-Module -Name "PSWriteColor"
-        if ($Import_PSWriteColor_Module_Check) {
-            Write-Host "PSWriteColor module imported." -ForegroundColor Green
+        $PSWriteColor_Installed_Version = Get-Module -Name "PSWriteColor" -ListAvailable
+        if ($PSWriteColor_Installed_Version) {
+            Write-Host "PSWriteColor module version $($PSWriteColor_Installed_Version.Version) imported." -ForegroundColor Green
         } else {
             Write-Host "PSWriteColor module not imported." -ForegroundColor Red
             Break
@@ -3935,8 +3941,8 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
 
 # double check module is still installed if JSON file has previously been created, just in case the module has been removed.
 if (Test-Path -Path .\PS-RPG.json) {
-    $PSWriteModule_Install_Check = Get-Module -Name "PSWriteColor" -ListAvailable
-    if ($PSWriteModule_Install_Check) {
+    $PSWriteColor_Installed = Get-Module -Name "PSWriteColor" -ListAvailable
+    if ($PSWriteColor_Installed) {
         Import-Module -Name "PSWriteColor"
     } else {
         Install_PSWriteColor
