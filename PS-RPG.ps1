@@ -11,9 +11,6 @@ ToDo
     
 - NEXT
     - move Go Hunting introduction task to the end
-    - add Exit to "You can visit the following buildings"
-    - change "You escaped from the Rook! (no combat)" and all choice options in question line,
-        to a menu with the options to choose from
     - buy items in the Anvil & Blade shop
     - add spells
     - add item equipment drops from mob loot
