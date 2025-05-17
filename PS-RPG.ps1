@@ -10,7 +10,6 @@ ToDo
     
     
 - NEXT
-    - add a check to see if there is an update to PSWriteColor module and ask to update it
     - move Go Hunting introduction task to the end
     - add Exit to "You can visit the following buildings"
     - change "You escaped from the Rook! (no combat)" and all choice options in question line,
@@ -65,7 +64,7 @@ Function Install_PSWriteColor {
     }
     Write-Host "Installing PSWriteColor module version $($PSWriteColor_Online_Version.Version)"
     Write-Output "Install path will be $ENV:USERPROFILE\Documents\WindowsPowerShell\Modules\"
-    Install-Module -Name "PSWriteColor" -Scope CurrentUser -AllowClobber -Confirm:$false -Force
+    Install-Module -Name "PSWriteColor" -Scope CurrentUser -Confirm:$false -Force
     $PSWriteColor_Installed = Get-Module -Name "PSWriteColor" -ListAvailable
     if ($PSWriteColor_Installed) {
         Write-Host "PSWriteColor module is installed." -ForegroundColor Green
@@ -3854,9 +3853,9 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
                 Write-Output "Updating PSWriteColor module."
                 Write-Output "Install path will be $ENV:USERPROFILE\Documents\WindowsPowerShell\Modules\"
                 Write-Host "Uninstalling PSWriteColor module Version $PSWriteColor_Installed_Version"
-                Uninstall-Module -Name PSWriteColor # no confirmation prompt
+                Uninstall-Module -Name "PSWriteColor" # no confirmation prompt
                 Write-Host "Installing PSWriteColor module version $($PSWriteColor_Online_Version.Version)"
-                Install-Module -Name PSWriteColor -Scope CurrentUser -Confirm:$false -Force
+                Install-Module -Name "PSWriteColor" -Scope CurrentUser -Confirm:$false -Force
                 $Install_PSWrite_Color_ExitCode = $?
                 if ($Install_PSWrite_Color_ExitCode -eq $true) {
                     $PSWriteColor_Installed = Get-Module -Name "PSWriteColor" -ListAvailable
