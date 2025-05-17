@@ -41,10 +41,11 @@ ToDo
 #>
 
 
-
+#
+# install / import PSWriteColor module (if not installed)
+#
 Function Install_PSWriteColor {
     $PSWriteColor_Online_Version = Find-Module -Name "PSWriteColor"
-
     Write-Host "PSWriteColor module is not installed." -ForegroundColor Red
     Write-Output "`r`nThis game requires a PowerShell module called PSWriteColor to be installed."
     Write-Output "It allows the game to use coloured console output text for a better experience."
@@ -64,9 +65,7 @@ Function Install_PSWriteColor {
     }
     Write-Host "Installing PSWriteColor module version $($PSWriteColor_Online_Version.Version)"
     Write-Output "Install path will be $ENV:USERPROFILE\Documents\WindowsPowerShell\Modules\"
-    # Write-Host "Accept the install prompt with either 'Y' or 'A' then Enter to install." -ForegroundColor Green
-    # Write-Host "Press 'N' then Enter to cancel the install and continue." -ForegroundColor Red
-    Install-Module -Name PSWriteColor -Scope CurrentUser -AllowClobber -Confirm:$false -Force
+    Install-Module -Name "PSWriteColor" -Scope CurrentUser -AllowClobber -Confirm:$false -Force
     $PSWriteColor_Installed = Get-Module -Name "PSWriteColor" -ListAvailable
     if ($PSWriteColor_Installed) {
         Write-Host "PSWriteColor module is installed." -ForegroundColor Green
@@ -3812,7 +3811,7 @@ if (Test-Path ".\PS-RPG_version.txt") {
 }
 
 #
-# Pre-requisite checks and install / import PSWriteColor module
+# Pre-requisite checks (install / import / update PSWriteColor module)
 #
 if (-not(Test-Path -Path .\PS-RPG.json)) {
     # adjust window size
@@ -3840,10 +3839,9 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
         Write-Host "PSWriteColor module is installed." -ForegroundColor Green
         $PSWriteColor_Installed
         $PSWriteColor_Installed_Version = $PSWriteColor_Installed.Version
-        Add-Content -Path .\error.log -value "PSWriteColor_Installed_Version: $PSWriteColor_Installed_Version"
-
         Write-Output "`r`nChecing if there is a new version of PSWriteColor."
-        $PSWriteColor_Online_Version = Find-Module -Name PSWriteColor
+        # check for new module and update on prompt
+        $PSWriteColor_Online_Version = Find-Module -Name "PSWriteColor"
         if ($PSWriteColor_Installed_Version -lt $PSWriteColor_Online_Version.Version) {
             Write-Host "Version available: $($PSWriteColor_Online_Version.Version)" -ForegroundColor Green
             Write-Host "Version installed: $($PSWriteColor_Installed_Version)"
@@ -3857,8 +3855,6 @@ if (-not(Test-Path -Path .\PS-RPG.json)) {
                 Write-Output "Install path will be $ENV:USERPROFILE\Documents\WindowsPowerShell\Modules\"
                 Write-Host "Uninstalling PSWriteColor module Version $PSWriteColor_Installed_Version"
                 Uninstall-Module -Name PSWriteColor # no confirmation prompt
-                # Write-Host "Accept the install prompt with either 'Y' or 'A' then Enter to install." -ForegroundColor Green
-                # Write-Host "Press 'N' then Enter to cancel the install and continue." -ForegroundColor Red
                 Write-Host "Installing PSWriteColor module version $($PSWriteColor_Online_Version.Version)"
                 Install-Module -Name PSWriteColor -Scope CurrentUser -Confirm:$false -Force
                 $Install_PSWrite_Color_ExitCode = $?
