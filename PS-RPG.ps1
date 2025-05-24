@@ -3,9 +3,6 @@ ToDo
 ----
 
 - BUGS
-    - after killing the first mob while hunting (not on cellar quest),
-        the first "T" choice only refreshes the screen and the same menu.
-        the second "T" choice works as expected.
     - after finishing the Travel to another location Task and you level up,
         the level up screen shows and then gets overwritten by the next locations menu
     
@@ -4152,17 +4149,18 @@ do {
                 }
                 if ($Finish_Combat -ieq "T"){
                     $Script:Continue_Fighting = $false
-                    Break
+                    Travel
+                    # Break
                 }
                 if ($Finish_Combat -ieq "V") {
                     Visit_a_Building
                     $Script:Continue_Fighting = $false
-                    Break
+                    # Break
                 }
                 if ($Finish_Combat -ieq "INFO") {
                     Game_Info
                     $Script:Continue_Fighting = $false
-                    Break
+                    # Break
                 }
             } while ($Continue_Fighting -eq $true)
         }
