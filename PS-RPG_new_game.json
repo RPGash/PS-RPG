@@ -1085,15 +1085,15 @@
     "Tick_Recover_Health_and_Mana": false,
     "Tick_Visit_the_Tavern": false,
     "Tick_Accept_a_Quest": false,
-    "Tick_Go_Hunting": false,
     "Tick_Kill_2_Rats": false,
     "Tick_View_Inventory": false,
     "Tick_Hand_in_Completed_Quest": false,
     "Tick_Visit_Mend_and_Mana": false,
     "Tick_Purchase_a_Potion": false,
+    "Tick_Go_Hunting": false,
     "Tick_Travel_to_another_Location": false
   },
-  "Game Information": {
+  "GameInformation": {
     "Info": "I",
     "Stats": "S",
     "PSWriteColor": "P",

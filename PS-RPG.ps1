@@ -3,7 +3,7 @@ ToDo
 ----
 
 - BUGS
-    - after killing the first mob while hunting (not o ncellar quest),
+    - after killing the first mob while hunting (not on cellar quest),
         the first "T" choice only refreshes the screen and the same menu.
         the second "T" choice works as expected.
     - after finishing the Travel to another location Task and you level up,
@@ -14,7 +14,6 @@ ToDo
     
     
 - NEXT
-    - move Go Hunting introduction task to the end
     - buy items in the Anvil & Blade shop
     - add spells
     - add item equipment drops from mob loot
@@ -182,12 +181,12 @@ Function Game_Info_Banner {
     Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
     Write-Color "| Game Information                                                                                                                     |" -Color DarkGray
     Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-    $Game_Information_PSObjects = $Import_JSON.'Game Information'.PSObject.Properties.name
+    $Game_Information_PSObjects = $Import_JSON.GameInformation.PSObject.Properties.name
     $Script:Game_Info_Tab_Array = New-Object System.Collections.Generic.List[System.Object]
     Write-Color -NoNewLine "|" -Color DarkGray
     foreach ($Game_Info_Object in $Game_Information_PSObjects) {
-        if ($Import_JSON.'Game Information'.$Game_Info_Object -eq $Game_Info_Object.Substring(0,1)) { # -eq to get exact case match rather than any case but only in first position
-            $Game_Info_Letter = $Import_JSON.'Game Information'.$Game_Info_Object
+        if ($Import_JSON.GameInformation.$Game_Info_Object -eq $Game_Info_Object.Substring(0,1)) { # -eq to get exact case match rather than any case but only in first position
+            $Game_Info_Letter = $Import_JSON.GameInformation.$Game_Info_Object
             $Game_Info_Rest_of_Word = $Game_Info_Object.Substring(1)
             if ($Game_Info_Page_Choice -ieq $Game_Info_Letter) {
                 Write-Color -NoNewLine " $Game_Info_letter","$Game_Info_Rest_of_Word ","|" -Color Green,White,DarkGray
@@ -197,9 +196,9 @@ Function Game_Info_Banner {
         } else { # search for case sensitive match in tab name - but only works if there is only one upper case latter word that matches single letter (e.g. not "Shop Stats" and "S")
         [System.String]$myString | Out-Null
         $myString = $Game_Info_Object
-        $Game_Info_Letter_Position = $($myString.LastIndexOf($Import_JSON.'Game Information'.$Game_Info_Object))
+        $Game_Info_Letter_Position = $($myString.LastIndexOf($Import_JSON.GameInformation.$Game_Info_Object))
             $Game_Info_Beginning_of_Word = $Game_Info_Object.Substring(0,$Game_Info_Letter_Position)
-            $Game_Info_Letter = $Import_JSON.'Game Information'.$Game_Info_Object
+            $Game_Info_Letter = $Import_JSON.GameInformation.$Game_Info_Object
             $Game_Info_Letter_Position = $Game_Info_Letter_Position + 1
             $Game_Info_Rest_of_Word = $Game_Info_Object.Substring($Game_Info_Letter_Position,($game_info_object | Measure-Object -Character).Characters-$Game_Info_Letter_Position)
             if ($Game_Info_Page_Choice -ieq $Game_Info_Letter) {
