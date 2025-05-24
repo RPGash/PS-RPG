@@ -3,8 +3,7 @@ ToDo
 ----
 
 - BUGS
-    - after finishing the Travel to another location Task and you level up,
-        the level up screen shows and then gets overwritten by the next locations menu
+    - 
     
 - TEST
     - 
@@ -4069,6 +4068,13 @@ do {
             $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 84,22;$Host.UI.Write("  ..::::::::::::;;;;.")
             $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 84,23;$Host.UI.Write(". . ::::::::::::;;:'")
             $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 84,24;$Host.UI.Write("                :'")
+            do {
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                Write-Color -NoNewLine "C","ontinue ","[C]" -Color Green,DarkYellow,Green
+                $Continue_After_Completing_Introduction_Tasks = Read-Host " "
+                $Continue_After_Completing_Introduction_Tasks = $Continue_After_Completing_Introduction_Tasks.Trim()
+            } until ($Continue_After_Completing_Introduction_Tasks -ieq "c")
         } else {
             Draw_Introduction_Tasks
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
