@@ -10,6 +10,8 @@ ToDo
     
     
 - NEXT
+    - $Import_JSON.IntroductionTasks.InProgress = $false
+        set this as completed when all tasks are ticked, not just the last one in the list
     - move Go Hunting introduction task to the end
     - buy items in the Anvil & Blade shop
     - add spells
@@ -1736,24 +1738,25 @@ Function You_Died {
 Function Random_Mob {
     # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
     if ($TutorialMob -eq $true) { # tutorial example mob
-        $Current_Location_Mobs = $Import_JSON.Locations."Home Town".Mobs.PSObject.Properties.Name
+        $Current_Location_Mob_Names = $Import_JSON.Locations."Home Town".Mobs.PSObject.Properties.Name
     } elseif ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
         $Current_Location = "Home Town"
-        $Current_Location_Mobs = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.PSObject.Properties.Name
+        $Current_Location_Mob_Names = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.PSObject.Properties.Name
     } else { # get mob from current location
-        $Current_Location_Mobs = $Import_JSON.Locations.$Current_Location.Mobs.PSObject.Properties.Name
+        $Current_Location_Mob_Names = $Import_JSON.Locations.$Current_Location.Mobs.PSObject.Properties.Name
     }
     $Random_100 = Get-Random -Minimum 1 -Maximum 101
-    if ($Random_100 -le 11) { # rare mob (10% of the time)
+    if ($Random_100 -le 10) { # rare mob (10% of the time)
         $All_Rare_Mobs_In_Current_Location = @()
         $All_Rare_Mobs_In_Current_Location = New-Object System.Collections.Generic.List[System.Object]
-        foreach ($Current_Location_Mob in $Current_Location_Mobs) {
+        # loop though all mobs and add to array
+        foreach ($Current_Location_Mob_Name in $Current_Location_Mob_Names) {
             if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
-                $Current_Location_Mob = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob
-                $Current_Location_Mob_Name = $Current_Location_Mob.Name
+                $Current_Location_Mob_Name = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob_Name
+                $Current_Location_Mob_Name = $Current_Location_Mob_Name.Name
             } else {
-                $Current_Location_Mob = $Import_JSON.Locations.$Current_Location.Mobs.$Current_Location_Mob
-                $Current_Location_Mob_Name = $Current_Location_Mob.Name
+                $Current_Location_Mob_Name = $Import_JSON.Locations.$Current_Location.Mobs.$Current_Location_Mob_Name
+                $Current_Location_Mob_Name = $Current_Location_Mob_Name.Name
             }
             if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
                 if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob_Name.Rare -ieq "yes") {
@@ -1765,20 +1768,28 @@ Function Random_Mob {
                 }
             }
         }
+        # select random mob from all collected mobs in array
         $Random_Rare_Mob_In_Current_Location_ID = Get-Random -Minimum 0 -Maximum ($All_Rare_Mobs_In_Current_Location | Measure-Object).count # measure-object added because incorrect number when there is only one rare mob
         $Random_Rare_Mob_In_Current_Location_ID -= 1
         $Script:Selected_Mob = $All_Rare_Mobs_In_Current_Location[$Random_Rare_Mob_In_Current_Location_ID]
-        $Script:Selected_Mob = $Import_JSON.Locations.$Current_Location.Mobs.$Selected_Mob
+        if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) {
+            $Script:Selected_Mob = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Selected_Mob # get cellar mob object from JSON
+            $Script:Selected_Mob_Object = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Selected_Mob # get cellar mob object from JSON
+        } else {
+            $Script:Selected_Mob = $Import_JSON.Locations.$Current_Location.Mobs.$Selected_Mob # get current location mob object from JSON
+            $Script:Selected_Mob_Object = $Import_JSON.Locations.$Current_Location.Mobs.$Selected_Mob # get current location mob object from JSON
+        }
     } else { # "normal" mob (90% of the time)
         $All_None_Rare_Mobs_In_Current_Location = @()
         $All_None_Rare_Mobs_In_Current_Location = New-Object System.Collections.Generic.List[System.Object]
-        foreach ($Current_Location_Mob in $Current_Location_Mobs) {
+        # loop through all mobs and add to array
+        foreach ($Current_Location_Mob_Name in $Current_Location_Mob_Names) {
             if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
-                $Current_Location_Mob = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob
-                $Current_Location_Mob_Name = $Current_Location_Mob.Name
+                $Current_Location_Mob_Name = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob_Name
+                $Current_Location_Mob_Name = $Current_Location_Mob_Name.Name
             } else {
-                $Current_Location_Mob = $Import_JSON.Locations.$Current_Location.Mobs.$Current_Location_Mob
-                $Current_Location_Mob_Name = $Current_Location_Mob.Name
+                $Current_Location_Mob_Name = $Import_JSON.Locations.$Current_Location.Mobs.$Current_Location_Mob_Name
+                $Current_Location_Mob_Name = $Current_Location_Mob_Name.Name
             }
             if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
                 if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob_Name.Rare -ieq "no") {
@@ -1790,6 +1801,7 @@ Function Random_Mob {
                 }
             }
         }
+        # select random mob from all collected mobs in array
         $Random_None_Rare_Mob_In_Current_Location_ID = Get-Random -Minimum 0 -Maximum ($All_None_Rare_Mobs_In_Current_Location | Measure-Object).count # measure-object added because incorrect number when there is only one rare mob
         $Random_None_Rare_Mob_In_Current_Location_ID -= 1
         $Script:Selected_Mob = $All_None_Rare_Mobs_In_Current_Location[$Random_None_Rare_Mob_In_Current_Location_ID]
@@ -2002,20 +2014,15 @@ Function Fight_or_Run {
             # if mob health is zero, display you killed mob message
             if ($Selected_Mob_HealthCurrent -eq 0) {
                 # update mob killed count in JSON
-                $Current_Location_Mobs = $Import_JSON.Locations.$Current_Location.Mobs
-                foreach ($Current_Location_Mob in $Current_Location_Mobs) {
-                    if ($Current_Location_Mob.Name -ilike $Selected_Mob.Name) {
-                        $Current_Location_Mob.Killed += 1
+                if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) {
+                    $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Selected_Mob_Name.Killed += 1
+                    # if Introduction Tasks are still in progress, update the slow intro window Inventory with a tick
+                    if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Selected_Mob_Name.Killed -ge 2) {
+                        $Import_JSON.IntroductionTasks.Tick_Kill_2_Rats = $true
+                        Draw_Introduction_Tasks
                     }
-                    Save_JSON
-                    # if killed mob is a rat (for Introduction task)
-                    if ($Current_Location_Mob.Name -ilike "rat") {
-                        if ($Current_Location_Mob.Killed -eq 2) {
-                            # update introduction task and update Introduction Tasks window (if 2 rat kills)
-                            $Import_JSON.IntroductionTasks.Tick_Kill_2_Rats = $true
-                            Draw_Introduction_Tasks
-                        }
-                    }
+                } else {
+                    $Import_JSON.Locations.$Current_Location.Mobs.$Selected_Mob_Name.Killed += 1
                 }
                 Save_JSON
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,20;$Host.UI.Write("")
@@ -2078,7 +2085,7 @@ Function Fight_or_Run {
                 $Quest_Names = $Import_JSON.Quests.PSObject.Properties.Name
                 foreach ($Quest_Name in $Quest_Names) {
                     $Quest_Name = $Import_JSON.Quests.$Quest_Name
-                    if ($Selected_Mob.Name -like $Quest_Name.Mob) {
+                    if ($Selected_Mob_Name -like $Quest_Name.Mob) {
                         $Quest_Name.Progress += 1
                         if ($Quest_Name.Progress -ge $Quest_Name.ProgressMax) {
                             $Quest_Name.Status = "Hand In"
