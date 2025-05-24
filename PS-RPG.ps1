@@ -3,15 +3,17 @@ ToDo
 ----
 
 - BUGS
-    - 
+    - after killing the first mob while hunting (not o ncellar quest),
+        the first "T" choice only refreshes the screen and the same menu.
+        the second "T" choice works as expected.
+    - after finishing the Travel to another location Task and you level up,
+        the level up screen shows and then gets overwritten by the next locations menu
     
 - TEST
     - 
     
     
 - NEXT
-    - $Import_JSON.IntroductionTasks.InProgress = $false
-        set this as completed when all tasks are ticked, not just the last one in the list
     - move Go Hunting introduction task to the end
     - buy items in the Anvil & Blade shop
     - add spells
@@ -1746,7 +1748,7 @@ Function Random_Mob {
         $Current_Location_Mob_Names = $Import_JSON.Locations.$Current_Location.Mobs.PSObject.Properties.Name
     }
     $Random_100 = Get-Random -Minimum 1 -Maximum 101
-    if ($Random_100 -le 10) { # rare mob (10% of the time)
+    if ($Random_100 -le 99) { # rare mob (10% of the time)
         $All_Rare_Mobs_In_Current_Location = @()
         $All_Rare_Mobs_In_Current_Location = New-Object System.Collections.Generic.List[System.Object]
         # loop though all mobs and add to array
@@ -1839,8 +1841,6 @@ Function Fight_or_Run {
     $First_Turn = $true
     do {
         Clear-Host
-        # update introduction task and update Introduction Tasks window
-        $Import_JSON.IntroductionTasks.Tick_Go_Hunting = $true
         Save_JSON
         Draw_Introduction_Tasks
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
@@ -2013,6 +2013,10 @@ Function Fight_or_Run {
             }
             # if mob health is zero, display you killed mob message
             if ($Selected_Mob_HealthCurrent -eq 0) {
+                if ($Import_JSON.IntroductionTasks.InProgress -eq $true -and $Import_JSON.IntroductionTasks.Tick_Purchase_a_Potion -eq $true) {
+                    # update introduction task and update Introduction Tasks window
+                    $Import_JSON.IntroductionTasks.Tick_Go_Hunting = $true
+                }
                 # update mob killed count in JSON
                 if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) {
                     $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Selected_Mob_Name.Killed += 1
@@ -2022,6 +2026,7 @@ Function Fight_or_Run {
                         Draw_Introduction_Tasks
                     }
                 } else {
+                    $Import_JSON.Locations."Home Town".LocationOptions.Travel = $true
                     $Import_JSON.Locations.$Current_Location.Mobs.$Selected_Mob_Name.Killed += 1
                 }
                 Save_JSON
@@ -2085,7 +2090,7 @@ Function Fight_or_Run {
                 $Quest_Names = $Import_JSON.Quests.PSObject.Properties.Name
                 foreach ($Quest_Name in $Quest_Names) {
                     $Quest_Name = $Import_JSON.Quests.$Quest_Name
-                    if ($Selected_Mob_Name -like $Quest_Name.Mob) {
+                    if ($Selected_Mob_Name -ilike "*$($Quest_Name.Mob)*") {
                         $Quest_Name.Progress += 1
                         if ($Quest_Name.Progress -ge $Quest_Name.ProgressMax) {
                             $Quest_Name.Status = "Hand In"
@@ -3048,7 +3053,6 @@ Function Visit_a_Building {
                                             $Quest_Name.InProgress = $true
                                             $Quest_Name.Available = $false
                                             # advance introduction to game
-                                            $Import_JSON.Locations."Home Town".LocationOptions.Hunt = $true
                                             $Import_JSON.Locations."Home Town".LocationOptions.Quests = $true
                                         }
                                         # hand in a quest
@@ -3110,7 +3114,6 @@ Function Visit_a_Building {
                                 # set quest as active
                                 $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive = $true
                                 # reset cellar rooms visited (resets every time cellar is entered)
-                                # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
                                 $Cellar_Quest_Room_Names = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.Rooms.PSObject.Properties.Name | Where-Object {$PSItem -ilike "room*"}
                                 foreach ($Cellar_Quest_Room_Name in $Cellar_Quest_Room_Names) {
                                     $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.Rooms.$Cellar_Quest_Room_Name.Visited = $false
@@ -3206,7 +3209,6 @@ Function Visit_a_Building {
                                                 }
                                                 Draw_Cellar_Map
                                                 Random_Mob
-                                                # what's the difference between when a mob is called from Hunt vs. when it's called from the Cellar?
                                                 Fight_or_Run
                                             }
                                             Default {}
@@ -3504,11 +3506,10 @@ Function Visit_a_Building {
                                                     $Import_JSON.Character.Gold -= $Elixir_Emporium_Purchase_Choice_Potion_GoldValue
                                                     Save_JSON
                                                     Set_Variables
-                                                    # update introduction task tick
+                                                    # update introduction task and update Introduction Tasks window
                                                     $Import_JSON.IntroductionTasks.Tick_Purchase_a_Potion = $true
+                                                    $Import_JSON.Locations."Home Town".LocationOptions.Hunt = $true
                                                     # Introdution Tasks window updated on next loop above
-                                                    # advance introduction to game (opens up Travel)
-                                                    $Import_JSON.Locations."Home Town".LocationOptions.Travel = $true
                                                     Save_JSON
                                                 }
                                             }
