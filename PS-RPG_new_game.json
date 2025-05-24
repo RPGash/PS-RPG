@@ -1,13 +1,13 @@
 {
-  "CharacterCreation": false,
-  "TutorialComplete": false,
+  "Character_Creation": false,
+  "Tutorial_Complete": false,
   "Locations": {
     "Home Town": {
-      "CurrentLocation": true,
-      "LinkedLocations": {
+      "Current_Location": true,
+      "Linked_Locations": {
         "The Forest": "F"
       },
-      "LocationOptions": {
+      "Location_Options": {
         "Hunt": false,
         "Travel": false,
         "Visit": true,
@@ -102,14 +102,14 @@
       "Buildings": {
         "Home": {
           "Visited": 0,
-          "IntroductionTask": true,
-          "BuildingLetter": "H",
+          "Introduction_Task": true,
+          "Building_Letter": "H",
           "Owner": "PLAYER NAME"
         },
         "Tavern": {
           "Visited": 0,
-          "IntroductionTask": false,
-          "BuildingLetter": "T",
+          "Introduction_Task": false,
+          "Building_Letter": "T",
           "Owner": "Elara",
           "Drinks": {
             "Ales": {
@@ -393,12 +393,12 @@
                 }
               }
             },
-            "CellarQuest": {
-              "IsActive": false,
+            "Cellar_Quest": {
+              "Is_Active": false,
               "Rooms": {
                 "Room1": {
                   "Room": "1",
-                  "CurrentLocation": false,
+                  "Current_Location": false,
                   "Visited": false,
                   "LinkedRooms": {
                     "Room2": "E"
@@ -406,7 +406,7 @@
                 },
                 "Room2": {
                   "Room": "2",
-                  "CurrentLocation": false,
+                  "Current_Location": false,
                   "Visited": false,
                   "LinkedRooms": {
                     "Room1": "W",
@@ -415,7 +415,7 @@
                 },
                 "Room3": {
                   "Room": "3",
-                  "CurrentLocation": false,
+                  "Current_Location": false,
                   "Visited": false,
                   "LinkedRooms": {
                     "Room4": "E",
@@ -424,7 +424,7 @@
                 },
                 "Room4": {
                   "Room": "4",
-                  "CurrentLocation": false,
+                  "Current_Location": false,
                   "Visited": false,
                   "LinkedRooms": {
                     "Room3": "W",
@@ -433,7 +433,7 @@
                 },
                 "Room5": {
                   "Room": "5",
-                  "CurrentLocation": false,
+                  "Current_Location": false,
                   "Visited": false,
                   "LinkedRooms": {
                     "Room4": "W",
@@ -442,7 +442,7 @@
                 },
                 "Room6": {
                   "Room": "6",
-                  "CurrentLocation": true,
+                  "Current_Location": true,
                   "Visited": true,
                   "LinkedRooms": {
                     "Room7": "E"
@@ -450,7 +450,7 @@
                 },
                 "Room7": {
                   "Room": "7",
-                  "CurrentLocation": false,
+                  "Current_Location": false,
                   "Visited": false,
                   "LinkedRooms": {
                     "Room2": "N",
@@ -460,7 +460,7 @@
                 },
                 "Room8": {
                   "Room": "8",
-                  "CurrentLocation": false,
+                  "Current_Location": false,
                   "Visited": false,
                   "LinkedRooms": {
                     "Room7": "N",
@@ -469,7 +469,7 @@
                 },
                 "Room9": {
                   "Room": "9",
-                  "CurrentLocation": false,
+                  "Current_Location": false,
                   "Visited": false,
                   "LinkedRooms": {
                     "Room3": "N",
@@ -479,7 +479,7 @@
                 },
                 "Room10": {
                   "Room": "10",
-                  "CurrentLocation": false,
+                  "Current_Location": false,
                   "Visited": false,
                   "LinkedRooms": {
                     "Room9": "W",
@@ -488,7 +488,7 @@
                 },
                 "Room11": {
                   "Room": "11",
-                  "CurrentLocation": false,
+                  "Current_Location": false,
                   "Visited": false,
                   "LinkedRooms": {
                     "Room5": "N",
@@ -501,24 +501,24 @@
         },
         "Anvil & Blade": {
           "Visited": 0,
-          "BuildingLetter": "A",
+          "Building_Letter": "A",
           "Owner": "Draven"
         },
         "Mend & Mana": {
-          "IntroductionTask": false,
+          "Introduction_Task": false,
           "Visited": 0,
-          "BuildingLetter": "M",
+          "Building_Letter": "M",
           "Owner": "Kaelen"
         }
       }
     },
     "The Forest": {
-      "CurrentLocation": false,
-      "LinkedLocations": {
+      "Current_Location": false,
+      "Linked_Locations": {
         "Home Town": "T",
         "The River": "R"
       },
-      "LocationOptions": {
+      "Location_Options": {
         "Hunt": true,
         "Travel": true,
         "Visit": false,
@@ -577,22 +577,22 @@
       ],
       "Buildings": {
         "Hut": {
-          "BuildingLetter": "H",
+          "Building_Letter": "H",
           "Owner": "Hut Owner?????"
         },
         "Tree House": {
-          "BuildingLetter": "T",
+          "Building_Letter": "T",
           "Owner": "Tree House Owner???"
         },
         "Secret Location": {
-          "BuildingLetter": "S",
+          "Building_Letter": "S",
           "Owner": "Unknown"
         }
       }
     },
     "The River": {
-      "CurrentLocation": false,
-      "LinkedLocations": {
+      "Current_Location": false,
+      "Linked_Locations": {
         "The Forest": "F"
       },
       "Mobs": {
@@ -674,7 +674,7 @@
       ],
       "Buildings": {
         "Camp": {
-          "BuildingLetter": "C",
+          "Building_Letter": "C",
           "Owner": "Camp Owner???"
         }
       }
@@ -1036,51 +1036,51 @@
   },
   "Quests": {
     "Rat Infestation": {
-      "IntroductionTask": true,
+      "Introduction_Task": true,
       "Name": "Rat infestation",
-      "QuestLetter": "R",
+      "Quest_Letter": "R",
       "Description": "kill stuff",
-      "HandInLocation": "Town",
+      "Hand_In_Location": "Town",
       "Building": "Tavern",
-      "HandInNPC": "Quest Board",
+      "Hand_In_NPC": "Quest Board",
       "Mob": "Rat",
-      "GoldReward": 10,
-      "ItemReward": {
+      "Gold_Reward": 10,
+      "Item_Reward": {
         "Lesser Health Potion": 3,
         "Random Loot #2": 1
       },
       "Progress": 0,
-      "ProgressMax": 2,
-      "LevelRange": "1-5",
-      "TimesCompleted": 0,
+      "Progress_Max": 2,
+      "Level_Range": "1-5",
+      "Times_Completed": 0,
       "Available": true,
-      "InProgress": false,
+      "In_Progress": false,
       "Completed": false,
       "Repeatable": true,
       "Status": "Available"
     },
     "Sick Elder": {
       "Name": "Sick Elder",
-      "QuestLetter": "S",
+      "Quest_Letter": "S",
       "Description": "Find a Healing Potion.",
-      "HandInLocation": "Town",
+      "Hand_In_Location": "Town",
       "Building": "Tavern",
-      "HandInNPC": "Quest Board",
+      "Hand_In_NPC": "Quest Board",
       "Mob": false,
-      "GoldReward": 10,
-      "ItemReward": false,
+      "Gold_Reward": 10,
+      "Item_Reward": false,
       "Progress": 0,
-      "ProgressMax": 0,
-      "LevelRange": "1-5",
+      "Progress_Max": 0,
+      "Level_Range": "1-5",
       "Available": true,
-      "InProgress": false,
+      "In_Progress": false,
       "Completed": false,
       "Repeatable": false,
       "Status": "Available"
     }
   },
-  "IntroductionTasks": {
-    "InProgress": true,
+  "Introduction_Tasks": {
+    "In_Progress": true,
     "Tick_Visit_Home": false,
     "Tick_Recover_Health_and_Mana": false,
     "Tick_Visit_the_Tavern": false,
@@ -1093,7 +1093,7 @@
     "Tick_Go_Hunting": false,
     "Tick_Travel_to_another_Location": false
   },
-  "GameInformation": {
+  "Game_Information": {
     "Info": "I",
     "Stats": "S",
     "PSWriteColor": "P",

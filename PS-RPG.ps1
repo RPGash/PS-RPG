@@ -8,7 +8,6 @@ ToDo
 - TEST
     - 
     
-    
 - NEXT
     - buy items in the Anvil & Blade shop
     - add spells
@@ -177,12 +176,12 @@ Function Game_Info_Banner {
     Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
     Write-Color "| Game Information                                                                                                                     |" -Color DarkGray
     Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
-    $Game_Information_PSObjects = $Import_JSON.GameInformation.PSObject.Properties.name
+    $Game_Information_PSObjects = $Import_JSON.Game_Information.PSObject.Properties.name
     $Script:Game_Info_Tab_Array = New-Object System.Collections.Generic.List[System.Object]
     Write-Color -NoNewLine "|" -Color DarkGray
     foreach ($Game_Info_Object in $Game_Information_PSObjects) {
-        if ($Import_JSON.GameInformation.$Game_Info_Object -eq $Game_Info_Object.Substring(0,1)) { # -eq to get exact case match rather than any case but only in first position
-            $Game_Info_Letter = $Import_JSON.GameInformation.$Game_Info_Object
+        if ($Import_JSON.Game_Information.$Game_Info_Object -eq $Game_Info_Object.Substring(0,1)) { # -eq to get exact case match rather than any case but only in first position
+            $Game_Info_Letter = $Import_JSON.Game_Information.$Game_Info_Object
             $Game_Info_Rest_of_Word = $Game_Info_Object.Substring(1)
             if ($Game_Info_Page_Choice -ieq $Game_Info_Letter) {
                 Write-Color -NoNewLine " $Game_Info_letter","$Game_Info_Rest_of_Word ","|" -Color Green,White,DarkGray
@@ -192,9 +191,9 @@ Function Game_Info_Banner {
         } else { # search for case sensitive match in tab name - but only works if there is only one upper case latter word that matches single letter (e.g. not "Shop Stats" and "S")
         [System.String]$myString | Out-Null
         $myString = $Game_Info_Object
-        $Game_Info_Letter_Position = $($myString.LastIndexOf($Import_JSON.GameInformation.$Game_Info_Object))
+        $Game_Info_Letter_Position = $($myString.LastIndexOf($Import_JSON.Game_Information.$Game_Info_Object))
             $Game_Info_Beginning_of_Word = $Game_Info_Object.Substring(0,$Game_Info_Letter_Position)
-            $Game_Info_Letter = $Import_JSON.GameInformation.$Game_Info_Object
+            $Game_Info_Letter = $Import_JSON.Game_Information.$Game_Info_Object
             $Game_Info_Letter_Position = $Game_Info_Letter_Position + 1
             $Game_Info_Rest_of_Word = $Game_Info_Object.Substring($Game_Info_Letter_Position,($game_info_object | Measure-Object -Character).Characters-$Game_Info_Letter_Position)
             if ($Game_Info_Page_Choice -ieq $Game_Info_Letter) {
@@ -437,7 +436,7 @@ Function Set_Variables {
     # sets current Location
     $All_Locations                   = $Import_JSON.Locations.PSObject.Properties.Name
     foreach ($Single_Location in $All_Locations) {
-        if ($Import_JSON.Locations.$Single_Location.CurrentLocation -ieq "true") {
+        if ($Import_JSON.Locations.$Single_Location.Current_Location -ieq "true") {
             $Script:Current_Location = $Single_Location
         }
     }
@@ -867,7 +866,7 @@ Function Create_Character {
         $Import_JSON.Character.Stats.Spells         = 1
         $Import_JSON.Character.Stats.Healing        = 4
     }
-    $Import_JSON.CharacterCreation = $true
+    $Import_JSON.Character_Creation = $true
     Save_JSON
     Import_JSON
     Set_Variables
@@ -1194,7 +1193,7 @@ do {
                                             $Tutorial_Choice = $Tutorial_Choice.Trim()
                                         } until ($Tutorial_Choice -ieq "e")
                                         if ($Tutorial_Choice -ieq "e") {
-                                            $Import_JSON.TutorialComplete = $true
+                                            $Import_JSON.Tutorial_Complete = $true
                                             Save_JSON
                                         }
                                     }
@@ -1215,21 +1214,21 @@ do {
 #
 Function Draw_Introduction_Tasks {
     # only draw if not fully completed all tasks
-    if ($Import_JSON.IntroductionTasks.InProgress -eq $true) {
+    if ($Import_JSON.Introduction_Tasks.In_Progress -eq $true) {
         $Tick = ([char]8730)
-        if ($Import_JSON.IntroductionTasks.Tick_Visit_Home -eq $true)                 { $Tick_Visit_Home              = $Tick }
-        if ($Import_JSON.IntroductionTasks.Tick_Recover_Health_and_Mana -eq $true)    { $Tick_Recover_Health_and_Mana = $Tick }
-        if ($Import_JSON.IntroductionTasks.Tick_Visit_the_Tavern -eq $true)           { $Tick_Visit_the_Tavern        = $Tick }
-        if ($Import_JSON.IntroductionTasks.Tick_Accept_a_Quest -eq $true)             { $Tick_Accept_a_Quest          = $Tick }
-        if ($Import_JSON.IntroductionTasks.Tick_Kill_2_Rats -eq $true)                { $Tick_Kill_2_Rats             = $Tick }
-        if ($Import_JSON.IntroductionTasks.Tick_Hand_in_Completed_Quest -eq $true)    { $Tick_Hand_in_Completed_Quest = $Tick }
-        if ($Import_JSON.IntroductionTasks.Tick_View_Inventory -eq $true)             { $Tick_View_Inventory          = $Tick }
-        if ($Import_JSON.IntroductionTasks.Tick_Visit_Mend_and_Mana -eq $true)        { $Tick_Visit_Mend_and_Mana     = $Tick }
-        if ($Import_JSON.IntroductionTasks.Tick_Purchase_a_Potion -eq $true)          { $Tick_Purchase_a_Potion       = $Tick }
-        if ($Import_JSON.IntroductionTasks.Tick_Go_Hunting -eq $true)                 { $Tick_Go_Hunting              = $Tick }
-        if ($Import_JSON.IntroductionTasks.Tick_Travel_to_another_Location -eq $true) {
+        if ($Import_JSON.Introduction_Tasks.Tick_Visit_Home -eq $true)                 { $Tick_Visit_Home              = $Tick }
+        if ($Import_JSON.Introduction_Tasks.Tick_Recover_Health_and_Mana -eq $true)    { $Tick_Recover_Health_and_Mana = $Tick }
+        if ($Import_JSON.Introduction_Tasks.Tick_Visit_the_Tavern -eq $true)           { $Tick_Visit_the_Tavern        = $Tick }
+        if ($Import_JSON.Introduction_Tasks.Tick_Accept_a_Quest -eq $true)             { $Tick_Accept_a_Quest          = $Tick }
+        if ($Import_JSON.Introduction_Tasks.Tick_Kill_2_Rats -eq $true)                { $Tick_Kill_2_Rats             = $Tick }
+        if ($Import_JSON.Introduction_Tasks.Tick_Hand_in_Completed_Quest -eq $true)    { $Tick_Hand_in_Completed_Quest = $Tick }
+        if ($Import_JSON.Introduction_Tasks.Tick_View_Inventory -eq $true)             { $Tick_View_Inventory          = $Tick }
+        if ($Import_JSON.Introduction_Tasks.Tick_Visit_Mend_and_Mana -eq $true)        { $Tick_Visit_Mend_and_Mana     = $Tick }
+        if ($Import_JSON.Introduction_Tasks.Tick_Purchase_a_Potion -eq $true)          { $Tick_Purchase_a_Potion       = $Tick }
+        if ($Import_JSON.Introduction_Tasks.Tick_Go_Hunting -eq $true)                 { $Tick_Go_Hunting              = $Tick }
+        if ($Import_JSON.Introduction_Tasks.Tick_Travel_to_another_Location -eq $true) {
             $Tick_Travel_to_another_Location = $Tick
-            $Import_JSON.IntroductionTasks.InProgress = $false
+            $Import_JSON.Introduction_Tasks.In_Progress = $false
             Save_JSON
         } else { $Tick_Travel_to_another_Location = " " }
         $host.UI.RawUI.ForegroundColor = "DarkGray"
@@ -1250,7 +1249,7 @@ Function Draw_Introduction_Tasks {
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,35;$Host.UI.Write("+----------------------------------+")
         $host.UI.RawUI.ForegroundColor = "White"
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 108,22;$Host.UI.Write("Introduction Tasks")
-        if ($Import_JSON.IntroductionTasks.InProgress -eq $false) {
+        if ($Import_JSON.Introduction_Tasks.In_Progress -eq $false) {
             $host.UI.RawUI.ForegroundColor = "Green"
             $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 127,22;$Host.UI.Write([char]8730+" Complete")
         }
@@ -1330,8 +1329,8 @@ Function Draw_Info_Banner {
 # displays inventory (top right)
 #
 Function Draw_Inventory {
-    if ($Import_JSON.Locations.'Home Town'.LocationOptions.Travel -eq $true -and $Import_JSON.IntroductionTasks.Tick_Accept_a_Quest -eq $true -and $Import_JSON.IntroductionTasks.Tick_View_Inventory -eq $false) {
-        $Import_JSON.IntroductionTasks.Tick_View_Inventory = $true
+    if ($Import_JSON.Locations.'Home Town'.Location_Options.Travel -eq $true -and $Import_JSON.Introduction_Tasks.Tick_Accept_a_Quest -eq $true -and $Import_JSON.Introduction_Tasks.Tick_View_Inventory -eq $false) {
+        $Import_JSON.Introduction_Tasks.Tick_View_Inventory = $true
         Draw_Introduction_Tasks
         Save_JSON
     }
@@ -1736,7 +1735,7 @@ Function Random_Mob {
     # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
     if ($TutorialMob -eq $true) { # tutorial example mob
         $Current_Location_Mob_Names = $Import_JSON.Locations."Home Town".Mobs.PSObject.Properties.Name
-    } elseif ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
+    } elseif ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Is_Active -eq $true) { # Home Town Tavern rat quest is active
         $Current_Location = "Home Town"
         $Current_Location_Mob_Names = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.PSObject.Properties.Name
     } else { # get mob from current location
@@ -1748,14 +1747,14 @@ Function Random_Mob {
         $All_Rare_Mobs_In_Current_Location = New-Object System.Collections.Generic.List[System.Object]
         # loop though all mobs and add to array
         foreach ($Current_Location_Mob_Name in $Current_Location_Mob_Names) {
-            if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
+            if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Is_Active -eq $true) { # Home Town Tavern rat quest is active
                 $Current_Location_Mob_Name = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob_Name
                 $Current_Location_Mob_Name = $Current_Location_Mob_Name.Name
             } else {
                 $Current_Location_Mob_Name = $Import_JSON.Locations.$Current_Location.Mobs.$Current_Location_Mob_Name
                 $Current_Location_Mob_Name = $Current_Location_Mob_Name.Name
             }
-            if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
+            if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Is_Active -eq $true) { # Home Town Tavern rat quest is active
                 if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob_Name.Rare -ieq "yes") {
                     $All_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob_Name)
                 }
@@ -1769,7 +1768,7 @@ Function Random_Mob {
         $Random_Rare_Mob_In_Current_Location_ID = Get-Random -Minimum 0 -Maximum ($All_Rare_Mobs_In_Current_Location | Measure-Object).count # measure-object added because incorrect number when there is only one rare mob
         $Random_Rare_Mob_In_Current_Location_ID -= 1
         $Script:Selected_Mob = $All_Rare_Mobs_In_Current_Location[$Random_Rare_Mob_In_Current_Location_ID]
-        if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) {
+        if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Is_Active -eq $true) {
             $Script:Selected_Mob = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Selected_Mob # get cellar mob object from JSON
             $Script:Selected_Mob_Object = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Selected_Mob # get cellar mob object from JSON
         } else {
@@ -1781,14 +1780,14 @@ Function Random_Mob {
         $All_None_Rare_Mobs_In_Current_Location = New-Object System.Collections.Generic.List[System.Object]
         # loop through all mobs and add to array
         foreach ($Current_Location_Mob_Name in $Current_Location_Mob_Names) {
-            if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
+            if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Is_Active -eq $true) { # Home Town Tavern rat quest is active
                 $Current_Location_Mob_Name = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob_Name
                 $Current_Location_Mob_Name = $Current_Location_Mob_Name.Name
             } else {
                 $Current_Location_Mob_Name = $Import_JSON.Locations.$Current_Location.Mobs.$Current_Location_Mob_Name
                 $Current_Location_Mob_Name = $Current_Location_Mob_Name.Name
             }
-            if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) { # Home Town Tavern rat quest is active
+            if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Is_Active -eq $true) { # Home Town Tavern rat quest is active
                 if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob_Name.Rare -ieq "no") {
                     $All_None_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob_Name)
                 }
@@ -1802,7 +1801,7 @@ Function Random_Mob {
         $Random_None_Rare_Mob_In_Current_Location_ID = Get-Random -Minimum 0 -Maximum ($All_None_Rare_Mobs_In_Current_Location | Measure-Object).count # measure-object added because incorrect number when there is only one rare mob
         $Random_None_Rare_Mob_In_Current_Location_ID -= 1
         $Script:Selected_Mob = $All_None_Rare_Mobs_In_Current_Location[$Random_None_Rare_Mob_In_Current_Location_ID]
-        if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) {
+        if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Is_Active -eq $true) {
             $Script:Selected_Mob = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Selected_Mob # get cellar mob object from JSON
         } else {
             $Script:Selected_Mob = $Import_JSON.Locations.$Current_Location.Mobs.$Selected_Mob # get current location mob object from JSON
@@ -2008,20 +2007,20 @@ Function Fight_or_Run {
             }
             # if mob health is zero, display you killed mob message
             if ($Selected_Mob_HealthCurrent -eq 0) {
-                if ($Import_JSON.IntroductionTasks.InProgress -eq $true -and $Import_JSON.IntroductionTasks.Tick_Purchase_a_Potion -eq $true) {
+                if ($Import_JSON.Introduction_Tasks.In_Progress -eq $true -and $Import_JSON.Introduction_Tasks.Tick_Purchase_a_Potion -eq $true) {
                     # update introduction task and update Introduction Tasks window
-                    $Import_JSON.IntroductionTasks.Tick_Go_Hunting = $true
+                    $Import_JSON.Introduction_Tasks.Tick_Go_Hunting = $true
                 }
                 # update mob killed count in JSON
-                if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive -eq $true) {
+                if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Is_Active -eq $true) {
                     $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Selected_Mob_Name.Killed += 1
                     # if Introduction Tasks are still in progress, update the slow intro window Inventory with a tick
                     if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Selected_Mob_Name.Killed -ge 2) {
-                        $Import_JSON.IntroductionTasks.Tick_Kill_2_Rats = $true
+                        $Import_JSON.Introduction_Tasks.Tick_Kill_2_Rats = $true
                         Draw_Introduction_Tasks
                     }
                 } else {
-                    $Import_JSON.Locations."Home Town".LocationOptions.Travel = $true
+                    $Import_JSON.Locations."Home Town".Location_Options.Travel = $true
                     $Import_JSON.Locations.$Current_Location.Mobs.$Selected_Mob_Name.Killed += 1
                 }
                 Save_JSON
@@ -2073,8 +2072,8 @@ Function Fight_or_Run {
                         Write-Color "  $($Looted_Items)" -Color DarkGray
                         Draw_Inventory
                         # if Introduction Tasks are still in progress, update the slow intro window Inventory with a tick
-                        if ($Import_JSON.IntroductionTasks.InProgress -eq $true) {
-                            $Import_JSON.IntroductionTasks.Tick_View_Inventory = $true
+                        if ($Import_JSON.Introduction_Tasks.In_Progress -eq $true) {
+                            $Import_JSON.Introduction_Tasks.Tick_View_Inventory = $true
                             Draw_Introduction_Tasks
                         }
                     } else {
@@ -2087,7 +2086,7 @@ Function Fight_or_Run {
                     $Quest_Name = $Import_JSON.Quests.$Quest_Name
                     if ($Selected_Mob_Name -ilike "*$($Quest_Name.Mob)*") {
                         $Quest_Name.Progress += 1
-                        if ($Quest_Name.Progress -ge $Quest_Name.ProgressMax) {
+                        if ($Quest_Name.Progress -ge $Quest_Name.Progress_Max) {
                             $Quest_Name.Status = "Hand In"
                         }
                     }
@@ -2222,9 +2221,9 @@ Function Travel {
     # find all linked locations that you can travel to (not including your current location)
     $Script:All_Linked_Locations_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
     $Script:Linked_Locations_Name_Array = New-Object System.Collections.Generic.List[System.Object]
-    $Linked_Location_Names = $Import_JSON.Locations.$Current_Location.LinkedLocations.PSObject.Properties.Name
+    $Linked_Location_Names = $Import_JSON.Locations.$Current_Location.Linked_Locations.PSObject.Properties.Name
     foreach ($Linked_Location_Name in $Linked_Location_Names) {
-        $Linked_Location_Letter = $Import_JSON.Locations.$Current_Location.LinkedLocations.$Linked_Location_Name
+        $Linked_Location_Letter = $Import_JSON.Locations.$Current_Location.Linked_Locations.$Linked_Location_Name
         if ($Linked_Location_Letter -eq $Linked_Location_Name.Substring(0,1)) { # -eq to get exact case match rather than any case but only in first position
             $Game_Info_Rest_of_Word = $Linked_Location_Name.Substring(1)
             Write-Color -NoNewLine "  $Linked_Location_Letter","$Game_Info_Rest_of_Word" -Color Green,White,DarkGray
@@ -2265,9 +2264,9 @@ Function Travel {
             }
         }
         t { # Home Town
-            $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
+            $Import_JSON.Locations.$Current_Location.Current_Location = $false
             $Script:Current_Location = "Home Town"
-            $Import_JSON.Locations."Home Town".CurrentLocation = $true
+            $Import_JSON.Locations."Home Town".Current_Location = $true
             for ($Position = 14; $Position -lt 35; $Position++) { # clear some lines from previous widow
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
             }
@@ -2275,18 +2274,18 @@ Function Travel {
         }
         f { # The Forest
             # update old current location to false
-            $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
+            $Import_JSON.Locations.$Current_Location.Current_Location = $false
             $Script:Current_Location = "The Forest"
             # update new current location to true
-            $Import_JSON.Locations."The Forest".CurrentLocation = $true
+            $Import_JSON.Locations."The Forest".Current_Location = $true
             for ($Position = 14; $Position -lt 35; $Position++) { # clear some lines from previous widow
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
             }
         }
         r { # The River
-            $Import_JSON.Locations.$Current_Location.CurrentLocation = $false
+            $Import_JSON.Locations.$Current_Location.Current_Location = $false
             $Script:Current_Location = "The River"
-            $Import_JSON.Locations."The River".CurrentLocation = $true
+            $Import_JSON.Locations."The River".Current_Location = $true
             for ($Position = 14; $Position -lt 35; $Position++) { # clear some lines from previous widow
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
             }
@@ -2493,8 +2492,8 @@ Function Draw_Cellar_Map {
     }
     # loop through all cellar rooms, draw all rooms that have been visited in DarkGray, also find current room to draw that room last in DarkCyan
     foreach ($Cellar_Quest_Room in $Cellar_Quest_Rooms) {
-        $Cellar_Quest_Room = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.Rooms.$Cellar_Quest_Room
-        if ($Cellar_Quest_Room.CurrentLocation -eq $true) {
+        $Cellar_Quest_Room = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Quest_Room
+        if ($Cellar_Quest_Room.Current_Location -eq $true) {
             $Script:Cellar_Quest_Current_Room = $Cellar_Quest_Room.Room
         }
         if ($Cellar_Quest_Room.Visited -eq $true) {
@@ -2608,15 +2607,15 @@ Function Visit_a_Building {
         Write-Color "  You can visit the following buildings:" -Color DarkGray
         # only show Home or Tavern when their Introduction Tasks value is set to true
         foreach ($Building_In_Current_Location in $All_Buildings_In_Current_Location) {
-            if ($Import_JSON.IntroductionTasks.InProgress -eq $true) {
-                if ($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.IntroductionTask -eq $true) {
-                    $All_Building_Letters_Array.Add($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.BuildingLetter) # grabs single character for that building
+            if ($Import_JSON.Introduction_Tasks.In_Progress -eq $true) {
+                if ($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.Introduction_Task -eq $true) {
+                    $All_Building_Letters_Array.Add($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.Building_Letter) # grabs single character for that building
                     Write-Color "  $($Building_In_Current_Location.Substring(0,1))","$($Building_In_Current_Location.Substring(1,$Building_In_Current_Location.Length-1))" -Color Green,DarkGray
                     $All_Buildings_In_Current_Location_List.Add($Building_In_Current_Location)
                     $All_Buildings_In_Current_Location_List.Add("`r`n ")
                 }
             } else { # otherwise show all buildings in current location after Introduction Tasks is complete and set to false
-                $All_Building_Letters_Array.Add($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.BuildingLetter) # grabs single character for that building
+                $All_Building_Letters_Array.Add($Import_JSON.Locations.$Current_Location.Buildings.$Building_In_Current_Location.Building_Letter) # grabs single character for that building
                 Write-Color "  $($Building_In_Current_Location.Substring(0,1))","$($Building_In_Current_Location.Substring(1,$Building_In_Current_Location.Length-1))" -Color Green,DarkGray
                 $All_Buildings_In_Current_Location_List.Add($Building_In_Current_Location)
                 $All_Buildings_In_Current_Location_List.Add("`r`n ")
@@ -2667,7 +2666,7 @@ Function Visit_a_Building {
                         if ($Home_Choice -ieq "r" ) { # rested (from choice below), so display fully rested message instead
                             Save_JSON
                             # update introduction task and update Introduction Tasks window
-                            $Import_JSON.IntroductionTasks.Tick_Recover_Health_and_Mana = $true
+                            $Import_JSON.Introduction_Tasks.Tick_Recover_Health_and_Mana = $true
                             Save_JSON
                             Draw_Introduction_Tasks
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
@@ -2693,7 +2692,7 @@ Function Visit_a_Building {
                         }
                         do {
                             # update introduction task and update Introduction Tasks window
-                            $Import_JSON.IntroductionTasks.Tick_Visit_Home = $true
+                            $Import_JSON.Introduction_Tasks.Tick_Visit_Home = $true
                             Save_JSON
                             Draw_Introduction_Tasks
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
@@ -2713,7 +2712,7 @@ Function Visit_a_Building {
                             $Import_JSON.Character.Stats.HealthCurrent = $Character_HealthCurrent
                             $Import_JSON.Character.Stats.ManaCurrent = $Character_ManaCurrent
                             # advance introduction to game ()
-                            $Import_JSON.Locations."Home Town".Buildings.Tavern.IntroductionTask = $true
+                            $Import_JSON.Locations."Home Town".Buildings.Tavern.Introduction_Task = $true
                             Save_JSON
                         }
                     } until ($Home_Choice -ieq "e")
@@ -2787,7 +2786,7 @@ Function Visit_a_Building {
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                 }
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                if ($Import_JSON.Quests.'Rat Infestation'.InProgress -eq $true) {
+                                if ($Import_JSON.Quests.'Rat Infestation'.In_Progress -eq $true) {
                                     Write-Color "  $Character_Name",", you have retured from my cellar, how did you get on with those pesky rats?" -Color Blue,DarkGray
                                 }
                             }
@@ -2796,7 +2795,7 @@ Function Visit_a_Building {
                             Write-Color "  Look at the ","Q","uest board" -Color DarkGray,Green,DarkGray
                             $Tavern_Choice_Letters_Array.Add("D")
                             $Tavern_Choice_Letters_Array.Add("Q")
-                            if ($Import_JSON.Quests."Rat Infestation".InProgress -eq $true) {
+                            if ($Import_JSON.Quests."Rat Infestation".In_Progress -eq $true) {
                                 Write-Color "  Enter the ","C","ellar" -Color DarkGray,Green,DarkGray
                                 $Tavern_Choice_Letters_Array.Add("C")
                             }
@@ -2804,7 +2803,7 @@ Function Visit_a_Building {
                             $Tavern_Choice_Letters_Array_String = $Tavern_Choice_Letters_Array -join "/"
                             Write-Color "  E","xit" -Color Green,DarkGray
                             # update introduction task and update Introduction Tasks window
-                            $Import_JSON.IntroductionTasks.Tick_Visit_the_Tavern = $true
+                            $Import_JSON.Introduction_Tasks.Tick_Visit_the_Tavern = $true
                             Save_JSON
                             Draw_Introduction_Tasks
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
@@ -2953,7 +2952,7 @@ Function Visit_a_Building {
                                         }
                                         if ($Quest_Accepted -eq $true) {
                                             # update introduction task and update Introduction Tasks window
-                                            $Import_JSON.IntroductionTasks.Tick_Accept_a_Quest = $true
+                                            $Import_JSON.Introduction_Tasks.Tick_Accept_a_Quest = $true
                                             Draw_Introduction_Tasks
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                             for ($Position = 17; $Position -lt 31; $Position++) { # clear some lines from previous widow
@@ -2966,7 +2965,7 @@ Function Visit_a_Building {
                                             Write-Color ""
                                             $Quest_Name = $($Quest_Name.Name)
                                             $Import_JSON.Quests.$Quest_Name.Available = $false
-                                            $Import_JSON.Quests.$Quest_Name.InProgress = $true
+                                            $Import_JSON.Quests.$Quest_Name.In_Progress = $true
                                             $Import_JSON.Quests.$Quest_Name.Status = "In Progress"
                                             Save_JSON
                                         } else {
@@ -2982,15 +2981,15 @@ Function Visit_a_Building {
                                         foreach ($Quest_Name in $Quest_Names) {
                                             $Quest_Name = $Import_JSON.Quests.$Quest_Name
                                             # if Introduction Tasks are active, only show the Rat quest
-                                            if ($Import_JSON.IntroductionTasks.InProgress -eq $true) {
-                                                if ($Quest_Name.IntroductionTask -eq $true) {
-                                                    Write-Color "  $($Quest_Name.QuestLetter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status)" -Color Green,DarkGray,DarkYellow
-                                                    $Available_Quest_Letters_Array.Add($Quest_Name.QuestLetter)
+                                            if ($Import_JSON.Introduction_Tasks.In_Progress -eq $true) {
+                                                if ($Quest_Name.Introduction_Task -eq $true) {
+                                                    Write-Color "  $($Quest_Name.Quest_Letter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status)" -Color Green,DarkGray,DarkYellow
+                                                    $Available_Quest_Letters_Array.Add($Quest_Name.Quest_Letter)
                                                 }
                                             } else { # else show all quests
                                                 if ($Quest_Name.Available -eq $true -or $Quest_Name.Status -ieq "In Progress" -or $Quest_Name.Status -ieq "Hand In") {
-                                                    Write-Color "  $($Quest_Name.QuestLetter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status)" -Color Green,DarkGray,DarkYellow
-                                                    $Available_Quest_Letters_Array.Add($Quest_Name.QuestLetter)
+                                                    Write-Color "  $($Quest_Name.Quest_Letter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status)" -Color Green,DarkGray,DarkYellow
+                                                    $Available_Quest_Letters_Array.Add($Quest_Name.Quest_Letter)
                                                 }
                                             }
                                         }
@@ -3011,18 +3010,18 @@ Function Visit_a_Building {
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                             foreach ($Quest_Name in $Quest_Names) {
                                                 $Quest_Name = $Import_JSON.Quests.$Quest_Name
-                                                if ($Quest_Name.QuestLetter -ieq $Tavern_Quest_Board_Choice) {
+                                                if ($Quest_Name.Quest_Letter -ieq $Tavern_Quest_Board_Choice) {
                                                     Break
                                                 }
                                             }
                                             Write-Color "  Name        ",": $($Quest_Name.Name)" -Color White,DarkGray
                                             Write-Color "  Description ",": $($Quest_Name.Description)" -Color White,DarkGray
-                                            Write-Color "  Reward      ",": $($Quest_Name.GoldReward)"," Gold" -Color White,DarkGray,DarkYellow
-                                            Write-Color "  Progress    ",": $($Quest_Name.Progress) of $($Quest_Name.ProgressMax)" -Color White,DarkGray
+                                            Write-Color "  Reward      ",": $($Quest_Name.Gold_Reward)"," Gold" -Color White,DarkGray,DarkYellow
+                                            Write-Color "  Progress    ",": $($Quest_Name.Progress) of $($Quest_Name.Progress_Max)" -Color White,DarkGray
                                             Write-Color "  Status      ",": $($Quest_Name.Status)" -Color White,DarkGray
-                                            Write-Color "  Location    ",": $($Quest_Name.HandInLocation)" -Color White,DarkGray
+                                            Write-Color "  Location    ",": $($Quest_Name.Hand_In_Location)" -Color White,DarkGray
                                             Write-Color "  Building    ",": $($Quest_Name.Building)" -Color White,DarkGray
-                                            Write-Color "  NPC         ",": $($Quest_Name.HandInNPC)" -Color White,DarkGray
+                                            Write-Color "  NPC         ",": $($Quest_Name.Hand_In_NPC)" -Color White,DarkGray
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                                             $Tavern_Quest_Info_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
@@ -3045,46 +3044,46 @@ Function Visit_a_Building {
                                         if ($Tavern_Quest_Info_Choice -ieq "a") {
                                             $Quest_Accepted = $true
                                             $Quest_Name.Status = "In Progress"
-                                            $Quest_Name.InProgress = $true
+                                            $Quest_Name.In_Progress = $true
                                             $Quest_Name.Available = $false
                                             # advance introduction to game
-                                            $Import_JSON.Locations."Home Town".LocationOptions.Quests = $true
+                                            $Import_JSON.Locations."Home Town".Location_Options.Quests = $true
                                         }
                                         # hand in a quest
                                         if ($Tavern_Quest_Info_Choice -ieq "h") {
                                             do {
                                                 # advance introduction to game (from Rat quest)
-                                                $Import_JSON.Locations."Home Town".Buildings."Mend & Mana".IntroductionTask = $true
+                                                $Import_JSON.Locations."Home Town".Buildings."Mend & Mana".Introduction_Task = $true
                                                 # update introduction task and update Introduction Tasks window
-                                                $Import_JSON.IntroductionTasks.Tick_View_Inventory = $true
-                                                $Import_JSON.IntroductionTasks.Tick_Hand_in_Completed_Quest = $true
+                                                $Import_JSON.Introduction_Tasks.Tick_View_Inventory = $true
+                                                $Import_JSON.Introduction_Tasks.Tick_Hand_in_Completed_Quest = $true
                                                 Save_JSON
                                                 Draw_Introduction_Tasks
                                                 # reset quest
                                                 $Quest_Name.Status = "Available"
-                                                $Quest_Name.InProgress = $false
+                                                $Quest_Name.In_Progress = $false
                                                 $Quest_Name.Available = $true
                                                 $Quest_Name.Progress = 0
                                                 # update gold
-                                                $Import_JSON.Character.Gold += $Quest_Name.GoldReward
+                                                $Import_JSON.Character.Gold += $Quest_Name.Gold_Reward
                                                 $Script:Gold = $Import_JSON.Character.Gold
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                                                 Draw_Player_Window_and_Stats
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,25;$Host.UI.Write("");" "*105
                                                 Write-Color "  Thank you for completing this quest ","$Character_Name",". Here is your reward." -Color DarkGray,Blue,DarkGray
-                                                Write-Color "  $($Quest_Name.GoldReward) Gold" -Color DarkYellow
+                                                Write-Color "  $($Quest_Name.Gold_Reward) Gold" -Color DarkYellow
                                                 # if there are reward items, update inventory
-                                                if (-not($Quest_Name.ItemReward -eq $false)) {
-                                                    foreach ($Quest_Hand_In_Item in $Quest_Name.ItemReward.PSObject.Properties.Name) {
+                                                if (-not($Quest_Name.Item_Reward -eq $false)) {
+                                                    foreach ($Quest_Hand_In_Item in $Quest_Name.Item_Reward.PSObject.Properties.Name) {
                                                         $Current_Item_Quantity = $Import_JSON.Items.$Quest_Hand_In_Item.Quantity
-                                                        if ($Current_Item_Quantity + $Quest_Name.ItemReward.$Quest_Hand_In_Item -gt 99) {
+                                                        if ($Current_Item_Quantity + $Quest_Name.Item_Reward.$Quest_Hand_In_Item -gt 99) {
                                                             $Import_JSON.Items.$Quest_Hand_In_Item.Quantity = 99
                                                             $Max_99_Items = "(MAX 99 items)"
                                                         } else {
-                                                            $Import_JSON.Items.$Quest_Hand_In_Item.Quantity += $Quest_Name.ItemReward.$Quest_Hand_In_Item
+                                                            $Import_JSON.Items.$Quest_Hand_In_Item.Quantity += $Quest_Name.Item_Reward.$Quest_Hand_In_Item
                                                             $Max_99_Items = ""
                                                         }
-                                                        Write-Color "  x$($Quest_Name.ItemReward.$Quest_Hand_In_Item) ","$Quest_Hand_In_Item $Max_99_Items" -Color White,DarkGray
+                                                        Write-Color "  x$($Quest_Name.Item_Reward.$Quest_Hand_In_Item) ","$Quest_Hand_In_Item $Max_99_Items" -Color White,DarkGray
                                                     }
                                                 }
                                                 Draw_Inventory
@@ -3107,20 +3106,20 @@ Function Visit_a_Building {
                             c {
                                 $First_Time_Entered_Cellar = $true
                                 # set quest as active
-                                $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive = $true
+                                $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Is_Active = $true
                                 # reset cellar rooms visited (resets every time cellar is entered)
-                                $Cellar_Quest_Room_Names = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.Rooms.PSObject.Properties.Name | Where-Object {$PSItem -ilike "room*"}
+                                $Cellar_Quest_Room_Names = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.PSObject.Properties.Name | Where-Object {$PSItem -ilike "room*"}
                                 foreach ($Cellar_Quest_Room_Name in $Cellar_Quest_Room_Names) {
-                                    $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.Rooms.$Cellar_Quest_Room_Name.Visited = $false
-                                    $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.Rooms.$Cellar_Quest_Room_Name.CurrentLocation = $false
+                                    $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Quest_Room_Name.Visited = $false
+                                    $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Quest_Room_Name.Current_Location = $false
                                 }
-                                $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.Rooms.Room6.Visited = $true
-                                $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.Rooms.Room6.CurrentLocation = $true
+                                $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.Room6.Visited = $true
+                                $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.Room6.Current_Location = $true
                                 Save_JSON
                                 do {
                                     $Script:Info_Banner = "Tavern Cellar"
                                     Draw_Info_Banner
-                                    $Script:Cellar_Quest_Rooms = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.Rooms.PSObject.Properties.Name
+                                    $Script:Cellar_Quest_Rooms = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.PSObject.Properties.Name
                                     do {
                                         for ($Position = 17; $Position -lt 25; $Position++) { # clear some lines from previous widow
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
@@ -3129,21 +3128,21 @@ Function Visit_a_Building {
                                         # loop through all Cellar quest rooms and get room direction letters for current room
                                         foreach ($Cellar_Quest_Room in $Cellar_Quest_Rooms) {
                                             # get current cellar quest room as an object
-                                            $Cellar_Quest_Room_Object = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.Rooms.$Cellar_Quest_Room
+                                            $Cellar_Quest_Room_Object = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Quest_Room
                                             foreach ($Cellar_Quest_Room_Current_Location in $Cellar_Quest_Room_Object) {
-                                                if ($Cellar_Quest_Room_Current_Location.CurrentLocation -eq $true) {
+                                                if ($Cellar_Quest_Room_Current_Location.Current_Location -eq $true) {
                                                     $Cellar_Quest_Current_Room_Number = $Cellar_Quest_Room_Current_Location.Room
-                                                    # get all LinkedLocations room names and loop through 
+                                                    # get all Linked_Locations room names and loop through 
                                                     $Cellar_Quest_Current_Room_Number_Object = $Cellar_Quest_Room_Current_Location
                                                     foreach ($Cellar_Quest_Room_Name in $Cellar_Quest_Room_Object.LinkedRooms.PSObject.Properties.Name) {
                                                         $Cellar_Quest_Room_Name_Letter = $Cellar_Quest_Room_Object.LinkedRooms.$Cellar_Quest_Room_Name
-                                                        # add each LinkedLocations letter (direction) to array
+                                                        # add each Linked_Locations letter (direction) to array
                                                         $Cellar_Quest_Room_Direction_Array.Add($Cellar_Quest_Room_Name_Letter)
                                                     }
                                                 }
                                             }
-                                            # check if current location is room 6 (the exit) and if Room6's "CurrentLocation" is $true. if it is, add the "X" choice to the array, then break out of the loop
-                                            if ($Cellar_Quest_Room_Current_Location.Room -eq "6" -and $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.Rooms.Room6.CurrentLocation -eq $true) {
+                                            # check if current location is room 6 (the exit) and if Room6's "Current_Location" is $true. if it is, add the "X" choice to the array, then break out of the loop
+                                            if ($Cellar_Quest_Room_Current_Location.Room -eq "6" -and $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.Room6.Current_Location -eq $true) {
                                                 $Cellar_Quest_Room_Direction_Array.Add("X")
                                                 $Cellar_Quest_Room_Direction_Array_String = $Cellar_Quest_Room_Direction_Array -Join "/"
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
@@ -3187,7 +3186,7 @@ Function Visit_a_Building {
                                                 # if in room 6 (cellar exit), move back into Tavern (only available if in room 6)
                                                 if ($Cellar_Direction -ieq "x") {
                                                     # set quest as inactive
-                                                    $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.IsActive = $false
+                                                    $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Is_Active = $false
                                                     Break
                                                 }
                                                 # update current location based on direction moved
@@ -3195,10 +3194,10 @@ Function Visit_a_Building {
                                                 foreach ($Cellar_Quest_Current_Room_Linked_Room in $Cellar_Quest_Current_Room_Linked_Rooms) {
                                                     if ($Cellar_Quest_Current_Room_Number_Object.LinkedRooms.$Cellar_Quest_Current_Room_Linked_Room -ieq "$Cellar_Direction") {
                                                         # set current room to false
-                                                        $Cellar_Quest_Current_Room_Number_Object.CurrentLocation = $false
+                                                        $Cellar_Quest_Current_Room_Number_Object.Current_Location = $false
                                                         # update new room to current room
-                                                        $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.Rooms.$Cellar_Quest_Current_Room_Linked_Room.CurrentLocation = $true
-                                                        $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.CellarQuest.Rooms.$Cellar_Quest_Current_Room_Linked_Room.Visited = $true
+                                                        $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Quest_Current_Room_Linked_Room.Current_Location = $true
+                                                        $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Quest_Current_Room_Linked_Room.Visited = $true
                                                         Save_JSON
                                                     }
                                                 }
@@ -3352,7 +3351,7 @@ Function Visit_a_Building {
                                 Write-Color "  I deal in all kinds of potions. If you are interested, take a look at what i have to offer." -Color DarkGray
                             }
                             # update introduction task and update Introduction Tasks window
-                            $Import_JSON.IntroductionTasks.Tick_Visit_Mend_and_Mana = $true
+                            $Import_JSON.Introduction_Tasks.Tick_Visit_Mend_and_Mana = $true
                             Save_JSON
                             Write-Color -LinesBefore 1 "  P","urchase some postions" -Color Green,DarkYellow
                             Write-Color "  S","ell some postions" -Color Green,DarkYellow
@@ -3502,8 +3501,8 @@ Function Visit_a_Building {
                                                     Save_JSON
                                                     Set_Variables
                                                     # update introduction task and update Introduction Tasks window
-                                                    $Import_JSON.IntroductionTasks.Tick_Purchase_a_Potion = $true
-                                                    $Import_JSON.Locations."Home Town".LocationOptions.Hunt = $true
+                                                    $Import_JSON.Introduction_Tasks.Tick_Purchase_a_Potion = $true
+                                                    $Import_JSON.Locations."Home Town".Location_Options.Hunt = $true
                                                     # Introdution Tasks window updated on next loop above
                                                     Save_JSON
                                                 }
@@ -3714,8 +3713,8 @@ Function Draw_Quest_Log {
                 $Quest_In_Progress_Count += 1
                 $Position += 1
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 56,$Position;$Host.UI.Write("")
-                Write-Color "| ","$($Quest_Name.QuestLetter)","$($Quest_Name.Name.SubString(1.0))$Quest_Log_Name_Right_Padding| ","$($Quest_Name.Status)$Quest_Log_Status_Right_Padding","|" -Color DarkGray,Green,DarkGray,DarkYellow,DarkGray
-                $Available_Quest_Letters_Array.Add($Quest_Name.QuestLetter)
+                Write-Color "| ","$($Quest_Name.Quest_Letter)","$($Quest_Name.Name.SubString(1.0))$Quest_Log_Name_Right_Padding| ","$($Quest_Name.Status)$Quest_Log_Status_Right_Padding","|" -Color DarkGray,Green,DarkGray,DarkYellow,DarkGray
+                $Available_Quest_Letters_Array.Add($Quest_Name.Quest_Letter)
             }
         }
         $Quest_Log_Extra_Blank_Lines = 10 - $Quest_In_Progress_Count
@@ -3757,15 +3756,15 @@ Function Draw_Quest_Log {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                     foreach ($Quest_Name in $Quest_Names) {
                         $Quest_Name = $Import_JSON.Quests.$Quest_Name
-                        if ($Quest_Name.QuestLetter -ieq $Quest_Log_Choice) {
+                        if ($Quest_Name.Quest_Letter -ieq $Quest_Log_Choice) {
                             Write-Color "  Name        ",": $($Quest_Name.Name)" -Color White,DarkGray
                             Write-Color "  Description ",": $($Quest_Name.Description)" -Color White,DarkGray
-                            Write-Color "  Reward      ",": $($Quest_Name.GoldReward)"," Gold" -Color White,DarkGray,DarkYellow
-                            Write-Color "  Progress    ",": $($Quest_Name.Progress) of $($Quest_Name.ProgressMax)" -Color White,DarkGray
+                            Write-Color "  Reward      ",": $($Quest_Name.Gold_Reward)"," Gold" -Color White,DarkGray,DarkYellow
+                            Write-Color "  Progress    ",": $($Quest_Name.Progress) of $($Quest_Name.Progress_Max)" -Color White,DarkGray
                             Write-Color "  Status      ",": $($Quest_Name.Status)" -Color White,DarkGray
-                            Write-Color "  Location    ",": $($Quest_Name.HandInLocation)" -Color White,DarkGray
+                            Write-Color "  Location    ",": $($Quest_Name.Hand_In_Location)" -Color White,DarkGray
                             Write-Color "  Building    ",": $($Quest_Name.Building)" -Color White,DarkGray
-                            Write-Color "  NPC         ",": $($Quest_Name.HandInNPC)" -Color White,DarkGray
+                            Write-Color "  NPC         ",": $($Quest_Name.Hand_In_NPC)" -Color White,DarkGray
                         }
                     }
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
@@ -3947,10 +3946,10 @@ if (Test-Path -Path .\PS-RPG.json) {
 #
 # check for JSON save file
 #
-# if the save file has the CharacterCreation flag set to false, deletes JSON file (i.e. if character creation was cancelled or not fully completed - safe to delete file)
+# if the save file has the Character_Creation flag set to false, deletes JSON file (i.e. if character creation was cancelled or not fully completed - safe to delete file)
 if (Test-Path -Path .\PS-RPG.json) {
     Import_JSON
-    if ($Import_JSON.CharacterCreation -eq $false) {
+    if ($Import_JSON.Character_Creation -eq $false) {
         Remove-Item -Path .\PS-RPG.json
     }
 }
@@ -4035,9 +4034,9 @@ do {
         }
         Clear_Mob_Window
         # show congrats message on completion of all tasks, but only if Introduction Tasks are still in progress
-        if ($Current_Location -eq "The Forest" -and $Import_JSON.IntroductionTasks.InProgress -eq $true) {
+        if ($Current_Location -eq "The Forest" -and $Import_JSON.Introduction_Tasks.In_Progress -eq $true) {
             # update introduction task and update Introduction Tasks window
-            $Import_JSON.IntroductionTasks.Tick_Travel_to_another_Location = $true
+            $Import_JSON.Introduction_Tasks.Tick_Travel_to_another_Location = $true
             Draw_Introduction_Tasks
             # Introduction Tasks window drawn on exit of switch statement below            
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,23;$Host.UI.Write("")
@@ -4093,11 +4092,11 @@ do {
         }
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
         # display all choice options in location
-        $LocationOptions = $Import_JSON.Locations.$Current_Location.LocationOptions.PSObject.Properties.Name
+        $Location_Options = $Import_JSON.Locations.$Current_Location.Location_Options.PSObject.Properties.Name
         $Main_Loop_Choice_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
         # Write-Color ""
-        foreach ($LocationOption in $LocationOptions) {
-            if ($Import_JSON.Locations.$Current_Location.LocationOptions.$LocationOption -eq $true) {
+        foreach ($LocationOption in $Location_Options) {
+            if ($Import_JSON.Locations.$Current_Location.Location_Options.$LocationOption -eq $true) {
                 Write-Color "  $($LocationOption.Substring(0,1))","$($LocationOption.Substring(1,$LocationOption.Length-1))" -Color Green,DarkGray
                 $Main_Loop_Choice_Letters_Array.Add($LocationOption.Substring(0,1))
             }
@@ -4130,10 +4129,10 @@ do {
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                     }
                     # display all choice options in location
-                    $LocationOptions = $Import_JSON.Locations.$Current_Location.LocationOptions.PSObject.Properties.Name
+                    $Location_Options = $Import_JSON.Locations.$Current_Location.Location_Options.PSObject.Properties.Name
                     $Main_Loop_Choice_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
-                    foreach ($LocationOption in $LocationOptions) {
-                        if ($Import_JSON.Locations.$Current_Location.LocationOptions.$LocationOption -eq $true) {
+                    foreach ($LocationOption in $Location_Options) {
+                        if ($Import_JSON.Locations.$Current_Location.Location_Options.$LocationOption -eq $true) {
                             Write-Color "  $($LocationOption.Substring(0,1))","$($LocationOption.Substring(1,$LocationOption.Length-1))" -Color Green,DarkGray
                             $Main_Loop_Choice_Letters_Array.Add($LocationOption.Substring(0,1))
                         }
