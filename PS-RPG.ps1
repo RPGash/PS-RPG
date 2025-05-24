@@ -983,7 +983,7 @@ do {
                 if ($Tutorial_Choice -ieq "c") { # Tutorial - Mob stats
                     Clear-Host
                     $Script:TutorialMob = $true
-                    Random_Mob
+                    Get_Random_Mob
                     $Script:TutorialMob = $false
                     Draw_Mob_Window_and_Stats
                     $Script:Info_Banner = "Tutorial - Mob stats"
@@ -1731,7 +1731,7 @@ Function You_Died {
 #
 # random mob from current Location with 10 percentage chance of rare mob
 #
-Function Random_Mob {
+Function Get_Random_Mob {
     # $Script:Import_JSON = (Get-Content ".\PS-RPG.json" -Raw | ConvertFrom-Json)
     if ($TutorialMob -eq $true) { # tutorial example mob
         $Current_Location_Mob_Names = $Import_JSON.Locations."Home Town".Mobs.PSObject.Properties.Name
@@ -3202,7 +3202,7 @@ Function Visit_a_Building {
                                                     }
                                                 }
                                                 Draw_Cellar_Map
-                                                Random_Mob
+                                                Get_Random_Mob
                                                 Fight_or_Run
                                             }
                                             Default {}
@@ -4114,7 +4114,7 @@ do {
             do {
                 Draw_Introduction_Tasks
                 Save_JSON
-                Random_Mob
+                Get_Random_Mob
                 Fight_or_Run
                 do {
                     Clear_Mob_Window
