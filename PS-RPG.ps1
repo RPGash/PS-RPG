@@ -172,7 +172,7 @@ Function Draw_Player_Window_and_Stats {
     # $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,11;$Host.UI.Write("")
 }
 
-Function Game_Info_Banner {
+Function Draw_Game_Information_Banner {
     Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
     Write-Color "| Game Information                                                                                                                     |" -Color DarkGray
     Write-Color "+--------------------------------------------------------------------------------------------------------------------------------------+" -Color DarkGray
@@ -210,14 +210,14 @@ Function Game_Info_Banner {
 
 Function Game_Info {
     Clear-Host
-    Game_Info_Banner
+    Draw_Game_Information_Banner
     do {
         do {
             # bit of a hack to clear the screen when exiting the tutorial but still show the game info page
             if ($Tutorial_Choice -ieq "e") {
                 $Game_Info_Page_Choice = "" # resets page tab colour to DarkGray
                 Clear-Host
-                Game_Info_Banner
+                Draw_Game_Information_Banner
                 $Script:Tutorial_Choice = ""
             }
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
@@ -233,7 +233,7 @@ Function Game_Info {
             }
             i { # info
                 Clear-Host
-                Game_Info_Banner
+                Draw_Game_Information_Banner
                 $PSScriptRoot_Padding = " "*(83 - ($PSScriptRoot | Measure-Object -Character).Characters)
                 if (-not(Test-Path ".\PS-RPG_version.txt")) {
                     $PSRPG_Version_File_Missing = "PS-RPG_version.txt missing!"
@@ -265,7 +265,7 @@ Function Game_Info {
             }
             s { # stats
                 Clear-Host
-                Game_Info_Banner
+                Draw_Game_Information_Banner
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
                 Write-Color "| ","Page not implemented yet","                                                                                               |" -Color DarkGray,Red,DarkGray
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
@@ -288,7 +288,7 @@ Function Game_Info {
             }
             p { # PSWriteColor
                 Clear-Host
-                Game_Info_Banner
+                Draw_Game_Information_Banner
                 $PSWriteColor_Online_Version = Get-Module -Name "PSWriteColor" -ListAvailable
                 $PSWriteColor_Name = (Get-Module -Name "PSWriteColor" -ListAvailable | Select-Object Name).Name
                 $PSWriteColor_Name_Padding = " "*(113 - ($PSWriteColor_Name | Measure-Object -Character).Characters)
@@ -332,7 +332,7 @@ Function Game_Info {
             }
             l { # my links
                 Clear-Host
-                Game_Info_Banner
+                Draw_Game_Information_Banner
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
                 Write-Color "| ","My GitHub PS-RPG URL:"," https://github.com/RPGash/PS-RPG ","(make sure you downloaded it only from this link)                             |" -Color DarkGray,DarkYellow,Cyan,DarkGray
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
@@ -342,7 +342,7 @@ Function Game_Info {
             }
             o { # random
                 Clear-Host
-                Game_Info_Banner
+                Draw_Game_Information_Banner
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
                 Write-Color "| ","ASCII art:     "," https://asciiart.website"," (arrows)                                                                                         |" -Color DarkGray,DarkYellow,Cyan,DarkGray
                 Write-Color "|                                                                                                                                      |" -Color DarkGray
@@ -356,7 +356,7 @@ Function Game_Info {
                 Tutorial
                 Clear-Host
                 $Game_Info_Page_Choice = ""
-                Game_Info_Banner
+                Draw_Game_Information_Banner
             }
             Default {}
         }
