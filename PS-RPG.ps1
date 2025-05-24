@@ -25,7 +25,7 @@ ToDo
     - different message types for
         heals? kills? buffs etc.
     - consider changing mob critical rate/damage to from fixed 20%/20% to specific % for different mobs
-    - Game_Info [ongoing] an info page available after starting the game. still to add...
+    - Game_Information [ongoing] an info page available after starting the game. still to add...
         damage calculation = damage * (damage / (damage + armour)),
         escape chance,
         critical hit chance,
@@ -208,7 +208,7 @@ Function Draw_Game_Information_Banner {
     $Script:Game_Info_Tab_Array_String = $Game_Info_Tab_Array -join "/"
 }
 
-Function Game_Info {
+Function Game_Information {
     Clear-Host
     Draw_Game_Information_Banner
     do {
@@ -4163,7 +4163,7 @@ do {
                     # Break
                 }
                 if ($Finish_Combat -ieq "INFO") {
-                    Game_Info
+                    Game_Information
                     $Script:Continue_Fighting = $false
                     # Break
                 }
@@ -4182,7 +4182,7 @@ do {
             Draw_Inventory
         }
         info {
-            Game_Info
+            Game_Information
         }
         # Default {}
     }
