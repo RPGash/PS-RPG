@@ -1742,7 +1742,7 @@ Function Get_Random_Mob {
         $Current_Location_Mob_Names = $Import_JSON.Locations.$Current_Location.Mobs.PSObject.Properties.Name
     }
     $Random_100 = Get-Random -Minimum 1 -Maximum 101
-    if ($Random_100 -le 99) { # rare mob (10% of the time)
+    if ($Random_100 -le 10) { # rare mob (10% of the time)
         $All_Rare_Mobs_In_Current_Location = @()
         $All_Rare_Mobs_In_Current_Location = New-Object System.Collections.Generic.List[System.Object]
         # loop though all mobs and add to array
@@ -3158,12 +3158,20 @@ Function Visit_a_Building {
                                                 }
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                                 Write-Color "  room 1" -Color DarkGray
+                                                Write-Color "  searchroom and find a potion" -Color DarkGray
                                             } elseif ($Cellar_Quest_Current_Room_Number -eq "10") {
                                                 for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
                                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                                 }
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                                 Write-Color "  room 10" -Color DarkGray
+                                            } elseif ($Cellar_Quest_Current_Room_Number -eq "11") {
+                                                for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
+                                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                                }
+                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                                Write-Color "  room 11" -Color DarkGray
+                                                Write-Color "  searchroom and find a potion" -Color DarkGray
                                             } else {
                                                 for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
                                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
@@ -3177,7 +3185,11 @@ Function Visit_a_Building {
                                         Draw_Cellar_Map
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                        Write-Color -NoNewLine "Compass direction or e","X","it ","[$Cellar_Quest_Room_Direction_Array_String]" -Color DarkYellow,Green,DarkYellow,Green
+                                        if ($Cellar_Quest_Room_Current_Location.Room -eq "6" -and $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.Room6.Current_Location -eq $true) {
+                                            Write-Color -NoNewLine "Compass direction or e","X","it ","[$Cellar_Quest_Room_Direction_Array_String]" -Color DarkYellow,Green,DarkYellow,Green
+                                        } else {
+                                            Write-Color -NoNewLine "Compass direction ","[$Cellar_Quest_Room_Direction_Array_String]" -Color DarkYellow,Green
+                                        }
                                         $Cellar_Direction = Read-Host " "
                                         $Cellar_Direction = $Cellar_Direction.Trim()
                                     } until ($Cellar_Direction -in $Cellar_Quest_Room_Direction_Array)
@@ -3201,7 +3213,6 @@ Function Visit_a_Building {
                                                         Save_JSON
                                                     }
                                                 }
-                                                Draw_Cellar_Map
                                                 Get_Random_Mob
                                                 Fight_or_Run
                                             }
