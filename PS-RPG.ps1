@@ -1742,7 +1742,7 @@ Function Get_Random_Mob {
         $Current_Location_Mob_Names = $Import_JSON.Locations.$Current_Location.Mobs.PSObject.Properties.Name
     }
     $Random_100 = Get-Random -Minimum 1 -Maximum 101
-    if ($Random_100 -le 10) { # rare mob (10% of the time)
+    if ($Random_100 -le 50) { # rare mob (10% of the time)
         $All_Rare_Mobs_In_Current_Location = @()
         $All_Rare_Mobs_In_Current_Location = New-Object System.Collections.Generic.List[System.Object]
         # loop though all mobs and add to array
@@ -1750,8 +1750,17 @@ Function Get_Random_Mob {
             if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Is_Active -eq $true) { # Home Town Tavern rat quest is active
                 $Current_Location_Mob_Name = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob_Name
                 $Current_Location_Mob_Name = $Current_Location_Mob_Name.Name
+                    # check if mob is rare
                     if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob_Name.Rare -ieq "yes") {
-                        $All_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob_Name)
+                        # check if current cellar room is room10 (only where the king should spawn)
+                        if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.Room10.Current_Location -eq $true) {
+                            $All_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob_Name)
+                        } else {
+                            # if not room10, then add all rare mobs except the king
+                            if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob_Name.Name -inotlike "*king*") {
+                                $All_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob_Name)
+                            }
+                        }
                     }
             } else {
                 $Current_Location_Mob_Name = $Import_JSON.Locations.$Current_Location.Mobs.$Current_Location_Mob_Name
@@ -1760,15 +1769,6 @@ Function Get_Random_Mob {
                         $All_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob_Name)
                     }
             }
-            # if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Is_Active -eq $true) { # Home Town Tavern rat quest is active
-            #     if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob_Name.Rare -ieq "yes") {
-            #         $All_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob_Name)
-            #     }
-            # } else {
-            #     if ($Import_JSON.Locations.$Current_Location.Mobs.$Current_Location_Mob_Name.Rare -ieq "yes") {
-            #         $All_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob_Name)
-            #     }
-            # }
         }
         # select random mob from all collected mobs in array
         $Random_Rare_Mob_In_Current_Location_ID = Get-Random -Minimum 0 -Maximum ($All_Rare_Mobs_In_Current_Location | Measure-Object).count # measure-object added because incorrect number when there is only one rare mob
@@ -1797,15 +1797,6 @@ Function Get_Random_Mob {
                         $All_None_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob_Name)
                     }
             }
-            # if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Is_Active -eq $true) { # Home Town Tavern rat quest is active
-            #     if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Current_Location_Mob_Name.Rare -ieq "no") {
-            #         $All_None_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob_Name)
-            #     }
-            # } else {
-            #     if ($Import_JSON.Locations.$Current_Location.Mobs.$Current_Location_Mob_Name.Rare -ieq "no") {
-            #         $All_None_Rare_Mobs_In_Current_Location.Add($Current_Location_Mob_Name)
-            #     }
-            # }
         }
         # select random mob from all collected mobs in array
         $Random_None_Rare_Mob_In_Current_Location_ID = Get-Random -Minimum 0 -Maximum ($All_None_Rare_Mobs_In_Current_Location | Measure-Object).count # measure-object added because incorrect number when there is only one rare mob
