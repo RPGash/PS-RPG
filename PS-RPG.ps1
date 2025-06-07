@@ -3230,8 +3230,12 @@ Function Visit_a_Building {
                                                         Import_JSON
                                                     }
                                                 }
-                                                Get_Random_Mob
-                                                Fight_or_Run
+                                                $Random_10 = Get-Random -Minimum 1 -Maximum 11 # random gold value between 1 and 10
+                                                # 80% chance of finding a mob in the room
+                                                if ($Random_10 -gt 2) {
+                                                    Get_Random_Mob
+                                                    Fight_or_Run
+                                                }
                                                 Draw_Cellar_Map
                                                 $Script:Info_Banner = "Tavern Cellar"
                                                 Draw_Info_Banner
@@ -3249,32 +3253,32 @@ Function Visit_a_Building {
                                                     do {
                                                         # check if there are any containers in the current room that have not been searched
                                                         $Room_Container_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
-                                                        $Container_Names = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms."Room$Cellar_Quest_Current_Room_Number".Containers.PSObject.Properties.Name
+                                                        $Cellar_Container_Names = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms."Room$Cellar_Quest_Current_Room_Number".Containers.PSObject.Properties.Name
                                                         Add-Content -Path .\error.log -value "====================================================================="
                                                         Add-Content -Path .\error.log -value "Cellar_Quest_Current_Room_Number: $Cellar_Quest_Current_Room_Number"
-                                                        Add-Content -Path .\error.log -value "Container_Names: $Container_Names"
-                                                        $Container_Found = $false # reset container_found so it can be checked again next loop
-                                                        foreach ($Container_Name in $Container_Names) {
-                                                            if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms."Room$Cellar_Quest_Current_Room_Number".Containers.$Container_Name -eq $true) {
-                                                                $Container_Found = $true
-                                                                Add-Content -Path .\error.log -value "--Container_Found: $Container_Found true"
+                                                        Add-Content -Path .\error.log -value "Container_Names: $Cellar_Container_Names"
+                                                        $Cellar_Container_Found = $false # reset container_found so it can be checked again next loop
+                                                        foreach ($Cellar_Container_Name in $Cellar_Container_Names) {
+                                                            if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms."Room$Cellar_Quest_Current_Room_Number".Containers.$Cellar_Container_Name -eq $true) {
+                                                                $Cellar_Container_Found = $true
+                                                                Add-Content -Path .\error.log -value "--Container_Found: $Cellar_Container_Found true"
                                                             }
-                                                            Add-Content -Path .\error.log -value "Container_Found: $Container_Found"
+                                                            Add-Content -Path .\error.log -value "Container_Found: $Cellar_Container_Found"
                                                         }
                                                         # if there are any containers in the room that have not been searched, prompt to search
-                                                        if ($Container_Found -eq $true) {
+                                                        if ($Cellar_Container_Found -eq $true) {
                                                             for ($Position = 17; $Position -lt 36; $Position++) { # clear some lines from previous widow
                                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                                             }
                                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                                             Write-Color "  The room contains the following containers." -Color DarkGray
                                                             Add-Content -Path .\error.log -value "The room contains the following containers"
-                                                            foreach ($Container_Name in $Container_Names) {
-                                                                Add-Content -Path .\error.log -value "Container_Name: $Container_Name"
-                                                                if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms."Room$Cellar_Quest_Current_Room_Number".Containers.$Container_Name -eq $true) {
+                                                            foreach ($Cellar_Container_Name in $Cellar_Container_Names) {
+                                                                Add-Content -Path .\error.log -value "Container_Name: $Cellar_Container_Name"
+                                                                if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms."Room$Cellar_Quest_Current_Room_Number".Containers.$Cellar_Container_Name -eq $true) {
                                                                     Add-Content -Path .\error.log -value "Container_Name 1: true (expected)"
-                                                                    Write-Color "  $($Container_Name.Substring(0,1))","$($Container_Name.Substring(1,$Container_Name.Length-1))" -Color Green,DarkGray
-                                                                    $Room_Container_Letters_Array.Add($Container_Name.Substring(0,1))
+                                                                    Write-Color "  $($Cellar_Container_Name.Substring(0,1))","$($Cellar_Container_Name.Substring(1,$Cellar_Container_Name.Length-1))" -Color Green,DarkGray
+                                                                    $Room_Container_Letters_Array.Add($Cellar_Container_Name.Substring(0,1))
                                                                 } else {
                                                                     Add-Content -Path .\error.log -value "Container_Name 1: false (not expected)"
                                                                 }
@@ -3303,13 +3307,13 @@ Function Visit_a_Building {
                                                                         Add-Content -Path .\error.log -value "Random_True_False: $Random_True_False"
                                                                         if ($Random_True_False -eq $true) {
                                                                             # update container in JSON to false so it can't be searched again
-                                                                            Add-Content -Path .\error.log -value "Container_Names: $Container_Names"
-                                                                            foreach ($Container_Name in $Container_Names) {
-                                                                                Add-Content -Path .\error.log -value "Container_Name: $Container_Name"
-                                                                                if ($Container_Name.Substring(0,1) -ieq $Cellar_Room_Choice) {
-                                                                                    Add-Content -Path .\error.log -value "Container_Name.Substring: $($Container_Name.Substring(0,1))"
-                                                                                    $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms."Room$Cellar_Quest_Current_Room_Number".Containers.$Container_Name = $false # set container to false so it can't be searched again
-                                                                                    $Container_Name_Looted = $Container_Name
+                                                                            Add-Content -Path .\error.log -value "Container_Names: $Cellar_Container_Names"
+                                                                            foreach ($Cellar_Container_Name in $Cellar_Container_Names) {
+                                                                                Add-Content -Path .\error.log -value "Container_Name: $Cellar_Container_Name"
+                                                                                if ($Cellar_Container_Name.Substring(0,1) -ieq $Cellar_Room_Choice) {
+                                                                                    Add-Content -Path .\error.log -value "Container_Name.Substring: $($Cellar_Container_Name.Substring(0,1))"
+                                                                                    $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms."Room$Cellar_Quest_Current_Room_Number".Containers.$Cellar_Container_Name = $false # set container to false so it can't be searched again
+                                                                                    $Cellar_Container_Name_Looted = $Cellar_Container_Name
                                                                                     Add-Content -Path .\error.log -value "Container_Name 2: false (expected)"
                                                                                 } else {
                                                                                     Add-Content -Path .\error.log -value "Container_Name 2: true (not expected)"
@@ -3320,7 +3324,7 @@ Function Visit_a_Building {
                                                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                                                             }
                                                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                                                            Write-Color "  The ","$Container_Name_Looted ","contained ","$Random_5 Gold." -Color DarkGray,Blue,DarkGray,DarkYellow
+                                                                            Write-Color "  The ","$Cellar_Container_Name_Looted ","contained ","$Random_5 Gold." -Color DarkGray,Blue,DarkGray,DarkYellow
                                                                             $Import_JSON.Character.Gold += $Random_5
                                                                             $Script:Gold = $Import_JSON.Character.Gold
                                                                         } else { # did not find anything in the container
@@ -3328,15 +3332,15 @@ Function Visit_a_Building {
                                                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                                                             }
                                                                             # update container in JSON to false so it can't be searched again
-                                                                            foreach ($Container_Name in $Container_Names) {
-                                                                                if ($Container_Name.Substring(0,1) -ieq $Cellar_Room_Choice) {
-                                                                                    $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms."Room$Cellar_Quest_Current_Room_Number".Containers.$Container_Name = $false # set container to false so it can't be searched again
-                                                                                    $Container_Name_Looted = $Container_Name
+                                                                            foreach ($Cellar_Container_Name in $Cellar_Container_Names) {
+                                                                                if ($Cellar_Container_Name.Substring(0,1) -ieq $Cellar_Room_Choice) {
+                                                                                    $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms."Room$Cellar_Quest_Current_Room_Number".Containers.$Cellar_Container_Name = $false # set container to false so it can't be searched again
+                                                                                    $Cellar_Container_Name_Looted = $Cellar_Container_Name
                                                                                 }
                                                                             }
                                                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                                                            Write-Color "  The ","$Container_Name_Looted ","did not contain anything." -Color DarkGray,Blue
-                                                                            # $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms."Room$Cellar_Quest_Current_Room_Number".Containers.$Container_Name = $false # set container to false so it can't be searched again
+                                                                            Write-Color "  The ","$Cellar_Container_Name_Looted ","did not contain anything." -Color DarkGray,Blue
+                                                                            # $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms."Room$Cellar_Quest_Current_Room_Number".Containers.$Cellar_Container_Name = $false # set container to false so it can't be searched again
                                                                         }
                                                                         Update_Variables
                                                                         Draw_Player_Window_and_Stats
@@ -3357,7 +3361,7 @@ Function Visit_a_Building {
                                                         } else { # all containers in the room have been searched
                                                             $Cellar_Room_Choice = "x" # set to x so the loop can be exited. needs to be separate as some rooms have multiple containers
                                                         }
-                                                    } until ($Container_Found -eq $false -or $Cellar_Room_Choice -ieq "x") # exit loop if no containers found or if user chooses to exit
+                                                    } until ($Cellar_Container_Found -eq $false -or $Cellar_Room_Choice -ieq "x") # exit loop if no containers found or if user chooses to exit
                                                 } until ($Cellar_Room_Choice -ieq "x")
                                             }
                                             # Default {}
