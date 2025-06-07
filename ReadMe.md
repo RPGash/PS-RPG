@@ -4,7 +4,7 @@ An RPG text adventure coded in PowerShell.
 
 - Alpha build 𝜶
 - ~~May~~ Does contain bugs 🐛
-- Currently only works on Windows 🪟 (not tested on macOS or Linux - yet)
+- Currently only making sure it works on Windows 🪟 (not tested on macOS 🍏 or Linux 🐧 - yet)
 - Game currently not balanced ⚖️
 
 Why? - I love RPGs and PowerShell, so I thought it would be a good project.
