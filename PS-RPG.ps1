@@ -412,7 +412,7 @@ Function Inventory_Highlight {
 #
 # sets variables
 #
-Function Set_Variables {
+Function Update_Variables {
     $Script:Character_Name           = $Import_JSON.Character.Name
     $Script:Character_Class          = $Import_JSON.Character.Class
     $Script:Character_Race           = $Import_JSON.Character.Race
@@ -482,7 +482,7 @@ Function Level_Up {
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 13,12;$Host.UI.Write("");" "*6 # clears the TNL value because it shows a negative value while updating
         Save_JSON
         Import_JSON
-        Set_Variables
+        Update_Variables
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
         Draw_Player_Window_and_Stats
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,29;$Host.UI.Write("")
@@ -869,7 +869,7 @@ Function Create_Character {
     $Import_JSON.Character_Creation = $true
     Save_JSON
     Import_JSON
-    Set_Variables
+    Update_Variables
     Clear-Host
     Draw_Player_Window_and_Stats
 }
@@ -1704,7 +1704,7 @@ Function Inventory_Choice {
                 }
                 Save_JSON
                 Import_JSON
-                Set_Variables
+                Update_Variables
                 Draw_Player_Window_and_Stats # redraws play stats to update health or mana values
                 
                 if ($In_Combat -eq $true){
@@ -2093,7 +2093,7 @@ Function Fight_or_Run {
                     }
                 }
                 # update player stats before level up to update gold and XP
-                Set_Variables
+                Update_Variables
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                 Draw_Player_Window_and_Stats
                 # level up check
@@ -2106,7 +2106,7 @@ Function Fight_or_Run {
                 # update player stats after level up to show stat buffs
                 Save_JSON
                 Import_JSON
-                Set_Variables
+                Update_Variables
                 do {
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -2177,7 +2177,7 @@ Function Fight_or_Run {
             # $Import_JSON.Character.Stats.$Tavern_Drink_Bonus_Name = $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name$UnBuffed"
             # update unbuffed stat back to zero
             # $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name$UnBuffed" = 0
-            Set_Variables
+            Update_Variables
             Draw_Player_Window_and_Stats
         }
     }
@@ -2185,6 +2185,7 @@ Function Fight_or_Run {
     if ($Fight_or_Escape -ieq "e") { # Escape before combat starts
         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
         Write-Output "  You escaped from the $($Selected_Mob.Name)! (no combat)"
+        Write-Output ""
         $Script:Escaped_from_Mob = $true
     }
     $Script:In_Combat = $false
@@ -2491,7 +2492,7 @@ Function Draw_Cellar_Map {
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 96,11;$Host.UI.Write("-") # door West
         }
     }
-    # loop through all cellar rooms, draw all rooms that have been visited in DarkGray, also find current room to draw that room last in DarkCyan
+    # loop through all cellar rooms, draw all rooms that have been visited in DarkGray, also find current room to draw that room last in White
     foreach ($Cellar_Quest_Room in $Cellar_Quest_Rooms) {
         $Cellar_Quest_Room = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Quest_Room
         if ($Cellar_Quest_Room.Current_Location -eq $true) {
@@ -2886,7 +2887,7 @@ Function Visit_a_Building {
                                                     # sets the JSON character stat e.g. HealthMax to the current HealthMax value plus the difference (the bonus)
                                                     $Import_JSON.Character.Stats."$Tavern_Drink_Bonus_Name" += $Bonus_Stat_Difference
                                                     Save_JSON
-                                                    Set_Variables
+                                                    Update_Variables
                                                     Draw_Player_Window_and_Stats
                                                     switch ($Tavern_Drink_Bonus_Name) {
                                                         HealthMax {
@@ -3122,6 +3123,7 @@ Function Visit_a_Building {
                                     Draw_Info_Banner
                                     $Script:Cellar_Quest_Rooms = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.PSObject.Properties.Name
                                     do {
+                                        Add-Content -Path .\error.log -value "------------------------------------------------------------"
                                         for ($Position = 17; $Position -lt 25; $Position++) { # clear some lines from previous widow
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                         }
@@ -3133,6 +3135,7 @@ Function Visit_a_Building {
                                             foreach ($Cellar_Quest_Room_Current_Location in $Cellar_Quest_Room_Object) {
                                                 if ($Cellar_Quest_Room_Current_Location.Current_Location -eq $true) {
                                                     $Cellar_Quest_Current_Room_Number = $Cellar_Quest_Room_Current_Location.Room
+                                                    Add-Content -Path .\error.log -value "Cellar_Quest_Current_Room_Number 1: $Cellar_Quest_Current_Room_Number"
                                                     # get all Linked_Locations room names and loop through 
                                                     $Cellar_Quest_Current_Room_Number_Object = $Cellar_Quest_Room_Current_Location
                                                     foreach ($Cellar_Quest_Room_Name in $Cellar_Quest_Room_Object.LinkedRooms.PSObject.Properties.Name) {
@@ -3178,11 +3181,12 @@ Function Visit_a_Building {
                                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                                 }
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                                Write-Color "  Cellar_Quest_Current_Room_Number: $Cellar_Quest_Current_Room_Number" -Color DarkGray
                                                 Write-Color "  all other rooms" -Color DarkGray
                                             }
                                             $Cellar_Quest_Room_Direction_Array_String = $Cellar_Quest_Room_Direction_Array -Join "/"
                                         }
+                                        Write-Color "  Cellar_Quest_Current_Room_Number: $Cellar_Quest_Current_Room_Number" -Color DarkGray
+                                        Add-Content -Path .\error.log -value "Cellar_Quest_Current_Room_Number 2: $Cellar_Quest_Current_Room_Number"
                                         Draw_Cellar_Map
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -3204,21 +3208,154 @@ Function Visit_a_Building {
                                                 }
                                                 # update current location based on direction moved
                                                 $Cellar_Quest_Current_Room_Linked_Rooms = $Cellar_Quest_Current_Room_Number_Object.LinkedRooms.PSObject.Properties.Name
+                                                Add-Content -Path .\error.log -value "Cellar_Quest_Current_Room_Linked_Rooms: $Cellar_Quest_Current_Room_Linked_Rooms"
                                                 foreach ($Cellar_Quest_Current_Room_Linked_Room in $Cellar_Quest_Current_Room_Linked_Rooms) {
+                                                    Add-Content -Path .\error.log -value "Cellar_Quest_Current_Room_Linked_Room: $Cellar_Quest_Current_Room_Linked_Room"
                                                     if ($Cellar_Quest_Current_Room_Number_Object.LinkedRooms.$Cellar_Quest_Current_Room_Linked_Room -ieq "$Cellar_Direction") {
+                                                        Add-Content -Path .\error.log -value "Cellar_Quest_Current_Room_Number_Object.LinkedRooms.Cellar_Quest_Current_Room_Linked_Room: $($Cellar_Quest_Current_Room_Number_Object.LinkedRooms.$Cellar_Quest_Current_Room_Linked_Room)"
                                                         # set current room to false
                                                         $Cellar_Quest_Current_Room_Number_Object.Current_Location = $false
+                                                        Add-Content -Path .\error.log -value "Cellar_Quest_Current_Room_Number_Object: $Cellar_Quest_Current_Room_Number_Object"
+                                                        Add-Content -Path .\error.log -value "Cellar_Quest_Current_Room_Number_Object.Current_Location: $($Cellar_Quest_Current_Room_Number_Object.Current_Location)"
                                                         # update new room to current room
+                                                        Add-Content -Path .\error.log -value "current location before: $($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Quest_Current_Room_Linked_Room.Current_Location)"
+                                                        Add-Content -Path .\error.log -value "visited before: $($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Quest_Current_Room_Linked_Room.Visited)"
                                                         $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Quest_Current_Room_Linked_Room.Current_Location = $true
                                                         $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Quest_Current_Room_Linked_Room.Visited = $true
+                                                        Add-Content -Path .\error.log -value "visited after: $($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Quest_Current_Room_Linked_Room.Visited)"
+                                                        Add-Content -Path .\error.log -value "current location after: $($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Quest_Current_Room_Linked_Room.Current_Location)"
+                                                        # set current room number
+                                                        $Cellar_Quest_Current_Room_Number = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Quest_Current_Room_Linked_Room.Room
                                                         Save_JSON
                                                     }
                                                 }
+                                                Draw_Cellar_Map
                                                 Get_Random_Mob
                                                 Fight_or_Run
+                                                $Script:Info_Banner = "Tavern Cellar"
+                                                Draw_Info_Banner
+                                                do {
+                                                    # clears the combat area correctly after either escaping a mob or killing a mob
+                                                    if ($Script:Escaped_from_Mob -eq $true) {
+                                                        Draw_Cellar_Map
+                                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,20;$Host.UI.Write("")
+                                                    } else {
+                                                        for ($Position = 17; $Position -lt 25; $Position++) { # clear some lines from previous widow
+                                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                                        }
+                                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                                    }
+                                                    # check if there are any containers in the current room that have not been searched
+                                                    $Room_Container_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
+                                                    $Container_Names = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms."Room$Cellar_Quest_Current_Room_Number".Containers.PSObject.Properties.Name
+                                                    Add-Content -Path .\error.log -value "====================================================================="
+                                                    Add-Content -Path .\error.log -value "Cellar_Quest_Current_Room_Number: $Cellar_Quest_Current_Room_Number"
+                                                    Add-Content -Path .\error.log -value "Container_Names: $Container_Names"
+                                                    foreach ($Container_Name in $Container_Names) {
+                                                        if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms."Room$Cellar_Quest_Current_Room_Number".Containers.$Container_Name -eq $true) {
+                                                            $Container_Found = $true
+                                                        } else {
+                                                            $Container_Found = $false # reset container_found so it can be checked again next loop
+                                                        }
+                                                        Add-Content -Path .\error.log -value "Container_Found: $Container_Found"
+                                                    }
+                                                    # if there are any containers in the room that have not been searched, prompt to search
+                                                    if ($Container_Found -eq $true) {
+                                                        Write-Color "  The room contains the following containers." -Color DarkGray
+                                                        Add-Content -Path .\error.log -value "The room contains the following containers"
+                                                        foreach ($Container_Name in $Container_Names) {
+                                                            Add-Content -Path .\error.log -value "Container_Name: $Container_Name"
+                                                            if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms."Room$Cellar_Quest_Current_Room_Number".Containers.$Container_Name -eq $true) {
+                                                                Add-Content -Path .\error.log -value "Container_Name 1: true (expected)"
+                                                                Write-Color "  $($Container_Name.Substring(0,1))","$($Container_Name.Substring(1,$Container_Name.Length-1))" -Color Green,DarkGray
+                                                                $Room_Container_Letters_Array.Add($Container_Name.Substring(0,1))
+                                                            } else {
+                                                                Add-Content -Path .\error.log -value "Container_Name 1: false (not expected)"
+                                                            }
+                                                        }
+                                                        $Room_Container_Letters_Array_String = $Room_Container_Letters_Array -Join "/"
+                                                        $Room_Container_Letters_Array_String = $Room_Container_Letters_Array_String + "/X"
+                                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                                        Write-Color -NoNewLine "Search a container or e","X","it? ", "[$Room_Container_Letters_Array_String]" -Color DarkYellow,Green,DarkYellow,Green
+                                                        $null = $Cellar_Room_Choice
+                                                        $Cellar_Room_Choice = Read-Host " "
+                                                        $Cellar_Room_Choice = $Cellar_Room_Choice.Trim()
+                                                        switch ($Cellar_Room_Choice) {
+                                                            $Cellar_Room_Choice {
+                                                                # 50/50 chance of finding something in the container
+                                                                $Random_True_False = Get-Random -InputObject ([bool]$true,[bool]$false)
+                                                                Add-Content -Path .\error.log -value "Cellar_Room_Choice: $Cellar_Room_Choice"
+                                                                Add-Content -Path .\error.log -value "Random_True_False: $Random_True_False"
+                                                                if ($Random_True_False -eq $true) {
+                                                                    # update container in JSON to false so it can't be searched again
+                                                                    Add-Content -Path .\error.log -value "Container_Names: $Container_Names"
+                                                                    foreach ($Container_Name in $Container_Names) {
+                                                                        Add-Content -Path .\error.log -value "Container_Name: $Container_Name"
+                                                                        if ($Container_Name.Substring(0,1) -ieq $Cellar_Room_Choice) {
+                                                                            Add-Content -Path .\error.log -value "Container_Name.Substring: $($Container_Name.Substring(0,1))"
+                                                                            $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms."Room$Cellar_Quest_Current_Room_Number".Containers.$Container_Name = $false # set container to false so it can't be searched again
+                                                                            $Container_Name_Looted = $Container_Name
+                                                                            Add-Content -Path .\error.log -value "Container_Name 2: false (expected)"
+                                                                        } else {
+                                                                            Add-Content -Path .\error.log -value "Container_Name 2: true (not expected)"
+                                                                        }
+                                                                    }
+                                                                    $Random_5 = Get-Random -Minimum 1 -Maximum 6 # random gold value between 1 and 5
+                                                                    for ($Position = 17; $Position -lt 25; $Position++) { # clear some lines from previous widow
+                                                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                                                    }
+                                                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                                                    Write-Color "  The ","$Container_Name_Looted ","contained ","$Random_5 Gold." -Color DarkGray,Blue,DarkGray,DarkYellow
+                                                                    $Import_JSON.Character.Gold += $Random_5
+                                                                    $Script:Gold = $Import_JSON.Character.Gold
+                                                                } else { # did not find anything in the container
+                                                                    for ($Position = 17; $Position -lt 25; $Position++) { # clear some lines from previous widow
+                                                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                                                    }
+                                                                    # update container in JSON to false so it can't be searched again
+                                                                    foreach ($Container_Name in $Container_Names) {
+                                                                        if ($Container_Name.Substring(0,1) -ieq $Cellar_Room_Choice) {
+                                                                            $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms."Room$Cellar_Quest_Current_Room_Number".Containers.$Container_Name = $false # set container to false so it can't be searched again
+                                                                            $Container_Name_Looted = $Container_Name
+                                                                        }
+                                                                    }
+                                                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                                                    Write-Color "  The ","$Container_Name_Looted ","did not contain anything." -Color DarkGray,Blue
+                                                                    # $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms."Room$Cellar_Quest_Current_Room_Number".Containers.$Container_Name = $false # set container to false so it can't be searched again
+                                                                }
+                                                            }
+                                                            # Default {}
+                                                        }
+                                                        Update_Variables
+                                                        Draw_Player_Window_and_Stats
+                                                        Save_JSON
+                                                        Import_JSON
+                                                        do {
+                                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                                            Write-Color -NoNewLine "C","ontinue ","[C]" -Color Green,DarkYellow,Green
+                                                            $Continue_After_Searching_Container = Read-Host " "
+                                                            $Continue_After_Searching_Container = $Continue_After_Searching_Container.Trim()
+                                                        } until ($Continue_After_Searching_Container -ieq "c")
+                                                        
+                                                        $Cellar_Room_Choice = "x" # set to x so the loop can be exited
+                                                    } else { # all containers in the room have been searched
+                                                        do {
+                                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                                            Write-Color -NoNewLine "C","ontinue ","[C]" -Color Green,DarkYellow,Green
+                                                            $Continue_After_Searching_All_Containers = Read-Host " "
+                                                            $Continue_After_Searching_All_Containers = $Continue_After_Searching_All_Containers.Trim()
+                                                        } until ($Continue_After_Searching_All_Containers -ieq "c")
+                                                        $Cellar_Room_Choice = "x" # set to x so the loop can be exited
+                                                    }
+                                                } until ($Cellar_Room_Choice -ieq "x")
                                             }
-                                            Default {}
+                                            # Default {}
                                         }
+                                        # Get_Random_Mob
+                                        # Fight_or_Run
                                 } until ($Cellar_Direction -ieq "x")
                             }
                             Default {}
@@ -3313,7 +3450,7 @@ Function Visit_a_Building {
                                 }
                                 Save_JSON
                                 Clear-Host
-                                Set_Variables
+                                Update_Variables
                                 Draw_Introduction_Tasks
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                                 Draw_Player_Window_and_Stats
@@ -3511,7 +3648,7 @@ Function Visit_a_Building {
                                                     $Import_JSON.Items.$Elixir_Emporium_Purchase_Choice_Potion_Name.Quantity += $Elixir_Emporium_Purchase_Potion_Quantity_Choice
                                                     $Import_JSON.Character.Gold -= $Elixir_Emporium_Purchase_Choice_Potion_GoldValue
                                                     Save_JSON
-                                                    Set_Variables
+                                                    Update_Variables
                                                     # update introduction task and update Introduction Tasks window
                                                     $Import_JSON.Introduction_Tasks.Tick_Purchase_a_Potion = $true
                                                     $Import_JSON.Locations."Home Town".Location_Options.Hunt = $true
@@ -3635,7 +3772,7 @@ Function Visit_a_Building {
                                                 $Import_JSON.Items.$Inventory_Item_Name.Quantity -= $Elixir_Emporium_Sell_Potion_Quantity_Choice
                                                 $Import_JSON.Character.Gold += $Potion_GoldValue * $Elixir_Emporium_Sell_Potion_Quantity_Choice
                                                 Save_JSON
-                                                Set_Variables
+                                                Update_Variables
                                             }
                                         }
                                     }
@@ -3981,14 +4118,14 @@ if (Test-Path -Path .\PS-RPG.json) {
             Exit
         } else {
             Write-Color "PS-RPG.json"," file is ","valid." -Color Magenta,DarkYellow,Green
-            Start-Sleep -Seconds 1
+            # Start-Sleep -Seconds 1 # pause to show valid JSON message
         }
     }
     do {
         Clear-Host
         # display current saved file info
         Import_JSON
-        Set_Variables
+        Update_Variables
         Draw_Player_Window_and_Stats
         Draw_Inventory
         Draw_Introduction_Tasks
@@ -4005,7 +4142,7 @@ if (Test-Path -Path .\PS-RPG.json) {
         }
         if ($Load_Save_Data_Choice -ieq "y") {
             # Import_JSON
-            # Set_Variables
+            # Update_Variables
             Clear-Host
             Draw_Player_Window_and_Stats
         }
@@ -4072,7 +4209,7 @@ do {
             # update player stats after level up to show stat buffs
             Save_JSON
             Import_JSON
-            Set_Variables
+            Update_Variables
             $host.UI.RawUI.ForegroundColor = "Cyan"
             $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 84,20;$Host.UI.Write("                .")
             $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 84,21;$Host.UI.Write(" .. ............;;.")

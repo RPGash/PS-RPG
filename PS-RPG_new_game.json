@@ -394,7 +394,7 @@
               }
             },
             "Cellar_Quest": {
-              "Is_Active": false,
+              "Is_Active": true,
               "Rooms": {
                 "Room1": {
                   "Room": "1",
@@ -402,6 +402,13 @@
                   "Visited": false,
                   "LinkedRooms": {
                     "Room2": "E"
+                  },
+                  "Secret": {
+                    "Found": false
+                  },
+                  "Containers": {
+                    "Pouch": true,
+                    "Cabinet": true
                   }
                 },
                 "Room2": {
@@ -411,6 +418,9 @@
                   "LinkedRooms": {
                     "Room1": "W",
                     "Room7": "S"
+                  },
+                  "Containers": {
+                    "Pouch": true
                   }
                 },
                 "Room3": {
@@ -420,6 +430,9 @@
                   "LinkedRooms": {
                     "Room4": "E",
                     "Room9": "S"
+                  },
+                  "Containers": {
+                    "Pouch": true
                   }
                 },
                 "Room4": {
@@ -429,6 +442,9 @@
                   "LinkedRooms": {
                     "Room3": "W",
                     "Room5": "E"
+                  },
+                  "Containers": {
+                    "Pouch": true
                   }
                 },
                 "Room5": {
@@ -438,14 +454,21 @@
                   "LinkedRooms": {
                     "Room4": "W",
                     "Room11": "S"
+                  },
+                  "Containers": {
+                    "Pouch": true
                   }
                 },
                 "Room6": {
                   "Room": "6",
-                  "Current_Location": true,
-                  "Visited": true,
+                  "Current_Location": false,
+                  "Visited": false,
                   "LinkedRooms": {
                     "Room7": "E"
+                  },
+                  "Containers": {
+                    "Pouch": true,
+                    "Cabinet": true
                   }
                 },
                 "Room7": {
@@ -456,6 +479,9 @@
                     "Room2": "N",
                     "Room6": "W",
                     "Room8": "S"
+                  },
+                  "Containers": {
+                    "Pouch": true
                   }
                 },
                 "Room8": {
@@ -465,6 +491,9 @@
                   "LinkedRooms": {
                     "Room7": "N",
                     "Room9": "E"
+                  },
+                  "Containers": {
+                    "Pouch": true
                   }
                 },
                 "Room9": {
@@ -475,6 +504,9 @@
                     "Room3": "N",
                     "Room8": "W",
                     "Room10": "E"
+                  },
+                  "Containers": {
+                    "Pouch": true
                   }
                 },
                 "Room10": {
@@ -484,6 +516,11 @@
                   "LinkedRooms": {
                     "Room9": "W",
                     "Room11": "E"
+                  },
+                  "Containers": {
+                    "Pouch": true,
+                    "Cabinet": true,
+                    "Vault": true
                   }
                 },
                 "Room11": {
@@ -493,6 +530,10 @@
                   "LinkedRooms": {
                     "Room5": "N",
                     "Room10": "W"
+                  },
+                  "Containers": {
+                    "Pouch": true,
+                    "Strongbox": true
                   }
                 }
               }
