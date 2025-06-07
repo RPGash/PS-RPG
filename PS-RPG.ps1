@@ -9,6 +9,7 @@ ToDo
     - 
     
 - NEXT
+    - search cellar room 1 for a secret
     - buy items in the Anvil & Blade shop
     - add spells
     - add item equipment drops from mob loot
@@ -3163,7 +3164,7 @@ Function Visit_a_Building {
                                                 }
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                                 Write-Color "  room 1" -Color DarkGray
-                                                Write-Color "  searchroom and find a potion" -Color DarkGray
+                                                # Write-Color "  search room for a secret?" -Color DarkGray
                                             } elseif ($Cellar_Quest_Current_Room_Number -eq "10") {
                                                 for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
                                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
@@ -3176,13 +3177,12 @@ Function Visit_a_Building {
                                                 }
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                                 Write-Color "  room 11" -Color DarkGray
-                                                Write-Color "  searchroom and find a potion" -Color DarkGray
                                             } else {
                                                 for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
                                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                                 }
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                                Write-Color "  all other rooms" -Color DarkGray
+                                                # Write-Color "  all other rooms" -Color DarkGray
                                             }
                                             $Cellar_Quest_Room_Direction_Array_String = $Cellar_Quest_Room_Direction_Array -Join "/"
                                         }
