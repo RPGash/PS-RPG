@@ -3351,11 +3351,11 @@ Function Visit_a_Building {
                                                                 }
                                                                 # Default {}
                                                             }
-                                                            $Cellar_Room_Choice = "x" # set to x so the loop can be exited. needs to be separate as some rooms have multiple containers
+                                                            # $Cellar_Room_Choice = "x" # set to x so the loop can be exited. needs to be separate as some rooms have multiple containers
                                                         } else { # all containers in the room have been searched
                                                             $Cellar_Room_Choice = "x" # set to x so the loop can be exited. needs to be separate as some rooms have multiple containers
                                                         }
-                                                    } until ($Container_Found -eq $false)
+                                                    } until ($Container_Found -eq $false -or $Cellar_Room_Choice -ieq "x") # exit loop if no containers found or if user chooses to exit
                                                 } until ($Cellar_Room_Choice -ieq "x")
                                             }
                                             # Default {}
