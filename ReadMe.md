@@ -2,7 +2,7 @@
 
 An RPG text adventure coded in PowerShell.
 
-- Alpha build
+- Alpha build 𝜶
 - ~~May~~ Does contain bugs 🐛
 - Currently only works on Windows 🪟 (not tested on macOS or Linux - yet)
 - Game currently not balanced ⚖️
