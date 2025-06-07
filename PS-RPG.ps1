@@ -3281,12 +3281,14 @@ Function Visit_a_Building {
                                                             }
                                                             $Room_Container_Letters_Array_String = $Room_Container_Letters_Array -Join "/"
                                                             $Room_Container_Letters_Array_String = $Room_Container_Letters_Array_String + "/X"
-                                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
-                                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                                            Write-Color -NoNewLine "Search a container or e","X","it? ", "[$Room_Container_Letters_Array_String]" -Color DarkYellow,Green,DarkYellow,Green
-                                                            $Cellar_Room_Choice = ""
-                                                            $Cellar_Room_Choice = Read-Host " "
-                                                            $Cellar_Room_Choice = $Cellar_Room_Choice.Trim()
+                                                            do {
+                                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                                                Write-Color -NoNewLine "Search a container or e","X","it? ", "[$Room_Container_Letters_Array_String]" -Color DarkYellow,Green,DarkYellow,Green
+                                                                # $Cellar_Room_Choice = ""
+                                                                $Cellar_Room_Choice = Read-Host " "
+                                                                $Cellar_Room_Choice = $Cellar_Room_Choice.Trim()
+                                                            } until ($Cellar_Room_Choice -in $Room_Container_Letters_Array -or $Cellar_Room_Choice -ieq "x")
                                                             switch ($Cellar_Room_Choice) {
                                                                 $Cellar_Room_Choice {
                                                                     # if choice is x, don't loot container
