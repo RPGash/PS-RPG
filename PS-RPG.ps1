@@ -2735,9 +2735,9 @@ Function Visit_a_Building {
                     $Drink_Purchased = $false
                     $Quest_Accepted = $false
                     do {
-                        $Script:Info_Banner = "Tavern"
-                        Draw_Info_Banner
                         do {
+                            $Script:Info_Banner = "Tavern"
+                            Draw_Info_Banner
                             if ($First_Time_Entered_Tavern -eq $true) {
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                 Write-Color "  Welcome adventurer, my name is ","$($Import_JSON.Locations."Home Town".Buildings.Tavern.Owner)",", and i am the owner of this Tavern." -Color DarkGray,Blue,DarkGray
@@ -2788,6 +2788,11 @@ Function Visit_a_Building {
                             }
                             if ($First_Time_Entered_Cellar -eq $true) {
                                 Draw_Town_Map # re-draw town map after exiting cellar
+                                # update building words in location map. white to current building and reset location to dark yellow 
+                                $host.UI.RawUI.ForegroundColor = "DarkYellow"
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
+                                $host.UI.RawUI.ForegroundColor = "White"
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("Tavern")
                                 for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                 }
