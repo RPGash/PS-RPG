@@ -2975,7 +2975,7 @@ Function Visit_a_Building {
                                             $Import_JSON.Quests.$Quest_Name.Status = "In Progress"
                                             Save_JSON
                                         } else {
-                                            for ($Position = 17; $Position -lt 31; $Position++) { # clear some lines from previous widow
+                                            for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                             }
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
@@ -3070,11 +3070,8 @@ Function Visit_a_Building {
                                                 $Quest_Name.In_Progress = $false
                                                 $Quest_Name.Available = $true
                                                 $Quest_Name.Progress = 0
-                                                # update gold
+                                                # update quest reward gold
                                                 $Import_JSON.Character.Gold += $Quest_Name.Gold_Reward
-                                                $Script:Gold = $Import_JSON.Character.Gold
-                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
-                                                Draw_Player_Window_and_Stats
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,25;$Host.UI.Write("");" "*105
                                                 Write-Color "  Thank you for completing this quest ","$Character_Name",". Here is your reward." -Color DarkGray,Blue,DarkGray
                                                 Write-Color "  $($Quest_Name.Gold_Reward) Gold" -Color DarkYellow
@@ -3092,6 +3089,22 @@ Function Visit_a_Building {
                                                         Write-Color "  x$($Quest_Name.Item_Reward.$Quest_Hand_In_Item) ","$Quest_Hand_In_Item $Max_99_Items" -Color White,DarkGray
                                                     }
                                                 }
+                                                # Rat Infestation quest - if King Rat has been killed, give bonus gold
+                                                if ($Quest_Name.Name -ieq "Rat Infestation") {
+                                                    Add-Content -Path .\error.log -value "Rat Infestation quest"
+                                                    if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs."King Rat".Killed -gt $Cellar_Quest_King_Rat_Kills_Before_Entering) {
+                                                        Add-Content -Path .\error.log -value "Rat Infestation quest bonus gold"
+                                                        $Cellar_Quest_King_Rat_Kills_Difference = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs."King Rat".Killed - $Cellar_Quest_King_Rat_Kills_Before_Entering
+                                                        Add-Content -Path .\error.log -value "Cellar_Quest_King_Rat_Kills_Difference: $Cellar_Quest_King_Rat_Kills_Difference"
+                                                        $Cellar_Quest_King_Rat_Kills_Bonus_Gold = $Cellar_Quest_King_Rat_Kills_Difference * 10
+                                                        Add-Content -Path .\error.log -value "Cellar_Quest_King_Rat_Kills_Bonus_Gold: $Cellar_Quest_King_Rat_Kills_Bonus_Gold"
+                                                        Write-Color -LinesBefore 1 "  $Character_Name",", you managed to kill the ","King Rat ","as well! Please accept this bonus of ","$Cellar_Quest_King_Rat_Kills_Bonus_Gold Gold","." -Color Blue,DarkGray,Blue,DarkGray,DarkYellow,DarkGray
+                                                        $Import_JSON.Character.Gold += $Cellar_Quest_King_Rat_Kills_Bonus_Gold
+                                                    }
+                                                }
+                                                $Script:Gold = $Import_JSON.Character.Gold
+                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
+                                                Draw_Player_Window_and_Stats
                                                 Draw_Inventory
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -3111,6 +3124,9 @@ Function Visit_a_Building {
                             # enter the Cellar (rat quest)
                             c {
                                 $First_Time_Entered_Cellar = $true
+                                # get how many time the king rat has been killed for a bonus if killed
+                                $Cellar_Quest_King_Rat_Kills_Before_Entering = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs."King Rat".Killed
+                                Add-Content -Path .\error.log -value "Cellar_Quest_King_Rat_Kills_Before_Entering before: $Cellar_Quest_King_Rat_Kills_Before_Entering"
                                 # set quest as active
                                 $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Is_Active = $true
                                 # reset cellar rooms visited (resets every time cellar is entered)

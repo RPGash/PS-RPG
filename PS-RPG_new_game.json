@@ -1080,7 +1080,7 @@
       "Introduction_Task": true,
       "Name": "Rat infestation",
       "Quest_Letter": "R",
-      "Description": "kill stuff",
+      "Description": "Obligatory RPG rat quest",
       "Hand_In_Location": "Town",
       "Building": "Tavern",
       "Hand_In_NPC": "Quest Board",
