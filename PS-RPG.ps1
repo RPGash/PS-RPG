@@ -3096,16 +3096,22 @@ Function Visit_a_Building {
                                                 }
                                                 # Rat Infestation quest - if King Rat has been killed, give bonus gold
                                                 if ($Quest_Name.Name -ieq "Rat Infestation") {
-                                                    Add-Content -Path .\error.log -value "Rat Infestation quest"
                                                     if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs."King Rat".Killed -gt $Cellar_Quest_King_Rat_Kills_Before_Entering) {
-                                                        Add-Content -Path .\error.log -value "Rat Infestation quest bonus gold"
                                                         $Cellar_Quest_King_Rat_Kills_Difference = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs."King Rat".Killed - $Cellar_Quest_King_Rat_Kills_Before_Entering
-                                                        Add-Content -Path .\error.log -value "Cellar_Quest_King_Rat_Kills_Difference: $Cellar_Quest_King_Rat_Kills_Difference"
                                                         $Cellar_Quest_King_Rat_Kills_Bonus_Gold = $Cellar_Quest_King_Rat_Kills_Difference * 10
-                                                        Add-Content -Path .\error.log -value "Cellar_Quest_King_Rat_Kills_Bonus_Gold: $Cellar_Quest_King_Rat_Kills_Bonus_Gold"
                                                         Write-Color -LinesBefore 1 "  $Character_Name",", you managed to kill the ","King Rat ","as well! Please accept this bonus of ","$Cellar_Quest_King_Rat_Kills_Bonus_Gold Gold","." -Color Blue,DarkGray,Blue,DarkGray,DarkYellow,DarkGray
                                                         $Import_JSON.Character.Gold += $Cellar_Quest_King_Rat_Kills_Bonus_Gold
                                                     }
+                                                    # resets all containers to true so they can be searched again (only on quest completion)
+                                                    $Cellar_Room_Names = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.PSObject.Properties.Name
+                                                    foreach ($Cellar_Room_Name in $Cellar_Room_Names) {
+                                                        # get all containers in the room
+                                                        $Cellar_Container_Names = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Room_Name.Containers.PSObject.Properties.Name
+                                                        foreach ($Cellar_Container_Name in $Cellar_Container_Names) {
+                                                            $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Room_Name.Containers.$Cellar_Container_Name = $true
+                                                        }
+                                                    }
+                                                    Save_JSON
                                                 }
                                                 $Script:Gold = $Import_JSON.Character.Gold
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
@@ -3123,12 +3129,11 @@ Function Visit_a_Building {
                                     $Exit_Quest_Board = $true
                                     $Exit_Drinks_Menu = $false
                                     $First_Time_Looking_at_Quest_Board = $false
-                                    $First_Time_Entered_Cellar = $false
                                 } until ($Tavern_Quest_Board_Choice -ieq "e")
                             }
                             # enter the Cellar (rat quest)
                             c {
-                                $First_Time_Entered_Cellar = $true
+                                $First_Time_Entered_Cellar = $false # set to false here, then set to true when the player enters room 6 (enter/exit)
                                 # get how many time the king rat has been killed for a bonus if killed
                                 $Cellar_Quest_King_Rat_Kills_Before_Entering = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs."King Rat".Killed
                                 Add-Content -Path .\error.log -value "Cellar_Quest_King_Rat_Kills_Before_Entering before: $Cellar_Quest_King_Rat_Kills_Before_Entering"
@@ -3147,11 +3152,9 @@ Function Visit_a_Building {
                                     $Script:Info_Banner = "Tavern Cellar"
                                     Draw_Info_Banner
                                     $Script:Cellar_Quest_Rooms = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.PSObject.Properties.Name
-                                    do {
-                                        for ($Position = 17; $Position -lt 25; $Position++) { # clear some lines from previous widow
-                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                                        }
-                                        $Cellar_Quest_Room_Direction_Array = New-Object System.Collections.Generic.List[System.Object]
+
+                                    
+                                    $Cellar_Quest_Room_Direction_Array = New-Object System.Collections.Generic.List[System.Object]
                                         # loop through all Cellar quest rooms and get room direction letters for current room
                                         foreach ($Cellar_Quest_Room in $Cellar_Quest_Rooms) {
                                             # get current cellar quest room as an object
@@ -3168,47 +3171,30 @@ Function Visit_a_Building {
                                                     }
                                                 }
                                             }
-                                            # check if current location is room 6 (the exit) and if Room6's "Current_Location" is $true. if it is, add the "X" choice to the array, then break out of the loop
-                                            if ($Cellar_Quest_Room_Current_Location.Room -eq "6" -and $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.Room6.Current_Location -eq $true) {
-                                                $Cellar_Quest_Room_Direction_Array.Add("X")
-                                                $Cellar_Quest_Room_Direction_Array_String = $Cellar_Quest_Room_Direction_Array -Join "/"
-                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                                Write-Color "  You walk down the stone cellar steps being careful not to slip on the mold and rat droppings." -Color DarkGray
-                                                Write-Color "  It's damp and dark. Your torch barly makes a difference down here." -Color DarkGray
-                                                Write-Color -LinesBefore 1 "  Use the four main cardinal directions of a compass to move about in the cellar. ","N",", ","S",", ","E ","and ","W","." -Color DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray
-                                                Write-Color "  Look for the ","Green ","line (","-"," or ","|",") on the edges of the room walls which indicates a joning room." -Color DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray
-                                                Write-Color -LinesBefore 1 "  Note:"," to exit the Cellar, move back to this room and enter '","X","' to eXit (not the usual 'E')." -Color Red,DarkGray,Green,DarkGray
-                                                Break
-                                            } elseif ($Cellar_Quest_Current_Room_Number -eq "1") {
-                                                for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
-                                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                                                }
-                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                                Write-Color "  room 1" -Color DarkGray
-                                                # Write-Color "  search room for a secret?" -Color DarkGray
-                                            } elseif ($Cellar_Quest_Current_Room_Number -eq "10") {
-                                                for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
-                                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                                                }
-                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                                Write-Color "  room 10" -Color DarkGray
-                                            } elseif ($Cellar_Quest_Current_Room_Number -eq "11") {
-                                                for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
-                                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                                                }
-                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                                Write-Color "  room 11" -Color DarkGray
-                                            } else {
-                                                for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
-                                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                                                }
-                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                                # Write-Color "  all other rooms" -Color DarkGray
-                                            }
-                                            $Cellar_Quest_Room_Direction_Array_String = $Cellar_Quest_Room_Direction_Array -Join "/"
                                         }
+                                        # check if current location is room 6 (the exit) and if Room6's "Current_Location" is $true.
+                                        # if it is, add the "X" choice to the array, then break out of the loop
+                                        if ($First_Time_Entered_Cellar -eq $false) {
+                                            for ($Position = 17; $Position -lt 25; $Position++) { # clear some lines from previous widow
+                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                            }
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                            Write-Color "  You walk down the stone cellar steps being careful not to slip on the mold and rat droppings." -Color DarkGray
+                                            Write-Color "  It's damp and dark. Your torch barly makes a difference down here." -Color DarkGray
+                                            Write-Color -LinesBefore 1 "  Use the four main cardinal directions of a compass to move about in the cellar. ","N",", ","S",", ","E ","and ","W","." -Color DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray
+                                            Write-Color "  Look for the ","Green ","line (","-"," or ","|",") on the edges of the room walls which indicates a joning room." -Color DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray
+                                            Write-Color -LinesBefore 1 "  Note:"," to exit the Cellar, move back to this room and enter '","X","' to eXit (not the usual 'E')." -Color Red,DarkGray,Green,DarkGray
+                                            $First_Time_Entered_Cellar = $true
+                                        }
+                                        if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.Room6.Current_Location -eq $true) {
+                                            # if in room 6 (cellar exit), add the "X" choice to the array
+                                            $Cellar_Quest_Room_Direction_Array.Add("X")
+                                        }
+                                        $Cellar_Quest_Room_Direction_Array_String = $Cellar_Quest_Room_Direction_Array -Join "/"
                                         # Write-Color "  Cellar_Quest_Current_Room_Number: $Cellar_Quest_Current_Room_Number" -Color DarkGray
                                         Draw_Cellar_Map
+
+                                    do {
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                                         if ($Cellar_Quest_Room_Current_Location.Room -eq "6" -and $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.Room6.Current_Location -eq $true) {
@@ -3283,7 +3269,6 @@ Function Visit_a_Building {
                                                             if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms."Room$Cellar_Quest_Current_Room_Number".Containers.$Cellar_Container_Name -eq $true) {
                                                                 Write-Color "  $($Cellar_Container_Name.Substring(0,1))","$($Cellar_Container_Name.Substring(1,$Cellar_Container_Name.Length-1))" -Color Green,DarkGray
                                                                 $Room_Container_Letters_Array.Add($Cellar_Container_Name.Substring(0,1))
-                                                            } else {
                                                             }
                                                         }
                                                         $Room_Container_Letters_Array_String = $Room_Container_Letters_Array -Join "/"
@@ -3335,7 +3320,6 @@ Function Visit_a_Building {
                                                                         }
                                                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                                                         Write-Color "  The ","$Cellar_Container_Name_Looted ","did not contain anything." -Color DarkGray,Blue
-                                                                        # $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms."Room$Cellar_Quest_Current_Room_Number".Containers.$Cellar_Container_Name = $false # set container to false so it can't be searched again
                                                                     }
                                                                     Update_Variables
                                                                     Draw_Player_Window_and_Stats
@@ -3356,12 +3340,49 @@ Function Visit_a_Building {
                                                     } else { # all containers in the room have been searched
                                                         $Cellar_Room_Choice = "x" # set to x so the loop can be exited. needs to be separate as some rooms have multiple containers
                                                     }
+
+
+                                                    if ($Cellar_Quest_Current_Room_Number -eq "1") { # room 1 (special loot room)
+                                                        for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
+                                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                                        }
+                                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                                        Write-Color "  room 1" -Color DarkGray
+                                                        # Write-Color "  search room for a secret?" -Color DarkGray
+                                                    } elseif ($Cellar_Quest_Current_Room_Number -eq "6") { # room 6 (Cellar entrance/exit)
+                                                        for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
+                                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                                        }
+                                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                                        Write-Color "  The stairs in this room lead back up to the Tavern." -Color DarkGray
+                                                    } elseif ($Cellar_Quest_Current_Room_Number -eq "10") { # room 10 (King Rat room)
+                                                        for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
+                                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                                        }
+                                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                                        Write-Color "  room 10" -Color DarkGray
+                                                    } elseif ($Cellar_Quest_Current_Room_Number -eq "11") { # room 11 (special loot room)
+                                                        for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
+                                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                                        }
+                                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                                        Write-Color "  room 11" -Color DarkGray
+                                                    } else { # all other rooms
+                                                        for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
+                                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                                        }
+                                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                                        Write-Color "  all other rooms" -Color DarkGray
+                                                    }
+                                                    # Read-Host "  Press Enter to continue"
+
+
                                                 } until ($Cellar_Container_Found -eq $false -or $Cellar_Room_Choice -ieq "x") # exit loop if no containers found or if user chooses to exit
                                             } until ($Cellar_Room_Choice -ieq "x")
                                         }
                                         # Default {}
                                     }
-                                } until ($Cellar_Direction -ieq "x")
+                                } until ($Cellar_Direction -ieq "x") # exit the cellar (only if in room 6)
                             }
                             Default {}
                         }
