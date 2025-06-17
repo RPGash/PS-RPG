@@ -1445,7 +1445,7 @@ Function Draw_Inventory {
 }
 
 # draws the shop potions in the shop window
-# same as the Draw_Invenroty but no quantities
+# same as the Draw_Intentory but no quantities
 # quantity lines commented out in case i add them back in with a limit on how many that can be purchased.
 # if quantities are added back in, then a GoldValueSell and GoldValueBuy will need to be added to the JSON file for each item
 Function Draw_Shop_Potions {
@@ -2966,7 +2966,7 @@ Function Visit_a_Building {
                                             $Import_JSON.Introduction_Tasks.Tick_Accept_a_Quest = $true
                                             Draw_Introduction_Tasks
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                            for ($Position = 17; $Position -lt 31; $Position++) { # clear some lines from previous widow
+                                            for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                             }
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
@@ -3068,8 +3068,6 @@ Function Visit_a_Building {
                                                 # update introduction task and update Introduction Tasks window
                                                 $Import_JSON.Introduction_Tasks.Tick_View_Inventory = $true
                                                 $Import_JSON.Introduction_Tasks.Tick_Hand_in_Completed_Quest = $true
-                                                Save_JSON
-                                                Draw_Introduction_Tasks
                                                 # reset quest
                                                 $Quest_Name.Status = "Available"
                                                 $Quest_Name.In_Progress = $false
@@ -3111,11 +3109,14 @@ Function Visit_a_Building {
                                                             $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Room_Name.Containers.$Cellar_Container_Name = $true
                                                         }
                                                     }
-                                                    Save_JSON
+                                                    # reset secret in room1
+                                                    $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.Room1.Secret.Found = $true
                                                 }
                                                 $Script:Gold = $Import_JSON.Character.Gold
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
+                                                Save_JSON
                                                 Draw_Player_Window_and_Stats
+                                                Draw_Introduction_Tasks
                                                 Draw_Inventory
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -3340,15 +3341,37 @@ Function Visit_a_Building {
                                                     } else { # all containers in the room have been searched
                                                         $Cellar_Room_Choice = "x" # set to x so the loop can be exited. needs to be separate as some rooms have multiple containers
                                                     }
-
-
-                                                    if ($Cellar_Quest_Current_Room_Number -eq "1") { # room 1 (special loot room)
+                                                    if ($Cellar_Quest_Current_Room_Number -eq "1") { # room 1 (secret brick room)
                                                         for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
                                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                                         }
                                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                                        Write-Color "  room 1" -Color DarkGray
-                                                        # Write-Color "  search room for a secret?" -Color DarkGray
+                                                        if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.Room1.Secret.Found -eq $false) {
+                                                            Write-Color "  You notice a loose brick in the wall." -Color DarkGray
+                                                            Write-Color "  Do you try and remove the brick?" -Color DarkGray
+                                                            do {
+                                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                                                Write-Color -NoNewLine "R","emove the brick or ","L","eave it alone? ","[R/L]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                                                                $Cellar_Room1_Secret_Choice = Read-Host " "
+                                                                $Cellar_Room1_Secret_Choice = $Cellar_Room1_Secret_Choice.Trim()
+                                                            } until ($Cellar_Room1_Secret_Choice -ieq "r" -or $Cellar_Room1_Secret_Choice -ieq "l")
+                                                            if ($Cellar_Room1_Secret_Choice -ieq "r") { # remove the brick
+                                                                # set secret found to true so it can't be found again
+                                                                $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.Room1.Secret.Found = $true
+                                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,20;$Host.UI.Write("")
+                                                                $Random_30_50 = Get-Random -Minimum 30 -Maximum 251 # random gold value between 30 and 50
+                                                                Write-Color "  You remove the brick and find a small stash of ","$Random_30_50 Gold ","hidden behind it." -Color DarkGray,DarkYellow,DarkGray
+                                                                $Import_JSON.Character.Gold += $Random_30_50
+                                                                Update_Variables
+                                                                Draw_Player_Window_and_Stats
+                                                                Save_JSON
+                                                            }
+                                                            if ($Cellar_Room1_Secret_Choice -ieq "l") { # leave the brick alone
+                                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,20;$Host.UI.Write("")
+                                                                Write-Color "  You decide to leave the brick alone." -Color DarkGray
+                                                            }
+                                                        }
                                                     } elseif ($Cellar_Quest_Current_Room_Number -eq "6") { # room 6 (Cellar entrance/exit)
                                                         for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
                                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
@@ -3366,7 +3389,34 @@ Function Visit_a_Building {
                                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                                         }
                                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                                        Write-Color "  room 11" -Color DarkGray
+                                                        if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.Room11.Secret.Found -eq $false) {
+                                                            Write-Color "  You notice what looks like a glass bottle under the rubble in the corner of the room." -Color DarkGray
+                                                            Write-Color "  Do you dig through the rubble?" -Color DarkGray
+                                                            do {
+                                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                                                Write-Color -NoNewLine "D","ig through the rubble or ","L","eave the item alone? ","[D/L]" -Color Green,DarkYellow,Green,DarkYellow,Green
+                                                                $Cellar_Room11_Secret_Choice = Read-Host " "
+                                                                $Cellar_Room11_Secret_Choice = $Cellar_Room11_Secret_Choice.Trim()
+                                                            } until ($Cellar_Room11_Secret_Choice -ieq "d" -or $Cellar_Room11_Secret_Choice -ieq "l")
+                                                            if ($Cellar_Room11_Secret_Choice -ieq "d") { # remove the brick
+                                                                # set secret found to true so it can't be found again
+                                                                $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.Room11.Secret.Found = $true
+                                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,20;$Host.UI.Write("")
+                                                                Write-Color "  You carefully dig through the rubble and find a ","Greater Mana Potion","." -Color DarkGray,Blue,DarkGray
+                                                                # add the item to the inventory
+                                                                $Import_JSON.Items."Greater Mana Potion".Quantity += 1
+                                                                Update_Variables
+                                                                Draw_Player_Window_and_Stats
+                                                                Save_JSON
+                                                                Import_JSON
+                                                                Draw_Inventory
+                                                            }
+                                                            if ($Cellar_Room11_Secret_Choice -ieq "l") { # leave the brick alone
+                                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,20;$Host.UI.Write("")
+                                                                Write-Color "  You decide to leave the brick alone." -Color DarkGray
+                                                            }
+                                                        }
                                                     } else { # all other rooms
                                                         for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
                                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
@@ -3375,8 +3425,6 @@ Function Visit_a_Building {
                                                         Write-Color "  all other rooms" -Color DarkGray
                                                     }
                                                     # Read-Host "  Press Enter to continue"
-
-
                                                 } until ($Cellar_Container_Found -eq $false -or $Cellar_Room_Choice -ieq "x") # exit loop if no containers found or if user chooses to exit
                                             } until ($Cellar_Room_Choice -ieq "x")
                                         }
