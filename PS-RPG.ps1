@@ -1213,7 +1213,7 @@ do {
 Function Draw_Introduction_Tasks {
     # only draw if not fully completed all tasks
     if ($Import_JSON.Introduction_Tasks.In_Progress -eq $true) {
-        $Tick = ([char]8730)
+        $Tick = ([char]8730) # tick symbol
         if ($Import_JSON.Introduction_Tasks.Tick_Visit_Home -eq $true)                 { $Tick_Visit_Home              = $Tick }
         if ($Import_JSON.Introduction_Tasks.Tick_Recover_Health_and_Mana -eq $true)    { $Tick_Recover_Health_and_Mana = $Tick }
         if ($Import_JSON.Introduction_Tasks.Tick_Visit_the_Tavern -eq $true)           { $Tick_Visit_the_Tavern        = $Tick }
@@ -1249,13 +1249,16 @@ Function Draw_Introduction_Tasks {
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 108,22;$Host.UI.Write("Introduction Tasks")
         if ($Import_JSON.Introduction_Tasks.In_Progress -eq $false) {
             $host.UI.RawUI.ForegroundColor = "Green"
-            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 127,22;$Host.UI.Write([char]8730+" Complete")
+            $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 127,22;$Host.UI.Write([char]8730+" Complete") # tick symbol
         }
         $host.UI.RawUI.ForegroundColor = "Green"
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,24;$Host.UI.Write("$Tick_Visit_Home")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,25;$Host.UI.Write("$Tick_Recover_Health_and_Mana")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,26;$Host.UI.Write("$Tick_Visit_the_Tavern")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,27;$Host.UI.Write("$Tick_Accept_a_Quest")
+        # if () {
+
+        # }
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,28;$Host.UI.Write("$Tick_Kill_5_Rats")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,29;$Host.UI.Write("$Tick_Hand_in_Completed_Quest")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,30;$Host.UI.Write("$Tick_View_Inventory")
@@ -2016,14 +2019,17 @@ Function Fight_or_Run {
                     $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Selected_Mob_Name.Killed += 1
                     # if Introduction Tasks are still in progress, update the slow intro window Inventory with a tick
                     # need to check all mobs in the cellar quest to see if any of them have been killed 5 times
-                    $Cellar_Quest_Mob_Names = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.PSObject.Properties.Name
-                    foreach ($Cellar_Quest_Mob_Name in $Cellar_Quest_Mob_Names) {
-                        $Cellar_Quest_Mobs_Killed += $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Cellar_Quest_Mob_Name.Killed
-                        if ($Cellar_Quest_Mobs_Killed -ge 5) {
-                            $Import_JSON.Introduction_Tasks.Tick_Kill_5_Rats = $true
-                            Draw_Introduction_Tasks
-                        }
+                    if ($Import_JSON.Quests."Rat Infestation".Progress -ge 5) {
+                        $Import_JSON.Introduction_Tasks.Tick_Kill_5_Rats = $true
+                        Draw_Introduction_Tasks
+                        
                     }
+                    # $Cellar_Quest_Mob_Names = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.PSObject.Properties.Name
+                    # foreach ($Cellar_Quest_Mob_Name in $Cellar_Quest_Mob_Names) {
+                    #     $Cellar_Quest_Mobs_Killed += $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Cellar_Quest_Mob_Name.Killed
+                    #     if ($Cellar_Quest_Mobs_Killed -ge 5) {
+                    #     }
+                    # }
                 } else {
                     $Import_JSON.Locations."Home Town".Location_Options.Travel = $true
                     $Import_JSON.Locations.$Current_Location.Mobs.$Selected_Mob_Name.Killed += 1
@@ -2942,9 +2948,12 @@ Function Visit_a_Building {
                                 $First_Time_Looking_at_Quest_Board = $true
                                 $Script:Info_Banner = "Quest Board"
                                 Draw_Info_Banner
+                                Add-Content -Path .\error.log -value "Quest_Viewed_or_Accepted 1: $Quest_Viewed_or_Accepted"
                                 do {
                                     # do {
-                                        if ($Quest_Viewed_or_Accepted -eq $false) { # clear a few line only if the quest is viewed or accepted
+                                        Add-Content -Path .\error.log -value "Quest_Viewed_or_Accepted 2: $Quest_Viewed_or_Accepted"
+                                        if ($Quest_Viewed_or_Accepted -eq $false) { # clear a few line if the quest has not been viewed or accepted
+                                            Add-Content -Path .\error.log -value "Quest_Viewed_or_Accepted 3: $Quest_Viewed_or_Accepted"
                                             for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                             }
@@ -2995,7 +3004,7 @@ Function Visit_a_Building {
                                         $Tavern_Quest_Board_Choice = $Tavern_Quest_Board_Choice.Trim()
                                     } until ($Tavern_Quest_Board_Choice -ieq "e" -or $Tavern_Quest_Board_Choice -in $Available_Quest_Letters_Array)
                                     if ($Tavern_Quest_Board_Choice -in $Available_Quest_Letters_Array) {
-                                        do {
+                                        # do {
                                             Draw_Inventory
                                             for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
@@ -3015,6 +3024,7 @@ Function Visit_a_Building {
                                             Write-Color "  Location    ",": $($Quest_Name.Hand_In_Location)" -Color White,DarkGray
                                             Write-Color "  Building    ",": $($Quest_Name.Building)" -Color White,DarkGray
                                             Write-Color "  NPC         ",": $($Quest_Name.Hand_In_NPC)" -Color White,DarkGray
+                                        do {
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                                             $Tavern_Quest_Info_Choice_Array = New-Object System.Collections.Generic.List[System.Object]
@@ -3033,9 +3043,12 @@ Function Visit_a_Building {
                                             $Tavern_Quest_Info_Choice = Read-Host " "
                                             $Tavern_Quest_Info_Choice = $Tavern_Quest_Info_Choice.Trim()
                                         } until ($Tavern_Quest_Info_Choice -in $Tavern_Quest_Info_Choice_Array)
+                                        if ($Tavern_Quest_Info_Choice -ieq "e") {
+                                            $Quest_Viewed_or_Accepted = $false
+                                        }
                                         # accept a quest
                                         if ($Tavern_Quest_Info_Choice -ieq "a") {
-                                            $Quest_Viewed_or_Accepted = $true
+                                            Add-Content -Path .\error.log -value "Quest_Name accept: $Quest_Name"
                                             $Quest_Name.Status = "In Progress"
                                             $Quest_Name.In_Progress = $true
                                             $Quest_Name.Available = $false
@@ -3053,23 +3066,25 @@ Function Visit_a_Building {
                                             Write-Color "  and tells you she will let the person know you've accepted it." -Color DarkGray
                                             Write-Color "  Don't forget, you can view quests you've accepted by choosing '","Q","' here or in most other menus." -Color DarkGray,Green,DarkGray
                                             Write-Color ""
+                                            $Quest_Viewed_or_Accepted = $true
                                         }
                                         # hand in a quest
                                         if ($Tavern_Quest_Info_Choice -ieq "h") {
-                                            do {
+                                            # do {
                                                 # advance introduction to game (from Rat quest)
                                                 $Import_JSON.Locations."Home Town".Buildings."Mend & Mana".Introduction_Task = $true
                                                 # update introduction task and update Introduction Tasks window
                                                 $Import_JSON.Introduction_Tasks.Tick_View_Inventory = $true
                                                 $Import_JSON.Introduction_Tasks.Tick_Hand_in_Completed_Quest = $true
                                                 # reset quest
+                                                Add-Content -Path .\error.log -value "Quest_Name hand-in: $Quest_Name"
                                                 $Quest_Name.Status = "Available"
                                                 $Quest_Name.In_Progress = $false
                                                 $Quest_Name.Available = $true
                                                 $Quest_Name.Progress = 0
                                                 # update quest reward gold
                                                 $Import_JSON.Character.Gold += $Quest_Name.Gold_Reward
-                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,25;$Host.UI.Write("");" "*105
+                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,26;$Host.UI.Write("")
                                                 Write-Color "  Thank you for completing this quest ","$Character_Name",". Here is your reward." -Color DarkGray,Blue,DarkGray
                                                 Write-Color "  $($Quest_Name.Gold_Reward) Gold" -Color DarkYellow
                                                 # if there are reward items, update inventory
@@ -3114,12 +3129,14 @@ Function Visit_a_Building {
                                                 Draw_Player_Window_and_Stats
                                                 Draw_Introduction_Tasks
                                                 Draw_Inventory
+                                            do {
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                                                 Write-Color -NoNewLine "E","xit ","[E]" -Color Green,DarkYellow,Green
                                                 $Quest_Hand_In_Exit = Read-Host " "
                                                 $Quest_Hand_In_Exit = $Quest_Hand_In_Exit.Trim()
                                             } until ($Quest_Hand_In_Exit -ieq "e")
+                                            $Quest_Viewed_or_Accepted = $false
                                         }
                                         Save_JSON
                                     }
