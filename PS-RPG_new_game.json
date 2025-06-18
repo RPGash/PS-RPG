@@ -531,6 +531,9 @@
                     "Room5": "N",
                     "Room10": "W"
                   },
+                  "Secret": {
+                    "Found": false
+                  },
                   "Containers": {
                     "Pouch": true,
                     "Strongbox": true

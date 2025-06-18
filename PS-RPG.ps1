@@ -9,7 +9,6 @@ ToDo
     - 
     
 - NEXT
-    - search cellar room 1 for a secret
     - buy items in the Anvil & Blade shop
     - add spells
     - add item equipment drops from mob loot
