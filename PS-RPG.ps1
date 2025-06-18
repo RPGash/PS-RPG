@@ -31,7 +31,15 @@ ToDo
         critical hit chance,
 
 - KNOWN ISSUES
-    - if a player purchases one drink and gains its buff, kills mobs until one kill left before it drops (not necessarily one but the closer to zero the better the exploit), they can go buy a second drink (buff) and it will extend the original buff for another full duration rather than the first buff expiring after one more fight. both buffs last the full duration. in other words getting a "free" buff.
+    - if a player purchases one drink and gains its buff, kills mobs until one kill left before it drops
+        (not necessarily one but the closer to zero the better the exploit),
+        they can go buy a second drink (buff) and it will extend the original buff for another full duration
+        rather than the first buff expiring after one more fight. both buffs last the full duration.
+        in other words getting a "free" buff.
+    - the Block skill does not appear in the Player Stats window.
+        the skill does increase after every player level, but is currently not calculated in battle.
+        there is currently no room to display it without readjusting the window and everything that replies
+        on the position below this window.
 #>
 
 
