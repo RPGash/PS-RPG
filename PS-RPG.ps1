@@ -2948,54 +2948,50 @@ Function Visit_a_Building {
                                 $First_Time_Looking_at_Quest_Board = $true
                                 $Script:Info_Banner = "Quest Board"
                                 Draw_Info_Banner
-                                Add-Content -Path .\error.log -value "Quest_Viewed_or_Accepted 1: $Quest_Viewed_or_Accepted"
                                 do {
-                                    # do {
-                                        Add-Content -Path .\error.log -value "Quest_Viewed_or_Accepted 2: $Quest_Viewed_or_Accepted"
-                                        if ($Quest_Viewed_or_Accepted -eq $false) { # clear a few line if the quest has not been viewed or accepted
-                                            Add-Content -Path .\error.log -value "Quest_Viewed_or_Accepted 3: $Quest_Viewed_or_Accepted"
-                                            for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
-                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                                            }
-                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                    if ($Quest_Viewed_or_Accepted -eq $false) { # clear a few line if the quest has not been viewed or accepted
+                                        for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                         }
-                                        if ($First_Time_Looking_at_Quest_Board -eq $true) {
-                                            if ($Import_JSON.Character.Buffs.DrinksPurchased -gt 0) {
-                                                $Player_Walking_to_Quest_Board = @(
-                                                    "You stagger over to the board, bumping into a few chairs along the way.",
-                                                    "You stumble over to the board.",
-                                                    "You make your way to the board and trip over your own feet."
-                                                )
-                                            } else {
-                                                $Player_Walking_to_Quest_Board = @(
-                                                    "You walk to the board to see how many quests are available.",
-                                                    "You stride over to the board to check if there are any quests available."
-                                                )
-                                            }
-                                            $Player_Walking_to_Quest_Board = Get-Random -Input $Player_Walking_to_Quest_Board
-                                            Write-Color "  $Player_Walking_to_Quest_Board" -Color DarkGray
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                    }
+                                    if ($First_Time_Looking_at_Quest_Board -eq $true) {
+                                        if ($Import_JSON.Character.Buffs.DrinksPurchased -gt 0) {
+                                            $Player_Walking_to_Quest_Board = @(
+                                                "You stagger over to the board, bumping into a few chairs along the way.",
+                                                "You stumble over to the board.",
+                                                "You make your way to the board and trip over your own feet."
+                                            )
+                                        } else {
+                                            $Player_Walking_to_Quest_Board = @(
+                                                "You walk to the board to see how many quests are available.",
+                                                "You stride over to the board to check if there are any quests available."
+                                            )
                                         }
-                                        Write-Color "  The following quests are pinned to the board." -Color DarkGray
-                                        Write-Color "`r" -Color DarkGray
-                                        $Available_Quest_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
-                                        $Quest_Names = $Import_JSON.Quests.PSObject.Properties.Name
-                                        foreach ($Quest_Name in $Quest_Names) {
-                                            $Quest_Name = $Import_JSON.Quests.$Quest_Name
-                                            # if Introduction Tasks are active, only show the Rat quest
-                                            if ($Import_JSON.Introduction_Tasks.In_Progress -eq $true) {
-                                                if ($Quest_Name.Introduction_Task -eq $true) {
-                                                    Write-Color "  $($Quest_Name.Quest_Letter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status)" -Color Green,DarkGray,DarkYellow
-                                                    $Available_Quest_Letters_Array.Add($Quest_Name.Quest_Letter)
-                                                }
-                                            } else { # else show all quests
-                                                if ($Quest_Name.Available -eq $true -or $Quest_Name.Status -ieq "In Progress" -or $Quest_Name.Status -ieq "Hand In") {
-                                                    Write-Color "  $($Quest_Name.Quest_Letter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status)" -Color Green,DarkGray,DarkYellow
-                                                    $Available_Quest_Letters_Array.Add($Quest_Name.Quest_Letter)
-                                                }
+                                        $Player_Walking_to_Quest_Board = Get-Random -Input $Player_Walking_to_Quest_Board
+                                        Write-Color "  $Player_Walking_to_Quest_Board" -Color DarkGray
+                                    }
+                                    Write-Color "  The following quests are pinned to the board." -Color DarkGray
+                                    Write-Color "`r" -Color DarkGray
+                                    $Available_Quest_Letters_Array = New-Object System.Collections.Generic.List[System.Object]
+                                    $Quest_Names = $Import_JSON.Quests.PSObject.Properties.Name
+                                    foreach ($Quest_Name in $Quest_Names) {
+                                        $Quest_Name = $Import_JSON.Quests.$Quest_Name
+                                        # if Introduction Tasks are active, only show the Rat quest
+                                        if ($Import_JSON.Introduction_Tasks.In_Progress -eq $true) {
+                                            if ($Quest_Name.Introduction_Task -eq $true) {
+                                                Write-Color "  $($Quest_Name.Quest_Letter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status)" -Color Green,DarkGray,DarkYellow
+                                                $Available_Quest_Letters_Array.Add($Quest_Name.Quest_Letter)
+                                            }
+                                        } else { # else show all quests
+                                            if ($Quest_Name.Available -eq $true -or $Quest_Name.Status -ieq "In Progress" -or $Quest_Name.Status -ieq "Hand In") {
+                                                Write-Color "  $($Quest_Name.Quest_Letter)","$($Quest_Name.Name.SubString(1.0)) - ","$($Quest_Name.Status)" -Color Green,DarkGray,DarkYellow
+                                                $Available_Quest_Letters_Array.Add($Quest_Name.Quest_Letter)
                                             }
                                         }
-                                        $Available_Quest_Letters_Array_String = $Available_Quest_Letters_Array -Join "/"
-                                        $Available_Quest_Letters_Array_String = $Available_Quest_Letters_Array_String + "/E"
+                                    }
+                                    $Available_Quest_Letters_Array_String = $Available_Quest_Letters_Array -Join "/"
+                                    $Available_Quest_Letters_Array_String = $Available_Quest_Letters_Array_String + "/E"
                                     do {
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -3004,26 +3000,25 @@ Function Visit_a_Building {
                                         $Tavern_Quest_Board_Choice = $Tavern_Quest_Board_Choice.Trim()
                                     } until ($Tavern_Quest_Board_Choice -ieq "e" -or $Tavern_Quest_Board_Choice -in $Available_Quest_Letters_Array)
                                     if ($Tavern_Quest_Board_Choice -in $Available_Quest_Letters_Array) {
-                                        # do {
-                                            Draw_Inventory
-                                            for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
-                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                        Draw_Inventory
+                                        for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                        }
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                        foreach ($Quest_Name in $Quest_Names) {
+                                            $Quest_Name = $Import_JSON.Quests.$Quest_Name
+                                            if ($Quest_Name.Quest_Letter -ieq $Tavern_Quest_Board_Choice) {
+                                                Break
                                             }
-                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                            foreach ($Quest_Name in $Quest_Names) {
-                                                $Quest_Name = $Import_JSON.Quests.$Quest_Name
-                                                if ($Quest_Name.Quest_Letter -ieq $Tavern_Quest_Board_Choice) {
-                                                    Break
-                                                }
-                                            }
-                                            Write-Color "  Name        ",": $($Quest_Name.Name)" -Color White,DarkGray
-                                            Write-Color "  Description ",": $($Quest_Name.Description)" -Color White,DarkGray
-                                            Write-Color "  Reward      ",": $($Quest_Name.Gold_Reward)"," Gold" -Color White,DarkGray,DarkYellow
-                                            Write-Color "  Progress    ",": $($Quest_Name.Progress) of $($Quest_Name.Progress_Max)" -Color White,DarkGray
-                                            Write-Color "  Status      ",": $($Quest_Name.Status)" -Color White,DarkGray
-                                            Write-Color "  Location    ",": $($Quest_Name.Hand_In_Location)" -Color White,DarkGray
-                                            Write-Color "  Building    ",": $($Quest_Name.Building)" -Color White,DarkGray
-                                            Write-Color "  NPC         ",": $($Quest_Name.Hand_In_NPC)" -Color White,DarkGray
+                                        }
+                                        Write-Color "  Name        ",": $($Quest_Name.Name)" -Color White,DarkGray
+                                        Write-Color "  Description ",": $($Quest_Name.Description)" -Color White,DarkGray
+                                        Write-Color "  Reward      ",": $($Quest_Name.Gold_Reward)"," Gold" -Color White,DarkGray,DarkYellow
+                                        Write-Color "  Progress    ",": $($Quest_Name.Progress) of $($Quest_Name.Progress_Max)" -Color White,DarkGray
+                                        Write-Color "  Status      ",": $($Quest_Name.Status)" -Color White,DarkGray
+                                        Write-Color "  Location    ",": $($Quest_Name.Hand_In_Location)" -Color White,DarkGray
+                                        Write-Color "  Building    ",": $($Quest_Name.Building)" -Color White,DarkGray
+                                        Write-Color "  NPC         ",": $($Quest_Name.Hand_In_NPC)" -Color White,DarkGray
                                         do {
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -3048,7 +3043,6 @@ Function Visit_a_Building {
                                         }
                                         # accept a quest
                                         if ($Tavern_Quest_Info_Choice -ieq "a") {
-                                            Add-Content -Path .\error.log -value "Quest_Name accept: $Quest_Name"
                                             $Quest_Name.Status = "In Progress"
                                             $Quest_Name.In_Progress = $true
                                             $Quest_Name.Available = $false
@@ -3070,65 +3064,63 @@ Function Visit_a_Building {
                                         }
                                         # hand in a quest
                                         if ($Tavern_Quest_Info_Choice -ieq "h") {
-                                            # do {
-                                                # advance introduction to game (from Rat quest)
-                                                $Import_JSON.Locations."Home Town".Buildings."Mend & Mana".Introduction_Task = $true
-                                                # update introduction task and update Introduction Tasks window
-                                                $Import_JSON.Introduction_Tasks.Tick_View_Inventory = $true
-                                                $Import_JSON.Introduction_Tasks.Tick_Hand_in_Completed_Quest = $true
-                                                # reset quest
-                                                Add-Content -Path .\error.log -value "Quest_Name hand-in: $Quest_Name"
-                                                $Quest_Name.Status = "Available"
-                                                $Quest_Name.In_Progress = $false
-                                                $Quest_Name.Available = $true
-                                                $Quest_Name.Progress = 0
-                                                # update quest reward gold
-                                                $Import_JSON.Character.Gold += $Quest_Name.Gold_Reward
-                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,26;$Host.UI.Write("")
-                                                Write-Color "  Thank you for completing this quest ","$Character_Name",". Here is your reward." -Color DarkGray,Blue,DarkGray
-                                                Write-Color "  $($Quest_Name.Gold_Reward) Gold" -Color DarkYellow
-                                                # if there are reward items, update inventory
-                                                if (-not($Quest_Name.Item_Reward -eq $false)) {
-                                                    foreach ($Quest_Hand_In_Item in $Quest_Name.Item_Reward.PSObject.Properties.Name) {
-                                                        $Current_Item_Quantity = $Import_JSON.Items.$Quest_Hand_In_Item.Quantity
-                                                        if ($Current_Item_Quantity + $Quest_Name.Item_Reward.$Quest_Hand_In_Item -gt 99) {
-                                                            $Import_JSON.Items.$Quest_Hand_In_Item.Quantity = 99
-                                                            $Max_99_Items = "(MAX 99 items)"
-                                                        } else {
-                                                            $Import_JSON.Items.$Quest_Hand_In_Item.Quantity += $Quest_Name.Item_Reward.$Quest_Hand_In_Item
-                                                            $Max_99_Items = ""
-                                                        }
-                                                        Write-Color "  x$($Quest_Name.Item_Reward.$Quest_Hand_In_Item) ","$Quest_Hand_In_Item $Max_99_Items" -Color White,DarkGray
+                                            # advance introduction to game (from Rat quest)
+                                            $Import_JSON.Locations."Home Town".Buildings."Mend & Mana".Introduction_Task = $true
+                                            # update introduction task and update Introduction Tasks window
+                                            $Import_JSON.Introduction_Tasks.Tick_View_Inventory = $true
+                                            $Import_JSON.Introduction_Tasks.Tick_Hand_in_Completed_Quest = $true
+                                            # reset quest
+                                            $Quest_Name.Status = "Available"
+                                            $Quest_Name.In_Progress = $false
+                                            $Quest_Name.Available = $true
+                                            $Quest_Name.Progress = 0
+                                            # update quest reward gold
+                                            $Import_JSON.Character.Gold += $Quest_Name.Gold_Reward
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,26;$Host.UI.Write("")
+                                            Write-Color "  Thank you for completing this quest ","$Character_Name",". Here is your reward." -Color DarkGray,Blue,DarkGray
+                                            Write-Color "  $($Quest_Name.Gold_Reward) Gold" -Color DarkYellow
+                                            # if there are reward items, update inventory
+                                            if (-not($Quest_Name.Item_Reward -eq $false)) {
+                                                foreach ($Quest_Hand_In_Item in $Quest_Name.Item_Reward.PSObject.Properties.Name) {
+                                                    $Current_Item_Quantity = $Import_JSON.Items.$Quest_Hand_In_Item.Quantity
+                                                    if ($Current_Item_Quantity + $Quest_Name.Item_Reward.$Quest_Hand_In_Item -gt 99) {
+                                                        $Import_JSON.Items.$Quest_Hand_In_Item.Quantity = 99
+                                                        $Max_99_Items = "(MAX 99 items)"
+                                                    } else {
+                                                        $Import_JSON.Items.$Quest_Hand_In_Item.Quantity += $Quest_Name.Item_Reward.$Quest_Hand_In_Item
+                                                        $Max_99_Items = ""
+                                                    }
+                                                    Write-Color "  x$($Quest_Name.Item_Reward.$Quest_Hand_In_Item) ","$Quest_Hand_In_Item $Max_99_Items" -Color White,DarkGray
+                                                }
+                                            }
+                                            # Rat Infestation quest - if King Rat has been killed, give bonus gold
+                                            if ($Quest_Name.Name -ieq "Rat Infestation") {
+                                                if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs."King Rat".Killed -gt $Cellar_Quest_King_Rat_Kills_Before_Entering) {
+                                                    $Cellar_Quest_King_Rat_Kills_Difference = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs."King Rat".Killed - $Cellar_Quest_King_Rat_Kills_Before_Entering
+                                                    $Cellar_Quest_King_Rat_Kills_Bonus_Gold = $Cellar_Quest_King_Rat_Kills_Difference * 10
+                                                    Write-Color -LinesBefore 1 "  $Character_Name",", you managed to kill the ","King Rat ","as well! Please accept this bonus of ","$Cellar_Quest_King_Rat_Kills_Bonus_Gold Gold","." -Color Blue,DarkGray,Blue,DarkGray,DarkYellow,DarkGray
+                                                    $Import_JSON.Character.Gold += $Cellar_Quest_King_Rat_Kills_Bonus_Gold
+                                                }
+                                                # resets all containers to true so they can be searched again (only on quest completion)
+                                                $Cellar_Room_Names = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.PSObject.Properties.Name
+                                                foreach ($Cellar_Room_Name in $Cellar_Room_Names) {
+                                                    # get all containers in the room
+                                                    $Cellar_Container_Names = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Room_Name.Containers.PSObject.Properties.Name
+                                                    foreach ($Cellar_Container_Name in $Cellar_Container_Names) {
+                                                        $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Room_Name.Containers.$Cellar_Container_Name = $true
                                                     }
                                                 }
-                                                # Rat Infestation quest - if King Rat has been killed, give bonus gold
-                                                if ($Quest_Name.Name -ieq "Rat Infestation") {
-                                                    if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs."King Rat".Killed -gt $Cellar_Quest_King_Rat_Kills_Before_Entering) {
-                                                        $Cellar_Quest_King_Rat_Kills_Difference = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs."King Rat".Killed - $Cellar_Quest_King_Rat_Kills_Before_Entering
-                                                        $Cellar_Quest_King_Rat_Kills_Bonus_Gold = $Cellar_Quest_King_Rat_Kills_Difference * 10
-                                                        Write-Color -LinesBefore 1 "  $Character_Name",", you managed to kill the ","King Rat ","as well! Please accept this bonus of ","$Cellar_Quest_King_Rat_Kills_Bonus_Gold Gold","." -Color Blue,DarkGray,Blue,DarkGray,DarkYellow,DarkGray
-                                                        $Import_JSON.Character.Gold += $Cellar_Quest_King_Rat_Kills_Bonus_Gold
-                                                    }
-                                                    # resets all containers to true so they can be searched again (only on quest completion)
-                                                    $Cellar_Room_Names = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.PSObject.Properties.Name
-                                                    foreach ($Cellar_Room_Name in $Cellar_Room_Names) {
-                                                        # get all containers in the room
-                                                        $Cellar_Container_Names = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Room_Name.Containers.PSObject.Properties.Name
-                                                        foreach ($Cellar_Container_Name in $Cellar_Container_Names) {
-                                                            $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Room_Name.Containers.$Cellar_Container_Name = $true
-                                                        }
-                                                    }
-                                                    # reset secret in room1
-                                                    $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.Room1.Secret.Found = $true
-                                                    # reset item found in room 11
-                                                    $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.Room11.Secret.Found = $false
-                                                }
-                                                $Script:Gold = $Import_JSON.Character.Gold
-                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
-                                                Save_JSON
-                                                Draw_Player_Window_and_Stats
-                                                Draw_Introduction_Tasks
-                                                Draw_Inventory
+                                                # reset secret in room1
+                                                $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.Room1.Secret.Found = $true
+                                                # reset item found in room 11
+                                                $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.Room11.Secret.Found = $false
+                                            }
+                                            $Script:Gold = $Import_JSON.Character.Gold
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
+                                            Save_JSON
+                                            Draw_Player_Window_and_Stats
+                                            Draw_Introduction_Tasks
+                                            Draw_Inventory
                                             do {
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -3150,7 +3142,6 @@ Function Visit_a_Building {
                                 $First_Time_Entered_Cellar = $false # set to false here, then set to true when the player enters room 6 (enter/exit)
                                 # get how many time the king rat has been killed for a bonus if killed
                                 $Cellar_Quest_King_Rat_Kills_Before_Entering = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs."King Rat".Killed
-                                Add-Content -Path .\error.log -value "Cellar_Quest_King_Rat_Kills_Before_Entering before: $Cellar_Quest_King_Rat_Kills_Before_Entering"
                                 # set quest as active
                                 $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Is_Active = $true
                                 # reset cellar rooms visited (resets every time cellar is entered)
