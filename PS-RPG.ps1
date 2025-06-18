@@ -96,25 +96,20 @@ Function Save_JSON {
     if (-not(Test-Path -Path "$ENV:userprofile\My Drive\PS-RPG\error.log")) {
         New-Item -Path "$ENV:userprofile\My Drive\PS-RPG\error.log" -ItemType File -Force | Out-Null
     }
-    # Implement a retry mechanism with a delay
     $maxRetries = 5
     $retryDelaySeconds = 1
-    
     for ($retry = 1; $retry -le $maxRetries; $retry++) {
         try {
             ($Script:Import_JSON | ConvertTo-Json -depth 32) | Set-Content ".\PS-RPG.json" -ErrorAction Stop
-            # If successful, Break out of the loop
             # Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error.log" -value "Success attempt #$($retry)" # leave in
             Break
         } catch {
-            Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error.log" -value "Error attempt #$($retry) $($_.Exception.Message)" # leave in
+            Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error.log" -value "Error saving attempt #$($retry) $($_.Exception.Message)" # leave in
             if ($retry -lt $maxRetries) {
-                Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error.log" -value "Retrying $($retryDelaySeconds)s" # leave in
+                Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error.log" -value "Retrying in $($retryDelaySeconds)s" # leave in
                 Start-Sleep -Seconds $retryDelaySeconds # leave in
             } else {
                 Add-Content -Path "$ENV:userprofile\My Drive\PS-RPG\error.log" -value "Failed $($maxRetries) attempts" # leave in
-                # Optionally, take further action like exiting the script or prompting the user
-                # Exit 1 # Exit with a non-zero code
             }
         }
     }
