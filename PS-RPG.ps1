@@ -9,11 +9,11 @@ ToDo
     - 
     
 - NEXT
-    - buy items in the Anvil & Blade shop
     - add spells
-    - add item equipment drops from mob loot
     - add equipment that can be equipped?
         armour protection, stat bonuses/buffs etc.
+    - add item equipment drops from mob loot
+    - buy items in the Anvil & Blade shop
     - add types of damage  e.g. physical, elemental etc.
     - add some quests in the Tavern
         mob kills, fetch quest, item quest
@@ -419,8 +419,9 @@ Function Update_Variables {
     $Script:Character_ManaMax        = $Import_JSON.Character.Stats.ManaMax
     $Script:Character_Damage         = $Import_JSON.Character.Stats.Damage
     $Script:Character_Attack         = $Import_JSON.Character.Stats.Attack
-    $Script:Character_Armour         = $Import_JSON.Character.Stats.Armour
     $Script:Character_Dodge          = $Import_JSON.Character.Stats.Dodge
+    $Script:Character_Block          = $Import_JSON.Character.Stats.Block
+    $Script:Character_Armour         = $Import_JSON.Character.Stats.Armour
     $Script:Character_Quickness      = $Import_JSON.Character.Stats.Quickness
     $Script:Character_Spells         = $Import_JSON.Character.Stats.Spells
     $Script:Character_Healing        = $Import_JSON.Character.Stats.Healing
@@ -454,9 +455,8 @@ Function Level_Up {
         $Import_JSON.Character.XP_TNL = $XP_TNL
         $Character_Prefix = "Character_"
         # class bonus
-        foreach ($JSON_Item in $import_JSON) {
-            $options = $JSON_Item.Level_Up_Bonus.Class.$Character_Class
-            $Class_Stats = $options.PSObject.Properties.Name
+        foreach ($JSON_Item in $Import_JSON) {
+            $Class_Stats = $JSON_Item.Level_Up_Bonus.Class.$Character_Class.PSObject.Properties.Name
             foreach ($Class_Stat in $Class_Stats) {
                 $add = (Get-Variable -Name character_$Class_Stat).value + ($Import_JSON.Level_Up_Bonus.Class.$Character_Class.$Class_Stat)
                 New-Variable -Name "$($Character_Prefix)$Class_Stat" -Value $add -Force
@@ -465,9 +465,8 @@ Function Level_Up {
         }
         # race bonus
         $Character_Prefix = "Character_"
-        foreach ($JSON_Item in $import_JSON) {
-            $options = $JSON_Item.Level_Up_Bonus.Race.$Character_Race
-            $Race_Stats = $options.PSObject.Properties.Name
+        foreach ($JSON_Item in $Import_JSON) {
+            $Race_Stats = $JSON_Item.Level_Up_Bonus.Race.$Character_Race.PSObject.Properties.Name
             foreach ($Race_Stat in $Race_Stats) {
                 $add = (Get-Variable -Name character_$Race_Stat).value + ($Import_JSON.Level_Up_Bonus.Race.$Character_Race.$Race_Stat)
                 New-Variable -Name "$($Character_Prefix)$Race_Stat" -Value $add -Force
@@ -702,26 +701,26 @@ Function Create_Character {
                 Write-Color "Bonus values to Character stats are applied after each level up." -Color DarkGray
             }
             Write-Color ""
-            Write-Color " Class Base Stats | Health | Stamina | Mana | Armour | Damage | Attack | Dodge | Quickness | Spells | Healing |" -Color DarkGray
-            Write-Color "------------------+--------+---------+------+--------+--------+--------+-------+-----------+--------+---------+" -Color DarkGray
-            Write-Color " M","age             |   50   |    40   |  80  |    4   |   10   |    4   |    1  |     4     |   10   |    6    |" -Color $ClassRaceInfoColours1,$ClassRaceInfoColours2
-            Write-Color " R","ogue            |   60   |    80   |  30  |    6   |   10   |   10   |   10  |    10     |    1   |    4    |" -Color $ClassRaceInfoColours3,$ClassRaceInfoColours4
-            Write-Color " C","leric           |   40   |    50   | 100  |    4   |    8   |    2   |    1  |     4     |   10   |   10    |" -Color $ClassRaceInfoColours5,$ClassRaceInfoColours6
-            Write-Color " W","arrior          |  100   |   100   |  10  |   10   |    1   |    8   |    8  |     6     |    1   |    4    |" -Color $ClassRaceInfoColours7,$ClassRaceInfoColours8
+            Write-Color " Class Base Stats | Health | Stamina | Mana | Armour | Damage | Attack | Dodge | Block | Quickness | Spells | Healing |" -Color DarkGray
+            Write-Color "------------------+--------+---------+------+--------+--------+--------+-------+-------+-----------+--------+---------+" -Color DarkGray
+            Write-Color " M","age             |   50   |    40   |  80  |    4   |   10   |    4   |    1  |    2  |     4     |   10   |    6    |" -Color $ClassRaceInfoColours1,$ClassRaceInfoColours2
+            Write-Color " R","ogue            |   60   |    80   |  30  |    6   |   10   |   10   |   10  |    4  |    10     |    1   |    4    |" -Color $ClassRaceInfoColours3,$ClassRaceInfoColours4
+            Write-Color " C","leric           |   40   |    50   | 100  |    4   |    8   |    2   |    1  |    2  |     4     |   10   |   10    |" -Color $ClassRaceInfoColours5,$ClassRaceInfoColours6
+            Write-Color " W","arrior          |  100   |   100   |  10  |   10   |    1   |    8   |    8  |    8  |     6     |    1   |    4    |" -Color $ClassRaceInfoColours7,$ClassRaceInfoColours8
             Write-Color ""
-            Write-Color " Class Bonus      | Health | Stamina | Mana | Armour | Damage | Attack | Dodge | Quickness | Spells | Healing |" -Color DarkGray
-            Write-Color "------------------+--------+---------+------+--------+--------+--------+-------+-----------+--------+---------+" -Color DarkGray
-            Write-Color " M","age             |   +2   |   +1    |  +4  |   +2   |   +5   |    +4  |   +1  |    +1     |   +5   |   +3    |" -Color $ClassRaceInfoColours1,$ClassRaceInfoColours2
-            Write-Color " R","ogue            |   +3   |   +3    |  +2  |   +3   |   +5   |    +5  |   +5  |    +5     |   +1   |   +3    |" -Color $ClassRaceInfoColours3,$ClassRaceInfoColours4
-            Write-Color " C","leric           |   +1   |   +2    |  +5  |   +2   |   +4   |    +2  |   +1  |    +1     |   +5   |   +5    |" -Color $ClassRaceInfoColours5,$ClassRaceInfoColours6
-            Write-Color " W","arrior          |   +5   |   +5    |  +1  |   +5   |   +1   |    +4  |   +4  |    +3     |   +1   |   +4    |" -Color $ClassRaceInfoColours7,$ClassRaceInfoColours8
+            Write-Color " Class Bonus      | Health | Stamina | Mana | Armour | Damage | Attack | Dodge | Block | Quickness | Spells | Healing |" -Color DarkGray
+            Write-Color "------------------+--------+---------+------+--------+--------+--------+-------+-------+-----------+--------+---------+" -Color DarkGray
+            Write-Color " M","age             |   +2   |   +1    |  +4  |   +2   |   +5   |    +4  |   +1  |   +1  |    +1     |   +5   |   +3    |" -Color $ClassRaceInfoColours1,$ClassRaceInfoColours2
+            Write-Color " R","ogue            |   +3   |   +3    |  +2  |   +3   |   +5   |    +5  |   +5  |   +2  |    +5     |   +1   |   +3    |" -Color $ClassRaceInfoColours3,$ClassRaceInfoColours4
+            Write-Color " C","leric           |   +1   |   +2    |  +5  |   +2   |   +4   |    +2  |   +1  |   +1  |    +1     |   +5   |   +5    |" -Color $ClassRaceInfoColours5,$ClassRaceInfoColours6
+            Write-Color " W","arrior          |   +5   |   +5    |  +1  |   +5   |   +1   |    +4  |   +4  |   +4  |    +3     |   +1   |   +4    |" -Color $ClassRaceInfoColours7,$ClassRaceInfoColours8
             Write-Color ""
-            Write-Color " Race Bonus       | Health | Stamina | Mana | Armour | Damage | Attack | Dodge | Quickness | Spells | Healing |" -Color DarkGray
-            Write-Color "------------------+--------+---------+------+--------+--------+--------+-------+-----------+--------+---------+" -Color DarkGray
-            Write-Color " E","lf              |   +2   |   +4    |  +3  |   +1   |   +4   |    +4  |   +5  |    +5     |   +4   |   +5    |" -Color $ClassRaceInfoColours9,$ClassRaceInfoColours10
-            Write-Color " O","rc              |   +4   |   +4    |  +1  |   +4   |   +4   |    +5  |   +3  |    +1     |   +1   |   +1    |" -Color $ClassRaceInfoColours11,$ClassRaceInfoColours12
-            Write-Color " D","warf            |   +5   |   +5    |  +1  |   +5   |   +5   |    +5  |   +1  |    +1     |   +1   |   +3    |" -Color $ClassRaceInfoColours13,$ClassRaceInfoColours14
-            Write-Color " H","uman            |   +3   |   +3    |  +3  |   +3   |   +3   |    +3  |   +3  |    +3     |   +4   |   +4    |" -Color $ClassRaceInfoColours15,$ClassRaceInfoColours16
+            Write-Color " Race Bonus       | Health | Stamina | Mana | Armour | Damage | Attack | Dodge | Block | Quickness | Spells | Healing |" -Color DarkGray
+            Write-Color "------------------+--------+---------+------+--------+--------+--------+-------+-------+-----------+--------+---------+" -Color DarkGray
+            Write-Color " E","lf              |   +2   |   +4    |  +3  |   +1   |   +4   |    +4  |   +5  |   +2  |    +5     |   +4   |   +5    |" -Color $ClassRaceInfoColours9,$ClassRaceInfoColours10
+            Write-Color " O","rc              |   +4   |   +4    |  +1  |   +4   |   +4   |    +5  |   +3  |   +4  |    +1     |   +1   |   +1    |" -Color $ClassRaceInfoColours11,$ClassRaceInfoColours12
+            Write-Color " D","warf            |   +5   |   +5    |  +1  |   +5   |   +5   |    +5  |   +1  |   +5  |    +1     |   +1   |   +3    |" -Color $ClassRaceInfoColours13,$ClassRaceInfoColours14
+            Write-Color " H","uman            |   +3   |   +3    |  +3  |   +3   |   +3   |    +3  |   +3  |   +3  |    +3     |   +4   |   +4    |" -Color $ClassRaceInfoColours15,$ClassRaceInfoColours16
             Write-Output "`r"
         }
         # character class choice
@@ -802,7 +801,7 @@ Function Create_Character {
     # set JSON class stats
     #
     if ($Character_Class -ieq "Mage") {
-        $Import_JSON.Character.Stats.HealthCurrent  = 50
+        $Import_JSON.Character.Stats.HealthCurrent  = 25
         $Import_JSON.Character.Stats.HealthMax      = 50
         $Import_JSON.Character.Stats.StaminaCurrent = 40
         $Import_JSON.Character.Stats.StaminaMax     = 40
@@ -810,14 +809,15 @@ Function Create_Character {
         $Import_JSON.Character.Stats.ManaMax        = 80
         $Import_JSON.Character.Stats.Damage         = 10
         $Import_JSON.Character.Stats.Attack         = 4
-        $Import_JSON.Character.Stats.Armour         = 4
         $Import_JSON.Character.Stats.Dodge          = 1
+        $Import_JSON.Character.Stats.Block          = 2
+        $Import_JSON.Character.Stats.Armour         = 4
         $Import_JSON.Character.Stats.Quickness      = 4
         $Import_JSON.Character.Stats.Spells         = 10
         $Import_JSON.Character.Stats.Healing        = 6
     }
     if ($Character_Class -ieq "Rogue") {
-        $Import_JSON.Character.Stats.HealthCurrent  = 60
+        $Import_JSON.Character.Stats.HealthCurrent  = 30
         $Import_JSON.Character.Stats.HealthMax      = 60
         $Import_JSON.Character.Stats.StaminaCurrent = 80
         $Import_JSON.Character.Stats.StaminaMax     = 80
@@ -825,14 +825,15 @@ Function Create_Character {
         $Import_JSON.Character.Stats.ManaMax        = 30
         $Import_JSON.Character.Stats.Damage         = 10
         $Import_JSON.Character.Stats.Attack         = 10
-        $Import_JSON.Character.Stats.Armour         = 6
         $Import_JSON.Character.Stats.Dodge          = 10
+        $Import_JSON.Character.Stats.Block          = 4
+        $Import_JSON.Character.Stats.Armour         = 6
         $Import_JSON.Character.Stats.Quickness      = 10
         $Import_JSON.Character.Stats.Spells         = 1
         $Import_JSON.Character.Stats.Healing        = 4
     }
     if ($Character_Class -ieq "Cleric") {
-        $Import_JSON.Character.Stats.HealthCurrent  = 40
+        $Import_JSON.Character.Stats.HealthCurrent  = 20
         $Import_JSON.Character.Stats.HealthMax      = 40
         $Import_JSON.Character.Stats.StaminaCurrent = 50
         $Import_JSON.Character.Stats.StaminaMax     = 50
@@ -840,14 +841,15 @@ Function Create_Character {
         $Import_JSON.Character.Stats.ManaMax        = 100
         $Import_JSON.Character.Stats.Damage         = 8
         $Import_JSON.Character.Stats.Attack         = 2
-        $Import_JSON.Character.Stats.Armour         = 4
         $Import_JSON.Character.Stats.Dodge          = 1
+        $Import_JSON.Character.Stats.Block          = 2
+        $Import_JSON.Character.Stats.Armour         = 4
         $Import_JSON.Character.Stats.Quickness      = 4
         $Import_JSON.Character.Stats.Spells         = 10
         $Import_JSON.Character.Stats.Healing        = 10
     }
     if ($Character_Class -ieq "Warrior") {
-        $Import_JSON.Character.Stats.HealthCurrent  = 100
+        $Import_JSON.Character.Stats.HealthCurrent  = 50
         $Import_JSON.Character.Stats.HealthMax      = 100
         $Import_JSON.Character.Stats.StaminaCurrent = 100
         $Import_JSON.Character.Stats.StaminaMax     = 100
@@ -855,8 +857,9 @@ Function Create_Character {
         $Import_JSON.Character.Stats.ManaMax        = 10
         $Import_JSON.Character.Stats.Damage         = 1
         $Import_JSON.Character.Stats.Attack         = 8
-        $Import_JSON.Character.Stats.Armour         = 10
         $Import_JSON.Character.Stats.Dodge          = 8
+        $Import_JSON.Character.Stats.Block          = 8
+        $Import_JSON.Character.Stats.Armour         = 10
         $Import_JSON.Character.Stats.Quickness      = 6
         $Import_JSON.Character.Stats.Spells         = 1
         $Import_JSON.Character.Stats.Healing        = 4
@@ -1811,10 +1814,11 @@ Function Get_Random_Mob {
     $Script:Selected_Mob_StaminaMax     = $Selected_Mob.Stamina
     $Script:Selected_Mob_ManaCurrent    = $Selected_Mob.Mana
     $Script:Selected_Mob_ManaMax        = $Selected_Mob.Mana
-    $Script:Selected_Mob_Attack         = $Selected_Mob.Attack
     $Script:Selected_Mob_Damage         = $Selected_Mob.Damage
-    $Script:Selected_Mob_Armour         = $Selected_Mob.Armour
+    $Script:Selected_Mob_Attack         = $Selected_Mob.Attack
     $Script:Selected_Mob_Dodge          = $Selected_Mob.Dodge
+    $Script:Selected_Mob_Block          = $Selected_Mob.Block
+    $Script:Selected_Mob_Armour         = $Selected_Mob.Armour
     $Script:Selected_Mob_Quickness      = $Selected_Mob.Quickness
     $Script:Selected_Mob_Spells         = $Selected_Mob.Spells
     $Script:Selected_Mob_Healing        = $Selected_Mob.Healing

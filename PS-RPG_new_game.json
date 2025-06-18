@@ -725,32 +725,34 @@
     }
   },
   "Character": {
-    "Name": "Aldon",
-    "Class": "Rogue",
-    "Race": "Elf",
+    "Name": "",
+    "Class": "",
+    "Race": "",
     "Level": 1,
     "Total_XP": 0,
     "XP_TNL": 100.0,
-    "Gold": 0.0,
+    "Gold": 0,
     "Stats": {
-      "HealthCurrent": 54.0,
-      "HealthMax": 65,
+      "HealthCurrent": 1000,
+      "HealthMax": 1000,
       "HealthMaxUnBuffed": 0,
-      "StaminaCurrent": 80,
-      "StaminaMax": 87,
-      "ManaCurrent": 10,
-      "ManaMax": 35,
+      "StaminaCurrent": 1000,
+      "StaminaMax": 1000,
+      "ManaCurrent": 1000,
+      "ManaMax": 1000,
       "ManaMaxUnBuffed": 0,
-      "Damage": 19,
-      "Attack": 19,
+      "Damage": 1000,
+      "Attack": 1000,
       "AttackUnBuffed": 0,
-      "Armour": 10,
-      "ArmourUnBuffed": 0,
-      "Dodge": 20,
+      "Dodge": 1000,
       "DodgeUnBuffed": 0,
-      "Quickness": 20,
-      "Spells": 6,
-      "Healing": 12
+      "Block": 1000,
+      "BlockUnBuffed": 0,
+      "Armour": 1000,
+      "ArmourUnBuffed": 0,
+      "Quickness": 1000,
+      "Spells": 1000,
+      "Healing": 1000
     },
     "Buffs": {
       "Duration": 0,
@@ -758,11 +760,43 @@
       "DrinksPurchased": 0
     },
     "Skills": {
-      "Dodge": 0,
-      "Attack": 0,
-      "Spells": {
-        "Fire": 0,
-        "Ice": 0
+      "Mage": {
+        "None": "<none>"
+      },
+      "Cleric": {
+        "None": "<none>"
+      },
+      "Rogue": {
+        "Stealth": true,
+        "Precise Strike": false,
+        "Poison": true,
+        "Stun": false
+      },
+      "Warrior": {
+        "Shield Bash": false,
+        "Rage": true,
+        "Parry": false,
+        "Disarming Strike": true
+      }
+    },
+    "Spells": {
+      "Mage": {
+        "Magic Missile": true,
+        "Fireball": false,
+        "Cone of Cold": true,
+        "Hold": false
+      },
+      "Cleric": {
+        "Cure_Wounds": true,
+        "Shield of Faith": false,
+        "Harm": false,
+        "Magic Resistance": true
+      },
+      "Rogue": {
+        "None": "<none>"
+      },
+      "Warrior": {
+        "None": "<none>"
       }
     }
   },
@@ -984,8 +1018,9 @@
         "ManaMax": 4,
         "Armour": 2,
         "Damage": 5,
-        "Attack": 4,
-        "Dodge": 1,
+        "Attack": 2,
+        "Dodge": 3,
+        "Block": 1,
         "Quickness": 1,
         "Spells": 5,
         "Healing": 3
@@ -998,6 +1033,7 @@
         "Damage": 5,
         "Attack": 5,
         "Dodge": 5,
+        "Block": 2,
         "Quickness": 5,
         "Spells": 1,
         "Healing": 3
@@ -1008,8 +1044,9 @@
         "ManaMax": 5,
         "Armour": 2,
         "Damage": 4,
-        "Attack": 2,
-        "Dodge": 1,
+        "Attack": 3,
+        "Dodge": 2,
+        "Block": 1,
         "Quickness": 1,
         "Spells": 5,
         "Healing": 5
@@ -1020,8 +1057,9 @@
         "ManaMax": 1,
         "Armour": 5,
         "Damage": 1,
-        "Attack": 4,
-        "Dodge": 4,
+        "Attack": 3,
+        "Dodge": 3,
+        "Block": 4,
         "Quickness": 3,
         "Spells": 1,
         "Healing": 4
@@ -1036,6 +1074,7 @@
         "Damage": 4,
         "Attack": 4,
         "Dodge": 5,
+        "Block": 2,
         "Quickness": 5,
         "Spells": 4,
         "Healing": 5
@@ -1048,6 +1087,7 @@
         "Damage": 4,
         "Attack": 5,
         "Dodge": 3,
+        "Block": 4,
         "Quickness": 1,
         "Spells": 1,
         "Healing": 1
@@ -1060,6 +1100,7 @@
         "Damage": 5,
         "Attack": 5,
         "Dodge": 1,
+        "Block": 5,
         "Quickness": 1,
         "Spells": 1,
         "Healing": 3
@@ -1072,6 +1113,7 @@
         "Damage": 3,
         "Attack": 3,
         "Dodge": 3,
+        "Block": 3,
         "Quickness": 3,
         "Spells": 4,
         "Healing": 4
