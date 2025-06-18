@@ -3111,6 +3111,8 @@ Function Visit_a_Building {
                                                     }
                                                     # reset secret in room1
                                                     $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.Room1.Secret.Found = $true
+                                                    # reset item found in room 11
+                                                    $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.Room11.Secret.Found = $false
                                                 }
                                                 $Script:Gold = $Import_JSON.Character.Gold
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
@@ -3329,7 +3331,7 @@ Function Visit_a_Building {
                                                                     do {
                                                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                                                        Write-Color -NoNewLine "C","ontinue 1 ","[C]" -Color Green,DarkYellow,Green
+                                                                        Write-Color -NoNewLine "C","ontinue ","[C]" -Color Green,DarkYellow,Green
                                                                         $Continue_After_Searching_Container = Read-Host " "
                                                                         $Continue_After_Searching_Container = $Continue_After_Searching_Container.Trim()
                                                                     } until ($Continue_After_Searching_Container -ieq "c")
@@ -3414,8 +3416,15 @@ Function Visit_a_Building {
                                                             }
                                                             if ($Cellar_Room11_Secret_Choice -ieq "l") { # leave the brick alone
                                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,20;$Host.UI.Write("")
-                                                                Write-Color "  You decide to leave the brick alone." -Color DarkGray
+                                                                Write-Color "  You decide not to dig through the rubble." -Color DarkGray
                                                             }
+                                                            do {
+                                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                                                                Write-Color -NoNewLine "C","ontinue ","[C]" -Color Green,DarkYellow,Green
+                                                                $Continue_After_Searching_Room11 = Read-Host " "
+                                                                $Continue_After_Searching_Room11 = $Continue_After_Searching_Room11.Trim()
+                                                            } until ($Continue_After_Searching_Room11 -ieq "c")
                                                         }
                                                     } else { # all other rooms
                                                         for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
