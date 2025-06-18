@@ -2731,7 +2731,7 @@ Function Visit_a_Building {
                     $Exit_Drinks_Menu = $false
                     $Exit_Quest_Board = $false
                     $Drink_Purchased = $false
-                    $Quest_Accepted = $false
+                    $Quest_Viewed_or_Accepted = $false
                     do {
                         do {
                             $Script:Info_Banner = "Tavern"
@@ -2934,13 +2934,13 @@ Function Visit_a_Building {
                             }
                             # quest board
                             q {
-                                $Quest_Accepted = $false
+                                $Quest_Viewed_or_Accepted = $false
                                 $First_Time_Looking_at_Quest_Board = $true
                                 $Script:Info_Banner = "Quest Board"
                                 Draw_Info_Banner
                                 do {
-                                    do {
-                                        if ($Quest_Accepted -eq $false) {
+                                    # do {
+                                        if ($Quest_Viewed_or_Accepted -eq $false) { # clear a few line only if the quest is viewed or accepted
                                             for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                             }
@@ -2983,6 +2983,7 @@ Function Visit_a_Building {
                                         }
                                         $Available_Quest_Letters_Array_String = $Available_Quest_Letters_Array -Join "/"
                                         $Available_Quest_Letters_Array_String = $Available_Quest_Letters_Array_String + "/E"
+                                    do {
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                                         Write-Color -NoNewLine "View details about a quest, or ","E","xit ","[$Available_Quest_Letters_Array_String]" -Color DarkYellow,Green,DarkYellow,Green
@@ -3030,7 +3031,7 @@ Function Visit_a_Building {
                                         } until ($Tavern_Quest_Info_Choice -in $Tavern_Quest_Info_Choice_Array)
                                         # accept a quest
                                         if ($Tavern_Quest_Info_Choice -ieq "a") {
-                                            $Quest_Accepted = $true
+                                            $Quest_Viewed_or_Accepted = $true
                                             $Quest_Name.Status = "In Progress"
                                             $Quest_Name.In_Progress = $true
                                             $Quest_Name.Available = $false
