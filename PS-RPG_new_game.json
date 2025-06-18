@@ -1094,7 +1094,7 @@
         "Random Loot #2": 1
       },
       "Progress": 0,
-      "Progress_Max": 2,
+      "Progress_Max": 5,
       "Level_Range": "1-5",
       "Times_Completed": 0,
       "Available": true,
@@ -1129,7 +1129,7 @@
     "Tick_Recover_Health_and_Mana": false,
     "Tick_Visit_the_Tavern": false,
     "Tick_Accept_a_Quest": false,
-    "Tick_Kill_2_Rats": false,
+    "Tick_Kill_5_Rats": false,
     "Tick_View_Inventory": false,
     "Tick_Hand_in_Completed_Quest": false,
     "Tick_Visit_Mend_and_Mana": false,

@@ -32,7 +32,6 @@ ToDo
 
 - KNOWN ISSUES
     - if a player purchases one drink and gains its buff, kills mobs until one kill left before it drops (not necessarily one but the closer to zero the better the exploit), they can go buy a second drink (buff) and it will extend the original buff for another full duration rather than the first buff expiring after one more fight. both buffs last the full duration. in other words getting a "free" buff.
-    - killing Drunken Rats or King Rat in the cellar for the cellar quest does not update the quest progress in the JSON file. only killing "rats" do.
 #>
 
 
@@ -1216,7 +1215,7 @@ Function Draw_Introduction_Tasks {
         if ($Import_JSON.Introduction_Tasks.Tick_Recover_Health_and_Mana -eq $true)    { $Tick_Recover_Health_and_Mana = $Tick }
         if ($Import_JSON.Introduction_Tasks.Tick_Visit_the_Tavern -eq $true)           { $Tick_Visit_the_Tavern        = $Tick }
         if ($Import_JSON.Introduction_Tasks.Tick_Accept_a_Quest -eq $true)             { $Tick_Accept_a_Quest          = $Tick }
-        if ($Import_JSON.Introduction_Tasks.Tick_Kill_2_Rats -eq $true)                { $Tick_Kill_2_Rats             = $Tick }
+        if ($Import_JSON.Introduction_Tasks.Tick_Kill_5_Rats -eq $true)                { $Tick_Kill_5_Rats             = $Tick }
         if ($Import_JSON.Introduction_Tasks.Tick_Hand_in_Completed_Quest -eq $true)    { $Tick_Hand_in_Completed_Quest = $Tick }
         if ($Import_JSON.Introduction_Tasks.Tick_View_Inventory -eq $true)             { $Tick_View_Inventory          = $Tick }
         if ($Import_JSON.Introduction_Tasks.Tick_Visit_Mend_and_Mana -eq $true)        { $Tick_Visit_Mend_and_Mana     = $Tick }
@@ -1235,7 +1234,7 @@ Function Draw_Introduction_Tasks {
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,25;$Host.UI.Write("| [ ] Recover Health and Mana      |")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,26;$Host.UI.Write("| [ ] Visit the Tavern             |")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,27;$Host.UI.Write("| [ ] Accept a Quest               |")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,28;$Host.UI.Write("| [ ] Kill 2 Rats (Cellar quest)   |")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,28;$Host.UI.Write("| [ ] Kill 5 Rats (Cellar quest)   |")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,29;$Host.UI.Write("| [ ] Hand in your completed Quest |")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,30;$Host.UI.Write("| [ ] View your Inventory          |")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 106,31;$Host.UI.Write("| [ ] Visit the Mend & Mana        |")
@@ -1254,7 +1253,7 @@ Function Draw_Introduction_Tasks {
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,25;$Host.UI.Write("$Tick_Recover_Health_and_Mana")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,26;$Host.UI.Write("$Tick_Visit_the_Tavern")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,27;$Host.UI.Write("$Tick_Accept_a_Quest")
-        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,28;$Host.UI.Write("$Tick_Kill_2_Rats")
+        $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,28;$Host.UI.Write("$Tick_Kill_5_Rats")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,29;$Host.UI.Write("$Tick_Hand_in_Completed_Quest")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,30;$Host.UI.Write("$Tick_View_Inventory")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 109,31;$Host.UI.Write("$Tick_Visit_Mend_and_Mana")
@@ -2012,9 +2011,14 @@ Function Fight_or_Run {
                 if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Is_Active -eq $true) {
                     $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Selected_Mob_Name.Killed += 1
                     # if Introduction Tasks are still in progress, update the slow intro window Inventory with a tick
-                    if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Selected_Mob_Name.Killed -ge 2) {
-                        $Import_JSON.Introduction_Tasks.Tick_Kill_2_Rats = $true
-                        Draw_Introduction_Tasks
+                    # need to check all mobs in the cellar quest to see if any of them have been killed 5 times
+                    $Cellar_Quest_Mob_Names = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.PSObject.Properties.Name
+                    foreach ($Cellar_Quest_Mob_Name in $Cellar_Quest_Mob_Names) {
+                        $Cellar_Quest_Mobs_Killed += $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Cellar_Quest_Mob_Name.Killed
+                        if ($Cellar_Quest_Mobs_Killed -ge 5) {
+                            $Import_JSON.Introduction_Tasks.Tick_Kill_5_Rats = $true
+                            Draw_Introduction_Tasks
+                        }
                     }
                 } else {
                     $Import_JSON.Locations."Home Town".Location_Options.Travel = $true
@@ -2930,15 +2934,18 @@ Function Visit_a_Building {
                             }
                             # quest board
                             q {
+                                $Quest_Accepted = $false
                                 $First_Time_Looking_at_Quest_Board = $true
+                                $Script:Info_Banner = "Quest Board"
+                                Draw_Info_Banner
                                 do {
-                                    $Script:Info_Banner = "Quest Board"
-                                    Draw_Info_Banner
                                     do {
-                                        for ($Position = 17; $Position -lt 25; $Position++) { # clear some lines from previous widow
-                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                        if ($Quest_Accepted -eq $false) {
+                                            for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
+                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                            }
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                         }
-                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                         if ($First_Time_Looking_at_Quest_Board -eq $true) {
                                             if ($Import_JSON.Character.Buffs.DrinksPurchased -gt 0) {
                                                 $Player_Walking_to_Quest_Board = @(
@@ -2954,30 +2961,6 @@ Function Visit_a_Building {
                                             }
                                             $Player_Walking_to_Quest_Board = Get-Random -Input $Player_Walking_to_Quest_Board
                                             Write-Color "  $Player_Walking_to_Quest_Board" -Color DarkGray
-                                        }
-                                        if ($Quest_Accepted -eq $true) {
-                                            # update introduction task and update Introduction Tasks window
-                                            $Import_JSON.Introduction_Tasks.Tick_Accept_a_Quest = $true
-                                            Draw_Introduction_Tasks
-                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                            for ($Position = 17; $Position -lt 34; $Position++) { # clear some lines from previous widow
-                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                                            }
-                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                            Write-Color "  $($Import_JSON.Locations."Home Town".Buildings.Tavern.Owner) ","thanks you for accepting the ","$($Quest_Name.Name)"," quest" -Color Blue,DarkGray,White,DarkGray
-                                            Write-Color "  and tells you she will let the person know you've accepted it." -Color DarkGray
-                                            Write-Color "  Don't forget, you can view quests you've accepted by choosing '","Q","' here or in most other menus." -Color DarkGray,Green,DarkGray
-                                            Write-Color ""
-                                            $Quest_Name = $($Quest_Name.Name)
-                                            $Import_JSON.Quests.$Quest_Name.Available = $false
-                                            $Import_JSON.Quests.$Quest_Name.In_Progress = $true
-                                            $Import_JSON.Quests.$Quest_Name.Status = "In Progress"
-                                            Save_JSON
-                                        } else {
-                                            for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
-                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                                            }
-                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
                                         }
                                         Write-Color "  The following quests are pinned to the board." -Color DarkGray
                                         Write-Color "`r" -Color DarkGray
@@ -3009,7 +2992,7 @@ Function Visit_a_Building {
                                     if ($Tavern_Quest_Board_Choice -in $Available_Quest_Letters_Array) {
                                         do {
                                             Draw_Inventory
-                                            for ($Position = 17; $Position -lt 28; $Position++) { # clear some lines from previous widow
+                                            for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
                                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                             }
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
@@ -3053,6 +3036,18 @@ Function Visit_a_Building {
                                             $Quest_Name.Available = $false
                                             # advance introduction to game
                                             $Import_JSON.Locations."Home Town".Location_Options.Quests = $true
+                                            # update introduction task and update Introduction Tasks window
+                                            $Import_JSON.Introduction_Tasks.Tick_Accept_a_Quest = $true
+                                            Draw_Introduction_Tasks
+                                            # $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                            for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
+                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                            }
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                            Write-Color "  $($Import_JSON.Locations."Home Town".Buildings.Tavern.Owner) ","thanks you for accepting the ","$($Quest_Name.Name)"," quest" -Color Blue,DarkGray,White,DarkGray
+                                            Write-Color "  and tells you she will let the person know you've accepted it." -Color DarkGray
+                                            Write-Color "  Don't forget, you can view quests you've accepted by choosing '","Q","' here or in most other menus." -Color DarkGray,Green,DarkGray
+                                            Write-Color ""
                                         }
                                         # hand in a quest
                                         if ($Tavern_Quest_Info_Choice -ieq "h") {
