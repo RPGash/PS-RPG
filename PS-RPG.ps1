@@ -2668,7 +2668,7 @@ Function Visit_a_Building {
                     }
                 }
                 h { # home
-                    # update building words in location map. white to current building and reset location to dark yellow 
+                    # update building words in location map. white to current building and reset location to dark yellow
                     $host.UI.RawUI.ForegroundColor = "DarkYellow"
                     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
                     $host.UI.RawUI.ForegroundColor = "White"
@@ -2732,7 +2732,7 @@ Function Visit_a_Building {
                     } until ($Home_Choice -ieq "e")
                 }
                 t { # tavern
-                    # update building words in location map. white to current building and reset location to dark yellow 
+                    # update building words in location map. white to current building and reset location to dark yellow
                     $host.UI.RawUI.ForegroundColor = "DarkYellow"
                     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
                     $host.UI.RawUI.ForegroundColor = "White"
@@ -2796,9 +2796,12 @@ Function Visit_a_Building {
                             }
                             if ($First_Time_Entered_Cellar -eq $true) {
                                 Draw_Town_Map # re-draw town map after exiting cellar
-                                # update building words in location map. white to current building and reset location to dark yellow 
+                                # update building words in location map. white to current building and reset location to dark yellow
                                 $host.UI.RawUI.ForegroundColor = "DarkYellow"
                                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("A") # Anvil & Blade
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("H") # Home
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("M") # Mend & Mana
                                 $host.UI.RawUI.ForegroundColor = "White"
                                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("Tavern")
                                 for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
@@ -3157,48 +3160,45 @@ Function Visit_a_Building {
                                     $Script:Info_Banner = "Tavern Cellar"
                                     Draw_Info_Banner
                                     $Script:Cellar_Quest_Rooms = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.PSObject.Properties.Name
-
-                                    
                                     $Cellar_Quest_Room_Direction_Array = New-Object System.Collections.Generic.List[System.Object]
-                                        # loop through all Cellar quest rooms and get room direction letters for current room
-                                        foreach ($Cellar_Quest_Room in $Cellar_Quest_Rooms) {
-                                            # get current cellar quest room as an object
-                                            $Cellar_Quest_Room_Object = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Quest_Room
-                                            foreach ($Cellar_Quest_Room_Current_Location in $Cellar_Quest_Room_Object) {
-                                                if ($Cellar_Quest_Room_Current_Location.Current_Location -eq $true) {
-                                                    $Cellar_Quest_Current_Room_Number = $Cellar_Quest_Room_Current_Location.Room
-                                                    # get all Linked_Locations room names and loop through 
-                                                    $Cellar_Quest_Current_Room_Number_Object = $Cellar_Quest_Room_Current_Location
-                                                    foreach ($Cellar_Quest_Room_Name in $Cellar_Quest_Room_Object.LinkedRooms.PSObject.Properties.Name) {
-                                                        $Cellar_Quest_Room_Name_Letter = $Cellar_Quest_Room_Object.LinkedRooms.$Cellar_Quest_Room_Name
-                                                        # add each Linked_Locations letter (direction) to array
-                                                        $Cellar_Quest_Room_Direction_Array.Add($Cellar_Quest_Room_Name_Letter)
-                                                    }
+                                    # loop through all Cellar quest rooms and get room direction letters for current room
+                                    foreach ($Cellar_Quest_Room in $Cellar_Quest_Rooms) {
+                                        # get current cellar quest room as an object
+                                        $Cellar_Quest_Room_Object = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.$Cellar_Quest_Room
+                                        foreach ($Cellar_Quest_Room_Current_Location in $Cellar_Quest_Room_Object) {
+                                            if ($Cellar_Quest_Room_Current_Location.Current_Location -eq $true) {
+                                                $Cellar_Quest_Current_Room_Number = $Cellar_Quest_Room_Current_Location.Room
+                                                # get all Linked_Locations room names and loop through 
+                                                $Cellar_Quest_Current_Room_Number_Object = $Cellar_Quest_Room_Current_Location
+                                                foreach ($Cellar_Quest_Room_Name in $Cellar_Quest_Room_Object.LinkedRooms.PSObject.Properties.Name) {
+                                                    $Cellar_Quest_Room_Name_Letter = $Cellar_Quest_Room_Object.LinkedRooms.$Cellar_Quest_Room_Name
+                                                    # add each Linked_Locations letter (direction) to array
+                                                    $Cellar_Quest_Room_Direction_Array.Add($Cellar_Quest_Room_Name_Letter)
                                                 }
                                             }
                                         }
-                                        # check if current location is room 6 (the exit) and if Room6's "Current_Location" is $true.
-                                        # if it is, add the "X" choice to the array, then break out of the loop
-                                        if ($First_Time_Entered_Cellar -eq $false) {
-                                            for ($Position = 17; $Position -lt 25; $Position++) { # clear some lines from previous widow
-                                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                                            }
-                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                            Write-Color "  You walk down the stone cellar steps being careful not to slip on the mold and rat droppings." -Color DarkGray
-                                            Write-Color "  It's damp and dark. Your torch barly makes a difference down here." -Color DarkGray
-                                            Write-Color -LinesBefore 1 "  Use the four main cardinal directions of a compass to move about in the cellar. ","N",", ","S",", ","E ","and ","W","." -Color DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray
-                                            Write-Color "  Look for the ","Green ","line (","-"," or ","|",") on the edges of the room walls which indicates a joning room." -Color DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray
-                                            Write-Color -LinesBefore 1 "  Note:"," to exit the Cellar, move back to this room and enter '","X","' to eXit (not the usual 'E')." -Color Red,DarkGray,Green,DarkGray
-                                            $First_Time_Entered_Cellar = $true
+                                    }
+                                    # check if current location is room 6 (the exit) and if Room6's "Current_Location" is $true.
+                                    # if it is, add the "X" choice to the array, then break out of the loop
+                                    if ($First_Time_Entered_Cellar -eq $false) {
+                                        for ($Position = 17; $Position -lt 25; $Position++) { # clear some lines from previous widow
+                                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                         }
-                                        if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.Room6.Current_Location -eq $true) {
-                                            # if in room 6 (cellar exit), add the "X" choice to the array
-                                            $Cellar_Quest_Room_Direction_Array.Add("X")
-                                        }
-                                        $Cellar_Quest_Room_Direction_Array_String = $Cellar_Quest_Room_Direction_Array -Join "/"
-                                        # Write-Color "  Cellar_Quest_Current_Room_Number: $Cellar_Quest_Current_Room_Number" -Color DarkGray
-                                        Draw_Cellar_Map
-
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                                        Write-Color "  You walk down the stone cellar steps being careful not to slip on the mold and rat droppings." -Color DarkGray
+                                        Write-Color "  It's damp and dark. Your torch barly makes a difference down here." -Color DarkGray
+                                        Write-Color -LinesBefore 1 "  Use the four main cardinal directions of a compass to move about in the cellar. ","N",", ","S",", ","E ","and ","W","." -Color DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray
+                                        Write-Color "  Look for the ","Green ","line (","-"," or ","|",") on the edges of the room walls which indicates a joning room." -Color DarkGray,Green,DarkGray,Green,DarkGray,Green,DarkGray
+                                        Write-Color -LinesBefore 1 "  Note:"," to exit the Cellar, move back to this room and enter '","X","' to eXit (not the usual 'E')." -Color Red,DarkGray,Green,DarkGray
+                                        $First_Time_Entered_Cellar = $true
+                                    }
+                                    if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Rooms.Room6.Current_Location -eq $true) {
+                                        # if in room 6 (cellar exit), add the "X" choice to the array
+                                        $Cellar_Quest_Room_Direction_Array.Add("X")
+                                    }
+                                    $Cellar_Quest_Room_Direction_Array_String = $Cellar_Quest_Room_Direction_Array -Join "/"
+                                    # Write-Color "  Cellar_Quest_Current_Room_Number: $Cellar_Quest_Current_Room_Number" -Color DarkGray
+                                    Draw_Cellar_Map
                                     do {
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
@@ -3452,7 +3452,7 @@ Function Visit_a_Building {
                 # Anvil & Blade
                 #
                 a {
-                    # update building words in location map. white to current building and reset location to dark yellow 
+                    # update building words in location map. white to current building and reset location to dark yellow
                     $host.UI.RawUI.ForegroundColor = "DarkYellow"
                     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
                     $host.UI.RawUI.ForegroundColor = "White"
@@ -3540,9 +3540,12 @@ Function Visit_a_Building {
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                                 Draw_Player_Window_and_Stats
                                 Draw_Town_Map
-                                # update building words in location map. white to current building and reset location to dark yellow 
+                                # update building words in location map. white to current building and reset location to dark yellow
                                 $host.UI.RawUI.ForegroundColor = "DarkYellow"
                                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("H") # Home
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("T") # Tavern
+                                $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("M") # Mend & Mana
                                 $host.UI.RawUI.ForegroundColor = "White"
                                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("Anvil")
                                 $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,3;$Host.UI.Write("& Blade")
@@ -3561,7 +3564,7 @@ Function Visit_a_Building {
                     } until ($Anvil_Choice -ieq "e")
                 }
                 m { # Mend & Mana
-                    # update building words in location map. white to current building and reset location to dark yellow 
+                    # update building words in location map. white to current building and reset location to dark yellow
                     $host.UI.RawUI.ForegroundColor = "DarkYellow"
                     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
                     $host.UI.RawUI.ForegroundColor = "White"
@@ -3616,9 +3619,12 @@ Function Visit_a_Building {
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                                     Draw_Player_Window_and_Stats
                                     Draw_Town_Map
-                                    # update building words in location map. white to current building and reset location to dark yellow 
+                                    # update building words in location map. white to current building and reset location to dark yellow
                                     $host.UI.RawUI.ForegroundColor = "DarkYellow"
                                     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
+                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("A") # Anvil & Blade
+                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("H") # Home
+                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("T") # Tavern
                                     $host.UI.RawUI.ForegroundColor = "White"
                                     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("Mend")
                                     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,10;$Host.UI.Write("& Mana")
@@ -3764,9 +3770,12 @@ Function Visit_a_Building {
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                                     Draw_Player_Window_and_Stats
                                     Draw_Town_Map
-                                    # update building words in location map. white to current building and reset location to dark yellow 
+                                    # update building words in location map. white to current building and reset location to dark yellow
                                     $host.UI.RawUI.ForegroundColor = "DarkYellow"
                                     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 73,1;$Host.UI.Write("Home Town")
+                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("A") # Anvil & Blade
+                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 60,4;$Host.UI.Write("H") # Home
+                                    $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 75,6;$Host.UI.Write("T") # Tavern
                                     $host.UI.RawUI.ForegroundColor = "White"
                                     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,9;$Host.UI.Write("Mend")
                                     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,10;$Host.UI.Write("& Mana")
