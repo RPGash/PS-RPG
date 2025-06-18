@@ -3463,21 +3463,24 @@ Function Visit_a_Building {
                         $Script:Info_Banner = "Anvil & Blade"
                         Draw_Info_Banner
                         Draw_Inventory
-                        do {
-                            if ($First_Time_Entered_Anvil -eq $false) {
-                                for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                                }
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                if ($No_Items_To_Sell -eq $true) {
-                                    Write-Color "  It doesn't look like you have any junk items you want to get rid off." -Color DarkGray
-                                }
-                                Write-Color "  Anything else i can interest you in?" -Color DarkGray
-                            } else {
-                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
-                                Write-Color "  Greetings adventurer." -Color DarkGray
-                                Write-Color "  I buy and sell Weapons and Armour if you are interested." -Color DarkGray
+                        if ($First_Time_Entered_Anvil -eq $false) {
+                            for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                             }
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                            if ($No_Items_To_Sell -eq $true) {
+                                Write-Color "  It doesn't look like you have any junk items you want to get rid off." -Color DarkGray
+                            }
+                            Write-Color "  Anything else i can interest you in?" -Color DarkGray
+                        } else {
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
+                            Write-Color "  Greetings adventurer." -Color DarkGray
+                            Write-Color "  I buy and sell Weapons and Armour if you are interested." -Color DarkGray
+                        }
+                        Write-Color -LinesBefore 1 "  B","uy" -Color Green,DarkGray
+                        Write-Color "  S","ell" -Color Green,DarkGray
+                        Write-Color "  E","xit the Anvil & Blade" -Color Green,DarkGray
+                        do {
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                             Write-Color -NoNewLine "B","uy, ","S","ell, or ", "E","xit ","[B/S/E]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
@@ -3488,7 +3491,7 @@ Function Visit_a_Building {
                         # }
                         if ($Anvil_Choice -ieq "s") {
                             do {
-                                for ($Position = 17; $Position -lt 19; $Position++) { # clear some lines from previous widow
+                                for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                 }
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
@@ -3497,13 +3500,12 @@ Function Visit_a_Building {
                                 Write-Color "  A","rmour" -Color Green,DarkGray
                                 Write-Color "  W","eapons" -Color Green,DarkGray
                                 Write-Color "  N","othing for now" -Color Green,DarkGray
-                                Write-Color "  E","xit the Anvil & Blade" -Color Green,DarkGray
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
-                                Write-Color -NoNewLine "J","unk, ","A","rmour, ","W","eapons, or ", "E","xit ","[J/A/W/N/E]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                                Write-Color -NoNewLine "J","unk, ","A","rmour, ","W","eapons, or ", "N","othing ","[J/A/W/N]" -Color Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
                                 $Anvil_Sell_Choice = Read-Host " "
                                 $Anvil_Sell_Choice = $Anvil_Sell_Choice.Trim()
-                            } until ($Anvil_Sell_Choice -ieq "j" -or $Anvil_Sell_Choice -ieq "a" -or $Anvil_Sell_Choice -ieq "w" -or $Anvil_Sell_Choice -ieq "n" -or $Anvil_Sell_Choice -ieq "e")
+                            } until ($Anvil_Sell_Choice -ieq "j" -or $Anvil_Sell_Choice -ieq "a" -or $Anvil_Sell_Choice -ieq "w" -or $Anvil_Sell_Choice -ieq "n")
                             if ($Anvil_Sell_Choice -ieq "j") {
                                 $Anvil_Choice_Sell_Junk_Array = New-Object System.Collections.Generic.List[System.Object]
                                 $Script:Anvil_Choice_Sell_Junk_Quantity = 0 # reset variables so they don't increase next time
@@ -3512,7 +3514,7 @@ Function Visit_a_Building {
                                 Draw_Inventory
                                 if ($Anvil_Choice_Sell_Junk_Quantity -gt 0) {
                                     do {
-                                        for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                                        for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
                                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                         }
                                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,17;$Host.UI.Write("")
@@ -3556,9 +3558,9 @@ Function Visit_a_Building {
                             }
                             $Script:Selectable_ID_Search = "not_set"
                             $First_Time_Entered_Anvil = $false
-                            if ($Anvil_Sell_Choice -ieq "e") { # leaves the Anvil & Blade
-                                Break
-                            }
+                            # if ($Anvil_Sell_Choice -ieq "e") { # leaves the Anvil & Blade
+                            #     Break
+                            # }
                         }
                         
                     } until ($Anvil_Choice -ieq "e")
