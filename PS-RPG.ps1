@@ -37,9 +37,17 @@ ToDo
         rather than the first buff expiring after one more fight. both buffs last the full duration.
         in other words getting a "free" buff.
     - the Block skill does not appear in the Player Stats window.
-        the skill does increase after every player level, but is currently not calculated in battle.
+        the skill does increase after every player level, but is currently not calculated in battle anyway.
         there is currently no room to display it without readjusting the window and everything that replies
         on the position below this window.
+    - due to the position of the spells and skills window (bottom right corner),
+        if there are more than 24 items in the inventory (top right corner),
+        the inventory window will overlap the spells and skills window which currently has max 4 spells/skills per character.
+        fix/workaround: 1- reduce the number of items in the inventory to 24 or less (harder to implement)
+                        2- move the question prompt lower download (still room for about 8 more lines before you have to start reducing the font size)
+    - the spells and skills window does not display correctly if the *all* of the spell or skill names are shorter than the length of the word
+        "Spells" or "Skills" in the title of the window. Currently not an issue as the first spell/skill for all classes is longer anyway,
+        and spells and skills cannot be removed.
 #>
 
 
@@ -1380,9 +1388,21 @@ Function Draw_Inventory {
     # get max item name length
     $Inventory_Items_Name_Array_Max_Length = ($Inventory_Items_Name_Array | Measure-Object -Maximum).Maximum
     # calculate top and bottom name width
-    $Inventory_Box_Name_Width_Top_Bottom = "-"*($Inventory_Items_Name_Array_Max_Length + 7)
+    
+    if ($Inventory_Items_Name_Array_Max_Length -le 9) { # 9 = "inventory"
+        $Inventory_Box_Name_Width_Top_Bottom = "-"*11
+    } else {
+        $Inventory_Box_Name_Width_Top_Bottom = "-"*($Inventory_Items_Name_Array_Max_Length + 2)
+    }
+
+
+    # $Inventory_Box_Name_Width_Top_Bottom = "-"*($Inventory_Items_Name_Array_Max_Length + 2)
     # calculate middle name width
-    $Inventory_Box_Name_Width_Middle = " "*($Inventory_Items_Name_Array_Max_Length - 7)
+    if (($Inventory_Items_Name_Array_Max_Length - 7) -le 0) {
+        $Inventory_Box_Name_Width_Middle = " "*1
+    } else {
+        $Inventory_Box_Name_Width_Middle = " "*($Inventory_Items_Name_Array_Max_Length - 8)
+    }
     # get max item info length
     $Inventory_Items_Info_Array_Max_Length = ($Inventory_Items_Info_Array | Measure-Object -Maximum).Maximum
     # calculate top and bottom info width
@@ -1390,26 +1410,32 @@ Function Draw_Inventory {
     # calculate middle info width
     $Inventory_Box_Info_Width_Middle = " "*($Inventory_Items_Info_Array_Max_Length - 3)
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,0;$Host.UI.Write("")
-    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+$Inventory_Box_Info_Width_Top_Bottom+" -Color DarkGray
+    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+-----+$Inventory_Box_Gold_Value_Width_Top_Bottom+$Inventory_Box_Info_Width_Top_Bottom+" -Color DarkGray
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,1;$Host.UI.Write("")
-    Write-Color "|","ID","| ","Inventory","$Inventory_Box_Name_Width_Middle","Qty ","| ","Value","$Inventory_Box_Gold_Value_Width_Middle|"," Info","$Inventory_Box_Info_Width_Middle|" -Color DarkGray,White,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray
+    Write-Color "|","ID","| ","Inventory$Inventory_Box_Name_Width_Middle","|"," Qty ","| ","Value","$Inventory_Box_Gold_Value_Width_Middle|"," Info","$Inventory_Box_Info_Width_Middle|" -Color DarkGray,White,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,2;$Host.UI.Write("")
-    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+$Inventory_Box_Info_Width_Top_Bottom+" -Color DarkGray
+    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+-----+$Inventory_Box_Gold_Value_Width_Top_Bottom+$Inventory_Box_Info_Width_Top_Bottom+" -Color DarkGray
     $Position = 2
     foreach ($Inventory_Item_Name in $Inventory_Item_Names) {
         if ($Import_JSON.Items.$Inventory_Item_Name.Quantity -gt 0 -or $Inventory_Is_Empty -eq $true) {
             $Position += 1
             # padding for name length
-            if ($Import_JSON.Items.$Inventory_Item_Name.Name.Length -lt $Inventory_Items_Name_Array_Max_Length) {
-                $Name_Left_Padding = " "*($Inventory_Items_Name_Array_Max_Length - $Import_JSON.Items.$Inventory_Item_Name.Name.Length)
+            if ($Import_JSON.Items.$Inventory_Item_Name.Name.Length -le 9) { # 9 = "inventory"
+                if ($Inventory_Items_Name_Array_Max_Length -ge 9) {
+                    $Name_Right_Padding = " "*($Inventory_Items_Name_Array_Max_Length - $Import_JSON.Items.$Inventory_Item_Name.Name.Length)
+                } else {
+                    $Name_Right_Padding = " "*(9 - $Import_JSON.Items.$Inventory_Item_Name.Name.Length) # 9 = "inventory"
+                }
+            } elseif ($Import_JSON.Items.$Inventory_Item_Name.Name.Length -gt 9 -and $Import_JSON.Items.$Inventory_Item_Name.Name.Length -le $Inventory_Items_Name_Array_Max_Length) {
+                $Name_Right_Padding = " "*($Inventory_Items_Name_Array_Max_Length - $Import_JSON.Items.$Inventory_Item_Name.Name.Length)
             } else {
-                $Name_Left_Padding = ""
+                $Name_Right_Padding = " "
             }
             # padding for quantity
-            if ($Import_JSON.Items.$Inventory_Item_Name.Quantity -lt 10) { # quantity less than 10 in inventory (1 digit so needs 2 padding)
+            if ($Import_JSON.Items.$Inventory_Item_Name.Quantity -ge 10) { # quantity less than 10 in inventory (1 digit so needs 2 padding)
                 $Quantity_Left_Padding = "  " # less than 10 quantity (1 digit so needs 2 padding)
             } else {
-                $Quantity_Left_Padding = " " # more than 9 quantity (2 digits so needs 1 padding)
+                $Quantity_Left_Padding = "   " # more than 9 quantity (2 digits so needs 1 padding)
             }
             # gold padding
             if (($Import_JSON.Items.$Inventory_Item_Name.GoldValue | Measure-Object -Character).Characters -le '5') {
@@ -1440,7 +1466,7 @@ Function Draw_Inventory {
                 $Inventory_Is_Empty = $false
                 Break
             } else {
-                Write-Color "|","$ID_Number","| ","$($Import_JSON.Items.$Inventory_Item_Name.Name)$Name_Left_Padding ",":", "$Quantity_Left_Padding$($Import_JSON.Items.$Inventory_Item_Name.Quantity) ","| ","$($Import_JSON.Items.$Inventory_Item_Name.GoldValue)$Gold_Value_Right_Padding","| $($Import_JSON.Items.$Inventory_Item_Name.Info)$Info_Right_Padding |" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,White,DarkGray,White,DarkGray
+                Write-Color "|","$ID_Number","| ","$($Import_JSON.Items.$Inventory_Item_Name.Name)$Name_Right_Padding ","|", "$Quantity_Left_Padding$($Import_JSON.Items.$Inventory_Item_Name.Quantity) ","| ","$($Import_JSON.Items.$Inventory_Item_Name.GoldValue)$Gold_Value_Right_Padding","| $($Import_JSON.Items.$Inventory_Item_Name.Info)$Info_Right_Padding |" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray
             }
             $Script:Selectable_ID_Highlight = "DarkGray"
             $Script:Selectable_Name_Highlight = "DarkGray"
@@ -1448,8 +1474,168 @@ Function Draw_Inventory {
     }
     $Position += 1
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Position;$Host.UI.Write("")
-    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+$Inventory_Box_Gold_Value_Width_Top_Bottom+$Inventory_Box_Info_Width_Top_Bottom+" -Color DarkGray
+    Write-Color "+--+$Inventory_Box_Name_Width_Top_Bottom+-----+$Inventory_Box_Gold_Value_Width_Top_Bottom+$Inventory_Box_Info_Width_Top_Bottom+" -Color DarkGray
 }
+
+# draw spells or skills window
+Function Draw_Spells_Skills_Window {
+    # if ($Import_JSON.Locations.'Home Town'.Location_Options.Travel -eq $true -and $Import_JSON.Introduction_Tasks.Tick_Accept_a_Quest -eq $true -and $Import_JSON.Introduction_Tasks.Tick_View_Inventory -eq $false) {
+    #     $Import_JSON.Introduction_Tasks.Tick_View_Inventory = $true
+    #     Draw_Introduction_Tasks
+    #     Save_JSON
+    # }
+
+    # $Script:Selectable_ID_Search = "Health"
+    # Draw_Spells_Skills_Window
+    # $Script:Selectable_ID_Highlight = "DarkGray"
+
+    $Spells_or_Skills_Name_Array = New-Object System.Collections.Generic.List[System.Object]
+    $Spells_or_Skills_Mana_Cost_Array = New-Object System.Collections.Generic.List[System.Object]
+    $Spells_or_Skills_Info_Array = New-Object System.Collections.Generic.List[System.Object]
+    # get spells or skills names based on character class
+    switch ($Import_JSON.Character.Class) {
+        Mage {
+            $Script:Spells_or_Skills_Names = $Import_JSON.Character.Spells.Mage.PSObject.Properties.Name | Sort-Object ID
+            $Script:Spells_or_Skills_Names_Object = $Import_JSON.Character.Spells.Mage
+            $Spells_or_Skills_Window_Text = "Spells"
+        }
+        Cleric {
+            $Script:Spells_or_Skills_Names = $Import_JSON.Character.Spells.Cleric.PSObject.Properties.Name | Sort-Object ID
+            $Script:Spells_or_Skills_Names_Object = $Import_JSON.Character.Spells.Cleric
+            $Spells_or_Skills_Window_Text = "Spells"
+        }
+        Warrior {
+            $Script:Spells_or_Skills_Names = $Import_JSON.Character.Skills.Warrior.PSObject.Properties.Name | Sort-Object ID
+            $Script:Spells_or_Skills_Names_Object = $Import_JSON.Character.Skills.Warrior
+            $Spells_or_Skills_Window_Text = "Skills"
+        }
+        Rogue {
+            $Script:Spells_or_Skills_Names = $Import_JSON.Character.Skills.Rogue.PSObject.Properties.Name | Sort-Object ID
+            $Script:Spells_or_Skills_Names_Object = $Import_JSON.Character.Skills.Rogue
+            $Spells_or_Skills_Window_Text = "Skills"
+        }
+        Default {
+            Add-Content -Path .\error.log -value "Spells_or_Skills_Names: $Spells_or_Skills_Names"
+            Add-Content -Path .\error.log -value "Spells_or_Skills_Names_Object: $Spells_or_Skills_Names_Object"
+        }
+    }
+    $Spells_or_Skills_Total_Obtained = 0
+    foreach ($Spells_or_Skills_Name in $Spells_or_Skills_Names) {
+        Add-Content -Path .\error.log -value "Spells_or_Skills_Name: $Spells_or_Skills_Name"
+        Add-Content -Path .\error.log -value "Spells_or_Skills_Name DL: $($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Description_Long)"
+        Add-Content -Path .\error.log -value "Spells_or_Skills_Name DS: $($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Description_Short)"
+        if ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Obtained -eq $true) {
+            $Spells_or_Skills_Total_Obtained += 1
+            Add-Content -Path .\error.log -value "Spells_or_Skills_Name true?: yes"
+            $Spells_or_Skills_Name_Array.Add($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name.Length)
+            Add-Content -Path .\error.log -value "Spells_or_Skills_Name_Array lemgth: $Spells_or_Skills_Name_Array"
+            $Spells_or_Skills_Mana_Cost_Array.Add(($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Mana_Cost | Measure-Object -Character).Characters)
+            Add-Content -Path .\error.log -value "Spells_or_Skills_Mana_Cost_Array lemgth: $Spells_or_Skills_Mana_Cost_Array"
+            $Spells_or_Skills_Info_Array.Add(($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Description_Short | Measure-Object -Character).Characters)
+            Add-Content -Path .\error.log -value "Spells_or_Skills_Info_Array lemgth: $Spells_or_Skills_Info_Array"
+        }
+    }
+    # # if there are no items in the inventory, set window values so it still draws correctly
+    # if ($Spells_or_Skills_Name_Array.Count -eq 0) {
+    #     $Spells_or_Skills_Name_Array.Add("xxxxx")
+    #     $Spells_or_Skills_Mana_Cost_Array.Add("1")
+    #     $Spells_or_Skills_Info_Array.Add("4")
+    #     $Spells_or_Skills_is_Empty = $true
+    # } else {
+    #     $Spells_or_Skills_is_Empty = $false
+    # }
+    # get max item mana cost length
+    $Spells_or_Skills_Mana_Cost_Array_Max_Length = ($Spells_or_Skills_Mana_Cost_Array | Measure-Object -Maximum).Maximum
+    Add-Content -Path .\error.log -value "Spells_or_Skills_Mana_Cost_Array_Max_Length lemgth: $Spells_or_Skills_Mana_Cost_Array_Max_Length"
+    # calculate top and bottom mana cost box width
+    if ($Spells_or_Skills_Mana_Cost_Array_Max_Length -lt 5) {
+        $Spells_or_Skills_Box_Mana_Cost_Width_Top_Bottom = "-"*6
+    } else {
+        $Spells_or_Skills_Box_Mana_Cost_Width_Top_Bottom = "-"*($Spells_or_Skills_Mana_Cost_Array_Max_Length + 2)
+    }
+    # calculate middle mana cost width
+    if ($Spells_or_Skills_Mana_Cost_Array_Max_Length -ge 4 ) {
+        $Spells_or_Skills_Mana_Cost_Width_Middle = " "*($Spells_or_Skills_Mana_Cost_Array_Max_Length - 3)
+    } else {
+        $Spells_or_Skills_Mana_Cost_Width_Middle = " "*1
+    }
+    # get max item name length
+    $Spells_or_Skills_Name_Array_Max_Length = ($Spells_or_Skills_Name_Array | Measure-Object -Maximum).Maximum
+    Add-Content -Path .\error.log -value "--Spells_or_Skills_Name_Array_Max_Length: $Spells_or_Skills_Name_Array_Max_Length"
+    # calculate top and bottom name width
+    $Spells_or_Skills_Box_Name_Width_Top_Bottom = "-"*($Spells_or_Skills_Name_Array_Max_Length + 2)
+    Add-Content -Path .\error.log -value "--Spells_or_Skills_Box_Name_Width_Top_Bottom: $Spells_or_Skills_Box_Name_Width_Top_Bottom"
+    # calculate middle name width
+    Add-Content -Path .\error.log -value "--Spells_or_Skills_Name_Array_Max_Length: $Spells_or_Skills_Name_Array_Max_Length"
+    $Spells_or_Skills_Box_Name_Width_Middle = " "*($Spells_or_Skills_Name_Array_Max_Length - 5) # 
+    # get max item info length
+    $Spells_or_Skills_Info_Array_Max_Length = ($Spells_or_Skills_Info_Array | Measure-Object -Maximum).Maximum
+    # calculate top and bottom info width
+    $Spells_or_Skills_Box_Info_Width_Top_Bottom = "-"*($Spells_or_Skills_Info_Array_Max_Length + 2)
+    # calculate middle info width
+    $Spells_or_Skills_Box_Info_Width_Middle = " "*($Spells_or_Skills_Info_Array_Max_Length - 3)
+    # start spells & skills window above question line (#36) minus the minimum height of the window
+    # (4 lines includes top and bottom border plus the total number of spells or skills)
+    # so, 36 (question line) minus 4 (minimum box height) minus the total Number of spells or skills.
+    $Spells_or_Skills_Window_Position_Height = 36 - 4 - ($Spells_or_Skills_Total_Obtained)
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Spells_or_Skills_Window_Position_Height;$Host.UI.Write("")
+    Write-Color "+--+$Spells_or_Skills_Box_Name_Width_Top_Bottom+$Spells_or_Skills_Box_Mana_Cost_Width_Top_Bottom+$Spells_or_Skills_Box_Info_Width_Top_Bottom+" -Color DarkGray
+    $Spells_or_Skills_Window_Position_Height += 1
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Spells_or_Skills_Window_Position_Height;$Host.UI.Write("")
+    Write-Color "|","ID","| ","$Spells_or_Skills_Window_Text","$Spells_or_Skills_Box_Name_Width_Middle| ","Mana","$Spells_or_Skills_Mana_Cost_Width_Middle|"," Info","$Spells_or_Skills_Box_Info_Width_Middle|" -Color DarkGray,White,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray
+    $Spells_or_Skills_Window_Position_Height += 1
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Spells_or_Skills_Window_Position_Height;$Host.UI.Write("")
+    Write-Color "+--+$Spells_or_Skills_Box_Name_Width_Top_Bottom+$Spells_or_Skills_Box_Mana_Cost_Width_Top_Bottom+$Spells_or_Skills_Box_Info_Width_Top_Bottom+" -Color DarkGray
+    foreach ($Spells_or_Skills_Name in $Spells_or_Skills_Names) {
+        if ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Obtained -eq $true -or $Spells_or_Skills_is_Empty -eq $true) {
+            $Spells_or_Skills_Window_Position_Height += 1
+            # padding for name length
+            if ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name.Length -lt $Spells_or_Skills_Name_Array_Max_Length) {
+                $Spells_or_Skills_Name_Left_Padding = " "*($Spells_or_Skills_Name_Array_Max_Length - $Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name.Length)
+            } else {
+                $Spells_or_Skills_Name_Left_Padding = ""
+            }
+            # mana cost padding
+            if (($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Mana_Cost | Measure-Object -Character).Characters -lt 5) {
+                $Spells_or_Skills_Mana_Cost_Right_Padding = " "*(5 - ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Mana_Cost | Measure-Object -Character).Characters)
+                if ($Spells_or_Skills_Mana_Cost_Array_Max_Length -ge 5 ) {
+                    $Spells_or_Skills_Mana_Cost_Right_Padding = " "*($Spells_or_Skills_Mana_Cost_Array_Max_Length - ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Mana_Cost | Measure-Object -Character).Characters + 1)
+                }
+            } else {
+                $Spells_or_Skills_Mana_Cost_Right_Padding = " "*($Spells_or_Skills_Mana_Cost_Array_Max_Length - ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Mana_Cost | Measure-Object -Character).Characters + 1)
+            }
+            #ID padding
+            if (($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
+                $Spells_or_Skills_ID_Number = "$($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.ID)"
+            } else {
+                $Spells_or_Skills_ID_Number = " $($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.ID)" # if ID is a single digit (1 extra padding)
+            }
+            # info padding
+            if ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Description_Short.Length -lt $Spells_or_Skills_Info_Array_Max_Length) {
+                $Spells_or_Skills_Info_Right_Padding = " "*($Spells_or_Skills_Info_Array_Max_Length - $Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Description_Short.Length)
+            } else {
+                $Spells_or_Skills_Info_Right_Padding = ""
+            }
+            # Inventory_Highlight
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Spells_or_Skills_Window_Position_Height;$Host.UI.Write("")
+            # if no items in inventory, else an actual item
+            if ($Spells_or_Skills_is_Empty -eq $true) {
+                Write-Color "|  | No Spells or Skills |       |      |" -Color DarkGray
+                $Spells_or_Skills_is_Empty = $false
+                Break
+            } else {
+                Write-Color "|","$Spells_or_Skills_ID_Number","| ","$($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name)$Spells_or_Skills_Name_Left_Padding ","| ","$($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Mana_Cost)$Spells_or_Skills_Mana_Cost_Right_Padding","| $($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Description_Short)$Spells_or_Skills_Info_Right_Padding |" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,White,DarkGray,White,DarkGray
+            }
+            $Script:Selectable_ID_Highlight = "DarkGray"
+            $Script:Selectable_Name_Highlight = "DarkGray"
+        }
+    }
+    $Spells_or_Skills_Window_Position_Height += 1
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Spells_or_Skills_Window_Position_Height;$Host.UI.Write("")
+    Write-Color "+--+$Spells_or_Skills_Box_Name_Width_Top_Bottom+$Spells_or_Skills_Box_Mana_Cost_Width_Top_Bottom+$Spells_or_Skills_Box_Info_Width_Top_Bottom+" -Color DarkGray
+}
+
+
 
 # draws the shop potions in the shop window
 # same as the Draw_Intentory but no quantities
@@ -1959,6 +2145,7 @@ Function Fight_or_Run {
                 }
                 # spells
                 if ($Fight_Choice -ieq "s") {
+                    Draw_Spells_Skills_Window
                 }
                 $Player_Turn = $false
             } else {
