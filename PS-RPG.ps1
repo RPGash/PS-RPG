@@ -9,7 +9,7 @@ ToDo
     - 
     
 - NEXT
-    - add spells
+    - add spells - started
     - add equipment that can be equipped?
         armour protection, stat bonuses/buffs etc.
     - add item equipment drops from mob loot
@@ -45,9 +45,6 @@ ToDo
         the inventory window will overlap the spells and skills window which currently has max 4 spells/skills per character.
         fix/workaround: 1- reduce the number of items in the inventory to 24 or less (harder to implement)
                         2- move the question prompt lower download (still room for about 8 more lines before you have to start reducing the font size)
-    - the spells and skills window does not display correctly if the *all* of the spell or skill names are shorter than the length of the word
-        "Spells" or "Skills" in the title of the window. Currently not an issue as the first spell/skill for all classes is longer anyway,
-        and spells and skills cannot be removed.
 #>
 
 
@@ -1477,8 +1474,6 @@ Function Draw_Inventory {
             } else {
                 Write-Color "|","$ID_Number","| ","$($Import_JSON.Items.$Inventory_Item_Name.Name)$Name_Right_Padding ","|", "$Quantity_Left_Padding$($Import_JSON.Items.$Inventory_Item_Name.Quantity) ","| ","$($Import_JSON.Items.$Inventory_Item_Name.GoldValue)$Gold_Value_Right_Padding","| $($Import_JSON.Items.$Inventory_Item_Name.Info)$Info_Right_Padding |" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray
             }
-            $Script:Selectable_ID_Highlight = "DarkGray"
-            $Script:Selectable_Name_Highlight = "DarkGray"
         }
     }
     $Position += 1
@@ -1493,11 +1488,6 @@ Function Draw_Spells_Skills_Window {
     #     Draw_Introduction_Tasks
     #     Save_JSON
     # }
-
-    # $Script:Selectable_ID_Search = "Health"
-    # Draw_Spells_Skills_Window
-    # $Script:Selectable_ID_Highlight = "DarkGray"
-
 
     $Spells_or_Skills_Name_Array = New-Object System.Collections.Generic.List[System.Object]
     $Spells_or_Skills_Mana_Cost_Array = New-Object System.Collections.Generic.List[System.Object]
@@ -1628,9 +1618,6 @@ Function Draw_Spells_Skills_Window {
             } else {
                 Write-Color "|","$Spells_or_Skills_ID_Number","| ","$($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name)$Spells_or_Skills_Name_Right_Padding ","| ","$($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Mana_Cost)$Spells_or_Skills_Mana_Cost_Right_Padding","| $($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Description_Short)$Spells_or_Skills_Info_Right_Padding |" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,$Selectable_Mana_Cost_Highlight,DarkGray,White,DarkGray
             }
-            # $Script:Selectable_ID_Highlight = "DarkGray"
-            # $Script:Selectable_Name_Highlight = "DarkGray"
-            # $Script:Selectable_Mana_Cost_Highlight = "DarkGray"
         }
     }
     $Spells_or_Skills_Window_Position_Height += 1
@@ -1751,8 +1738,6 @@ Function Draw_Shop_Potions {
                 # Write-Color "|","$ID_Number","| ","$($Import_JSON.Items.$Inventory_Item_Name.Name)$Name_Left_Padding ",":", "$Quantity_Left_Padding$($Import_JSON.Items.$Inventory_Item_Name.Quantity) ","| ","$($Import_JSON.Items.$Inventory_Item_Name.GoldValue)$Gold_Value_Right_Padding","| $($Import_JSON.Items.$Inventory_Item_Name.Info)$Info_Right_Padding |" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,White,DarkGray,White,DarkGray
                 Write-Color "|","$ID_Number","| ","$($Import_JSON.Items.$Inventory_Item_Name.Name)$Name_Left_Padding ","| ","$($Import_JSON.Items.$Inventory_Item_Name.GoldValue)$Gold_Value_Right_Padding","| $($Import_JSON.Items.$Inventory_Item_Name.Info)$Info_Right_Padding |" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,White,DarkGray,White,DarkGray
             }
-            $Script:Selectable_ID_Highlight = "DarkGray"
-            $Script:Selectable_Name_Highlight = "DarkGray"
         }
     }
     $Position += 1
