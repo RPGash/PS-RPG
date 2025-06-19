@@ -1514,39 +1514,19 @@ Function Draw_Spells_Skills_Window {
             $Script:Spells_or_Skills_Names_Object = $Import_JSON.Character.Skills.Rogue
             $Spells_or_Skills_Window_Text = "Skills"
         }
-        Default {
-            Add-Content -Path .\error.log -value "Spells_or_Skills_Names: $Spells_or_Skills_Names"
-            Add-Content -Path .\error.log -value "Spells_or_Skills_Names_Object: $Spells_or_Skills_Names_Object"
-        }
+        # Default {}
     }
     $Spells_or_Skills_Total_Obtained = 0
     foreach ($Spells_or_Skills_Name in $Spells_or_Skills_Names) {
-        Add-Content -Path .\error.log -value "Spells_or_Skills_Name: $Spells_or_Skills_Name"
-        Add-Content -Path .\error.log -value "Spells_or_Skills_Name DL: $($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Description_Long)"
-        Add-Content -Path .\error.log -value "Spells_or_Skills_Name DS: $($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Description_Short)"
         if ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Obtained -eq $true) {
             $Spells_or_Skills_Total_Obtained += 1
-            Add-Content -Path .\error.log -value "Spells_or_Skills_Name true?: yes"
             $Spells_or_Skills_Name_Array.Add($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name.Length)
-            Add-Content -Path .\error.log -value "Spells_or_Skills_Name_Array lemgth: $Spells_or_Skills_Name_Array"
             $Spells_or_Skills_Mana_Cost_Array.Add(($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Mana_Cost | Measure-Object -Character).Characters)
-            Add-Content -Path .\error.log -value "Spells_or_Skills_Mana_Cost_Array lemgth: $Spells_or_Skills_Mana_Cost_Array"
             $Spells_or_Skills_Info_Array.Add(($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Description_Short | Measure-Object -Character).Characters)
-            Add-Content -Path .\error.log -value "Spells_or_Skills_Info_Array lemgth: $Spells_or_Skills_Info_Array"
         }
     }
-    # # if there are no items in the inventory, set window values so it still draws correctly
-    # if ($Spells_or_Skills_Name_Array.Count -eq 0) {
-    #     $Spells_or_Skills_Name_Array.Add("xxxxx")
-    #     $Spells_or_Skills_Mana_Cost_Array.Add("1")
-    #     $Spells_or_Skills_Info_Array.Add("4")
-    #     $Spells_or_Skills_is_Empty = $true
-    # } else {
-    #     $Spells_or_Skills_is_Empty = $false
-    # }
     # get max item mana cost length
     $Spells_or_Skills_Mana_Cost_Array_Max_Length = ($Spells_or_Skills_Mana_Cost_Array | Measure-Object -Maximum).Maximum
-    Add-Content -Path .\error.log -value "Spells_or_Skills_Mana_Cost_Array_Max_Length lemgth: $Spells_or_Skills_Mana_Cost_Array_Max_Length"
     # calculate top and bottom mana cost box width
     if ($Spells_or_Skills_Mana_Cost_Array_Max_Length -lt 5) {
         $Spells_or_Skills_Box_Mana_Cost_Width_Top_Bottom = "-"*6
@@ -1561,13 +1541,18 @@ Function Draw_Spells_Skills_Window {
     }
     # get max item name length
     $Spells_or_Skills_Name_Array_Max_Length = ($Spells_or_Skills_Name_Array | Measure-Object -Maximum).Maximum
-    Add-Content -Path .\error.log -value "--Spells_or_Skills_Name_Array_Max_Length: $Spells_or_Skills_Name_Array_Max_Length"
     # calculate top and bottom name width
-    $Spells_or_Skills_Box_Name_Width_Top_Bottom = "-"*($Spells_or_Skills_Name_Array_Max_Length + 2)
-    Add-Content -Path .\error.log -value "--Spells_or_Skills_Box_Name_Width_Top_Bottom: $Spells_or_Skills_Box_Name_Width_Top_Bottom"
+    if ($Spells_or_Skills_Name_Array_Max_Length -le 6) { # 6 = "spells" or "skills"
+        $Spells_or_Skills_Box_Name_Width_Top_Bottom = "-"*8
+    } else {
+        $Spells_or_Skills_Box_Name_Width_Top_Bottom = "-"*($Spells_or_Skills_Name_Array_Max_Length + 2)
+    }
     # calculate middle name width
-    Add-Content -Path .\error.log -value "--Spells_or_Skills_Name_Array_Max_Length: $Spells_or_Skills_Name_Array_Max_Length"
-    $Spells_or_Skills_Box_Name_Width_Middle = " "*($Spells_or_Skills_Name_Array_Max_Length - 5) # 
+        if (($Spells_or_Skills_Name_Array_Max_Length - 5) -le 0) {
+        $Spells_or_Skills_Box_Name_Width_Middle = " "*1
+    } else {
+        $Spells_or_Skills_Box_Name_Width_Middle = " "*($Spells_or_Skills_Name_Array_Max_Length - 5)
+    }
     # get max item info length
     $Spells_or_Skills_Info_Array_Max_Length = ($Spells_or_Skills_Info_Array | Measure-Object -Maximum).Maximum
     # calculate top and bottom info width
@@ -1590,10 +1575,16 @@ Function Draw_Spells_Skills_Window {
         if ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Obtained -eq $true -or $Spells_or_Skills_is_Empty -eq $true) {
             $Spells_or_Skills_Window_Position_Height += 1
             # padding for name length
-            if ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name.Length -lt $Spells_or_Skills_Name_Array_Max_Length) {
-                $Spells_or_Skills_Name_Left_Padding = " "*($Spells_or_Skills_Name_Array_Max_Length - $Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name.Length)
+            if ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name.Length -le 6) { # 6 = "spells" or "skills"
+                if ($Spells_or_Skills_Name_Array_Max_Length -gt 6) {
+                    $Spells_or_Skills_Name_Right_Padding = " "*($Spells_or_Skills_Name_Array_Max_Length - $Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name.Length)
+                } else {
+                    $Spells_or_Skills_Name_Right_Padding = " "*(6 - $Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name.Length) # 6 = "spells" or "skills"
+                }
+            } elseif ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name.Length -gt 6 -and $Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name.Length -le $Spells_or_Skills_Name_Array_Max_Length) {
+                $Spells_or_Skills_Name_Right_Padding = " "*($Spells_or_Skills_Name_Array_Max_Length - $Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name.Length)
             } else {
-                $Spells_or_Skills_Name_Left_Padding = ""
+                $Spells_or_Skills_Name_Right_Padding = " "
             }
             # mana cost padding
             if (($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Mana_Cost | Measure-Object -Character).Characters -lt 5) {
@@ -1624,7 +1615,7 @@ Function Draw_Spells_Skills_Window {
                 $Spells_or_Skills_is_Empty = $false
                 Break
             } else {
-                Write-Color "|","$Spells_or_Skills_ID_Number","| ","$($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name)$Spells_or_Skills_Name_Left_Padding ","| ","$($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Mana_Cost)$Spells_or_Skills_Mana_Cost_Right_Padding","| $($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Description_Short)$Spells_or_Skills_Info_Right_Padding |" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,White,DarkGray,White,DarkGray
+                Write-Color "|","$Spells_or_Skills_ID_Number","| ","$($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name)$Spells_or_Skills_Name_Right_Padding ","| ","$($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Mana_Cost)$Spells_or_Skills_Mana_Cost_Right_Padding","| $($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Description_Short)$Spells_or_Skills_Info_Right_Padding |" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,White,DarkGray,White,DarkGray
             }
             $Script:Selectable_ID_Highlight = "DarkGray"
             $Script:Selectable_Name_Highlight = "DarkGray"
