@@ -379,8 +379,9 @@ Function Game_Information {
 #
 Function Inventory_Highlight {
     if ($Selectable_ID_Search -ine "not_set" ){
-        $Script:Selectable_ID_Highlight = "DarkGray" # reset Selectable_ID_Highlight so it highlights correct potion IDs in inventory list
-        $Script:Selectable_Name_Highlight = "DarkGray" # reset Selectable_Name_Highlight so it highlights correct potion IDs in inventory list
+        $Script:Selectable_ID_Highlight = "DarkGray" # reset Selectable_xxx_Highlight variables so they highlight correct IDs in lists
+        $Script:Selectable_Name_Highlight = "DarkGray"
+        $Script:Selectable_Mana_Cost_Highlight = "DarkGray"
         switch ($Selectable_ID_Search) {
             Health {
                 if ($Import_JSON.Items.$Inventory_Item_Name.Name -ilike "*health potion*") {
@@ -409,14 +410,22 @@ Function Inventory_Highlight {
                     $Script:Selectable_Name_Highlight = "DarkCyan"
                 }
             }
-            Default {
-                $Script:Selectable_ID_Highlight = "DarkGray"
-                $Script:Selectable_Name_Highlight = "DarkGray"
+            Spells_Skills_Mana_Cost { # if mana cost for spell or skill is greater than current mana, highlight the spell or skill ID and mana cost in Red
+                if ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Mana_Cost -gt $Import_JSON.Character.Stats.ManaCurrent) {
+                    $Script:Selectable_ID_Highlight = "DarkGray"
+                    $Script:Selectable_Mana_Cost_Highlight = "DarkRed"
+                } else { # otherwise highlight the spell or skill ID, name and mana cost in DarkCyan
+                    $Script:Selectable_ID_Highlight = "DarkCyan"
+                    $Script:Selectable_Name_Highlight = "DarkCyan"
+                    $Script:Selectable_Mana_Cost_Highlight = "DarkCyan"
+                }
             }
+            # Default {}
         }
     } else {
         $Script:Selectable_ID_Highlight = "DarkGray"
         $Script:Selectable_Name_Highlight = "DarkGray"
+        $Script:Selectable_Mana_Cost_Highlight = "DarkCyan"
     }
 }
 
@@ -1489,6 +1498,7 @@ Function Draw_Spells_Skills_Window {
     # Draw_Spells_Skills_Window
     # $Script:Selectable_ID_Highlight = "DarkGray"
 
+
     $Spells_or_Skills_Name_Array = New-Object System.Collections.Generic.List[System.Object]
     $Spells_or_Skills_Mana_Cost_Array = New-Object System.Collections.Generic.List[System.Object]
     $Spells_or_Skills_Info_Array = New-Object System.Collections.Generic.List[System.Object]
@@ -1595,7 +1605,7 @@ Function Draw_Spells_Skills_Window {
             } else {
                 $Spells_or_Skills_Mana_Cost_Right_Padding = " "*($Spells_or_Skills_Mana_Cost_Array_Max_Length - ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Mana_Cost | Measure-Object -Character).Characters + 1)
             }
-            #ID padding
+            #ID and padding
             if (($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
                 $Spells_or_Skills_ID_Number = "$($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.ID)"
             } else {
@@ -1607,7 +1617,8 @@ Function Draw_Spells_Skills_Window {
             } else {
                 $Spells_or_Skills_Info_Right_Padding = ""
             }
-            # Inventory_Highlight
+            $Script:Selectable_ID_Search = "Spells_Skills_Mana_Cost"
+            Inventory_Highlight
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Spells_or_Skills_Window_Position_Height;$Host.UI.Write("")
             # if no items in inventory, else an actual item
             if ($Spells_or_Skills_is_Empty -eq $true) {
@@ -1615,10 +1626,11 @@ Function Draw_Spells_Skills_Window {
                 $Spells_or_Skills_is_Empty = $false
                 Break
             } else {
-                Write-Color "|","$Spells_or_Skills_ID_Number","| ","$($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name)$Spells_or_Skills_Name_Right_Padding ","| ","$($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Mana_Cost)$Spells_or_Skills_Mana_Cost_Right_Padding","| $($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Description_Short)$Spells_or_Skills_Info_Right_Padding |" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,White,DarkGray,White,DarkGray
+                Write-Color "|","$Spells_or_Skills_ID_Number","| ","$($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name)$Spells_or_Skills_Name_Right_Padding ","| ","$($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Mana_Cost)$Spells_or_Skills_Mana_Cost_Right_Padding","| $($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Description_Short)$Spells_or_Skills_Info_Right_Padding |" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,$Selectable_Mana_Cost_Highlight,DarkGray,White,DarkGray
             }
-            $Script:Selectable_ID_Highlight = "DarkGray"
-            $Script:Selectable_Name_Highlight = "DarkGray"
+            # $Script:Selectable_ID_Highlight = "DarkGray"
+            # $Script:Selectable_Name_Highlight = "DarkGray"
+            # $Script:Selectable_Mana_Cost_Highlight = "DarkGray"
         }
     }
     $Spells_or_Skills_Window_Position_Height += 1
@@ -2938,7 +2950,7 @@ Function Visit_a_Building {
                                 Write-Color "  Would you like a ","D","rink? If not, maybe you can spare some time to look at the ","Q","uest board over there." -Color DarkGray,Green,DarkGray,Green,DarkGray
                             }
                             if ($First_Time_Entered_Tavern -eq $false) {
-                                for ($Position = 17; $Position -lt 24; $Position++) { # clear some lines from previous widow
+                                for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
                                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                                 }
                                 if ($Exit_Drinks_Menu -eq $true -and $Import_JSON.Character.Buffs.DrinksPurchased -lt 2 -and $Drink_Purchased -eq $false) {
@@ -3645,6 +3657,7 @@ Function Visit_a_Building {
                     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,2;$Host.UI.Write("Anvil")
                     $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 92,3;$Host.UI.Write("& Blade")
                     $First_Time_Entered_Anvil = $true
+                    $Script:Selectable_ID_Search = "not_set"
                     do {
                         $Script:Info_Banner = "Anvil & Blade"
                         Draw_Info_Banner
@@ -3778,9 +3791,9 @@ Function Visit_a_Building {
                             # update introduction task and update Introduction Tasks window
                             $Import_JSON.Introduction_Tasks.Tick_Visit_Mend_and_Mana = $true
                             Save_JSON
-                            Write-Color -LinesBefore 1 "  P","urchase some postions" -Color Green,DarkYellow
-                            Write-Color "  S","ell some postions" -Color Green,DarkYellow
-                            Write-Color "  E","xit" -Color Green,DarkYellow
+                            Write-Color -LinesBefore 1 "  P","urchase some postions" -Color Green,DarkGray
+                            Write-Color "  S","ell some postions" -Color Green,DarkGray
+                            Write-Color "  E","xit" -Color Green,DarkGray
                             Draw_Introduction_Tasks
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
