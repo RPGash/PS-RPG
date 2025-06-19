@@ -769,34 +769,42 @@
       "Rogue": {
         "Stealth": {
           "Name": "Stealth",
-          "Description": "Allows the Rogue to move undetected by enemies, increasing the chance of a successful sneak attack.",
+          "Description_Long": "Allows the Rogue to move undetected by enemies, increasing the chance of a successful sneak attack.",
+          "Description_Short": "Damage bonus x3 next hit",
           "ID": 1,
           "Damage_Bonus": 2,
+          "Mana_Cost": 200,
           "Obtained": true,
           "Active": false
         },
         "Cunning Strike": {
           "Name": "Cunning Strike",
-          "Description": "A powerful attack that deals extra damage.",
+          "Description_Long": "A powerful attack that deals extra damage.",
+          "Description_Short": "Damage x2",
           "ID": 2,
           "Damage_Bonus": 3,
+          "Mana_Cost": 3,
           "Obtained": false,
           "Active": false
         },
         "Poison": {
           "Name": "Poison Blade",
-          "Description": "Applies a poison effect to the Rogue's next attack, dealing damage over time to the target.",
+          "Description_Long": "Applies a poison effect to the Rogue's next attack, dealing damage over time to the target.",
+          "Description_Short": "5 damage per turn",
           "ID": 3,
           "Tick_Damage": 5,
-          "Obtained": true,
+          "Mana_Cost": 99,
+          "Obtained": false,
           "Active": false
         },
         "Stun": {
           "Name": "Stun",
-          "Description": "A quick attack that stuns the target, preventing them from acting for a short duration.",
+          "Description_Long": "A quick attack that stuns the target, preventing them from acting for a short duration.",
+          "Description_Short": "Stun for 1 turn",
           "ID": 4,
           "Duration": 1,
-          "Obtained": false,
+          "Mana_Cost": 20,
+          "Obtained": true,
           "Active": false
         }
       },
@@ -845,7 +853,7 @@
           "Description": "A basic spell that fires a magical projectile at the target, dealing damage.",
           "ID": 1,
           "Damage": 20,
-          "ManaCost": 5,
+          "Mana_Cost": 5,
           "Obtained": true,
           "Active": false
         },
@@ -854,7 +862,7 @@
           "Description": "A spell that launches a ball of fire at the target.",
           "ID": 2,
           "Damage": 30,
-          "ManaCost": 15,
+          "Mana_Cost": 15,
           "Obtained": false,
           "Active": false
         },
@@ -863,7 +871,7 @@
           "Description": "A spell that creates a cone of freezing air dealing damage with a small chance to freeze the target.",
           "ID": 3,
           "Damage": 15,
-          "ManaCost": 10,
+          "Mana_Cost": 10,
           "Freeze_Chance": 0.2,
           "Duration": 2,
           "Obtained": false,
@@ -875,7 +883,7 @@
           "ID": 4,
           "Stun_Chance": 0.8,
           "Duration": 2,
-          "ManaCost": 10,
+          "Mana_Cost": 10,
           "Obtained": false,
           "Active": false
         }
@@ -886,7 +894,7 @@
           "Description": "A healing spell that restores a small amount of health to the target.",
           "ID": 1,
           "Healing": 20,
-          "ManaCost": 5,
+          "Mana_Cost": 5,
           "Obtained": true,
           "Active": false
         },
@@ -896,7 +904,7 @@
           "ID": 2,
           "Armour_Bonus": 5,
           "Duration": 2,
-          "ManaCost": 10,
+          "Mana_Cost": 10,
           "Obtained": false,
           "Active": false
         },
@@ -905,7 +913,7 @@
           "Description": "A spell that deals damage to the target.",
           "ID": 3,
           "Damage": 20,
-          "ManaCost": 5,
+          "Mana_Cost": 5,
           "Obtained": false,
           "Active": false
         },
@@ -915,7 +923,7 @@
           "ID": 4,
           "Resistance_Bonus": 5,
           "Duration": 2,
-          "ManaCost": 10,
+          "Mana_Cost": 10,
           "Obtained": false,
           "Active": false
         }
