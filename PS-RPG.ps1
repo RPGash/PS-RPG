@@ -408,16 +408,23 @@ Function Inventory_Highlight {
                 }
             }
             Spells_Skills_Mana_Cost { # if mana cost for spell or skill is greater than current mana, highlight the spell or skill ID and mana cost in Red
-                if ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Mana_Cost -gt $Import_JSON.Character.Stats.ManaCurrent) {
+                # Add-Content -Path .\error.log -value "mana cost: $($Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.Mana_Cost)"
+                # Add-Content -Path .\error.log -value "current mana: $Character_ManaCurrent"
+                if ($Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.Mana_Cost -gt $Character_ManaCurrent) {
                     $Script:Selectable_ID_Highlight = "DarkGray"
                     $Script:Selectable_Mana_Cost_Highlight = "DarkRed"
+                    # Add-Content -Path .\error.log -value "Selectable_ID_Highlight 1: $Selectable_ID_Highlight"
+                    # Add-Content -Path .\error.log -value "Selectable_Mana_Cost_Highlight 1: $Selectable_Mana_Cost_Highlight"
                 } else { # otherwise highlight the spell or skill ID, name and mana cost in DarkCyan
                     $Script:Selectable_ID_Highlight = "DarkCyan"
                     $Script:Selectable_Name_Highlight = "DarkCyan"
                     $Script:Selectable_Mana_Cost_Highlight = "DarkCyan"
+                    # Add-Content -Path .\error.log -value "Selectable_ID_Highlight 2: $Selectable_ID_Highlight"
+                    # Add-Content -Path .\error.log -value "Selectable_Name_Highlight 2: $Selectable_Name_Highlight"
+                    # Add-Content -Path .\error.log -value "Selectable_Mana_Cost_Highlight 2: $Selectable_Mana_Cost_Highlight"
                 }
             }
-            # Default {}
+            Default {}
         }
     } else {
         $Script:Selectable_ID_Highlight = "DarkGray"
@@ -539,7 +546,7 @@ Function Level_Up {
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 18,8;$Host.UI.Write("(+$Levels_Levelled_Up)")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 18,11;$Host.UI.Write("(+$($Selected_Mob.XP))")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,31;$Host.UI.Write("")
-        Write-Color "  You have also learned ", "x skills","." -Color DarkGray,White,DarkGray
+        Write-Color "  You have also learned ", "x skills",". - ToDo NOT IMPLEMENTED YET" -Color DarkGray,White,DarkGray
         # Start-Sleep -Seconds 2 # leave in (shows multiple levels slowly)
     } until ($XP_Difference -gt 0)
 }
@@ -1489,140 +1496,142 @@ Function Draw_Spells_Skills_Window {
     #     Save_JSON
     # }
 
-    $Spells_or_Skills_Name_Array = New-Object System.Collections.Generic.List[System.Object]
-    $Spells_or_Skills_Mana_Cost_Array = New-Object System.Collections.Generic.List[System.Object]
-    $Spells_or_Skills_Info_Array = New-Object System.Collections.Generic.List[System.Object]
+    $Spell_or_Skill_Name_Array = New-Object System.Collections.Generic.List[System.Object]
+    $Spell_or_Skill_Mana_Cost_Array = New-Object System.Collections.Generic.List[System.Object]
+    $Spell_or_Skill_Info_Array = New-Object System.Collections.Generic.List[System.Object]
+    $Script:Spell_or_Skill_ID_Number_Array = New-Object System.Collections.Generic.List[System.Object]
     # get spells or skills names based on character class
-    switch ($Import_JSON.Character.Class) {
+    switch ($Character_Class) {
         Mage {
-            $Script:Spells_or_Skills_Names = $Import_JSON.Character.Spells.Mage.PSObject.Properties.Name | Sort-Object ID
-            $Script:Spells_or_Skills_Names_Object = $Import_JSON.Character.Spells.Mage
-            $Spells_or_Skills_Window_Text = "Spells"
+            $Script:Spell_or_Skill_Names = $Import_JSON.Character.$Character_Class.PSObject.Properties.Name | Sort-Object ID
+            $Script:Spell_or_Skill_Names_Object = $Import_JSON.Character.$Character_Class
+            $Script:Spell_or_Skill_Window_Text = "Spell"
         }
         Cleric {
-            $Script:Spells_or_Skills_Names = $Import_JSON.Character.Spells.Cleric.PSObject.Properties.Name | Sort-Object ID
-            $Script:Spells_or_Skills_Names_Object = $Import_JSON.Character.Spells.Cleric
-            $Spells_or_Skills_Window_Text = "Spells"
+            $Script:Spell_or_Skill_Names = $Import_JSON.Character.$Character_Class.PSObject.Properties.Name | Sort-Object ID
+            $Script:Spell_or_Skill_Names_Object = $Import_JSON.Character.$Character_Class
+            $Script:Spell_or_Skill_Window_Text = "Spell"
         }
         Warrior {
-            $Script:Spells_or_Skills_Names = $Import_JSON.Character.Skills.Warrior.PSObject.Properties.Name | Sort-Object ID
-            $Script:Spells_or_Skills_Names_Object = $Import_JSON.Character.Skills.Warrior
-            $Spells_or_Skills_Window_Text = "Skills"
+            $Script:Spell_or_Skill_Names = $Import_JSON.Character.$Character_Class.PSObject.Properties.Name | Sort-Object ID
+            $Script:Spell_or_Skill_Names_Object = $Import_JSON.Character.$Character_Class
+            $Script:Spell_or_Skill_Window_Text = "Skill"
         }
         Rogue {
-            $Script:Spells_or_Skills_Names = $Import_JSON.Character.Skills.Rogue.PSObject.Properties.Name | Sort-Object ID
-            $Script:Spells_or_Skills_Names_Object = $Import_JSON.Character.Skills.Rogue
-            $Spells_or_Skills_Window_Text = "Skills"
+            $Script:Spell_or_Skill_Names = $Import_JSON.Character.$Character_Class.PSObject.Properties.Name | Sort-Object ID
+            $Script:Spell_or_Skill_Names_Object = $Import_JSON.Character.$Character_Class
+            $Script:Spell_or_Skill_Window_Text = "Skill"
         }
-        # Default {}
+        Default {}
     }
-    $Spells_or_Skills_Total_Obtained = 0
-    foreach ($Spells_or_Skills_Name in $Spells_or_Skills_Names) {
-        if ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Obtained -eq $true) {
-            $Spells_or_Skills_Total_Obtained += 1
-            $Spells_or_Skills_Name_Array.Add($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name.Length)
-            $Spells_or_Skills_Mana_Cost_Array.Add(($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Mana_Cost | Measure-Object -Character).Characters)
-            $Spells_or_Skills_Info_Array.Add(($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Description_Short | Measure-Object -Character).Characters)
+    $Spell_or_Skill_Total_Obtained = 0
+    foreach ($Spell_or_Skill_Name in $Spell_or_Skill_Names) {
+        if ($Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.Obtained -eq $true) {
+            $Spell_or_Skill_Total_Obtained += 1
+            $Spell_or_Skill_Name_Array.Add($Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.Name.Length)
+            $Spell_or_Skill_Mana_Cost_Array.Add(($Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.Mana_Cost | Measure-Object -Character).Characters)
+            $Spell_or_Skill_Info_Array.Add(($Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.Description_Short | Measure-Object -Character).Characters)
         }
     }
     # get max item mana cost length
-    $Spells_or_Skills_Mana_Cost_Array_Max_Length = ($Spells_or_Skills_Mana_Cost_Array | Measure-Object -Maximum).Maximum
+    $Spell_or_Skill_Mana_Cost_Array_Max_Length = ($Spell_or_Skill_Mana_Cost_Array | Measure-Object -Maximum).Maximum
     # calculate top and bottom mana cost box width
-    if ($Spells_or_Skills_Mana_Cost_Array_Max_Length -lt 5) {
-        $Spells_or_Skills_Box_Mana_Cost_Width_Top_Bottom = "-"*6
+    if ($Spell_or_Skill_Mana_Cost_Array_Max_Length -lt 5) {
+        $Spell_or_Skill_Box_Mana_Cost_Width_Top_Bottom = "-"*6
     } else {
-        $Spells_or_Skills_Box_Mana_Cost_Width_Top_Bottom = "-"*($Spells_or_Skills_Mana_Cost_Array_Max_Length + 2)
+        $Spell_or_Skill_Box_Mana_Cost_Width_Top_Bottom = "-"*($Spell_or_Skill_Mana_Cost_Array_Max_Length + 2)
     }
     # calculate middle mana cost width
-    if ($Spells_or_Skills_Mana_Cost_Array_Max_Length -ge 4 ) {
-        $Spells_or_Skills_Mana_Cost_Width_Middle = " "*($Spells_or_Skills_Mana_Cost_Array_Max_Length - 3)
+    if ($Spell_or_Skill_Mana_Cost_Array_Max_Length -ge 4 ) {
+        $Spell_or_Skill_Mana_Cost_Width_Middle = " "*($Spell_or_Skill_Mana_Cost_Array_Max_Length - 3)
     } else {
-        $Spells_or_Skills_Mana_Cost_Width_Middle = " "*1
+        $Spell_or_Skill_Mana_Cost_Width_Middle = " "*1
     }
     # get max item name length
-    $Spells_or_Skills_Name_Array_Max_Length = ($Spells_or_Skills_Name_Array | Measure-Object -Maximum).Maximum
+    $Spell_or_Skill_Name_Array_Max_Length = ($Spell_or_Skill_Name_Array | Measure-Object -Maximum).Maximum
     # calculate top and bottom name width
-    if ($Spells_or_Skills_Name_Array_Max_Length -le 6) { # 6 = "spells" or "skills"
-        $Spells_or_Skills_Box_Name_Width_Top_Bottom = "-"*8
+    if ($Spell_or_Skill_Name_Array_Max_Length -le 5) { # 5 = "spell" or "skill"
+        $Spell_or_Skill_Box_Name_Width_Top_Bottom = "-"*($Spell_or_Skill_Window_Text.Length + 2)
     } else {
-        $Spells_or_Skills_Box_Name_Width_Top_Bottom = "-"*($Spells_or_Skills_Name_Array_Max_Length + 2)
+        $Spell_or_Skill_Box_Name_Width_Top_Bottom = "-"*($Spell_or_Skill_Name_Array_Max_Length + 2)
     }
     # calculate middle name width
-        if (($Spells_or_Skills_Name_Array_Max_Length - 5) -le 0) {
-        $Spells_or_Skills_Box_Name_Width_Middle = " "*1
+        if (($Spell_or_Skill_Name_Array_Max_Length - 4) -le 0) {
+        $Spell_or_Skill_Box_Name_Width_Middle = " "*1
     } else {
-        $Spells_or_Skills_Box_Name_Width_Middle = " "*($Spells_or_Skills_Name_Array_Max_Length - 5)
+        $Spell_or_Skill_Box_Name_Width_Middle = " "*($Spell_or_Skill_Name_Array_Max_Length - 4)
     }
     # get max item info length
-    $Spells_or_Skills_Info_Array_Max_Length = ($Spells_or_Skills_Info_Array | Measure-Object -Maximum).Maximum
+    $Spell_or_Skill_Info_Array_Max_Length = ($Spell_or_Skill_Info_Array | Measure-Object -Maximum).Maximum
     # calculate top and bottom info width
-    $Spells_or_Skills_Box_Info_Width_Top_Bottom = "-"*($Spells_or_Skills_Info_Array_Max_Length + 2)
+    $Spell_or_Skill_Box_Info_Width_Top_Bottom = "-"*($Spell_or_Skill_Info_Array_Max_Length + 2)
     # calculate middle info width
-    $Spells_or_Skills_Box_Info_Width_Middle = " "*($Spells_or_Skills_Info_Array_Max_Length - 3)
+    $Spell_or_Skill_Box_Info_Width_Middle = " "*($Spell_or_Skill_Info_Array_Max_Length - 3)
     # start spells & skills window above question line (#36) minus the minimum height of the window
     # (4 lines includes top and bottom border plus the total number of spells or skills)
     # so, 36 (question line) minus 4 (minimum box height) minus the total Number of spells or skills.
-    $Spells_or_Skills_Window_Position_Height = 36 - 4 - ($Spells_or_Skills_Total_Obtained)
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Spells_or_Skills_Window_Position_Height;$Host.UI.Write("")
-    Write-Color "+--+$Spells_or_Skills_Box_Name_Width_Top_Bottom+$Spells_or_Skills_Box_Mana_Cost_Width_Top_Bottom+$Spells_or_Skills_Box_Info_Width_Top_Bottom+" -Color DarkGray
-    $Spells_or_Skills_Window_Position_Height += 1
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Spells_or_Skills_Window_Position_Height;$Host.UI.Write("")
-    Write-Color "|","ID","| ","$Spells_or_Skills_Window_Text","$Spells_or_Skills_Box_Name_Width_Middle| ","Mana","$Spells_or_Skills_Mana_Cost_Width_Middle|"," Info","$Spells_or_Skills_Box_Info_Width_Middle|" -Color DarkGray,White,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray
-    $Spells_or_Skills_Window_Position_Height += 1
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Spells_or_Skills_Window_Position_Height;$Host.UI.Write("")
-    Write-Color "+--+$Spells_or_Skills_Box_Name_Width_Top_Bottom+$Spells_or_Skills_Box_Mana_Cost_Width_Top_Bottom+$Spells_or_Skills_Box_Info_Width_Top_Bottom+" -Color DarkGray
-    foreach ($Spells_or_Skills_Name in $Spells_or_Skills_Names) {
-        if ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Obtained -eq $true -or $Spells_or_Skills_is_Empty -eq $true) {
-            $Spells_or_Skills_Window_Position_Height += 1
+    $Spell_or_Skill_Window_Position_Height = 36 - 4 - ($Spell_or_Skill_Total_Obtained)
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Spell_or_Skill_Window_Position_Height;$Host.UI.Write("")
+    Write-Color "+--+$Spell_or_Skill_Box_Name_Width_Top_Bottom+$Spell_or_Skill_Box_Mana_Cost_Width_Top_Bottom+$Spell_or_Skill_Box_Info_Width_Top_Bottom+" -Color DarkGray
+    $Spell_or_Skill_Window_Position_Height += 1
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Spell_or_Skill_Window_Position_Height;$Host.UI.Write("")
+    Write-Color "|","ID","| ","$Spell_or_Skill_Window_Text","$Spell_or_Skill_Box_Name_Width_Middle| ","Mana","$Spell_or_Skill_Mana_Cost_Width_Middle|"," Info","$Spell_or_Skill_Box_Info_Width_Middle|" -Color DarkGray,White,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray
+    $Spell_or_Skill_Window_Position_Height += 1
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Spell_or_Skill_Window_Position_Height;$Host.UI.Write("")
+    Write-Color "+--+$Spell_or_Skill_Box_Name_Width_Top_Bottom+$Spell_or_Skill_Box_Mana_Cost_Width_Top_Bottom+$Spell_or_Skill_Box_Info_Width_Top_Bottom+" -Color DarkGray
+    foreach ($Spell_or_Skill_Name in $Spell_or_Skill_Names) {
+        if ($Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.Obtained -eq $true -or $Spell_or_Skill_is_Empty -eq $true) {
+            $Spell_or_Skill_Window_Position_Height += 1
             # padding for name length
-            if ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name.Length -le 6) { # 6 = "spells" or "skills"
-                if ($Spells_or_Skills_Name_Array_Max_Length -gt 6) {
-                    $Spells_or_Skills_Name_Right_Padding = " "*($Spells_or_Skills_Name_Array_Max_Length - $Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name.Length)
+            if ($Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.Name.Length -le 5) { # 5 = "spells" or "skills"
+                if ($Spell_or_Skill_Name_Array_Max_Length -gt 5) {
+                    $Spell_or_Skill_Name_Right_Padding = " "*($Spell_or_Skill_Name_Array_Max_Length - $Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.Name.Length)
                 } else {
-                    $Spells_or_Skills_Name_Right_Padding = " "*(6 - $Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name.Length) # 6 = "spells" or "skills"
+                    $Spell_or_Skill_Name_Right_Padding = " "*(5 - $Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.Name.Length) # 5 = "spells" or "skills"
                 }
-            } elseif ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name.Length -gt 6 -and $Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name.Length -le $Spells_or_Skills_Name_Array_Max_Length) {
-                $Spells_or_Skills_Name_Right_Padding = " "*($Spells_or_Skills_Name_Array_Max_Length - $Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name.Length)
+            } elseif ($Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.Name.Length -gt 5 -and $Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.Name.Length -le $Spell_or_Skill_Name_Array_Max_Length) {
+                $Spell_or_Skill_Name_Right_Padding = " "*($Spell_or_Skill_Name_Array_Max_Length - $Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.Name.Length)
             } else {
-                $Spells_or_Skills_Name_Right_Padding = " "
+                $Spell_or_Skill_Name_Right_Padding = " "
             }
             # mana cost padding
-            if (($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Mana_Cost | Measure-Object -Character).Characters -lt 5) {
-                $Spells_or_Skills_Mana_Cost_Right_Padding = " "*(5 - ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Mana_Cost | Measure-Object -Character).Characters)
-                if ($Spells_or_Skills_Mana_Cost_Array_Max_Length -ge 5 ) {
-                    $Spells_or_Skills_Mana_Cost_Right_Padding = " "*($Spells_or_Skills_Mana_Cost_Array_Max_Length - ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Mana_Cost | Measure-Object -Character).Characters + 1)
+            if (($Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.Mana_Cost | Measure-Object -Character).Characters -lt 5) {
+                $Spell_or_Skill_Mana_Cost_Right_Padding = " "*(5 - ($Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.Mana_Cost | Measure-Object -Character).Characters)
+                if ($Spell_or_Skill_Mana_Cost_Array_Max_Length -ge 5 ) {
+                    $Spell_or_Skill_Mana_Cost_Right_Padding = " "*($Spell_or_Skill_Mana_Cost_Array_Max_Length - ($Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.Mana_Cost | Measure-Object -Character).Characters + 1)
                 }
             } else {
-                $Spells_or_Skills_Mana_Cost_Right_Padding = " "*($Spells_or_Skills_Mana_Cost_Array_Max_Length - ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Mana_Cost | Measure-Object -Character).Characters + 1)
+                $Spell_or_Skill_Mana_Cost_Right_Padding = " "*($Spell_or_Skill_Mana_Cost_Array_Max_Length - ($Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.Mana_Cost | Measure-Object -Character).Characters + 1)
             }
             #ID and padding
-            if (($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
-                $Spells_or_Skills_ID_Number = "$($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.ID)"
+            if (($Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.ID | Measure-Object -Character).Characters -gt 1) { # if ID is a 2 digits (no extra padding)
+                $Script:Spell_or_Skill_ID_Number = "$($Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.ID)"
             } else {
-                $Spells_or_Skills_ID_Number = " $($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.ID)" # if ID is a single digit (1 extra padding)
+                $Script:Spell_or_Skill_ID_Number = " $($Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.ID)" # if ID is a single digit (1 extra padding)
             }
+            $Spell_or_Skill_ID_Number_Array.Add($Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.ID)
             # info padding
-            if ($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Description_Short.Length -lt $Spells_or_Skills_Info_Array_Max_Length) {
-                $Spells_or_Skills_Info_Right_Padding = " "*($Spells_or_Skills_Info_Array_Max_Length - $Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Description_Short.Length)
+            if ($Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.Description_Short.Length -lt $Spell_or_Skill_Info_Array_Max_Length) {
+                $Spell_or_Skill_Info_Right_Padding = " "*($Spell_or_Skill_Info_Array_Max_Length - $Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.Description_Short.Length)
             } else {
-                $Spells_or_Skills_Info_Right_Padding = ""
+                $Spell_or_Skill_Info_Right_Padding = ""
             }
             $Script:Selectable_ID_Search = "Spells_Skills_Mana_Cost"
             Inventory_Highlight
-            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Spells_or_Skills_Window_Position_Height;$Host.UI.Write("")
+            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Spell_or_Skill_Window_Position_Height;$Host.UI.Write("")
             # if no items in inventory, else an actual item
-            if ($Spells_or_Skills_is_Empty -eq $true) {
+            if ($Spell_or_Skill_is_Empty -eq $true) {
                 Write-Color "|  | No Spells or Skills |       |      |" -Color DarkGray
-                $Spells_or_Skills_is_Empty = $false
+                $Spell_or_Skill_is_Empty = $false
                 Break
             } else {
-                Write-Color "|","$Spells_or_Skills_ID_Number","| ","$($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Name)$Spells_or_Skills_Name_Right_Padding ","| ","$($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Mana_Cost)$Spells_or_Skills_Mana_Cost_Right_Padding","| $($Spells_or_Skills_Names_Object.$Spells_or_Skills_Name.Description_Short)$Spells_or_Skills_Info_Right_Padding |" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,$Selectable_Mana_Cost_Highlight,DarkGray,White,DarkGray
+                Write-Color "|","$Spell_or_Skill_ID_Number","| ","$($Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.Name)$Spell_or_Skill_Name_Right_Padding ","| ","$($Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.Mana_Cost)$Spell_or_Skill_Mana_Cost_Right_Padding","| $($Spell_or_Skill_Names_Object.$Spell_or_Skill_Name.Description_Short)$Spell_or_Skill_Info_Right_Padding |" -Color DarkGray,$Selectable_ID_Highlight,DarkGray,$Selectable_Name_Highlight,DarkGray,$Selectable_Mana_Cost_Highlight,DarkGray,White,DarkGray
             }
         }
     }
-    $Spells_or_Skills_Window_Position_Height += 1
-    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Spells_or_Skills_Window_Position_Height;$Host.UI.Write("")
-    Write-Color "+--+$Spells_or_Skills_Box_Name_Width_Top_Bottom+$Spells_or_Skills_Box_Mana_Cost_Width_Top_Bottom+$Spells_or_Skills_Box_Info_Width_Top_Bottom+" -Color DarkGray
+    $Spell_or_Skill_Window_Position_Height += 1
+    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Spell_or_Skill_Window_Position_Height;$Host.UI.Write("")
+    Write-Color "+--+$Spell_or_Skill_Box_Name_Width_Top_Bottom+$Spell_or_Skill_Box_Mana_Cost_Width_Top_Bottom+$Spell_or_Skill_Box_Info_Width_Top_Bottom+" -Color DarkGray
 }
 
 
@@ -2134,6 +2143,185 @@ Function Fight_or_Run {
                 # spells
                 if ($Fight_Choice -ieq "s") {
                     Draw_Spells_Skills_Window
+                    $Script:Selectable_ID_Search = "not_set"
+                    do {
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("");" "*105
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
+                        $Spell_or_Skill_ID_Number_Array_String = $Spell_or_Skill_ID_Number_Array -Join "/"
+                        $Spell_or_Skill_ID_Number_Array_String = $Spell_or_Skill_ID_Number_Array_String + "/C"
+                        Write-Color -NoNewLine "Enter a $Spell_or_Skill_Window_Text ","ID ","number or ","C","ancel ", "[$Spell_or_Skill_ID_Number_Array_String]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                        $Spell_or_Skill_ID_Number_Choice = Read-Host " "
+                        $Spell_or_Skill_ID_Number_Choice = $Spell_or_Skill_ID_Number_Choice.Trim()
+                    } until ($Spell_or_Skill_ID_Number_Choice -eq "c" -or $Spell_or_Skill_ID_Number_Choice -in $Spell_or_Skill_ID_Number_Array)
+                    # cancel choice skips switch
+                    if ($Spell_or_Skill_ID_Number_Choice -ieq "c") {
+                        Continue
+                    }
+                    Add-Content -Path .\error.log -value "-- switch"
+                    # check if the player has enough mana to use the spells or skill
+                    if ($Character_ManaCurrent -lt $Import_JSON.Character.$Character_Class.$Spell_or_Skill.Mana_Cost) {
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,34;$Host.UI.Write("")
+                        Write-Color -NoNewLine "  You do not have enough mana to cast the ","$Spell_or_Skill_Window_Text","." -Color DarkGray,Red,DarkGray
+                        Continue
+                    }
+                    # types of spells or skills
+                    # buff (armour and magic)
+                    # check spell or skill for type
+                    # switch case for type
+                    # get spell or skill type for switch below
+                    $Spells_or_Skills = $Import_JSON.Character.$Character_Class.PSObject.Properties.Name
+                    Add-Content -Path .\error.log -value "Spells_or_Skills 1: $Spells_or_Skills"
+                    foreach ($Spell_or_Skill in $Spells_or_Skills) {
+                        Add-Content -Path .\error.log -value "Spell_or_Skill 2: $Spell_or_Skill"
+                        #if ID -eq $Spell_or_Skill_ID_Number_Choice
+                        if ($Import_JSON.Character.$Character_Class.$Spell_or_Skill.ID -eq $Spell_or_Skill_ID_Number_Choice) {
+                            Add-Content -Path .\error.log -value "Spell_or_Skill_ID_Number_Choice: $Spell_or_Skill_ID_Number_Choice"
+                            $Script:Spell_or_Skill = $Import_JSON.Character.$Character_Class.$Spell_or_Skill
+                            Add-Content -Path .\error.log -value "Spell_or_Skill 3: $Spell_or_Skill"
+                            $Spell_or_Skill_Type = $Import_JSON.Character.$Character_Class.$Spell_or_Skill.Type
+                            Add-Content -Path .\error.log -value "Type: $($Import_JSON.Character.$Character_Class.$Spell_or_Skill.Type)"
+                            break
+                        }
+                    }
+                    # reduce mana by spell or skill cost
+                    Add-Content -Path .\error.log -value "Spell_or_Skill.Mana_Cost: $($Import_JSON.Character.$Character_Class.$Spell_or_Skill.Mana_Cost)"
+                    Add-Content -Path .\error.log -value "Character_ManaCurrent 1: $Character_ManaCurrent"
+                    $Script:Character_ManaCurrent -= $Import_JSON.Character.$Character_Class.$Spell_or_Skill.Mana_Cost
+                    Add-Content -Path .\error.log -value "Character_ManaCurrent 2: $Character_ManaCurrent"
+                    $Import_JSON.Character.Stats.ManaCurrent = $Character_ManaCurrent
+                    if ($First_Turn -eq $true) {
+                        for ($Position = 18; $Position -lt 20; $Position++) { # clear some lines from previous widow
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                        }
+                    } else {
+                        for ($Position = 17; $Position -lt 20; $Position++) { # clear some lines from previous widow
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                        }
+                    }
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
+                    # Write-Color "  You damage the ","$($Selected_Mob.Name) ","with ","$Spell_or_Skill_Window_Text." -Color DarkGray,Blue,DarkGray,Yellow
+                    Add-Content -Path .\error.log -value "Spell_or_Skill_Type: $Spell_or_Skill_Type"
+                    # switch case for spell or skill type
+                    switch ($Spell_or_Skill_Type) {
+                        damage {
+                            Add-Content -Path .\error.log -value "damage"
+                            Add-Content -Path .\error.log -value "Spell_or_Skill 4: $($Import_JSON.Character.$Character_Class.$Spell_or_Skill)"
+                            $Spell_or_Skill_Damage_Bonus = $Import_JSON.Character.$Character_Class.$Spell_or_Skill.Damage_Bonus
+                            Add-Content -Path .\error.log -value "Spell_or_Skill_Damage_Bonus: $Spell_or_Skill_Damage_Bonus"
+                            # check if there is a duration to the spell or skill
+                            Add-Content -Path .\error.log -value "Spell_or_Skill 5: $Spell_or_Skill"
+                            if ($Import_JSON.Character.$Character_Class.$Spell_or_Skill.Duration) {
+                                $Spell_or_Skill_Duration = $Import_JSON.Character.$Character_Class.$Spell_or_Skill.Duration
+                                Add-Content -Path .\error.log -value "Spell_or_Skill_Duration: $Spell_or_Skill_Duration"
+                            } else {
+                                Add-Content -Path .\error.log -value "no duration to spell or skill"
+                            }
+
+
+
+                            $Hit_Chance = ($Character_Spells / $Selected_Mob_Spells) / 2 * 100
+                            Add-Content -Path .\error.log -value "Hit_Chance: $Hit_Chance"
+                            # Write-Output "hit chance                : $Hit_Chance"
+                            $Random_100 = Get-Random -Minimum 1 -Maximum 101
+                            Add-Content -Path .\error.log -value "Random_100: $Random_100"
+                            # Write-Output "random 100                : $([Math]::Round($Random_100))"
+                            if ($Hit_Chance -ge 10) {
+                                # 10% +/- of damage done
+                                $Random_PlusMinus10 = Get-Random -Minimum -10 -Maximum 11
+                                Add-Content -Path .\error.log -value "_Damage_Bonus: $($Import_JSON.Character.$Character_Class.$Spell_or_Skill.Damage_Bonus)"
+                                Add-Content -Path .\error.log -value "_Character_Damage: $Character_Damage"
+                                Add-Content -Path .\error.log -value "_Random_PlusMinus10: $Random_PlusMinus10"
+                                $Character_Hit_Spell_or_Skill_Damage = $Import_JSON.Character.$Character_Class.$Spell_or_Skill.Damage_Bonus*($Character_Damage*$Random_PlusMinus10/100+$Character_Damage)
+                                Add-Content -Path .\error.log -value "_Character_Hit_Spell_or_Skill_Damage 1: $Character_Hit_Spell_or_Skill_Damage"
+                                Add-Content -Path .\error.log -value "_Selected_Mob_Armour: $Selected_Mob_Armour"
+                                                # $Character_Hit_Spell_or_Skill_Damage = $Character_Damage*$Random_PlusMinus10/100+$Character_Damage
+                                                # # damage done formula = damage * (damage / (damage + armour))
+                                                # $Character_Hit_Spell_or_Skill_Damage = [Math]::Round($Character_Hit_Spell_or_Skill_Damage*($Character_Hit_Spell_or_Skill_Damage/($Character_Hit_Spell_or_Skill_Damage+$Selected_Mob_Armour)))
+                                # damage done formula = damage * (damage / (damage + armour))
+                                $Character_Hit_Spell_or_Skill_Damage = [Math]::Round($Character_Hit_Spell_or_Skill_Damage*($Character_Hit_Spell_or_Skill_Damage/($Character_Hit_Spell_or_Skill_Damage+$Selected_Mob_Armour)))
+                                Add-Content -Path .\error.log -value "_Character_Hit_Spell_or_Skill_Damage 2: $Character_Hit_Spell_or_Skill_Damage"
+                                # player critically hits
+                                $Random_Crit_Chance = Get-Random -Minimum 1 -Maximum 101
+                                Add-Content -Path .\error.log -value "_Random_Crit_Chance: $Random_Crit_Chance"
+                                $Crit_Hit = ""
+                                if ($Random_Crit_Chance -le 20) { # chance of critical hit - less than 20%
+                                    $Crit_Hit = $true
+                                    $Character_Hit_Spell_or_Skill_Damage = [Math]::Round($Character_Hit_Spell_or_Skill_Damage*20/100+$Character_Hit_Spell_or_Skill_Damage)
+                                    $Crit_Hit = "critically "
+                                }
+                                # adjust mobs health by damage amount
+                                Add-Content -Path .\error.log -value "Selected_Mob_HealthCurrent: $Selected_Mob_HealthCurrent"
+                                Add-Content -Path .\error.log -value "Character_Hit_Spell_or_Skill_Damage: $Character_Hit_Spell_or_Skill_Damage"
+                                $Selected_Mob_HealthCurrent = $Selected_Mob_HealthCurrent - $Character_Hit_Spell_or_Skill_Damage
+                                Add-Content -Path .\error.log -value "Selected_Mob_HealthCurrent: $Selected_Mob_HealthCurrent"
+                                $Selected_Mob.Health = $Selected_Mob_HealthCurrent
+                                Add-Content -Path .\error.log -value "Selected_Mob.Health: $($Selected_Mob.Health)"
+                                if ($Selected_Mob_HealthCurrent -lt 0) {
+                                    $Selected_Mob_HealthCurrent = 0
+                                    $Selected_Mob.Health = 0
+                                }
+                                Draw_Mob_Window_and_Stats
+                                # if ($First_Turn -eq $true) {
+                                #     for ($Position = 18; $Position -lt 20; $Position++) { # clear some lines from previous widow
+                                #         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                #     }
+                                # } else {
+                                #     for ($Position = 17; $Position -lt 20; $Position++) { # clear some lines from previous widow
+                                #         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                #     }
+                                # }
+                                [System.Collections.ArrayList]$Random_Player_Hit_Verb = ("successfully","effectively","adeptly","masterfully","effortlessly","expertly","dexterously","deftly","nimbly","gracefully")
+                                $Random_Player_Hit_Verb_Word = Get-Random -Input $Random_Player_Hit_Verb
+                                [System.Collections.ArrayList]$Random_Player_Hit = ("cleave","slice","rend","scythe through","carve","lacerate","crush","smash","pound","wack","maul","pierce","impale","skewer","puncture","jab","thrust","hit")
+                                $Random_Player_Hit_Word = Get-Random -Input $Random_Player_Hit
+                                [System.Collections.ArrayList]$Random_Player_Hit_Health = ("health","hit points","damage","life")
+                                $Random_Player_Hit_Health_Word = Get-Random -Input $Random_Player_Hit_Health
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
+                                # Start-Sleep -Seconds 3
+                                Write-Color "  You $Random_Player_Hit_Verb_Word ",$Crit_Hit,"$Random_Player_Hit_Word the ","$($Selected_Mob.Name)"," for ","$Character_Hit_Spell_or_Skill_Damage ","$Random_Player_Hit_Health_Word using your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill.Name) $Spell_or_Skill_Window_Text","." -Color DarkGray,Red,DarkGray,Blue,DarkGray,Red,DarkGray,DarkCyan,DarkGray
+                            } else {
+                                for ($Position = 17; $Position -lt 20; $Position++) { # clear some lines from previous widow
+                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                }
+                                # $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
+                                $Get_Random_Player_Miss = Get-Random -Minimum 1 -Maximum 3
+                                if ($Get_Random_Player_Miss -eq 1) {
+                                    [System.Collections.ArrayList]$Random_Player_Miss = ("sidesteps your attack","nimbly dodges your blow","ducks out of the way","weaves to avoid your strike","anticipates your move and you miss","dances away from danger","reacts quickly, evading your hit","reflexes are too fast and you miss","gracefully avoids your clumsy attack")
+                                    $Random_Player_Miss_Word = Get-Random -Input $Random_Player_Miss
+                                    # Start-Sleep -Seconds 3
+                                    Write-Color "  The ","$($Selected_Mob.Name) ","$Random_Player_Miss_Word." -Color DarkGray,Blue,DarkGray
+                                } else {
+                                    [System.Collections.ArrayList]$Random_Player_Miss = ("Your swing misses the","Your attack falls short and you miss the","Your blow goes astray missing the","You fail to connect a hit on the","Your strike doesn't land on the","You hit nothing air missing the","A near miss on the","Your weapon whistles past the","The attack glances off the")
+                                    $Random_Player_Miss_Word = Get-Random -Input $Random_Player_Miss
+                                    # Start-Sleep -Seconds 3
+                                    Write-Color "  $Random_Player_Miss_Word ","$($Selected_Mob.Name)","." -Color DarkGray,Blue,DarkGray
+                                }
+                            }
+
+
+
+
+
+                        }
+                        DOT {
+                            Add-Content -Path .\error.log -value "DOT"
+                        }
+                        healing {
+                            Add-Content -Path .\error.log -value "healing"
+                        }
+                        stun {
+                            Add-Content -Path .\error.log -value "stun"
+                        }
+                        physical_damage_reduction {
+                            Add-Content -Path .\error.log -value "physical_damage_reduction"
+                        }
+                        buff { # magic and armour
+                            Add-Content -Path .\error.log -value "buff"
+                        }
+                        Default {}
+                    }
+                    Add-Content -Path .\error.log -value "active: $($Import_JSON.Character.$Character_Class.$Spell_or_Skill.Active)"
+                    $Import_JSON.Character.$Character_Class.$Spell_or_Skill.Active = $true
                 }
                 $Player_Turn = $false
             } else {
@@ -2180,6 +2368,9 @@ Function Fight_or_Run {
                 $Player_Turn = $true
                 $Continue_Fight = $true
             }
+            Update_Variables
+            Draw_Player_Window_and_Stats
+            Save_JSON
             # if character health is zero, display death message
             if ($Character_HealthCurrent -le 0) {
                 # reset buffs
@@ -2485,7 +2676,7 @@ Function Travel {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
             }
         }
-        # Default {}
+        Default {}
     }
     Save_JSON
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
@@ -3522,7 +3713,7 @@ Function Visit_a_Building {
                                                                     } until ($Continue_After_Searching_Container -ieq "c")
                                                                 }
                                                             }
-                                                            # Default {}
+                                                            Default {}
                                                         }
                                                         # $Cellar_Room_Choice = "x" # set to x so the loop can be exited. needs to be separate as some rooms have multiple containers
                                                     } else { # all containers in the room have been searched
@@ -3622,7 +3813,7 @@ Function Visit_a_Building {
                                                 } until ($Cellar_Container_Found -eq $false -or $Cellar_Room_Choice -ieq "x") # exit loop if no containers found or if user chooses to exit
                                             } until ($Cellar_Room_Choice -ieq "x")
                                         }
-                                        # Default {}
+                                        Default {}
                                     }
                                 } until ($Cellar_Direction -ieq "x") # exit the cellar (only if in room 6)
                             }
@@ -3935,7 +4126,7 @@ Function Visit_a_Building {
                                             }
                                         }
                                     }
-                                    # Default {}
+                                    Default {}
                                 }
                             } until ($Elixir_Emporium_Purchase_Choice -ieq "e")
                         }
@@ -4056,14 +4247,14 @@ Function Visit_a_Building {
                                             }
                                         }
                                     }
-                                    # Default {}
+                                    Default {}
                                 }
                             } until ($Elixir_Emporium_Sell_Choice -ieq "e")
                             #
                         }
                     } until ($Elixir_Emporium_Choice -ieq "e")
                 }
-                # Default {}
+                Default {}
             }
         }
         # switch choice for The Forest
@@ -4089,7 +4280,7 @@ Function Visit_a_Building {
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                     }
                 }
-                # Default {}
+                Default {}
             }
         }
         # switch choice for The River
@@ -4105,7 +4296,7 @@ Function Visit_a_Building {
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                     }
                 }
-                # Default {}
+                Default {}
             }
         }
         # below is run if Q quit is chosen in any location
@@ -4613,7 +4804,7 @@ do {
         info {
             Game_Information
         }
-        # Default {}
+        Default {}
     }
 } while ($true)
 

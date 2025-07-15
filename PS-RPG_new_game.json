@@ -725,214 +725,226 @@
     }
   },
   "Character": {
-    "Name": "",
-    "Class": "",
-    "Race": "",
-    "Level": 1,
-    "Total_XP": 0,
-    "XP_TNL": 100.0,
-    "Gold": 0,
+    "Name": "Reyny",
+    "Class": "Rogue",
+    "Race": "Elf",
+    "Level": 11,
+    "Total_XP": 3410,
+    "XP_TNL": 850.0,
+    "Gold": 576.0,
     "Stats": {
-      "HealthCurrent": 1000,
-      "HealthMax": 1000,
+      "HealthCurrent": 60,
+      "HealthMax": 110,
       "HealthMaxUnBuffed": 0,
-      "StaminaCurrent": 1000,
-      "StaminaMax": 1000,
-      "ManaCurrent": 1000,
-      "ManaMax": 1000,
+      "StaminaCurrent": 80,
+      "StaminaMax": 150,
+      "ManaCurrent": 100,
+      "ManaMax": 505,
       "ManaMaxUnBuffed": 0,
-      "Damage": 1000,
-      "Attack": 1000,
+      "Damage": 100,
+      "Attack": 100,
       "AttackUnBuffed": 0,
-      "Dodge": 1000,
+      "Dodge": 110,
       "DodgeUnBuffed": 0,
-      "Block": 1000,
+      "Block": 44,
       "BlockUnBuffed": 0,
-      "Armour": 1000,
+      "Armour": 46,
       "ArmourUnBuffed": 0,
-      "Quickness": 1000,
-      "Spells": 1000,
-      "Healing": 1000
+      "Quickness": 110,
+      "Spells": 51,
+      "Healing": 84
     },
     "Buffs": {
       "Duration": 0,
       "Dropped": true,
       "DrinksPurchased": 0
     },
-    "Skills": {
-      "Mage": {
-        "None": "<none>"
+    "Rogue": {
+      "Stealth": {
+        "Name": "Stealth",
+        "Description_Long": "Allows the Rogue to move undetected by enemies, increasing the chance of a successful sneak attack.",
+        "Description_Short": "Damage bonus x3 next hit",
+        "ID": 1,
+        "Type": "Damage",
+        "Damage_Bonus": 2,
+        "Mana_Cost": 200,
+        "Obtained": true,
+        "Active": false
       },
-      "Cleric": {
-        "None": "<none>"
+      "Cunning Strike": {
+        "Name": "Cunning Strike",
+        "Description_Long": "A powerful attack that deals extra damage.",
+        "Description_Short": "Damage x2",
+        "ID": 2,
+        "Type": "Damage",
+        "Damage_Bonus": 3,
+        "Mana_Cost": 3,
+        "Obtained": false,
+        "Active": false
       },
-      "Rogue": {
-        "Stealth": {
-          "Name": "Stealth",
-          "Description_Long": "Allows the Rogue to move undetected by enemies, increasing the chance of a successful sneak attack.",
-          "Description_Short": "Damage bonus x3 next hit",
-          "ID": 1,
-          "Damage_Bonus": 2,
-          "Mana_Cost": 200,
-          "Obtained": true,
-          "Active": false
-        },
-        "Cunning Strike": {
-          "Name": "Cunning Strike",
-          "Description_Long": "A powerful attack that deals extra damage.",
-          "Description_Short": "Damage x2",
-          "ID": 2,
-          "Damage_Bonus": 3,
-          "Mana_Cost": 3,
-          "Obtained": false,
-          "Active": false
-        },
-        "Poison": {
-          "Name": "Poison Blade",
-          "Description_Long": "Applies a poison effect to the Rogue's next attack, dealing damage over time to the target.",
-          "Description_Short": "5 damage per turn",
-          "ID": 3,
-          "Tick_Damage": 5,
-          "Mana_Cost": 99,
-          "Obtained": false,
-          "Active": false
-        },
-        "Stun": {
-          "Name": "Stun",
-          "Description_Long": "A quick attack that stuns the target, preventing them from acting for a short duration.",
-          "Description_Short": "Stun for 1 turn",
-          "ID": 4,
-          "Duration": 1,
-          "Mana_Cost": 20,
-          "Obtained": true,
-          "Active": false
-        }
+      "Poison": {
+        "Name": "Poison Blade",
+        "Description_Long": "Applies a poison effect to the Rogue's next attack, dealing damage over time to the target.",
+        "Description_Short": "5 damage per turn",
+        "ID": 3,
+        "Type": "DOT",
+        "Tick_Damage": 5,
+        "Mana_Cost": 99,
+        "Obtained": false,
+        "Active": false
       },
-      "Warrior": {
-        "Shield Bash": {
-          "Name": "Shield Bash",
-          "Description": "A powerful attack that uses the Warrior's shield to bash the enemy, dealing damage and stunning them.",
-          "ID": 1,
-          "Damage_Bonus": 2,
-          "Duration": 1,
-          "Obtained": true,
-          "Active": false
-        },
-        "Rage": {
-          "Name": "Rage",
-          "Description": "Increases the Warrior's damage output for a short duration, allowing them to deal more damage in combat.",
-          "ID": 2,
-          "Damage_Bonus": 2,
-          "Duration": 2,
-          "Obtained": false,
-          "Active": false
-        },
-        "Parry": {
-          "Name": "Parry",
-          "Description": "Allows the Warrior to deflect an incoming attack, reducing damage taken.",
-          "ID": 3,
-          "Damage_Reduction": 2,
-          "Duration": 2,
-          "Obtained": true,
-          "Active": false
-        },
-        "Disarming Strike": {
-          "Name": "Disarming Strike",
-          "Description": "A powerful strike that disarms the target, preventing them from using their weapon for a short duration.",
-          "ID": 4,
-          "Duration": 1,
-          "Obtained": false,
-          "Active": false
-        }
+      "Stun": {
+        "Name": "Stun",
+        "Description_Long": "A quick attack that stuns the target, preventing them from acting for a short duration.",
+        "Description_Short": "Stun for 2 turns",
+        "ID": 4,
+        "Type": "Stun",
+        "Duration": 2,
+        "Mana_Cost": 20,
+        "Obtained": true,
+        "Active": false
       }
     },
-    "Spells": {
-      "Mage": {
-        "Magic Missile": {
-          "Name": "Magic Missile",
-          "Description": "A basic spell that fires a magical projectile at the target, dealing damage.",
-          "ID": 1,
-          "Damage": 20,
-          "Mana_Cost": 5,
-          "Obtained": true,
-          "Active": false
-        },
-        "Fireball": {
-          "Name": "Fireball",
-          "Description": "A spell that launches a ball of fire at the target.",
-          "ID": 2,
-          "Damage": 30,
-          "Mana_Cost": 15,
-          "Obtained": false,
-          "Active": false
-        },
-        "Cone of Cold": {
-          "Name": "Cone of Cold",
-          "Description": "A spell that creates a cone of freezing air dealing damage with a small chance to freeze the target.",
-          "ID": 3,
-          "Damage": 15,
-          "Mana_Cost": 10,
-          "Freeze_Chance": 0.2,
-          "Duration": 2,
-          "Obtained": false,
-          "Active": false
-        },
-        "Hold": {
-          "Name": "Hold",
-          "Description": "A spell that has a high chance to immobilizes the target, preventing them from moving or acting for a short duration.",
-          "ID": 4,
-          "Stun_Chance": 0.8,
-          "Duration": 2,
-          "Mana_Cost": 10,
-          "Obtained": false,
-          "Active": false
-        }
+    "Warrior": {
+      "Shield Bash": {
+        "Name": "Shield Bash",
+        "Description_Long": "A powerful attack that uses the Warrior's shield to bash the enemy, dealing damage and stunning them.",
+        "Description_Short": "Stun for 1 turn",
+        "ID": 1,
+        "Type": "Stun",
+        "Damage_Bonus": 2,
+        "Duration": 1,
+        "Obtained": true,
+        "Active": false
       },
-      "Cleric": {
-        "Cure_Wounds": {
-          "Name": "Cure Wounds",
-          "Description": "A healing spell that restores a small amount of health to the target.",
-          "ID": 1,
-          "Healing": 20,
-          "Mana_Cost": 5,
-          "Obtained": true,
-          "Active": false
-        },
-        "Shield of Faith": {
-          "Name": "Shield of Faith",
-          "Description": "A protective spell that increases the target's armour for a short duration which reduces physical damage taken.",
-          "ID": 2,
-          "Armour_Bonus": 5,
-          "Duration": 2,
-          "Mana_Cost": 10,
-          "Obtained": false,
-          "Active": false
-        },
-        "Harm": {
-          "Name": "Harm",
-          "Description": "A spell that deals damage to the target.",
-          "ID": 3,
-          "Damage": 20,
-          "Mana_Cost": 5,
-          "Obtained": false,
-          "Active": false
-        },
-        "Magic Resistance": {
-          "Name": "Magic Resistance",
-          "Description": "A spell that increases the target's resistance to magical attacks for a short duration.",
-          "ID": 4,
-          "Resistance_Bonus": 5,
-          "Duration": 2,
-          "Mana_Cost": 10,
-          "Obtained": false,
-          "Active": false
-        }
+      "Rage": {
+        "Name": "Rage",
+        "Description_Long": "Increases the Warrior's damage output for a short duration, allowing them to deal more damage in combat.",
+        "Description_Short": "Damage x2 for 2 turns",
+        "ID": 2,
+        "Type": "Damage",
+        "Damage_Bonus": 2,
+        "Duration": 2,
+        "Obtained": false,
+        "Active": false
       },
-      "Rogue": {
-        "None": "<none>"
+      "Parry": {
+        "Name": "Parry",
+        "Description_Long": "Allows the Warrior to deflect an incoming attack, reducing damage taken.",
+        "Description_Short": "Half incoming damage",
+        "ID": 3,
+        "Type": "Physical Damage Reduction",
+        "Damage_Reduction": 100,
+        "Duration": 1,
+        "Obtained": true,
+        "Active": false
       },
-      "Warrior": {
-        "None": "<none>"
+      "Disarming Strike": {
+        "Name": "Disarming Strike",
+        "Description_Long": "A powerful strike that disarms the target, preventing them from using their weapon for a short duration.",
+        "Description_Short": "Disarm mob for 1 turn",
+        "ID": 4,
+        "Type": "Stun",
+        "Duration": 1,
+        "Obtained": false,
+        "Active": false
+      }
+    },
+    "Mage": {
+      "Magic Missile": {
+        "Name": "Magic Missile",
+        "Description_Long": "A basic spell that fires a magical projectile at the target, dealing damage.",
+        "Description_Short": "Damage x2",
+        "ID": 1,
+        "Type": "Damage",
+        "Damage": 20,
+        "Mana_Cost": 5,
+        "Obtained": true,
+        "Active": false
+      },
+      "Fireball": {
+        "Name": "Fireball",
+        "Description_Long": "A spell that launches a ball of fire at the target.",
+        "Description_Short": "Deals 30 Damage",
+        "ID": 2,
+        "Type": "Damage",
+        "Damage": 30,
+        "Mana_Cost": 15,
+        "Obtained": false,
+        "Active": false
+      },
+      "Cone of Cold": {
+        "Name": "Cone of Cold",
+        "Description_Long": "A spell that creates a cone of freezing air dealing damage with a small chance to freeze the target.",
+        "Description_Short": "15 Damage, 40% chance to freeze",
+        "ID": 3,
+        "Type": "Damage",
+        "Damage": 15,
+        "Mana_Cost": 10,
+        "Freeze_Chance": 0.4,
+        "Duration": 2,
+        "Obtained": false,
+        "Active": false
+      },
+      "Hold": {
+        "Name": "Hold",
+        "Description_Long": "A spell that has a high chance to immobilizes the target, preventing them from moving or acting for a short duration.",
+        "Description_Short": "Immobilizes target for 2 turns",
+        "ID": 4,
+        "Type": "Stun",
+        "Stun_Chance": 0.8,
+        "Duration": 2,
+        "Mana_Cost": 10,
+        "Obtained": false,
+        "Active": false
+      }
+    },
+    "Cleric": {
+      "Cure_Wounds": {
+        "Name": "Cure Wounds",
+        "Description_Long": "A healing spell that restores a small amount of health to the target.",
+        "Description_Short": "Restores 20 health",
+        "ID": 1,
+        "Type": "Healing",
+        "Healing": 20,
+        "Mana_Cost": 5,
+        "Obtained": true,
+        "Active": false
+      },
+      "Shield of Faith": {
+        "Name": "Shield of Faith",
+        "Description_Long": "A protective spell that increases the target's armour for a short duration which reduces physical damage taken.",
+        "Description_Short": "Increases armour by 5 for 2 turns",
+        "ID": 2,
+        "Type": "Buff",
+        "Armour_Bonus": 0.5,
+        "Duration": 2,
+        "Mana_Cost": 10,
+        "Obtained": false,
+        "Active": false
+      },
+      "Harm": {
+        "Name": "Harm",
+        "Description_Long": "A spell that deals damage to the target.",
+        "Description_Short": "Deals 20 damage",
+        "ID": 3,
+        "Type": "Damage",
+        "Damage": 20,
+        "Mana_Cost": 5,
+        "Obtained": false,
+        "Active": false
+      },
+      "Magic Resistance": {
+        "Name": "Magic Resistance",
+        "Description_Long": "A spell that increases the target's resistance to magical attacks for a short duration.",
+        "Description_Short": "Increases resistance by 5 for 2 turns",
+        "ID": 4,
+        "Type": "Buff",
+        "Resistance_Bonus": 0.5,
+        "Duration": 2,
+        "Mana_Cost": 10,
+        "Obtained": false,
+        "Active": false
       }
     }
   },
