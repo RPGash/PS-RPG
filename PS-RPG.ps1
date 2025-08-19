@@ -558,7 +558,7 @@ Function Level_Up {
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 18,11;$Host.UI.Write("(+$($Selected_Mob.XP))")
         $Host.UI.RawUI.CursorPosition  = New-Object System.Management.Automation.Host.Coordinates 0,31;$Host.UI.Write("")
         Write-Color "  You have also learned ", "x skills",". - ToDo NOT IMPLEMENTED YET" -Color DarkGray,White,DarkGray
-        # Start-Sleep -Seconds 2 # leave in (shows multiple levels slowly)
+        # Start-Sleep -Seconds 1 # leave in (shows multiple levels slowly)
     } until ($XP_Difference -gt 0)
 }
 
@@ -2135,11 +2135,11 @@ Function Fight_or_Run {
                         }
                         Draw_Mob_Window_and_Stats
                         if ($First_Turn -eq $true) {
-                            for ($Position = 18; $Position -lt 20; $Position++) { # clear some lines from previous widow
+                            for ($Position = 18; $Position -lt 35; $Position++) { # clear some lines from previous widow
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                             }
                         } else {
-                            for ($Position = 17; $Position -lt 20; $Position++) { # clear some lines from previous widow
+                            for ($Position = 17; $Position -lt 35; $Position++) { # clear some lines from previous widow
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                             }
                         }
@@ -2152,8 +2152,14 @@ Function Fight_or_Run {
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                         Write-Color "  You $Random_Player_Hit_Verb_Word ",$Crit_Hit,"$Random_Player_Hit_Word the ","$($Selected_Mob.Name)"," for ","$Character_Hit_Damage ","$Random_Player_Hit_Health_Word." -Color DarkGray,Red,DarkGray,Blue,DarkGray,Red,DarkGray
                     } else {
-                        for ($Position = 17; $Position -lt 20; $Position++) { # clear some lines from previous widow
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                        if ($First_Turn -eq $true) {
+                            for ($Position = 18; $Position -lt 20; $Position++) { # clear some lines from previous widow
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                            }
+                        } else {
+                            for ($Position = 17; $Position -lt 20; $Position++) { # clear some lines from previous widow
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                            }
                         }
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                         $Get_Random_Player_Miss = Get-Random -Minimum 1 -Maximum 3
@@ -2217,16 +2223,21 @@ Function Fight_or_Run {
                     $Script:Character_ManaCurrent -= $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Mana_Cost
                     Add-Content -Path .\error.log -value "Character_ManaCurrent 2: $Character_ManaCurrent"
                     $Import_JSON.Character.Stats.ManaCurrent = $Character_ManaCurrent
+                    Start-Sleep -Seconds 1
                     if ($First_Turn -eq $true) {
-                        for ($Position = 18; $Position -lt 20; $Position++) { # clear some lines from previous widow
+                        for ($Position = 18; $Position -lt 22; $Position++) { # clear some lines from previous widow
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                         }
+                        Start-Sleep -Seconds 1
                     } else {
-                        for ($Position = 17; $Position -lt 20; $Position++) { # clear some lines from previous widow
+                        for ($Position = 17; $Position -lt 22; $Position++) { # clear some lines from previous widow
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                         }
+                        Start-Sleep -Seconds 1
                     }
+                    Start-Sleep -Seconds 1
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
+                    Start-Sleep -Seconds 1
                     # Write-Color "  You damage the ","$($Selected_Mob.Name) ","with ","$Spell_or_Skill_Window_Text." -Color DarkGray,Blue,DarkGray,Yellow
                     Add-Content -Path .\error.log -value "Spell_or_Skill_Type: $Spell_or_Skill_Type"
                     # switch case for spell or skill type
@@ -2253,7 +2264,7 @@ Function Fight_or_Run {
                             $Random_100 = Get-Random -Minimum 1 -Maximum 101
                             Add-Content -Path .\error.log -value "Random_100: $Random_100"
                             # Write-Output "random 100                : $([Math]::Round($Random_100))"
-                            if ($Hit_Chance -ge $Random_100) {
+                            if ($Hit_Chance -ge $Random_100) { # player hit mob
                                 # 10% +/- of damage done
                                 $Random_PlusMinus10 = Get-Random -Minimum -10 -Maximum 11
                                 Add-Content -Path .\error.log -value "_Damage_Bonus: $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Damage_Bonus)"
@@ -2287,15 +2298,6 @@ Function Fight_or_Run {
                                     $Selected_Mob.Health = 0
                                 }
                                 Draw_Mob_Window_and_Stats
-                                # if ($First_Turn -eq $true) {
-                                #     for ($Position = 18; $Position -lt 20; $Position++) { # clear some lines from previous widow
-                                #         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                                #     }
-                                # } else {
-                                #     for ($Position = 17; $Position -lt 20; $Position++) { # clear some lines from previous widow
-                                #         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
-                                #     }
-                                # }
                                 [System.Collections.ArrayList]$Random_Player_Hit_Verb = ("successfully","effectively","adeptly","masterfully","effortlessly","expertly","dexterously","deftly","nimbly","gracefully")
                                 $Random_Player_Hit_Verb_Word = Get-Random -Input $Random_Player_Hit_Verb
                                 [System.Collections.ArrayList]$Random_Player_Hit = ("cleave","slice","rend","scythe through","carve","lacerate","crush","smash","pound","wack","maul","pierce","impale","skewer","puncture","jab","thrust","hit")
@@ -2303,23 +2305,29 @@ Function Fight_or_Run {
                                 [System.Collections.ArrayList]$Random_Player_Hit_Health = ("health","hit points","damage","life")
                                 $Random_Player_Hit_Health_Word = Get-Random -Input $Random_Player_Hit_Health
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                                # Start-Sleep -Seconds 3
+                                # Start-Sleep -Seconds 1
                                 Write-Color "  You $Random_Player_Hit_Verb_Word ",$Crit_Hit,"$Random_Player_Hit_Word the ","$($Selected_Mob.Name)"," for ","$Character_Hit_Spell_or_Skill_Damage ","$Random_Player_Hit_Health_Word using your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) $Spell_or_Skill_Window_Text","." -Color DarkGray,Red,DarkGray,Blue,DarkGray,Red,DarkGray,DarkCyan,DarkGray
-                            } else {
-                                for ($Position = 17; $Position -lt 20; $Position++) { # clear some lines from previous widow
-                                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                            } else { # player misses mob
+                                if ($First_Turn -eq $true) {
+                                    for ($Position = 18; $Position -lt 22; $Position++) { # clear some lines from previous widow
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                    }
+                                } else {
+                                    for ($Position = 17; $Position -lt 22; $Position++) { # clear some lines from previous widow
+                                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
+                                    }
                                 }
-                                # $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
                                 $Get_Random_Player_Miss = Get-Random -Minimum 1 -Maximum 3
                                 if ($Get_Random_Player_Miss -eq 1) {
                                     [System.Collections.ArrayList]$Random_Player_Miss = ("sidesteps your attack","nimbly dodges your blow","ducks out of the way","weaves to avoid your strike","anticipates your move and you miss","dances away from danger","reacts quickly, evading your hit","reflexes are too fast and you miss","gracefully avoids your clumsy attack")
                                     $Random_Player_Miss_Word = Get-Random -Input $Random_Player_Miss
-                                    # Start-Sleep -Seconds 3
+                                    # Start-Sleep -Seconds 1
                                     Write-Color "  The ","$($Selected_Mob.Name) ","$Random_Player_Miss_Word." -Color DarkGray,Blue,DarkGray
                                 } else {
                                     [System.Collections.ArrayList]$Random_Player_Miss = ("Your swing misses the","Your attack falls short and you miss the","Your blow goes astray missing the","You fail to connect a hit on the","Your strike doesn't land on the","You hit nothing air missing the","A near miss on the","Your weapon whistles past the","The attack glances off the")
                                     $Random_Player_Miss_Word = Get-Random -Input $Random_Player_Miss
-                                    # Start-Sleep -Seconds 3
+                                    # Start-Sleep -Seconds 1
                                     Write-Color "  $Random_Player_Miss_Word ","$($Selected_Mob.Name)","." -Color DarkGray,Blue,DarkGray
                                 }
                             }
@@ -2350,6 +2358,8 @@ Function Fight_or_Run {
                                 $Selected_Mob_Stunned = "Yes"
                                 $Selected_Mob_Stun_Duration = $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Duration
                                 Add-Content -Path .\error.log -value "Mob stun duration: $Selected_Mob_Stun_Duration"
+                                Write-Color "  You use your ","Stun ","skill." -Color DarkGray,DarkCyan,DarkGray
+                                # Write-Color "  The ","$($Selected_Mob.Name) ","is stunned this turn (","$Selected_Mob_Stun_Duration ","turns remaining)." -Color DarkGray,Blue,DarkGray,DarkCyan,DarkGray
                             }
                         }
                         physical_damage_reduction {
@@ -2368,8 +2378,16 @@ Function Fight_or_Run {
                 Draw_Spells_Skills_Window
             } else {
                 # mobs turn (unless stunned)
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
+                Add-Content -Path .\error.log -value "Mob turn"
                 if ($Selected_Mob_Stunned -ieq "Yes") { # mob stunned
+                    # if ($First_Turn -eq $true) {
+                    #     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
+                    #     Start-Sleep -Seconds 1
+                    # } else {
+                    #     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
+                    #     Start-Sleep -Seconds 1
+                    # }
+                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,20;$Host.UI.Write("")
                     Write-Color "  The ","$($Selected_Mob.Name) ","is stunned this turn (","$Selected_Mob_Stun_Duration ","turns remaining)." -Color DarkGray,Blue,DarkGray,DarkCyan,DarkGray
                     $Selected_Mob_Stun_Duration -= 1
                     if ($Selected_Mob_Stun_Duration -eq 0) {
@@ -2377,10 +2395,12 @@ Function Fight_or_Run {
                         $Selected_Mob_No_Longer_Stunned = $true
                     }
                 } else { # mob not stunned
+                    # $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
                     if ($Selected_Mob_No_Longer_Stunned -eq $true) {
                         Write-Color "  The ","$($Selected_Mob.Name) ","is no longer stunned." -Color DarkGray,Blue,DarkGray
                         $Selected_Mob_No_Longer_Stunned = $false
                     }
+                    Write-Color "" -Color DarkGray
                     $Hit_Chance = ($Selected_Mob_Attack / $Character_Dodge) / 2 * 100
                     $Random_100 = Get-Random -Minimum 1 -Maximum 101
                     if ($Hit_Chance -ge $Random_100) {
