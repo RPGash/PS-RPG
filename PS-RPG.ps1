@@ -12,9 +12,6 @@ ToDo
     - add spells - started
         - "You gracefully critically wack the Chicken for 1 hit points using your Stealth Skill."
             check if the damage is 1 and if so, change to "point" rather than "points"
-        - "$Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $true"
-            checking to see if spell or skill is active?
-            deactivating skill after?
         - more stunned message 
             Write-Color "  The ","$($Selected_Mob.Name) ","is stunned this turn."
             mob is stunned, mob is still stunned, mob is still stunned from your skill, mob is unable to act???
@@ -2302,7 +2299,7 @@ Function Fight_or_Run {
                                 # adjust mobs health by damage amount
                                 Add-Content -Path .\error.log -value "Selected_Mob_HealthCurrent: $Selected_Mob_HealthCurrent"
                                 Add-Content -Path .\error.log -value "Character_Hit_Spell_or_Skill_Damage: $Character_Hit_Spell_or_Skill_Damage"
-                                $Character_Hit_Spell_or_Skill_Damage = 1
+                                $Character_Hit_Spell_or_Skill_Damage = 2 # TESTING
                                 $Selected_Mob_HealthCurrent = $Selected_Mob_HealthCurrent - $Character_Hit_Spell_or_Skill_Damage
                                 Add-Content -Path .\error.log -value "Selected_Mob_HealthCurrent: $Selected_Mob_HealthCurrent"
                                 $Selected_Mob.Health = $Selected_Mob_HealthCurrent
@@ -2318,6 +2315,11 @@ Function Fight_or_Run {
                                 $Random_Player_Hit_Word = Get-Random -Input $Random_Player_Hit
                                 [System.Collections.ArrayList]$Random_Player_Hit_Health = ("health","hit points","damage","life")
                                 $Random_Player_Hit_Health_Word = Get-Random -Input $Random_Player_Hit_Health
+                                if ($Random_Player_Hit_Health_Word -ieq "hit points") {
+                                    if ($Character_Hit_Spell_or_Skill_Damage -eq 1) {
+                                        $Random_Player_Hit_Health_Word = "hit point"
+                                    }
+                                }
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                                 # Start-Sleep -Seconds 1
                                 Write-Color "  You $Random_Player_Hit_Verb_Word ",$Crit_Hit,"$Random_Player_Hit_Word the ","$($Selected_Mob.Name)"," for ","$Character_Hit_Spell_or_Skill_Damage ","$Random_Player_Hit_Health_Word using your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) $Spell_or_Skill_Text","." -Color DarkGray,Red,DarkGray,Blue,DarkGray,Red,DarkGray,DarkCyan,DarkGray
