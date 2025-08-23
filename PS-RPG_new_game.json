@@ -763,24 +763,22 @@
       "Stealth": {
         "Name": "Stealth",
         "Description_Long": "Allows the Rogue to move undetected by enemies, increasing the chance of a successful sneak attack.",
-        "Description_Short": "Damage bonus x3 next hit",
+        "Description_Short": "Damage bonus x3",
         "ID": 1,
         "Type": "Damage",
-        "Damage_Bonus": 2,
-        "Mana_Cost": 200,
-        "Obtained": true,
-        "Active": false
+        "Damage_Bonus": 3,
+        "Mana_Cost": 1,
+        "Obtained": true
       },
       "Cunning Strike": {
         "Name": "Cunning Strike",
         "Description_Long": "A powerful attack that deals extra damage.",
-        "Description_Short": "Damage x2",
+        "Description_Short": "Damage bonus x2",
         "ID": 2,
         "Type": "Damage",
         "Damage_Bonus": 3,
         "Mana_Cost": 3,
-        "Obtained": false,
-        "Active": false
+        "Obtained": false
       },
       "Poison": {
         "Name": "Poison Blade",
@@ -799,7 +797,7 @@
         "Description_Short": "Stun for 2 turns",
         "ID": 4,
         "Type": "Stun",
-        "Duration": 2,
+        "Duration": 3,
         "Mana_Cost": 20,
         "Obtained": true,
         "Active": false
@@ -813,7 +811,7 @@
         "ID": 1,
         "Type": "Stun",
         "Damage_Bonus": 2,
-        "Duration": 1,
+        "Duration": 2,
         "Obtained": true,
         "Active": false
       },
@@ -836,16 +834,15 @@
         "Type": "Physical Damage Reduction",
         "Damage_Reduction": 100,
         "Duration": 1,
-        "Obtained": true,
-        "Active": false
+        "Obtained": true
       },
       "Disarming Strike": {
         "Name": "Disarming Strike",
         "Description_Long": "A powerful strike that disarms the target, preventing them from using their weapon for a short duration.",
         "Description_Short": "Disarm mob for 1 turn",
         "ID": 4,
-        "Type": "Stun",
-        "Duration": 1,
+        "Type": "Disarm",
+        "Duration": 3,
         "Obtained": false,
         "Active": false
       }
@@ -859,8 +856,7 @@
         "Type": "Damage",
         "Damage": 20,
         "Mana_Cost": 5,
-        "Obtained": true,
-        "Active": false
+        "Obtained": true
       },
       "Fireball": {
         "Name": "Fireball",
@@ -870,8 +866,7 @@
         "Type": "Damage",
         "Damage": 30,
         "Mana_Cost": 15,
-        "Obtained": false,
-        "Active": false
+        "Obtained": false
       },
       "Cone of Cold": {
         "Name": "Cone of Cold",
@@ -908,8 +903,7 @@
         "Type": "Healing",
         "Healing": 20,
         "Mana_Cost": 5,
-        "Obtained": true,
-        "Active": false
+        "Obtained": true
       },
       "Shield of Faith": {
         "Name": "Shield of Faith",
@@ -931,8 +925,7 @@
         "Type": "Damage",
         "Damage": 20,
         "Mana_Cost": 5,
-        "Obtained": false,
-        "Active": false
+        "Obtained": false
       },
       "Magic Resistance": {
         "Name": "Magic Resistance",
