@@ -10,9 +10,6 @@ ToDo
     
 - NEXT
     - add spells - started
-        - search for "You do not have enough mana to use"
-            change to "You do not have enough mana to cast" (for spells)
-            or "You do not have enough mana to use" (for skills)
         - "You gracefully critically wack the Chicken for 1 hit points using your Stealth Skill."
             check if the damage is 1 and if so, change to "point" rather than "points"
         - "$Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $true"
@@ -1529,22 +1526,22 @@ Function Draw_Spells_Skills_Window {
         Mage {
             $Script:Spell_or_Skill_Names = $Import_JSON.Character.$Character_Class.PSObject.Properties.Name | Sort-Object ID
             $Script:Spell_or_Skill_Names_Object = $Import_JSON.Character.$Character_Class
-            $Script:Spell_or_Skill_Window_Text = "Spell"
+            $Script:Spell_or_Skill_Text = "Spell"
         }
         Cleric {
             $Script:Spell_or_Skill_Names = $Import_JSON.Character.$Character_Class.PSObject.Properties.Name | Sort-Object ID
             $Script:Spell_or_Skill_Names_Object = $Import_JSON.Character.$Character_Class
-            $Script:Spell_or_Skill_Window_Text = "Spell"
+            $Script:Spell_or_Skill_Text = "Spell"
         }
         Warrior {
             $Script:Spell_or_Skill_Names = $Import_JSON.Character.$Character_Class.PSObject.Properties.Name | Sort-Object ID
             $Script:Spell_or_Skill_Names_Object = $Import_JSON.Character.$Character_Class
-            $Script:Spell_or_Skill_Window_Text = "Skill"
+            $Script:Spell_or_Skill_Text = "Skill"
         }
         Rogue {
             $Script:Spell_or_Skill_Names = $Import_JSON.Character.$Character_Class.PSObject.Properties.Name | Sort-Object ID
             $Script:Spell_or_Skill_Names_Object = $Import_JSON.Character.$Character_Class
-            $Script:Spell_or_Skill_Window_Text = "Skill"
+            $Script:Spell_or_Skill_Text = "Skill"
         }
         Default {}
     }
@@ -1575,7 +1572,7 @@ Function Draw_Spells_Skills_Window {
     $Spell_or_Skill_Name_Array_Max_Length = ($Spell_or_Skill_Name_Array | Measure-Object -Maximum).Maximum
     # calculate top and bottom name width
     if ($Spell_or_Skill_Name_Array_Max_Length -le 5) { # 5 = "spell" or "skill"
-        $Spell_or_Skill_Box_Name_Width_Top_Bottom = "-"*($Spell_or_Skill_Window_Text.Length + 2)
+        $Spell_or_Skill_Box_Name_Width_Top_Bottom = "-"*($Spell_or_Skill_Text.Length + 2)
     } else {
         $Spell_or_Skill_Box_Name_Width_Top_Bottom = "-"*($Spell_or_Skill_Name_Array_Max_Length + 2)
     }
@@ -1599,7 +1596,7 @@ Function Draw_Spells_Skills_Window {
     Write-Color "+--+$Spell_or_Skill_Box_Name_Width_Top_Bottom+$Spell_or_Skill_Box_Mana_Cost_Width_Top_Bottom+$Spell_or_Skill_Box_Info_Width_Top_Bottom+" -Color DarkGray
     $Spell_or_Skill_Window_Position_Height += 1
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Spell_or_Skill_Window_Position_Height;$Host.UI.Write("")
-    Write-Color "|","ID","| ","$Spell_or_Skill_Window_Text","$Spell_or_Skill_Box_Name_Width_Middle| ","Mana","$Spell_or_Skill_Mana_Cost_Width_Middle|"," Info","$Spell_or_Skill_Box_Info_Width_Middle|" -Color DarkGray,White,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray
+    Write-Color "|","ID","| ","$Spell_or_Skill_Text","$Spell_or_Skill_Box_Name_Width_Middle| ","Mana","$Spell_or_Skill_Mana_Cost_Width_Middle|"," Info","$Spell_or_Skill_Box_Info_Width_Middle|" -Color DarkGray,White,DarkGray,White,DarkGray,White,DarkGray,White,DarkGray
     $Spell_or_Skill_Window_Position_Height += 1
     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Spell_or_Skill_Window_Position_Height;$Host.UI.Write("")
     Write-Color "+--+$Spell_or_Skill_Box_Name_Width_Top_Bottom+$Spell_or_Skill_Box_Mana_Cost_Width_Top_Bottom+$Spell_or_Skill_Box_Info_Width_Top_Bottom+" -Color DarkGray
@@ -2183,7 +2180,7 @@ Function Fight_or_Run {
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,36;$Host.UI.Write("")
                         $Spell_or_Skill_ID_Number_Array_String = $Spell_or_Skill_ID_Number_Array -Join "/"
                         $Spell_or_Skill_ID_Number_Array_String = $Spell_or_Skill_ID_Number_Array_String + "/C"
-                        Write-Color -NoNewLine "Enter a $Spell_or_Skill_Window_Text ","ID ","number or ","C","ancel ", "[$Spell_or_Skill_ID_Number_Array_String]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
+                        Write-Color -NoNewLine "Enter a $Spell_or_Skill_Text ","ID ","number or ","C","ancel ", "[$Spell_or_Skill_ID_Number_Array_String]" -Color DarkYellow,Green,DarkYellow,Green,DarkYellow,Green
                         $Spell_or_Skill_ID_Number_Choice = Read-Host " "
                         $Spell_or_Skill_ID_Number_Choice = $Spell_or_Skill_ID_Number_Choice.Trim()
                     } until ($Spell_or_Skill_ID_Number_Choice -eq "c" -or $Spell_or_Skill_ID_Number_Choice -in $Spell_or_Skill_ID_Number_Array)
@@ -2200,7 +2197,7 @@ Function Fight_or_Run {
                     Add-Content -Path .\error.log -value "Spells_or_Skills 1: $Spells_or_Skills_Names"
                     foreach ($Spell_or_Skill_Name in $Spells_or_Skills_Names) {
                         Add-Content -Path .\error.log -value "Spell_or_Skill 2: $Spell_or_Skill_Name"
-                        #if ID -eq $Spell_or_Skill_ID_Number_Choice
+                        # if ID -eq $Spell_or_Skill_ID_Number_Choice
                         if ($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.ID -eq $Spell_or_Skill_ID_Number_Choice) {
                             Add-Content -Path .\error.log -value "Spell_or_Skill_ID_Number_Choice: $Spell_or_Skill_ID_Number_Choice"
                             $Script:Spell_or_Skill_Name = $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name
@@ -2210,35 +2207,52 @@ Function Fight_or_Run {
                             break
                         }
                     }
-                    # check if the player has enough mana to use the spells or skill
-                    if ($Character_ManaCurrent -lt $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Mana_Cost) {
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,34;$Host.UI.Write("");" "*105
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,34;$Host.UI.Write("")
-                        Write-Color -NoNewLine "  You do not have enough mana to use ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name)","." -Color DarkGray,Red,DarkGray
-                        Continue # breaks out of loop back to use Attack, Spell or Item
+                    # first check if the spell or skill does have an active status (some spells or skills do not have an active status)
+                    if ($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active) {
+                        # if it does have an active status, then check if the spell or skill is not active
+                        if ($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active -eq $false) {
+                            # if the spell or skill is not active, check if the player has enough mana to use the spell or skill
+                            if ($Character_ManaCurrent -lt $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Mana_Cost) {
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,34;$Host.UI.Write("");" "*105
+                                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,34;$Host.UI.Write("")
+                                Write-Color -NoNewLine "  You do not have enough mana to use your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name)","$($Spell_or_Skill_Text)." -Color DarkGray,Red,DarkGray
+                                Continue # breaks out of loop back to use Attack, Spell or Item
+                            }
+                        } else { # spell or skill is already active so cannot use again
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,34;$Host.UI.Write("");" "*105
+                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,34;$Host.UI.Write("")
+                            Write-Color -NoNewLine "  Your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name)"," $($Spell_or_Skill_Text) is already active." -Color Red,DarkCyan,Red
+                            Continue # breaks out of loop back to use Attack, Spell or Item
+                        }
                     }
+
+
+
+
+
+
+
+
+
+
+
                     # reduce mana by spell or skill cost
                     Add-Content -Path .\error.log -value "Spell_or_Skill.Mana_Cost: $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Mana_Cost)"
                     Add-Content -Path .\error.log -value "Character_ManaCurrent 1: $Character_ManaCurrent"
                     $Script:Character_ManaCurrent -= $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Mana_Cost
                     Add-Content -Path .\error.log -value "Character_ManaCurrent 2: $Character_ManaCurrent"
                     $Import_JSON.Character.Stats.ManaCurrent = $Character_ManaCurrent
-                    Start-Sleep -Seconds 1
                     if ($First_Turn -eq $true) {
                         for ($Position = 18; $Position -lt 22; $Position++) { # clear some lines from previous widow
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                         }
-                        Start-Sleep -Seconds 1
                     } else {
                         for ($Position = 17; $Position -lt 22; $Position++) { # clear some lines from previous widow
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                         }
-                        Start-Sleep -Seconds 1
                     }
-                    Start-Sleep -Seconds 1
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                    Start-Sleep -Seconds 1
-                    # Write-Color "  You damage the ","$($Selected_Mob.Name) ","with ","$Spell_or_Skill_Window_Text." -Color DarkGray,Blue,DarkGray,Yellow
+                    # Write-Color "  You damage the ","$($Selected_Mob.Name) ","with ","$Spell_or_Skill_Text." -Color DarkGray,Blue,DarkGray,Yellow
                     Add-Content -Path .\error.log -value "Spell_or_Skill_Type: $Spell_or_Skill_Type"
                     # switch case for spell or skill type
                     switch ($Spell_or_Skill_Type) {
@@ -2306,7 +2320,7 @@ Function Fight_or_Run {
                                 $Random_Player_Hit_Health_Word = Get-Random -Input $Random_Player_Hit_Health
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                                 # Start-Sleep -Seconds 1
-                                Write-Color "  You $Random_Player_Hit_Verb_Word ",$Crit_Hit,"$Random_Player_Hit_Word the ","$($Selected_Mob.Name)"," for ","$Character_Hit_Spell_or_Skill_Damage ","$Random_Player_Hit_Health_Word using your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) $Spell_or_Skill_Window_Text","." -Color DarkGray,Red,DarkGray,Blue,DarkGray,Red,DarkGray,DarkCyan,DarkGray
+                                Write-Color "  You $Random_Player_Hit_Verb_Word ",$Crit_Hit,"$Random_Player_Hit_Word the ","$($Selected_Mob.Name)"," for ","$Character_Hit_Spell_or_Skill_Damage ","$Random_Player_Hit_Health_Word using your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) $Spell_or_Skill_Text","." -Color DarkGray,Red,DarkGray,Blue,DarkGray,Red,DarkGray,DarkCyan,DarkGray
                             } else { # player misses mob
                                 if ($First_Turn -eq $true) {
                                     for ($Position = 18; $Position -lt 22; $Position++) { # clear some lines from previous widow
@@ -2360,6 +2374,13 @@ Function Fight_or_Run {
                                 Add-Content -Path .\error.log -value "Mob stun duration: $Selected_Mob_Stun_Duration"
                                 Write-Color "  You use your ","Stun ","skill." -Color DarkGray,DarkCyan,DarkGray
                                 # Write-Color "  The ","$($Selected_Mob.Name) ","is stunned this turn (","$Selected_Mob_Stun_Duration ","turns remaining)." -Color DarkGray,Blue,DarkGray,DarkCyan,DarkGray
+                                
+                                # add stun spell/skill to PSCustomObject with ID and duration
+
+
+
+
+
                             }
                         }
                         physical_damage_reduction {
@@ -2368,10 +2389,17 @@ Function Fight_or_Run {
                         buff { # magic and armour
                             Add-Content -Path .\error.log -value "buff"
                         }
+                        disarm { # no melee weapon
+                            Add-Content -Path .\error.log -value "disarm"
+                        }
                         Default {}
                     }
-                    Add-Content -Path .\error.log -value "active: $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active)"
-                    $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $true
+                    Add-Content -Path .\error.log -value "$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.name) active : $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active)"
+                    if ($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active -eq $false) {
+                        Add-Content -Path .\error.log -value "spell or skill has an active status and is now active"
+                        $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $true
+                        Add-Content -Path .\error.log -value "spell or skill active status: $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active)"
+                    }
                 }
                 $Player_Turn = $false
                 Draw_Mob_Window_and_Stats
@@ -2380,22 +2408,32 @@ Function Fight_or_Run {
                 # mobs turn (unless stunned)
                 Add-Content -Path .\error.log -value "Mob turn"
                 if ($Selected_Mob_Stunned -ieq "Yes") { # mob stunned
-                    # if ($First_Turn -eq $true) {
-                    #     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
-                    #     Start-Sleep -Seconds 1
-                    # } else {
-                    #     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
-                    #     Start-Sleep -Seconds 1
-                    # }
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,20;$Host.UI.Write("")
                     Write-Color "  The ","$($Selected_Mob.Name) ","is stunned this turn (","$Selected_Mob_Stun_Duration ","turns remaining)." -Color DarkGray,Blue,DarkGray,DarkCyan,DarkGray
                     $Selected_Mob_Stun_Duration -= 1
                     if ($Selected_Mob_Stun_Duration -eq 0) {
                         $Selected_Mob_Stunned = "No"
                         $Selected_Mob_No_Longer_Stunned = $true
+                        # loop through all spells/skills to find the stun spell/skill that has a duration
+                        $Spells_or_Skills_Names = $Import_JSON.Character.$Character_Class.PSObject.Properties.Name
+                        foreach ($Spell_or_Skill_Name in $Spells_or_Skills_Names) {
+                            # if $Spell_or_Skill_Name.Type -eq "stun", set Active to false
+                            if ($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Type -eq "stun") {
+                                # set the spell or skill to not active
+                                $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $false
+                                break
+                            }
+                        }
+
+
+
+
+
+
+
+                        $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $false
                     }
                 } else { # mob not stunned
-                    # $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
                     if ($Selected_Mob_No_Longer_Stunned -eq $true) {
                         Write-Color "  The ","$($Selected_Mob.Name) ","is no longer stunned." -Color DarkGray,Blue,DarkGray
                         $Selected_Mob_No_Longer_Stunned = $false
