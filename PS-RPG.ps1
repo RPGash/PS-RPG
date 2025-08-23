@@ -9,12 +9,8 @@ ToDo
     - 
     
 - NEXT
-    - add spells - started
-        - "You gracefully critically wack the Chicken for 1 hit points using your Stealth Skill."
-            check if the damage is 1 and if so, change to "point" rather than "points"
-        - more stunned message 
-            Write-Color "  The ","$($Selected_Mob.Name) ","is stunned this turn."
-            mob is stunned, mob is still stunned, mob is still stunned from your skill, mob is unable to act???
+    - add spells and skills - started
+        add more spells and skills
     - add equipment that can be equipped?
         armour protection, stat bonuses/buffs etc.
     - add item equipment drops from mob loot
@@ -29,7 +25,7 @@ ToDo
         if 50% or above = no message?
     - different message types for
         heals? kills? buffs etc.
-    - consider changing mob critical rate/damage to from fixed 20%/20% to specific % for different mobs
+    - consider changing mob critical rate/damage to from fixed 20%/20% to specific % for different mobs or skill
     - Game_Information [ongoing] an info page available after starting the game. still to add...
         damage calculation = damage * (damage / (damage + armour)),
         escape chance,
@@ -2204,35 +2200,28 @@ Function Fight_or_Run {
                             break
                         }
                     }
-                    # first check if the spell or skill does have an active status (some spells or skills do not have an active status)
-                    if ($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active) {
-                        # if it does have an active status, then check if the spell or skill is not active
-                        if ($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active -eq $false) {
-                            # if the spell or skill is not active, check if the player has enough mana to use the spell or skill
-                            if ($Character_ManaCurrent -lt $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Mana_Cost) {
+                    # check if player has enough mana to use spell or skill
+                    if ($Character_ManaCurrent -lt $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Mana_Cost) {
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,34;$Host.UI.Write("");" "*105
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,34;$Host.UI.Write("")
+                        Write-Color -NoNewLine "  You do not have enough mana to use your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) ","$($Spell_or_Skill_Text)." -Color DarkGray,Red,DarkGray
+                        continue # breaks out of loop back to use Attack, Spell or Item
+                    } else { # enough mana to use spell or skill
+                        # first check if the spell or skill does have an active status (some spells or skills do not have an active status)
+                        Add-Content -Path .\error.log -value "=Spell_or_Skill_Name.Active: $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active)"
+                        if (-not ($null -eq $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active)) {
+                            Add-Content -Path .\error.log -value "=Spell_or_Skill_Name.Active: entered IF"
+                            # if it does have an active status, then check if the spell or skill is not active
+                            if ($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active -eq $false) {
+                                # if the spell or skill is not active, check if the player has enough mana to use the spell or skill
+                            } else { # spell or skill is already active so cannot use again
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,34;$Host.UI.Write("");" "*105
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,34;$Host.UI.Write("")
-                                Write-Color -NoNewLine "  You do not have enough mana to use your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name)","$($Spell_or_Skill_Text)." -Color DarkGray,Red,DarkGray
-                                Continue # breaks out of loop back to use Attack, Spell or Item
+                                Write-Color -NoNewLine "  Your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name)"," $($Spell_or_Skill_Text) is already active." -Color Red,DarkCyan,Red
+                                continue # breaks out of loop back to use Attack, Spell or Item
                             }
-                        } else { # spell or skill is already active so cannot use again
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,34;$Host.UI.Write("");" "*105
-                            $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,34;$Host.UI.Write("")
-                            Write-Color -NoNewLine "  Your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name)"," $($Spell_or_Skill_Text) is already active." -Color Red,DarkCyan,Red
-                            Continue # breaks out of loop back to use Attack, Spell or Item
                         }
                     }
-
-
-
-
-
-
-
-
-
-
-
                     # reduce mana by spell or skill cost
                     Add-Content -Path .\error.log -value "Spell_or_Skill.Mana_Cost: $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Mana_Cost)"
                     Add-Content -Path .\error.log -value "Character_ManaCurrent 1: $Character_ManaCurrent"
@@ -2375,14 +2364,7 @@ Function Fight_or_Run {
                                 $Selected_Mob_Stun_Duration = $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Duration
                                 Add-Content -Path .\error.log -value "Mob stun duration: $Selected_Mob_Stun_Duration"
                                 Write-Color "  You use your ","Stun ","skill." -Color DarkGray,DarkCyan,DarkGray
-                                # Write-Color "  The ","$($Selected_Mob.Name) ","is stunned this turn (","$Selected_Mob_Stun_Duration ","turns remaining)." -Color DarkGray,Blue,DarkGray,DarkCyan,DarkGray
-                                
                                 # add stun spell/skill to PSCustomObject with ID and duration
-
-
-
-
-
                             }
                         }
                         physical_damage_reduction {
@@ -2397,10 +2379,12 @@ Function Fight_or_Run {
                         Default {}
                     }
                     Add-Content -Path .\error.log -value "$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.name) active : $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active)"
-                    if ($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active -eq $false) {
-                        Add-Content -Path .\error.log -value "spell or skill has an active status and is now active"
-                        $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $true
-                        Add-Content -Path .\error.log -value "spell or skill active status: $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active)"
+                    if (-not ($null -eq $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active)) {
+                        if ($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active -eq $false) {
+                            Add-Content -Path .\error.log -value "spell or skill has an active status and is now active"
+                            $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $true
+                            Add-Content -Path .\error.log -value "spell or skill active status: $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active)"
+                        }
                     }
                 }
                 $Player_Turn = $false
@@ -2409,32 +2393,14 @@ Function Fight_or_Run {
             } else {
                 # mobs turn (unless stunned)
                 Add-Content -Path .\error.log -value "Mob turn"
+                Add-Content -Path .\error.log -value "Selected_Mob_Stunned: $Selected_Mob_Stunned"
                 if ($Selected_Mob_Stunned -ieq "Yes") { # mob stunned
                     $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,20;$Host.UI.Write("")
-                    Write-Color "  The ","$($Selected_Mob.Name) ","is stunned this turn (","$Selected_Mob_Stun_Duration ","turns remaining)." -Color DarkGray,Blue,DarkGray,DarkCyan,DarkGray
+                    # mob is still stunned
+                    [System.Collections.ArrayList]$Random_Mob_Stunned = ("is stunned this turn","is stunned from your $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) $($Spell_or_Skill_Text)","is unable to act this turn because of your $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) $($Spell_or_Skill_Text)","is dazed and confused this turn","is incapacitated this turn","is out cold this turn","is seeing stars this turn","is struggling to remain conscious this turn")
+                    $Random_Mob_Stunned_Word = Get-Random -Input $Random_Mob_Stunned
                     $Selected_Mob_Stun_Duration -= 1
-                    if ($Selected_Mob_Stun_Duration -eq 0) {
-                        $Selected_Mob_Stunned = "No"
-                        $Selected_Mob_No_Longer_Stunned = $true
-                        # loop through all spells/skills to find the stun spell/skill that has a duration
-                        $Spells_or_Skills_Names = $Import_JSON.Character.$Character_Class.PSObject.Properties.Name
-                        foreach ($Spell_or_Skill_Name in $Spells_or_Skills_Names) {
-                            # if $Spell_or_Skill_Name.Type -eq "stun", set Active to false
-                            if ($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Type -eq "stun") {
-                                # set the spell or skill to not active
-                                $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $false
-                                break
-                            }
-                        }
-
-
-
-
-
-
-
-                        $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $false
-                    }
+                    Write-Color "  The ","$($Selected_Mob.Name) ","$Random_Mob_Stunned_Word (","$Selected_Mob_Stun_Duration ","turns remaining)." -Color DarkGray,Blue,DarkGray,DarkCyan,DarkGray
                 } else { # mob not stunned
                     if ($Selected_Mob_No_Longer_Stunned -eq $true) {
                         Write-Color "  The ","$($Selected_Mob.Name) ","is no longer stunned." -Color DarkGray,Blue,DarkGray
@@ -2483,6 +2449,23 @@ Function Fight_or_Run {
                 }
                 $Player_Turn = $true
                 $Continue_Fight = $true
+            }
+            # if mob stun duration is zero, set stunned to no and JSON spell/skill active to false
+            if ($Selected_Mob_Stun_Duration -eq 0) {
+                $Selected_Mob_Stunned = "No"
+                Add-Content -Path .\error.log -value "Selected_Mob_Stunned: $Selected_Mob_Stunned"
+                $Selected_Mob_No_Longer_Stunned = $true
+                # loop through all spells/skills to find the stun spell/skill that has a duration
+                $Spells_or_Skills_Names = $Import_JSON.Character.$Character_Class.PSObject.Properties.Name
+                foreach ($Spell_or_Skill_Name in $Spells_or_Skills_Names) {
+                    # if $Spell_or_Skill_Name.Type -eq "stun", set Active to false
+                    if ($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Type -ieq "stun") {
+                        # set the spell or skill to not active
+                        $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $false
+                        break
+                    }
+                }
+                $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $false
             }
             Update_Variables
             Draw_Player_Window_and_Stats
