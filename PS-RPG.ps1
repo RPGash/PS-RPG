@@ -2274,6 +2274,9 @@ Function Fight_or_Run {
                                 Add-Content -Path .\error.log -value "_Character_Damage: $Character_Damage"
                                 Add-Content -Path .\error.log -value "_Random_PlusMinus10: $Random_PlusMinus10"
                                 $Character_Hit_Spell_or_Skill_Damage = $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Damage_Bonus*($Character_Damage*$Random_PlusMinus10/100+$Character_Damage)
+                                [string]$Character_Hit_Spell_or_Skill_Damage_Sum += $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Damage_Bonus
+                                [string]$Character_Hit_Spell_or_Skill_Damage_Sum += "*"
+                                [string]$Character_Hit_Spell_or_Skill_Damage_Sum += $Character_Damage*$Random_PlusMinus10/100+$Character_Damage
                                 Add-Content -Path .\error.log -value "_Character_Hit_Spell_or_Skill_Damage 1: $Character_Hit_Spell_or_Skill_Damage"
                                 Add-Content -Path .\error.log -value "_Selected_Mob_Armour: $Selected_Mob_Armour"
                                 # damage done formula = damage * (damage / (damage + armour))
@@ -2283,15 +2286,19 @@ Function Fight_or_Run {
                                 $Random_Crit_Chance = Get-Random -Minimum 1 -Maximum 101
                                 Add-Content -Path .\error.log -value "_Random_Crit_Chance: $Random_Crit_Chance"
                                 $Crit_Hit = ""
+                                $Random_Crit_Chance = 1 # TESTING
                                 if ($Random_Crit_Chance -le 20) { # chance of critical hit - less than 20%
                                     $Crit_Hit = $true
-                                    $Character_Hit_Spell_or_Skill_Damage = [Math]::Round($Character_Hit_Spell_or_Skill_Damage*20/100+$Character_Hit_Spell_or_Skill_Damage)
+                                    $Character_Hit_Spell_or_Skill_Damage = [Math]::Round($Character_Hit_Spell_or_Skill_Damage*50/100+$Character_Hit_Spell_or_Skill_Damage)
                                     $Crit_Hit = "critically "
+                                    [string]$Character_Hit_Spell_or_Skill_Damage_Sum += "+"
+                                    [string]$Character_Hit_Spell_or_Skill_Damage_Sum += $Character_Hit_Spell_or_Skill_Damage*50/100
                                 }
+                                [string]$Character_Hit_Spell_or_Skill_Damage_Sum += " (before calculating mob armour reduction)"
                                 # adjust mobs health by damage amount
                                 Add-Content -Path .\error.log -value "Selected_Mob_HealthCurrent: $Selected_Mob_HealthCurrent"
                                 Add-Content -Path .\error.log -value "Character_Hit_Spell_or_Skill_Damage: $Character_Hit_Spell_or_Skill_Damage"
-                                $Character_Hit_Spell_or_Skill_Damage = 2 # TESTING
+                                # $Character_Hit_Spell_or_Skill_Damage = 2 # TESTING
                                 $Selected_Mob_HealthCurrent = $Selected_Mob_HealthCurrent - $Character_Hit_Spell_or_Skill_Damage
                                 Add-Content -Path .\error.log -value "Selected_Mob_HealthCurrent: $Selected_Mob_HealthCurrent"
                                 $Selected_Mob.Health = $Selected_Mob_HealthCurrent
@@ -2426,6 +2433,8 @@ Function Fight_or_Run {
                 $Player_Turn = $false
                 Draw_Mob_Window_and_Stats
             } else {
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 9,15;$Host.UI.Write("")
+                Write-Color "$Character_Hit_Spell_or_Skill_Damage_Sum" -Color Red
                 # mobs turn (unless stunned)
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
                 # if Poisoned
