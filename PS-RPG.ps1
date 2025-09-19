@@ -12,7 +12,7 @@ ToDo
     - add spells and skills - started
         add more spells and skills
     - Write-Color "  You use your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) ","skill."
-        check if other spells or skills display the correct name/type
+        check if *spells* display the correct name/type
     - add equipment that can be equipped?
         armour protection, stat bonuses/buffs etc.
     - add item equipment drops from mob loot
@@ -2314,7 +2314,7 @@ Function Fight_or_Run {
                                 }
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                                 # Start-Sleep -Seconds 1
-                                Write-Color "  You $Random_Player_Hit_Verb_Word ",$Crit_Hit,"$Random_Player_Hit_Word the ","$($Selected_Mob.Name)"," for ","$Character_Hit_Spell_or_Skill_Damage ","$Random_Player_Hit_Health_Word using your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) $Spell_or_Skill_Text","." -Color DarkGray,Red,DarkGray,Blue,DarkGray,Red,DarkGray,DarkCyan,DarkGray
+                                Write-Color "  You $Random_Player_Hit_Verb_Word ",$Crit_Hit,"$Random_Player_Hit_Word the ","$($Selected_Mob.Name)"," for ","$Character_Hit_Spell_or_Skill_Damage ","$Random_Player_Hit_Health_Word using your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name)"," $Spell_or_Skill_Text","." -Color DarkGray,Red,DarkGray,Blue,DarkGray,Red,DarkGray,DarkCyan,White,DarkGray
                             } else { # player misses mob
                                 if ($First_Turn -eq $true) {
                                     for ($Position = 18; $Position -lt 22; $Position++) { # clear some lines from previous widow
@@ -2346,7 +2346,31 @@ Function Fight_or_Run {
 
                         }
                         DOT {
-                            Add-Content -Path .\error.log -value "DOT"
+                            Add-Content -Path .\error.log -value "=DOT=============================================="
+                            # chance to poison
+                            $Poison_Chance = ($Character_Spells / $Selected_Mob_Spells) / 2 * 100
+                            Add-Content -Path .\error.log -value "Poison_Chance: $Poison_Chance"
+                            # Write-Output "poison chance                : $Poison_Chance"
+                            $Random_100 = Get-Random -Minimum 1 -Maximum 101
+                            Add-Content -Path .\error.log -value "poison Random_100: $Random_100"
+                            # Write-Output "random 100                : $([Math]::Round($Random_100))"
+                            $Selected_Mob_Poisoned = "No"
+                            if ($Poison_Chance -ge $Random_100) { # mob poisoned
+                                # $Selected_Mob_HealthCurrent = $Selected_Mob_HealthCurrent - $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Tick_Damage
+                                # $Selected_Mob.Health = $Selected_Mob_HealthCurrent
+                                $Spell_or_Skill_Success = $true
+                                Add-Content -Path .\error.log -value "Mob Poisoned"
+                                $Selected_Mob_Poisoned = "Yes"
+                                $Selected_Mob_No_Longer_Poisoned = $false
+                                $Selected_Mob_Poison_Duration = $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Duration
+                                # $Selected_Mob_Poison_Duration -= 1
+                                Add-Content -Path .\error.log -value "Mob Poison duration: $Selected_Mob_Poison_Duration"
+                                # Write-Color "  You use your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) ","skill"," and poison the ","$($Selected_Mob.Name)"," for ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Tick_Damage)"," damage." -Color DarkGray,DarkCyan,White,DarkGray,Blue,DarkGray,Red,DarkGray
+                                # add poison spell/skill to PSCustomObject with ID and duration
+                            } else {
+                                Add-Content -Path .\error.log -value "Mob not Poisoned"
+                                Write-Color "  You fail to poison the ","$($Selected_Mob.Name)"," with your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) ","skill","." -Color DarkGray,Blue,DarkGray,DarkCyan,White,DarkGray
+                            }
                         }
                         healing {
                             Add-Content -Path .\error.log -value "healing"
@@ -2403,10 +2427,26 @@ Function Fight_or_Run {
                 Draw_Mob_Window_and_Stats
             } else {
                 # mobs turn (unless stunned)
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
+                # if Poisoned
+                if ($Selected_Mob_Poison_Duration -gt 0) {
+                    $Selected_Mob_Poison_Duration -= 1
+                    $Selected_Mob_HealthCurrent = $Selected_Mob_HealthCurrent - $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Tick_Damage
+                    $Selected_Mob.Health = $Selected_Mob_HealthCurrent
+                    Add-Content -Path .\error.log -value "Selected_Mob_poison_Duration: $Selected_Mob_Poison_Duration"
+                    Write-Color "  Your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) ","skill"," poisons the ","$($Selected_Mob.Name)"," for ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Tick_Damage)"," damage (","$Selected_Mob_Poison_Duration ","ticks remaining)." -Color DarkGray,DarkCyan,White,DarkGray,Blue,DarkGray,Red,DarkGray,White,DarkGray
+                }
+                # if poison duration is zero, set JSON spell/skill active to false
+                if ($Selected_Mob_Poison_Duration -eq 0) {
+                    $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $false
+                    $Selected_Mob_Poisoned = "No"
+                    $Selected_Mob_No_Longer_Poisoned = $true
+                }
+                Draw_Mob_Window_and_Stats
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
                 Add-Content -Path .\error.log -value "Mob turn"
                 Add-Content -Path .\error.log -value "Selected_Mob_Stunned: $Selected_Mob_Stunned"
                 if ($Selected_Mob_Stunned -ieq "Yes") { # mob stunned
-                    $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,20;$Host.UI.Write("")
                     # mob is still stunned
                     [System.Collections.ArrayList]$Random_Mob_Stunned = ("is stunned this turn","is stunned from your $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) $($Spell_or_Skill_Text)","is unable to act this turn because of your $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) $($Spell_or_Skill_Text)","is dazed and confused this turn","is incapacitated this turn","is out cold this turn","is seeing stars this turn","is struggling to remain conscious this turn")
                     $Random_Mob_Stunned_Word = Get-Random -Input $Random_Mob_Stunned
@@ -2430,6 +2470,7 @@ Function Fight_or_Run {
                         $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $false
                     }
                 } else { # mob not stunned
+                    # if mob was stunned last turn but is no longer stunned, display message
                     if ($Selected_Mob_Stun_Duration -eq 0 -and $Selected_Mob_No_Longer_Stunned -eq $true) {
                         Write-Color "  The ","$($Selected_Mob.Name) ","is no longer stunned." -Color DarkGray,Blue,DarkGray
                         $Selected_Mob_No_Longer_Stunned = $false
@@ -2437,6 +2478,7 @@ Function Fight_or_Run {
                     Write-Color "" -Color DarkGray
                     $Hit_Chance = ($Selected_Mob_Attack / $Character_Dodge) / 2 * 100
                     $Random_100 = Get-Random -Minimum 1 -Maximum 101
+                    # mob hits
                     if ($Hit_Chance -ge $Random_100) {
                         if ($Character_HealthCurrent -lt 0) {
                             $Script:Character_HealthCurrent = 0
@@ -2461,22 +2503,24 @@ Function Fight_or_Run {
                         $Random_Mob_Hit_Word = Get-Random -Input $Random_Mob_Hit
                         [System.Collections.ArrayList]$Random_Mob_Hit_Health = ("health","hit points","damage","life")
                         $Random_Mob_Hit_Health_Word = Get-Random -Input $Random_Mob_Hit_Health
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,20;$Host.UI.Write("")
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,21;$Host.UI.Write("")
                         Write-Color "  The ","$($Selected_Mob.Name) ","$Random_Mob_Hit_Verb_Word ",$Crit_Hit,"$Random_Mob_Hit_Word you for ","$Selected_Mob_Hit_Damage ","$Random_Mob_Hit_Health_Word." -Color DarkGray,Blue,DarkGray,Red,DarkGray,Red,DarkGray
                         # adjust player health by damage amount
                         $Script:Character_HealthCurrent = $Character_HealthCurrent - $Selected_Mob_Hit_Damage
                         $Import_JSON.Character.Stats.HealthCurrent = $Character_HealthCurrent
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                         Draw_Player_Window_and_Stats
-                    } else {
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,20;$Host.UI.Write("")
-                        [System.Collections.ArrayList]$Random_Mob_Miss = (" swings and misses you","'s attack falls short and missing you","'s blow goes astray missing you"," fails to connect a hit on you","'s strike doesn't land on you"," hits nothing but air missing you","'s attack whistles past you ear","'s attack glances off you")
+                    } else { # mob misses
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,21;$Host.UI.Write("")
+                        [System.Collections.ArrayList]$Random_Mob_Miss = (" swings and misses you","'s attack falls short and missing you","'s blow goes astray missing you"," fails to connect a hit on you","'s strike doesn't land on you","'s attack doesn't land"," hits nothing but air missing you","'s attack whistles past you ear","'s attack glances off you")
                         $Random_Mob_Miss_Word = Get-Random -Input $Random_Mob_Miss
                         Write-Color "  The ","$($Selected_Mob.Name)","$Random_Mob_Miss_Word." -Color DarkGray,Blue,DarkGray
                     }
                 }
                 $Player_Turn = $true
                 $Continue_Fight = $true
+                Add-Content -Path .\error.log -value "==Selected_Mob.Health        : $($Selected_Mob.Health)"
+                Add-Content -Path .\error.log -value "==Selected_Mob_HealthCurrent : $Selected_Mob_HealthCurrent"
             }
             Update_Variables
             Draw_Player_Window_and_Stats
