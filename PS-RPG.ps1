@@ -9,8 +9,14 @@ ToDo
     - 
     
 - NEXT
+    - "Inventory Empty"
+        +--+------------+-----+-------+------+
+        |  | Inventory Empty |       |      | <------
+        +--+------------+-----+-------+------+
     - add spells and skills - started
         add more spells and skills
+        Write-Color "  You use your ","Stun ","skill."
+            "stun" - this won't read correctly for different spells and skills. change to match the name of the spell or skill used.
     - add equipment that can be equipped?
         armour protection, stat bonuses/buffs etc.
     - add item equipment drops from mob loot
@@ -1931,7 +1937,7 @@ Function Inventory_Choice {
 #
 Function You_Died {
     Clear-Host
-    Get-Content ..\RPG\ascii.txt
+    Get-Content .\ascii.txt
 }
 
 #
@@ -2164,7 +2170,7 @@ Function Fight_or_Run {
                         }
                     }
                 }
-                # spells
+                # spell # skill
                 if ($Fight_Choice -ieq "s") {
                     Draw_Spells_Skills_Window
                     $Script:Selectable_ID_Search = "not_set"
@@ -2241,6 +2247,7 @@ Function Fight_or_Run {
                     # Write-Color "  You damage the ","$($Selected_Mob.Name) ","with ","$Spell_or_Skill_Text." -Color DarkGray,Blue,DarkGray,Yellow
                     Add-Content -Path .\error.log -value "Spell_or_Skill_Type: $Spell_or_Skill_Type"
                     # switch case for spell or skill type
+                    $Spell_or_Skill_Success = $false
                     switch ($Spell_or_Skill_Type) {
                         damage {
                             Add-Content -Path .\error.log -value "damage"
@@ -2359,12 +2366,16 @@ Function Fight_or_Run {
                             # Write-Output "random 100                : $([Math]::Round($Random_100))"
                             $Selected_Mob_Stunned = "No"
                             if ($Stun_Chance -ge $Random_100) { # mob stunned
+                                $Spell_or_Skill_Success = $true
                                 Add-Content -Path .\error.log -value "Mob stunned"
                                 $Selected_Mob_Stunned = "Yes"
                                 $Selected_Mob_Stun_Duration = $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Duration
                                 Add-Content -Path .\error.log -value "Mob stun duration: $Selected_Mob_Stun_Duration"
-                                Write-Color "  You use your ","Stun ","skill." -Color DarkGray,DarkCyan,DarkGray
+                                Write-Color "  You use your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) ","skill." -Color DarkGray,DarkCyan,DarkGray
                                 # add stun spell/skill to PSCustomObject with ID and duration
+                            } else {
+                                Add-Content -Path .\error.log -value "Mob not stunned"
+                                Write-Color "  You fail to stun the ","$($Selected_Mob.Name)"," with your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) ","skill." -Color DarkGray,Blue,DarkGray,DarkCyan,DarkGray
                             }
                         }
                         physical_damage_reduction {
@@ -2379,17 +2390,20 @@ Function Fight_or_Run {
                         Default {}
                     }
                     Add-Content -Path .\error.log -value "$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.name) active : $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active)"
-                    if (-not ($null -eq $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active)) {
-                        if ($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active -eq $false) {
-                            Add-Content -Path .\error.log -value "spell or skill has an active status and is now active"
-                            $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $true
-                            Add-Content -Path .\error.log -value "spell or skill active status: $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active)"
+                    # set spell or skill to active if it has an active status and the spell or skill was successful
+                    if ($Spell_or_Skill_Success -eq $true) {
+                        if (-not ($null -eq $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active)) {
+                            if ($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active -eq $false) {
+                                Add-Content -Path .\error.log -value "spell or skill has an active status and is now active"
+                                $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $true
+                                Add-Content -Path .\error.log -value "spell or skill active status: $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active)"
+                            }
                         }
                     }
+                    Draw_Spells_Skills_Window
                 }
                 $Player_Turn = $false
                 Draw_Mob_Window_and_Stats
-                Draw_Spells_Skills_Window
             } else {
                 # mobs turn (unless stunned)
                 Add-Content -Path .\error.log -value "Mob turn"
@@ -2478,11 +2492,21 @@ Function Fight_or_Run {
                 $Import_JSON.Character.Buffs.DrinksPurchased = 0
                 Save_JSON
                 You_Died
-                Read-Host
                 exit
             }
             # if mob health is zero, display you killed mob message
             if ($Selected_Mob_HealthCurrent -eq 0) {
+                # update mob kill count if quest related
+                $Quest_Names = $Import_JSON.Quests.PSObject.Properties.Name
+                foreach ($Quest_Name in $Quest_Names) {
+                    $Quest_Name = $Import_JSON.Quests.$Quest_Name
+                    if ($Selected_Mob_Name -ilike "*$($Quest_Name.Mob)*") {
+                        $Quest_Name.Progress += 1
+                        if ($Quest_Name.Progress -ge $Quest_Name.Progress_Max) {
+                            $Quest_Name.Status = "Hand In"
+                        }
+                    }
+                }
                 if ($Import_JSON.Introduction_Tasks.In_Progress -eq $true -and $Import_JSON.Introduction_Tasks.Tick_Purchase_a_Potion -eq $true) {
                     # update introduction task and update Introduction Tasks window
                     $Import_JSON.Introduction_Tasks.Tick_Go_Hunting = $true
@@ -2492,11 +2516,12 @@ Function Fight_or_Run {
                     $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Selected_Mob_Name.Killed += 1
                     # if Introduction Tasks are still in progress, update the slow intro window Inventory with a tick
                     # need to check all mobs in the cellar quest to see if any of them have been killed 5 times
+                    $Script:Tick_Kill_5_Rats += 1
                     if ($Import_JSON.Quests."Rat Infestation".Progress -ge 5) {
                         $Import_JSON.Introduction_Tasks.Tick_Kill_5_Rats = $true
-                        Draw_Introduction_Tasks
                         
                     }
+                    Draw_Introduction_Tasks
                     # $Cellar_Quest_Mob_Names = $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.PSObject.Properties.Name
                     # foreach ($Cellar_Quest_Mob_Name in $Cellar_Quest_Mob_Names) {
                     #     $Cellar_Quest_Mobs_Killed += $Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Mobs.$Cellar_Quest_Mob_Name.Killed
@@ -2562,17 +2587,6 @@ Function Fight_or_Run {
                         }
                     } else {
                         Write-Color "  The ", "$($Selected_Mob.Name) ", "did not drop any loot." -Color DarkGray,Blue,DarkGray
-                    }
-                }
-                # update mob kill count if quest related
-                $Quest_Names = $Import_JSON.Quests.PSObject.Properties.Name
-                foreach ($Quest_Name in $Quest_Names) {
-                    $Quest_Name = $Import_JSON.Quests.$Quest_Name
-                    if ($Selected_Mob_Name -ilike "*$($Quest_Name.Mob)*") {
-                        $Quest_Name.Progress += 1
-                        if ($Quest_Name.Progress -ge $Quest_Name.Progress_Max) {
-                            $Quest_Name.Status = "Hand In"
-                        }
                     }
                 }
                 # update player stats before level up to update gold and XP
