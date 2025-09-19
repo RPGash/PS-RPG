@@ -776,9 +776,9 @@
         "Description_Short": "Damage bonus x2",
         "ID": 2,
         "Type": "Damage",
-        "Damage_Bonus": 3,
+        "Damage_Bonus": 2,
         "Mana_Cost": 3,
-        "Obtained": false
+        "Obtained": true
       },
       "Poison": {
         "Name": "Poison Blade",
@@ -787,8 +787,9 @@
         "ID": 3,
         "Type": "DOT",
         "Tick_Damage": 5,
-        "Mana_Cost": 99,
-        "Obtained": false,
+        "Duration": 5,
+        "Mana_Cost": 9,
+        "Obtained": true,
         "Active": false
       },
       "Stun": {
