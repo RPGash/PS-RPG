@@ -9,14 +9,10 @@ ToDo
     - 
     
 - NEXT
-    - "Inventory Empty"
-        +--+------------+-----+-------+------+
-        |  | Inventory Empty |       |      | <------
-        +--+------------+-----+-------+------+
     - add spells and skills - started
         add more spells and skills
-        Write-Color "  You use your ","Stun ","skill."
-            "stun" - this won't read correctly for different spells and skills. change to match the name of the spell or skill used.
+    - Write-Color "  You use your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) ","skill."
+        check if other spells or skills display the correct name/type
     - add equipment that can be equipped?
         armour protection, stat bonuses/buffs etc.
     - add item equipment drops from mob loot
@@ -1495,7 +1491,7 @@ Function Draw_Inventory {
             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 106,$Position;$Host.UI.Write("")
             # if no items in inventory, else an actual item
             if ($Inventory_Is_Empty -eq $true) {
-                Write-Color "|  | Inventory Empty |       |      |" -Color DarkGray
+                Write-Color "|  |  *Empty*   |     |       |      |" -Color DarkGray
                 $Inventory_Is_Empty = $false
                 Break
             } else {
@@ -2369,6 +2365,7 @@ Function Fight_or_Run {
                                 $Spell_or_Skill_Success = $true
                                 Add-Content -Path .\error.log -value "Mob stunned"
                                 $Selected_Mob_Stunned = "Yes"
+                                $Selected_Mob_No_Longer_Stunned = $false
                                 $Selected_Mob_Stun_Duration = $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Duration
                                 Add-Content -Path .\error.log -value "Mob stun duration: $Selected_Mob_Stun_Duration"
                                 Write-Color "  You use your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) ","skill." -Color DarkGray,DarkCyan,DarkGray
@@ -2415,8 +2412,25 @@ Function Fight_or_Run {
                     $Random_Mob_Stunned_Word = Get-Random -Input $Random_Mob_Stunned
                     $Selected_Mob_Stun_Duration -= 1
                     Write-Color "  The ","$($Selected_Mob.Name) ","$Random_Mob_Stunned_Word (","$Selected_Mob_Stun_Duration ","turns remaining)." -Color DarkGray,Blue,DarkGray,DarkCyan,DarkGray
+                    # if mob stun duration is zero, set stunned to no and JSON spell/skill active to false
+                    if ($Selected_Mob_Stun_Duration -eq 0) {
+                        $Selected_Mob_Stunned = "No"
+                        $Selected_Mob_No_Longer_Stunned = $true
+                        Add-Content -Path .\error.log -value "Selected_Mob_Stunned: $Selected_Mob_Stunned"
+                        # loop through all spells/skills to find the stun spell/skill that has a duration
+                        $Spells_or_Skills_Names = $Import_JSON.Character.$Character_Class.PSObject.Properties.Name
+                        foreach ($Spell_or_Skill_Name in $Spells_or_Skills_Names) {
+                            # if $Spell_or_Skill_Name.Type -eq "stun", set Active to false
+                            if ($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Type -ieq "stun") {
+                                # set the spell or skill to not active
+                                $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $false
+                                break
+                            }
+                        }
+                        $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $false
+                    }
                 } else { # mob not stunned
-                    if ($Selected_Mob_No_Longer_Stunned -eq $true) {
+                    if ($Selected_Mob_Stun_Duration -eq 0 -and $Selected_Mob_No_Longer_Stunned -eq $true) {
                         Write-Color "  The ","$($Selected_Mob.Name) ","is no longer stunned." -Color DarkGray,Blue,DarkGray
                         $Selected_Mob_No_Longer_Stunned = $false
                     }
@@ -2464,23 +2478,6 @@ Function Fight_or_Run {
                 $Player_Turn = $true
                 $Continue_Fight = $true
             }
-            # if mob stun duration is zero, set stunned to no and JSON spell/skill active to false
-            if ($Selected_Mob_Stun_Duration -eq 0) {
-                $Selected_Mob_Stunned = "No"
-                Add-Content -Path .\error.log -value "Selected_Mob_Stunned: $Selected_Mob_Stunned"
-                $Selected_Mob_No_Longer_Stunned = $true
-                # loop through all spells/skills to find the stun spell/skill that has a duration
-                $Spells_or_Skills_Names = $Import_JSON.Character.$Character_Class.PSObject.Properties.Name
-                foreach ($Spell_or_Skill_Name in $Spells_or_Skills_Names) {
-                    # if $Spell_or_Skill_Name.Type -eq "stun", set Active to false
-                    if ($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Type -ieq "stun") {
-                        # set the spell or skill to not active
-                        $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $false
-                        break
-                    }
-                }
-                $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $false
-            }
             Update_Variables
             Draw_Player_Window_and_Stats
             Save_JSON
@@ -2510,6 +2507,7 @@ Function Fight_or_Run {
                 if ($Import_JSON.Introduction_Tasks.In_Progress -eq $true -and $Import_JSON.Introduction_Tasks.Tick_Purchase_a_Potion -eq $true) {
                     # update introduction task and update Introduction Tasks window
                     $Import_JSON.Introduction_Tasks.Tick_Go_Hunting = $true
+                    Draw_Introduction_Tasks
                 }
                 # update mob killed count in JSON
                 if ($Import_JSON.Locations."Home Town".Buildings.Tavern.Cellar.Cellar_Quest.Is_Active -eq $true) {
