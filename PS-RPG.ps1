@@ -13,6 +13,7 @@ ToDo
         add more spells and skills
     - Write-Color "  You use your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) ","skill."
         check if *spells* display the correct name/type
+            works for Warrior skills
     - add equipment that can be equipped?
         armour protection, stat bonuses/buffs etc.
     - add item equipment drops from mob loot
@@ -887,7 +888,7 @@ Function Create_Character {
         $Import_JSON.Character.Stats.StaminaMax     = 100
         $Import_JSON.Character.Stats.ManaCurrent    = 10
         $Import_JSON.Character.Stats.ManaMax        = 10
-        $Import_JSON.Character.Stats.Damage         = 1
+        $Import_JSON.Character.Stats.Damage         = 6
         $Import_JSON.Character.Stats.Attack         = 8
         $Import_JSON.Character.Stats.Dodge          = 8
         $Import_JSON.Character.Stats.Block          = 8
@@ -1427,10 +1428,10 @@ Function Draw_Inventory {
 
     # $Inventory_Box_Name_Width_Top_Bottom = "-"*($Inventory_Items_Name_Array_Max_Length + 2)
     # calculate middle name width
-    if (($Inventory_Items_Name_Array_Max_Length - 7) -le 0) {
-        $Inventory_Box_Name_Width_Middle = " "*1
-    } else {
+    if (($Inventory_Items_Name_Array_Max_Length - 7) -ge 0) {
         $Inventory_Box_Name_Width_Middle = " "*($Inventory_Items_Name_Array_Max_Length - 8)
+    } else {
+        $Inventory_Box_Name_Width_Middle = " "*1
     }
     # get max item info length
     $Inventory_Items_Info_Array_Max_Length = ($Inventory_Items_Info_Array | Measure-Object -Maximum).Maximum
@@ -2145,11 +2146,11 @@ Function Fight_or_Run {
                         Write-Color "  You $Random_Player_Hit_Verb_Word ",$Crit_Hit,"$Random_Player_Hit_Word the ","$($Selected_Mob.Name)"," for ","$Character_Hit_Damage ","$Random_Player_Hit_Health_Word." -Color DarkGray,Red,DarkGray,Blue,DarkGray,Red,DarkGray
                     } else {
                         if ($First_Turn -eq $true) {
-                            for ($Position = 18; $Position -lt 20; $Position++) { # clear some lines from previous widow
+                            for ($Position = 18; $Position -lt 25; $Position++) { # clear some lines from previous widow
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                             }
                         } else {
-                            for ($Position = 17; $Position -lt 20; $Position++) { # clear some lines from previous widow
+                            for ($Position = 17; $Position -lt 25; $Position++) { # clear some lines from previous widow
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                             }
                         }
