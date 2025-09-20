@@ -2106,20 +2106,44 @@ Function Fight_or_Run {
                     # Write-Output "hit chance                : $Hit_Chance"
                     $Random_100 = Get-Random -Minimum 1 -Maximum 101
                     # Write-Output "random 100                : $([Math]::Round($Random_100))"
-                    if ($Hit_Chance -ge $Random_100) {
+                    if ($Hit_Chance -ge $Random_100) { # player attack hits
                         # 10% +/- of damage done
                         $Random_PlusMinus10 = Get-Random -Minimum -10 -Maximum 11
                         $Character_Hit_Damage = $Character_Damage*$Random_PlusMinus10/100+$Character_Damage
-                        # damage done formula = damage * (damage / (damage + armour))
-                        $Character_Hit_Damage = [Math]::Round($Character_Hit_Damage*($Character_Hit_Damage/($Character_Hit_Damage+$Selected_Mob_Armour)))
+                        [string]$Character_Hit_Spell_or_Skill_Damage_Sum = $Character_Hit_Damage
+                        [string]$Character_Hit_Spell_or_Skill_Damage_Sum += "(random damage)"
+                        # if Warrior Rage skill is active, double damage
+                        if ($Import_JSON.Character.$Character_Class.Rage.Active -eq $true) {
+                            $Rage_Skill_Duration -= 1
+                            $Character_Hit_Damage = $Character_Hit_Damage*$Import_JSON.Character.$Character_Class.Rage.Damage_Bonus
+                            Add-Content -Path .\error.log -value "Character_Hit_Spell_or_Skill_Damage: $Character_Hit_Damage"
+                            [string]$Character_Hit_Spell_or_Skill_Damage_Sum += "*"
+                            [string]$Character_Hit_Spell_or_Skill_Damage_Sum += $Import_JSON.Character.$Character_Class.Rage.Damage_Bonus
+                            [string]$Character_Hit_Spell_or_Skill_Damage_Sum += "(rage)"
+                            if ($Rage_Skill_Duration -eq 0) {
+                                $Import_JSON.Character.$Character_Class.Rage.Active = $false
+                            }
+                        }
                         # player critically hits
                         $Random_Crit_Chance = Get-Random -Minimum 1 -Maximum 101
+                        $Random_Crit_Chance = 1 # TESTING
                         $Crit_Hit = ""
-                        if ($Random_Crit_Chance -le 20) { # chance of critical hit - less than 20%
+                        if ($Random_Crit_Chance -le 20) { # chance of critical hit - less than 20% but +50% damage
                             $Crit_Hit = $true
-                            $Character_Hit_Damage = [Math]::Round($Character_Hit_Damage*20/100+$Character_Hit_Damage)
+                            $Character_Hit_Damage_Sum = $Character_Hit_Damage*50/100
+                            $Character_Hit_Damage = [Math]::Round($Character_Hit_Damage*50/100+$Character_Hit_Damage)
                             $Crit_Hit = "critically "
+                            [string]$Character_Hit_Spell_or_Skill_Damage_Sum += "+"
+                            [string]$Character_Hit_Spell_or_Skill_Damage_Sum += $Character_Hit_Damage_Sum
+                            [string]$Character_Hit_Spell_or_Skill_Damage_Sum += "(crit)"
                         }
+                        [string]$Character_Hit_Spell_or_Skill_Damage_Sum += " (before calculating mob armour reduction)"
+                        # damage done formula = damage * (damage / (damage + armour))
+                        $Character_Hit_Damage = [Math]::Round($Character_Hit_Damage*($Character_Hit_Damage/($Character_Hit_Damage+$Selected_Mob_Armour)))
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 9,15;$Host.UI.Write("")
+                        Write-Color "$Character_Hit_Spell_or_Skill_Damage_Sum" -Color Red
+
+
                         # adjust mobs health by damage amount
                         $Selected_Mob_HealthCurrent = $Selected_Mob_HealthCurrent - $Character_Hit_Damage
                         $Selected_Mob.Health = $Selected_Mob_HealthCurrent
@@ -2145,7 +2169,7 @@ Function Fight_or_Run {
                         $Random_Player_Hit_Health_Word = Get-Random -Input $Random_Player_Hit_Health
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,18;$Host.UI.Write("")
                         Write-Color "  You $Random_Player_Hit_Verb_Word ",$Crit_Hit,"$Random_Player_Hit_Word the ","$($Selected_Mob.Name)"," for ","$Character_Hit_Damage ","$Random_Player_Hit_Health_Word." -Color DarkGray,Red,DarkGray,Blue,DarkGray,Red,DarkGray
-                    } else {
+                    } else { # player attack misses
                         if ($First_Turn -eq $true) {
                             for ($Position = 18; $Position -lt 25; $Position++) { # clear some lines from previous widow
                                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
@@ -2260,9 +2284,6 @@ Function Fight_or_Run {
                             } else {
                                 Add-Content -Path .\error.log -value "no duration to spell or skill"
                             }
-
-
-
                             $Hit_Chance = ($Character_Spells / $Selected_Mob_Spells) / 2 * 100
                             Add-Content -Path .\error.log -value "Hit_Chance: $Hit_Chance"
                             # Write-Output "hit chance                : $Hit_Chance"
@@ -2270,6 +2291,13 @@ Function Fight_or_Run {
                             Add-Content -Path .\error.log -value "Random_100: $Random_100"
                             # Write-Output "random 100                : $([Math]::Round($Random_100))"
                             if ($Hit_Chance -ge $Random_100) { # player hit mob
+                                # if Warrior Rage skill was chosen (and hits), set active in JSON data
+                                Add-Content -Path .\error.log -value "Rage active? 1: $($Import_JSON.Character.$Character_Class.Rage.Active)"
+                                if ($Spell_or_Skill_Name -ieq "rage") {
+                                    $Import_JSON.Character.$Character_Class.Rage.Active = $true
+                                    $Rage_Skill_Duration = $Import_JSON.Character.$Character_Class.Rage.Duration
+                                    Add-Content -Path .\error.log -value "Rage active? 2: $($Import_JSON.Character.$Character_Class.Rage.Active)"
+                                }
                                 # 10% +/- of damage done
                                 $Random_PlusMinus10 = Get-Random -Minimum -10 -Maximum 11
                                 Add-Content -Path .\error.log -value "_Damage_Bonus: $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Damage_Bonus)"
@@ -2277,13 +2305,11 @@ Function Fight_or_Run {
                                 Add-Content -Path .\error.log -value "_Random_PlusMinus10: $Random_PlusMinus10"
                                 $Character_Hit_Spell_or_Skill_Damage = $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Damage_Bonus*($Character_Damage*$Random_PlusMinus10/100+$Character_Damage)
                                 [string]$Character_Hit_Spell_or_Skill_Damage_Sum += $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Damage_Bonus
-                                [string]$Character_Hit_Spell_or_Skill_Damage_Sum += "*"
+                                [string]$Character_Hit_Spell_or_Skill_Damage_Sum += "(damage bonus)*"
                                 [string]$Character_Hit_Spell_or_Skill_Damage_Sum += $Character_Damage*$Random_PlusMinus10/100+$Character_Damage
+                                [string]$Character_Hit_Spell_or_Skill_Damage_Sum += "(random damage)"
                                 Add-Content -Path .\error.log -value "_Character_Hit_Spell_or_Skill_Damage 1: $Character_Hit_Spell_or_Skill_Damage"
                                 Add-Content -Path .\error.log -value "_Selected_Mob_Armour: $Selected_Mob_Armour"
-                                # damage done formula = damage * (damage / (damage + armour))
-                                $Character_Hit_Spell_or_Skill_Damage = [Math]::Round($Character_Hit_Spell_or_Skill_Damage*($Character_Hit_Spell_or_Skill_Damage/($Character_Hit_Spell_or_Skill_Damage+$Selected_Mob_Armour)))
-                                Add-Content -Path .\error.log -value "_Character_Hit_Spell_or_Skill_Damage 2: $Character_Hit_Spell_or_Skill_Damage"
                                 # player critically hits
                                 $Random_Crit_Chance = Get-Random -Minimum 1 -Maximum 101
                                 Add-Content -Path .\error.log -value "_Random_Crit_Chance: $Random_Crit_Chance"
@@ -2295,8 +2321,11 @@ Function Fight_or_Run {
                                     $Crit_Hit = "critically "
                                     [string]$Character_Hit_Spell_or_Skill_Damage_Sum += "+"
                                     [string]$Character_Hit_Spell_or_Skill_Damage_Sum += $Character_Hit_Spell_or_Skill_Damage*50/100
+                                    [string]$Character_Hit_Spell_or_Skill_Damage_Sum += "(crit)"
                                 }
-                                [string]$Character_Hit_Spell_or_Skill_Damage_Sum += " (before calculating mob armour reduction)"
+                                # damage done formula = damage * (damage / (damage + armour))
+                                $Character_Hit_Spell_or_Skill_Damage = [Math]::Round($Character_Hit_Spell_or_Skill_Damage*($Character_Hit_Spell_or_Skill_Damage/($Character_Hit_Spell_or_Skill_Damage+$Selected_Mob_Armour)))
+                                Add-Content -Path .\error.log -value "_Character_Hit_Spell_or_Skill_Damage 2: $Character_Hit_Spell_or_Skill_Damage"
                                 # adjust mobs health by damage amount
                                 Add-Content -Path .\error.log -value "Selected_Mob_HealthCurrent: $Selected_Mob_HealthCurrent"
                                 Add-Content -Path .\error.log -value "Character_Hit_Spell_or_Skill_Damage: $Character_Hit_Spell_or_Skill_Damage"
@@ -2348,11 +2377,6 @@ Function Fight_or_Run {
                                     Write-Color "  $Random_Player_Miss_Word ","$($Selected_Mob.Name)","." -Color DarkGray,Blue,DarkGray
                                 }
                             }
-
-
-
-
-
                         }
                         DOT {
                             Add-Content -Path .\error.log -value "=DOT=============================================="
