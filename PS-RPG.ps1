@@ -2046,6 +2046,7 @@ Function Fight_or_Run {
     $First_Turn = $true
     $Selected_Mob_Stunned = "No"
     $Selected_Mob_No_Longer_Stunned = $false
+    $Selected_Mob_No_Longer_Disarmed = $false
     do {
         Clear-Host
         Save_JSON
@@ -2138,7 +2139,7 @@ Function Fight_or_Run {
                         }
                         [System.Collections.ArrayList]$Random_Player_Hit_Verb = ("successfully","effectively","adeptly","masterfully","effortlessly","expertly","dexterously","deftly","nimbly","gracefully")
                         $Random_Player_Hit_Verb_Word = Get-Random -Input $Random_Player_Hit_Verb
-                        [System.Collections.ArrayList]$Random_Player_Hit = ("cleave","slice","rend","scythe through","carve","lacerate","crush","smash","pound","wack","maul","pierce","impale","skewer","puncture","jab","thrust","hit")
+                        [System.Collections.ArrayList]$Random_Player_Hit = ("cleave","slice","rend","scythe through","carve","lacerate","crush","smash","crush","wack","maul","pierce","impale","skewer","puncture","jab","thrust","hit")
                         $Random_Player_Hit_Word = Get-Random -Input $Random_Player_Hit
                         [System.Collections.ArrayList]$Random_Player_Hit_Health = ("health","hit points","damage","life")
                         $Random_Player_Hit_Health_Word = Get-Random -Input $Random_Player_Hit_Health
@@ -2311,7 +2312,7 @@ Function Fight_or_Run {
                                 Draw_Mob_Window_and_Stats
                                 [System.Collections.ArrayList]$Random_Player_Hit_Verb = ("successfully","effectively","adeptly","masterfully","effortlessly","expertly","dexterously","deftly","nimbly","gracefully")
                                 $Random_Player_Hit_Verb_Word = Get-Random -Input $Random_Player_Hit_Verb
-                                [System.Collections.ArrayList]$Random_Player_Hit = ("cleave","slice","rend","scythe through","carve","lacerate","crush","smash","pound","wack","maul","pierce","impale","skewer","puncture","jab","thrust","hit")
+                                [System.Collections.ArrayList]$Random_Player_Hit = ("cleave","slice","rend","scythe through","carve","lacerate","crush","smash","crush","wack","maul","pierce","impale","skewer","puncture","jab","thrust","hit")
                                 $Random_Player_Hit_Word = Get-Random -Input $Random_Player_Hit
                                 [System.Collections.ArrayList]$Random_Player_Hit_Health = ("health","hit points","damage","life")
                                 $Random_Player_Hit_Health_Word = Get-Random -Input $Random_Player_Hit_Health
@@ -2392,7 +2393,6 @@ Function Fight_or_Run {
                             $Random_100 = Get-Random -Minimum 1 -Maximum 101
                             Add-Content -Path .\error.log -value "Stun Random_100: $Random_100"
                             # Write-Output "random 100                : $([Math]::Round($Random_100))"
-                            $Selected_Mob_Stunned = "No"
                             if ($Stun_Chance -ge $Random_100) { # mob stunned
                                 $Spell_or_Skill_Success = $true
                                 Add-Content -Path .\error.log -value "Mob stunned"
@@ -2403,6 +2403,7 @@ Function Fight_or_Run {
                                 Write-Color "  You use your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) ","skill." -Color DarkGray,DarkCyan,DarkGray
                                 # add stun spell/skill to PSCustomObject with ID and duration
                             } else {
+                                $Selected_Mob_Stunned = "No"
                                 Add-Content -Path .\error.log -value "Mob not stunned"
                                 Write-Color "  You fail to stun the ","$($Selected_Mob.Name)"," with your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) ","skill." -Color DarkGray,Blue,DarkGray,DarkCyan,DarkGray
                             }
@@ -2414,7 +2415,28 @@ Function Fight_or_Run {
                             Add-Content -Path .\error.log -value "buff"
                         }
                         disarm { # no melee weapon
-                            Add-Content -Path .\error.log -value "disarm"
+                            Add-Content -Path .\error.log -value "=disarm=============================================="
+                            # chance to disarm
+                            $Disarm_Chance = ($Character_Spells / $Selected_Mob_Spells) / 2 * 100
+                            Add-Content -Path .\error.log -value "Disarm_Chance: $Disarm_Chance"
+                            # Write-Output "Disarm chance                : $Disarm_Chance"
+                            $Random_100 = Get-Random -Minimum 1 -Maximum 101
+                            Add-Content -Path .\error.log -value "Disarm Random_100: $Random_100"
+                            # Write-Output "random 100                : $([Math]::Round($Random_100))"
+                            if ($Disarm_Chance -ge $Random_100) { # mob disarmed
+                                $Spell_or_Skill_Success = $true
+                                Add-Content -Path .\error.log -value "Mob disarmed"
+                                $Selected_Mob_Disarmed = "Yes"
+                                $Selected_Mob_No_Longer_Disarmed = $false
+                                $Selected_Mob_Disarmed_Duration = $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Duration
+                                Add-Content -Path .\error.log -value "Mob Disarm duration: $Selected_Mob_Disarmed_Duration"
+                                Write-Color "  You use your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) ","skill." -Color DarkGray,DarkCyan,DarkGray
+                                # add Disarm spell/skill to PSCustomObject with ID and duration
+                            } else {
+                                $Selected_Mob_Disarmed = "No"
+                                Add-Content -Path .\error.log -value "Mob not disarmed"
+                                Write-Color "  You fail to disarm the ","$($Selected_Mob.Name)"," with your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) ","skill." -Color DarkGray,Blue,DarkGray,DarkCyan,DarkGray
+                            }
                         }
                         Default {}
                     }
@@ -2456,6 +2478,7 @@ Function Fight_or_Run {
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
                 Add-Content -Path .\error.log -value "Mob turn"
                 Add-Content -Path .\error.log -value "Selected_Mob_Stunned: $Selected_Mob_Stunned"
+                Add-Content -Path .\error.log -value "Selected_Mob_Disarmed: $Selected_Mob_Disarmed"
                 if ($Selected_Mob_Stunned -ieq "Yes") { # mob stunned
                     # mob is still stunned
                     [System.Collections.ArrayList]$Random_Mob_Stunned = ("is stunned this turn","is stunned from your $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) $($Spell_or_Skill_Text)","is unable to act this turn because of your $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) $($Spell_or_Skill_Text)","is dazed and confused this turn","is incapacitated this turn","is out cold this turn","is seeing stars this turn","is struggling to remain conscious this turn")
@@ -2485,6 +2508,11 @@ Function Fight_or_Run {
                         Write-Color "  The ","$($Selected_Mob.Name) ","is no longer stunned." -Color DarkGray,Blue,DarkGray
                         $Selected_Mob_No_Longer_Stunned = $false
                     }
+                    # if mob was disarmed last turn but is no longer disarmed, display message
+                    if ($Selected_Mob_Disarmed_Duration -eq 0 -and $Selected_Mob_No_Longer_Disarmed -eq $true) {
+                        Write-Color "  The ","$($Selected_Mob.Name) ","is no longer disarmed." -Color DarkGray,Blue,DarkGray
+                        $Selected_Mob_No_Longer_Disarmed = $false
+                    }
                     Write-Color "" -Color DarkGray
                     $Hit_Chance = ($Selected_Mob_Attack / $Character_Dodge) / 2 * 100
                     $Random_100 = Get-Random -Minimum 1 -Maximum 101
@@ -2507,9 +2535,14 @@ Function Fight_or_Run {
                             $Selected_Mob_Hit_Damage = [Math]::Round($Selected_Mob_Hit_Damage*20/100+$Selected_Mob_Hit_Damage)
                             $Crit_Hit = "critically "
                         }
+                        # if mob is disarmed, reduce melee damage by Damage_Reduction % (based on skill in JSON data)
+                        if ($Selected_Mob_Disarmed -ieq "Yes") {
+                            $Selected_Mob_Hit_Damage = [Math]::Round($Selected_Mob_Hit_Damage*$Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Damage_Reduction)
+                        }
+                        Add-Content -Path .\error.log -value "Selected_Mob_Hit_Damage: $Selected_Mob_Hit_Damage"
                         [System.Collections.ArrayList]$Random_Mob_Hit_Verb = ("successfully","effectively","adeptly","masterfully","effortlessly","expertly","dexterously","deftly","nimbly","gracefully")
                         $Random_Mob_Hit_Verb_Word = Get-Random -Input $Random_Mob_Hit_Verb
-                        [System.Collections.ArrayList]$Random_Mob_Hit = ("cleave","slice","rend","scythe through","carve","lacerate","crush","smash","pound","wack","maul","pierce","impale","skewer","puncture","jab","thrust","hit")
+                        [System.Collections.ArrayList]$Random_Mob_Hit = ("cleave","slice","rend","scythe through","carve","lacerate","crush","smash","crush","wack","maul","pierce","impale","skewer","puncture","jab","thrust","hit")
                         $Random_Mob_Hit_Word = Get-Random -Input $Random_Mob_Hit
                         [System.Collections.ArrayList]$Random_Mob_Hit_Health = ("health","hit points","damage","life")
                         $Random_Mob_Hit_Health_Word = Get-Random -Input $Random_Mob_Hit_Health
@@ -2522,9 +2555,35 @@ Function Fight_or_Run {
                         Draw_Player_Window_and_Stats
                     } else { # mob misses
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,21;$Host.UI.Write("")
-                        [System.Collections.ArrayList]$Random_Mob_Miss = (" swings and misses you","'s attack falls short and missing you","'s blow goes astray missing you"," fails to connect a hit on you","'s strike doesn't land on you","'s attack doesn't land"," hits nothing but air missing you","'s attack whistles past you ear","'s attack glances off you")
+                        [System.Collections.ArrayList]$Random_Mob_Miss = (" swings and misses you","'s attack falls short and missing you","'s blow goes astray missing you"," fails to connect a hit on you","'s strike doesn't land on you","'s attack doesn't land"," hits nothing but air, missing you","'s attack whistles past you ear","'s attack glances off you")
                         $Random_Mob_Miss_Word = Get-Random -Input $Random_Mob_Miss
                         Write-Color "  The ","$($Selected_Mob.Name)","$Random_Mob_Miss_Word." -Color DarkGray,Blue,DarkGray
+                    }
+                }
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,20;$Host.UI.Write("")
+                if ($Selected_Mob_Disarmed -ieq "Yes") { # mob disarmed
+                    # mob is still disarmed
+                    [System.Collections.ArrayList]$Random_Mob_Disarmed = ("is disarmed this turn","is disarmed from your $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) $($Spell_or_Skill_Text)")
+                    $Random_Mob_Disarmed_Word = Get-Random -Input $Random_Mob_Disarmed
+                    $Selected_Mob_Disarmed_Duration -= 1
+                    Write-Color "  The ","$($Selected_Mob.Name) ","$Random_Mob_Disarmed_Word (","$Selected_Mob_Disarmed_Duration ","turns remaining)." -Color DarkGray,Blue,DarkGray,DarkCyan,DarkGray
+                    # if mob disarmed duration is zero, set disarmed to no and JSON spell/skill active to false
+                    Add-Content -Path .\error.log -value "Selected_Mob_Disarmed: $Selected_Mob_Disarmed"
+                    Add-Content -Path .\error.log -value "Mob Disarm duration: $Selected_Mob_Disarmed_Duration"
+                    if ($Selected_Mob_Disarmed_Duration -eq 0) {
+                        $Selected_Mob_Disarmed = "No"
+                        $Selected_Mob_No_Longer_Disarmed = $true
+                        # loop through all spells/skills to find the disarmed spell/skill that has a duration
+                        $Spells_or_Skills_Names = $Import_JSON.Character.$Character_Class.PSObject.Properties.Name
+                        foreach ($Spell_or_Skill_Name in $Spells_or_Skills_Names) {
+                            # if $Spell_or_Skill_Name.Type -eq "disarmed", set Active to false
+                            if ($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Type -ieq "disarm") {
+                                # set the spell or skill to not active
+                                $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $false
+                                break
+                            }
+                        }
+                        $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $false
                     }
                 }
                 $Player_Turn = $true
