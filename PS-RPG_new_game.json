@@ -807,12 +807,12 @@
     "Warrior": {
       "Shield Bash": {
         "Name": "Shield Bash",
-        "Description_Long": "A powerful attack that uses the Warrior's shield to bash the enemy, dealing damage and stunning them.",
-        "Description_Short": "Stun for 1 turn",
+        "Description_Long": "A powerful attack that uses the Warrior's shield to bash the enemy, stunning them.",
+        "Description_Short": "Stun for 2 turns",
         "ID": 1,
         "Type": "Stun",
-        "Damage_Bonus": 2,
         "Duration": 2,
+        "Mana_Cost": 8,
         "Obtained": true,
         "Active": false
       },
@@ -824,7 +824,8 @@
         "Type": "Damage",
         "Damage_Bonus": 2,
         "Duration": 2,
-        "Obtained": false,
+        "Mana_Cost": 10,
+        "Obtained": true,
         "Active": false
       },
       "Parry": {
@@ -835,16 +836,19 @@
         "Type": "Physical Damage Reduction",
         "Damage_Reduction": 100,
         "Duration": 1,
+        "Mana_Cost": 20,
         "Obtained": true
       },
       "Disarming Strike": {
         "Name": "Disarming Strike",
         "Description_Long": "A powerful strike that disarms the target, preventing them from using their weapon for a short duration.",
-        "Description_Short": "Disarm mob for 1 turn",
+        "Description_Short": "Disarm mob for 4 turns",
         "ID": 4,
         "Type": "Disarm",
-        "Duration": 3,
-        "Obtained": false,
+        "Damage_Reduction": 0.4,
+        "Duration": 4,
+        "Mana_Cost": 5,
+        "Obtained": true,
         "Active": false
       }
     },
