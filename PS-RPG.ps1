@@ -3,8 +3,10 @@ ToDo
 ----
 
 - BUGS
-    - 
-    
+    - escaping a mob does not reset skill durations if not already expired
+    - check poison skill
+        does skill become inactive
+        does damage tick stop at the right time
 - TEST
     - 
     
@@ -2046,6 +2048,7 @@ Function Fight_or_Run {
     $First_Turn = $true
     $Selected_Mob_Stunned = "No"
     $Selected_Mob_No_Longer_Stunned = $false
+    $Selected_Mob_No_Longer_Poisoned = $false
     $Selected_Mob_No_Longer_Disarmed = $false
     do {
         Clear-Host
@@ -2257,11 +2260,11 @@ Function Fight_or_Run {
                     Add-Content -Path .\error.log -value "Character_ManaCurrent 2: $Character_ManaCurrent"
                     $Import_JSON.Character.Stats.ManaCurrent = $Character_ManaCurrent
                     if ($First_Turn -eq $true) {
-                        for ($Position = 18; $Position -lt 22; $Position++) { # clear some lines from previous widow
+                        for ($Position = 18; $Position -lt 25; $Position++) { # clear some lines from previous widow
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                         }
                     } else {
-                        for ($Position = 17; $Position -lt 22; $Position++) { # clear some lines from previous widow
+                        for ($Position = 17; $Position -lt 25; $Position++) { # clear some lines from previous widow
                             $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,$Position;$Host.UI.Write("");" "*105
                         }
                     }
@@ -2395,9 +2398,9 @@ Function Fight_or_Run {
                                 Add-Content -Path .\error.log -value "Mob Poisoned"
                                 $Selected_Mob_Poisoned = "Yes"
                                 $Selected_Mob_No_Longer_Poisoned = $false
-                                $Selected_Mob_Poison_Duration = $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Duration
-                                # $Selected_Mob_Poison_Duration -= 1
-                                Add-Content -Path .\error.log -value "Mob Poison duration: $Selected_Mob_Poison_Duration"
+                                $Selected_Mob_Poisoned_Duration = $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Duration
+                                # $Selected_Mob_Poisoned_Duration -= 1
+                                Add-Content -Path .\error.log -value "Mob Poison duration: $Selected_Mob_Poisoned_Duration"
                                 # Write-Color "  You use your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) ","skill"," and poison the ","$($Selected_Mob.Name)"," for ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Tick_Damage)"," damage." -Color DarkGray,DarkCyan,White,DarkGray,Blue,DarkGray,Red,DarkGray
                                 # add poison spell/skill to PSCustomObject with ID and duration
                             } else {
@@ -2432,8 +2435,9 @@ Function Fight_or_Run {
                                 Write-Color "  You fail to stun the ","$($Selected_Mob.Name)"," with your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) ","skill." -Color DarkGray,Blue,DarkGray,DarkCyan,DarkGray
                             }
                         }
-                        physical_damage_reduction {
-                            Add-Content -Path .\error.log -value "physical_damage_reduction"
+                        physical_damage_reduction { # chance to reduce physical damage
+                            Add-Content -Path .\error.log -value "=physical_damage_reduction=========================================="
+                            
                         }
                         buff { # magic and armour
                             Add-Content -Path .\error.log -value "buff"
@@ -2479,27 +2483,58 @@ Function Fight_or_Run {
                 }
                 $Player_Turn = $false
                 Draw_Mob_Window_and_Stats
-            } else {
+            } else { # mobs turn (unless stunned)
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 9,15;$Host.UI.Write("")
                 Write-Color "$Character_Hit_Spell_or_Skill_Damage_Sum" -Color Red
-                # mobs turn (unless stunned)
                 $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
-                # if Poisoned
-                if ($Selected_Mob_Poison_Duration -gt 0) {
-                    $Selected_Mob_Poison_Duration -= 1
+                # mob Poisoned
+                if ($Selected_Mob_Poisoned_Duration -gt 0) {
+                    $Selected_Mob_Poisoned_Duration -= 1
                     $Selected_Mob_HealthCurrent = $Selected_Mob_HealthCurrent - $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Tick_Damage
                     $Selected_Mob.Health = $Selected_Mob_HealthCurrent
-                    Add-Content -Path .\error.log -value "Selected_Mob_poison_Duration: $Selected_Mob_Poison_Duration"
-                    Write-Color "  Your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) ","skill"," poisons the ","$($Selected_Mob.Name)"," for ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Tick_Damage)"," damage (","$Selected_Mob_Poison_Duration ","ticks remaining)." -Color DarkGray,DarkCyan,White,DarkGray,Blue,DarkGray,Red,DarkGray,White,DarkGray
+                    Add-Content -Path .\error.log -value "Selected_Mob_Poisoned_Duration: $Selected_Mob_Poisoned_Duration"
+                    Write-Color "  Your ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) ","skill"," poisons the ","$($Selected_Mob.Name)"," for ","$($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Tick_Damage)"," damage (","$Selected_Mob_Poisoned_Duration ","ticks remaining)." -Color DarkGray,DarkCyan,White,DarkGray,Blue,DarkGray,Red,DarkGray,White,DarkGray
                 }
-                # if poison duration is zero, set JSON spell/skill active to false
-                if ($Selected_Mob_Poison_Duration -eq 0) {
+                # mob Poison duration is zero, set JSON spell/skill active to false
+                if ($Selected_Mob_Poisoned_Duration -eq 0 -and $Selected_Mob_No_Longer_Poisoned -eq $true) {
                     $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $false
-                    $Selected_Mob_Poisoned = "No"
-                    $Selected_Mob_No_Longer_Poisoned = $true
+                    Write-Color "  The ","$($Selected_Mob.Name) ","is no longer poisoned." -Color DarkGray,Blue,DarkGray
+                    # $Selected_Mob_Poisoned = "No"
+                    $Selected_Mob_No_Longer_Poisoned = $false
+                }
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,20;$Host.UI.Write("")
+                # mob disarmed
+                if ($Selected_Mob_Disarmed_Duration -gt 0) {
+                    # mob is still disarmed
+                    [System.Collections.ArrayList]$Random_Mob_Disarmed = ("is disarmed this turn","is disarmed from your $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) $($Spell_or_Skill_Text)")
+                    $Random_Mob_Disarmed_Word = Get-Random -Input $Random_Mob_Disarmed
+                    $Selected_Mob_Disarmed_Duration -= 1
+                    Write-Color "  The ","$($Selected_Mob.Name) ","$Random_Mob_Disarmed_Word (","$Selected_Mob_Disarmed_Duration ","turns remaining)." -Color DarkGray,Blue,DarkGray,DarkCyan,DarkGray
+                    # if mob disarmed duration is zero, set disarmed to no and JSON spell/skill active to false
+                    Add-Content -Path .\error.log -value "Selected_Mob_Disarmed: $Selected_Mob_Disarmed"
+                    Add-Content -Path .\error.log -value "Mob Disarm duration: $Selected_Mob_Disarmed_Duration"
+                    if ($Selected_Mob_Disarmed_Duration -eq 0) {
+                        $Selected_Mob_No_Longer_Disarmed = $true
+                        Add-Content -Path .\error.log -value "Selected_Mob_Disarmed: $Selected_Mob_Disarmed"
+                    }
+                } else {
+                    # if mob was disarmed last turn but is no longer disarmed, display message
+                    if ($Selected_Mob_Disarmed_Duration -eq 0 -and $Selected_Mob_No_Longer_Disarmed -eq $true) {
+                        Write-Color "  The ","$($Selected_Mob.Name) ","is no longer disarmed." -Color DarkGray,Blue,DarkGray
+                        $Selected_Mob_Disarmed = "No"
+                        $Selected_Mob_No_Longer_Disarmed = $false
+                    }
+                    foreach ($Spell_or_Skill_Name in $Spells_or_Skills_Names) {
+                        # if $Spell_or_Skill_Name.Type -eq "disarmed", set Active to false
+                        if ($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Type -ieq "disarm") {
+                            # set the spell or skill to not active
+                            $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $false
+                            break
+                        }
+                    }
                 }
                 Draw_Mob_Window_and_Stats
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,19;$Host.UI.Write("")
+                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,21;$Host.UI.Write("")
                 Add-Content -Path .\error.log -value "Mob turn"
                 Add-Content -Path .\error.log -value "Selected_Mob_Stunned: $Selected_Mob_Stunned"
                 Add-Content -Path .\error.log -value "Selected_Mob_Disarmed: $Selected_Mob_Disarmed"
@@ -2524,18 +2559,12 @@ Function Fight_or_Run {
                                 break
                             }
                         }
-                        $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $false
                     }
                 } else { # mob not stunned
                     # if mob was stunned last turn but is no longer stunned, display message
                     if ($Selected_Mob_Stun_Duration -eq 0 -and $Selected_Mob_No_Longer_Stunned -eq $true) {
                         Write-Color "  The ","$($Selected_Mob.Name) ","is no longer stunned." -Color DarkGray,Blue,DarkGray
                         $Selected_Mob_No_Longer_Stunned = $false
-                    }
-                    # if mob was disarmed last turn but is no longer disarmed, display message
-                    if ($Selected_Mob_Disarmed_Duration -eq 0 -and $Selected_Mob_No_Longer_Disarmed -eq $true) {
-                        Write-Color "  The ","$($Selected_Mob.Name) ","is no longer disarmed." -Color DarkGray,Blue,DarkGray
-                        $Selected_Mob_No_Longer_Disarmed = $false
                     }
                     Write-Color "" -Color DarkGray
                     $Hit_Chance = ($Selected_Mob_Attack / $Character_Dodge) / 2 * 100
@@ -2570,7 +2599,7 @@ Function Fight_or_Run {
                         $Random_Mob_Hit_Word = Get-Random -Input $Random_Mob_Hit
                         [System.Collections.ArrayList]$Random_Mob_Hit_Health = ("health","hit points","damage","life")
                         $Random_Mob_Hit_Health_Word = Get-Random -Input $Random_Mob_Hit_Health
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,21;$Host.UI.Write("")
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,22;$Host.UI.Write("")
                         Write-Color "  The ","$($Selected_Mob.Name) ","$Random_Mob_Hit_Verb_Word ",$Crit_Hit,"$Random_Mob_Hit_Word you for ","$Selected_Mob_Hit_Damage ","$Random_Mob_Hit_Health_Word." -Color DarkGray,Blue,DarkGray,Red,DarkGray,Red,DarkGray
                         # adjust player health by damage amount
                         $Script:Character_HealthCurrent = $Character_HealthCurrent - $Selected_Mob_Hit_Damage
@@ -2578,36 +2607,10 @@ Function Fight_or_Run {
                         $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,0;$Host.UI.Write("")
                         Draw_Player_Window_and_Stats
                     } else { # mob misses
-                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,21;$Host.UI.Write("")
+                        $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,22;$Host.UI.Write("")
                         [System.Collections.ArrayList]$Random_Mob_Miss = (" swings and misses you","'s attack falls short and missing you","'s blow goes astray missing you"," fails to connect a hit on you","'s strike doesn't land on you","'s attack doesn't land"," hits nothing but air, missing you","'s attack whistles past you ear","'s attack glances off you")
                         $Random_Mob_Miss_Word = Get-Random -Input $Random_Mob_Miss
                         Write-Color "  The ","$($Selected_Mob.Name)","$Random_Mob_Miss_Word." -Color DarkGray,Blue,DarkGray
-                    }
-                }
-                $Host.UI.RawUI.CursorPosition = New-Object System.Management.Automation.Host.Coordinates 0,20;$Host.UI.Write("")
-                if ($Selected_Mob_Disarmed -ieq "Yes") { # mob disarmed
-                    # mob is still disarmed
-                    [System.Collections.ArrayList]$Random_Mob_Disarmed = ("is disarmed this turn","is disarmed from your $($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Name) $($Spell_or_Skill_Text)")
-                    $Random_Mob_Disarmed_Word = Get-Random -Input $Random_Mob_Disarmed
-                    $Selected_Mob_Disarmed_Duration -= 1
-                    Write-Color "  The ","$($Selected_Mob.Name) ","$Random_Mob_Disarmed_Word (","$Selected_Mob_Disarmed_Duration ","turns remaining)." -Color DarkGray,Blue,DarkGray,DarkCyan,DarkGray
-                    # if mob disarmed duration is zero, set disarmed to no and JSON spell/skill active to false
-                    Add-Content -Path .\error.log -value "Selected_Mob_Disarmed: $Selected_Mob_Disarmed"
-                    Add-Content -Path .\error.log -value "Mob Disarm duration: $Selected_Mob_Disarmed_Duration"
-                    if ($Selected_Mob_Disarmed_Duration -eq 0) {
-                        $Selected_Mob_Disarmed = "No"
-                        $Selected_Mob_No_Longer_Disarmed = $true
-                        # loop through all spells/skills to find the disarmed spell/skill that has a duration
-                        $Spells_or_Skills_Names = $Import_JSON.Character.$Character_Class.PSObject.Properties.Name
-                        foreach ($Spell_or_Skill_Name in $Spells_or_Skills_Names) {
-                            # if $Spell_or_Skill_Name.Type -eq "disarmed", set Active to false
-                            if ($Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Type -ieq "disarm") {
-                                # set the spell or skill to not active
-                                $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $false
-                                break
-                            }
-                        }
-                        $Import_JSON.Character.$Character_Class.$Spell_or_Skill_Name.Active = $false
                     }
                 }
                 $Player_Turn = $true
